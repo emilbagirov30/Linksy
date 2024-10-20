@@ -8,12 +8,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.emil.presentation"
+        applicationId = "com.emil.domain"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -36,7 +35,9 @@ android {
 }
 
 dependencies {
-
+    implementation (project(":domain"))
+    implementation (project(":data") )
+    implementation (project(":common"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

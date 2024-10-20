@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.android.library")
+    kotlin("android")
 }
 
 android {
@@ -8,11 +8,10 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.emil.di"
+
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+      
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,7 +35,8 @@ android {
 }
 
 dependencies {
-
+    implementation (project(":domain"))
+    implementation (project(":data"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
