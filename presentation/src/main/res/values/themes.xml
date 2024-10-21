@@ -42,7 +42,13 @@
         <item name="android:fontFamily">@font/klukva</item>
         <item name="android:textColor">@color/link</item>
         <item name="android:textSize">26sp</item>
+    </style>
 
-
+    <style name="ButtonInEditTextStyle" >
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_margin">7dp</item>
     </style>
 </resources>

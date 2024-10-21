@@ -5,18 +5,17 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-
     tools:context=".RegistrationFragment">
 
 <com.google.android.material.textview.MaterialTextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/sign_up_title"
-  style="@style/TextTitleStyle"
-  >
+  style="@style/TextTitleStyle">
 </com.google.android.material.textview.MaterialTextView>
 
     <EditText
+        android:id="@+id/et_username"
         android:layout_marginTop="20dp"
         style="@style/EditTextStyle"
         android:inputType=""
@@ -24,27 +23,70 @@
     </EditText>
 
     <EditText
+        android:id="@+id/et_email"
         android:layout_marginTop="10dp"
         style="@style/EditTextStyle"
         android:inputType="textEmailAddress"
         android:hint="@string/hint_email">
+    </EditText>
 
-    </EditText>
-    <EditText
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        style="@style/EditTextStyle"
-        android:inputType="textPassword"
-        android:hint="@string/hint_password">
+      >
 
-    </EditText>
-    <EditText
-        android:layout_marginTop="10dp"
-        style="@style/EditTextStyle"
-        android:inputType="textPassword"
-        android:hint="@string/hint_confirm_password">
-    </EditText>
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/EditTextStyle"
+            android:inputType="textPassword"
+            android:hint="@string/hint_password">
+        </EditText>
+
+        <ImageView
+            android:id="@+id/iv_password_show"
+            style="@style/ButtonInEditTextStyle"
+            android:background="@drawable/show_password"
+            />
+
+        <ImageView
+            android:id="@+id/iv_password_hide"
+             style="@style/ButtonInEditTextStyle"
+            android:background="@drawable/hide_password"
+            />
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/et_confirm_password"
+            style="@style/EditTextStyle"
+            android:inputType="textPassword"
+            android:hint="@string/hint_confirm_password">
+        </EditText>
+        <ImageView
+            android:id="@+id/iv_passwordc_show"
+            style="@style/ButtonInEditTextStyle"
+            android:background="@drawable/show_password"
+            android:contentDescription="TODO" />
+
+        <ImageView
+            android:id="@+id/iv_passwordc_hide"
+            style="@style/ButtonInEditTextStyle"
+            android:background="@drawable/hide_password"
+            android:contentDescription="TODO" />
+
+    </RelativeLayout>
+
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -67,7 +109,8 @@
     </com.google.android.material.textview.MaterialTextView>
 
         <com.google.android.material.textview.MaterialTextView
-            android:layout_marginLeft="5dp"
+            android:id="@+id/bt_login"
+            android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextLinkStyle"
@@ -75,4 +118,6 @@
 
         </com.google.android.material.textview.MaterialTextView>
     </LinearLayout>
+
+
 </LinearLayout>
