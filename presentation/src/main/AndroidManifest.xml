@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Linksy">
         <activity
+            android:name=".LanguageSelectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".AuthActivity"
             android:exported="false" />
         <activity
