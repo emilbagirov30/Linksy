@@ -1,4 +1,4 @@
 <resources>
-
-
+    <string name="select_language_title">Выберите язык перевода:</string>
+    <string name="next">Продолжить</string>
 </resources>
