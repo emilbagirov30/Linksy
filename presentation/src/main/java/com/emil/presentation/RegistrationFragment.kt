@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 
-class LogInFragment : Fragment() {
+class RegistrationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +18,7 @@ class LogInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       val view = inflater.inflate(R.layout.fragment_log_in, container, false)
+       val view = inflater.inflate(R.layout.fragment_registration, container, false)
 
 
 
