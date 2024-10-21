@@ -14,9 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_language_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black">
+        style="@style/TextTitleStyle">
     </com.google.android.material.textview.MaterialTextView>
 
     <Spinner
