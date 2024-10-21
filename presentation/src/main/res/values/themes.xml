@@ -18,7 +18,7 @@
         <item name="android:fontFamily">@font/klukva</item>
         <item name="android:background">@drawable/rounded_edit_text</item>
         <item name="android:padding">10dp</item>
-        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/edit_text_hint_color</item>
@@ -30,5 +30,19 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">35sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextQuestionStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:textColor">@color/question</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+
+    <style name="TextLinkStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:textColor">@color/link</item>
+        <item name="android:textSize">26sp</item>
+
+
     </style>
 </resources>

@@ -5,4 +5,6 @@
     <color name="colorPrimary">#334d5c</color>
     <color name="edit_text_background_default_color">#ECECEC</color>
     <color name="edit_text_hint_color">#737373</color>
+    <color name="question">#555555</color>
+    <color name="link">#137EB3</color>
 </resources>

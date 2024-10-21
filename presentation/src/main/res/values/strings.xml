@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">Linksy</string>
     <string name="select_language_title">Select the translation language:</string>
     <string name="next">Continue</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up_title">Sign up</string>
     <string name="hint_username">Username</string>
     <string name="hint_email">E-mail</string>
     <string name="hint_password">Password</string>
@@ -11,5 +11,7 @@
         <item>English</item>
         <item>Русский</item>
     </string-array>
-
+    <string name="sign_up_button">Sign up</string>
+    <string name="login_button">Login</string>
+    <string name="question_have_an_account">Already have an account?</string>
 </resources>

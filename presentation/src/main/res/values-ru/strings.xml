@@ -1,9 +1,12 @@
 <resources>
     <string name="select_language_title">Выберите язык перевода:</string>
     <string name="next">Продолжить</string>
-    <string name="sign_up">Регистрация</string>
+    <string name="sign_up_title">Регистрация</string>
     <string name="hint_username">Ник</string>
     <string name="hint_email">Почта</string>
     <string name="hint_password">Пароль</string>
     <string name="hint_confirm_password">Повторите пароль</string>
+    <string name="sign_up_button">Зарегестрироваться</string>
+    <string name="login_button">Войти</string>
+    <string name="question_have_an_account">Уже зарегестрированы?</string>
 </resources>
