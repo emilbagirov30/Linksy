@@ -1,6 +1,11 @@
 package com.emil.presentation.ui
 
 import android.annotation.SuppressLint
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.os.Build
 import com.emil.presentation.R
 import com.emil.presentation.utils.replaceFragment
 import android.os.Bundle
@@ -13,6 +18,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import com.emil.presentation.utils.BackgroundState
+import com.emil.presentation.utils.changeEditTextBackgroundColor
 import com.emil.presentation.utils.string
 import com.emil.presentation.utils.togglePasswordVisibility
 import com.google.android.material.button.MaterialButton
@@ -34,7 +42,7 @@ class RegistrationFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,6 +74,11 @@ class RegistrationFragment : Fragment() {
         }
         changeInputTypePasswordConfirmButton.setOnClickListener {
             togglePasswordVisibility( passwordConfirmEditText, changeInputTypePasswordConfirmButton)
+        }
+        signUpButton.setOnClickListener {
+            if (passwordEditText.string()!= passwordConfirmEditText.string()){
+              changeEditTextBackgroundColor(requireContext(),BackgroundState.ERROR,passwordEditText,passwordConfirmEditText)
+            }
         }
         return view
     }

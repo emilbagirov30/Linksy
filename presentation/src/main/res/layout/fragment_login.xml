@@ -37,9 +37,9 @@
         </EditText>
 
         <ImageView
-            android:id="@+id/iv_password_show"
+            android:id="@+id/iv_password_change_input_type"
             style="@style/ButtonInEditTextStyle"
-            android:background="@drawable/show_password"
+            android:src="@drawable/show_password"
             />
 
     </RelativeLayout>
