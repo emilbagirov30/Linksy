@@ -1,10 +1,12 @@
 package com.emil.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.button.MaterialButton
 
 
 class PasswordRecoveryFragment : Fragment() {
@@ -15,12 +17,16 @@ class PasswordRecoveryFragment : Fragment() {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_password_recovery, container, false)
+      val view = inflater.inflate(R.layout.fragment_password_recovery, container, false)
+        val backButton = view.findViewById<MaterialButton>(R.id.bt_back)
+        backButton.setOnClickListener { replaceFragment(LoginFragment()) }
+        return view
     }
 
 

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textview.MaterialTextView
 
 
 class RegistrationFragment : Fragment() {
@@ -19,8 +21,8 @@ class RegistrationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        val view = inflater.inflate(R.layout.fragment_registration, container, false)
-
-
+       val loginButton = view.findViewById<MaterialTextView>(R.id.bt_login)
+       loginButton.setOnClickListener { replaceFragment(LoginFragment()) }
 
         return view
     }
