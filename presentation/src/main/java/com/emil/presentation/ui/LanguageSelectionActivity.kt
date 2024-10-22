@@ -1,6 +1,6 @@
-package com.emil.presentation
-
-import LocaleManager
+package com.emil.presentation.ui
+import com.emil.presentation.utils.LocaleManager
+import com.emil.presentation.R
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences

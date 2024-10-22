@@ -1,5 +1,5 @@
-package com.emil.presentation
-
+package com.emil.presentation.ui
+import com.emil.presentation.R
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle

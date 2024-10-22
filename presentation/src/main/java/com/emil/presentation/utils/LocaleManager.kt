@@ -1,4 +1,4 @@
-
+package com.emil.presentation.utils
 
 import android.content.Context
 import android.content.res.Configuration

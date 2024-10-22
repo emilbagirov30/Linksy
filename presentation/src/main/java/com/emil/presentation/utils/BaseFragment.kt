@@ -1,5 +1,5 @@
-package com.emil.presentation
-
+package com.emil.presentation.utils
+import com.emil.presentation.R
 import androidx.fragment.app.Fragment
 
 fun Fragment.replaceFragment(fragment: Fragment) {

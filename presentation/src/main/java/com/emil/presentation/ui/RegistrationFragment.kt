@@ -1,5 +1,6 @@
-package com.emil.presentation
-
+package com.emil.presentation.ui
+import com.emil.presentation.R
+import com.emil.presentation.utils.replaceFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,8 +10,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 
 
-class LoginFragment : Fragment() {
-
+class RegistrationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,12 +21,11 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-      val view = inflater.inflate(R.layout.fragment_login, container, false)
-        val forgotLink = view.findViewById<MaterialTextView>(R.id.tv_forgot_passsword)
-        val createAccountButton =  view.findViewById<MaterialButton>(R.id.bt_create_account)
-        createAccountButton.setOnClickListener { replaceFragment(RegistrationFragment()) }
-        forgotLink.setOnClickListener { replaceFragment(PasswordRecoveryFragment()) }
-        return  view
+       val view = inflater.inflate(R.layout.fragment_registration, container, false)
+       val loginButton = view.findViewById<MaterialTextView>(R.id.bt_login)
+       loginButton.setOnClickListener { replaceFragment(LoginFragment()) }
+
+        return view
     }
 
 

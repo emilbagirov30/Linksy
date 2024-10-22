@@ -1,5 +1,6 @@
-package com.emil.presentation
-
+package com.emil.presentation.ui
+import com.emil.presentation.R
+import com.emil.presentation.utils.replaceFragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -22,8 +23,7 @@ class PasswordRecoveryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-      val view = inflater.inflate(R.layout.fragment_password_recovery, container, false)
+        val view = inflater.inflate(R.layout.fragment_password_recovery, container, false)
         val backButton = view.findViewById<MaterialButton>(R.id.bt_back)
         backButton.setOnClickListener { replaceFragment(LoginFragment()) }
         return view
