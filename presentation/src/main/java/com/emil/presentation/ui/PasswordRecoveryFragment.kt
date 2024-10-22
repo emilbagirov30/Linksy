@@ -11,7 +11,7 @@ import com.google.android.material.button.MaterialButton
 
 
 class PasswordRecoveryFragment : Fragment() {
-
+private lateinit var  backButton:MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class PasswordRecoveryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_password_recovery, container, false)
-        val backButton = view.findViewById<MaterialButton>(R.id.bt_back)
+        backButton = view.findViewById(R.id.bt_back)
         backButton.setOnClickListener { replaceFragment(LoginFragment()) }
         return view
     }

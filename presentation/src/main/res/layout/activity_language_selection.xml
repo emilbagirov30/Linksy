@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".LanguageSelectionActivity">
+    tools:context=".ui.LanguageSelectionActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/titleTextView"
