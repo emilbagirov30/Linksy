@@ -9,13 +9,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Linksy">
         <activity
-            android:name=".LanguageSelectionActivity"
+            android:name=".ui.LanguageSelectionActivity"
             android:exported="false" />
         <activity
-            android:name=".AuthActivity"
+            android:name=".ui.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".ui.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
