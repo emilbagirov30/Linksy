@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".RegistrationFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_title"
+        style="@style/TextTitleStyle">
+    </com.google.android.material.textview.MaterialTextView>
+
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_marginTop="20dp"
+        style="@style/EditTextStyle"
+        android:inputType="textEmailAddress"
+        android:hint="@string/hint_email">
+    </EditText>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        >
+
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/EditTextStyle"
+            android:inputType="textPassword"
+            android:hint="@string/hint_password">
+        </EditText>
+
+        <ImageView
+            android:id="@+id/iv_password_show"
+            style="@style/ButtonInEditTextStyle"
+            android:background="@drawable/show_password"
+            />
+
+        <ImageView
+            android:id="@+id/iv_password_hide"
+            style="@style/ButtonInEditTextStyle"
+            android:background="@drawable/hide_password"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal" >
+
+
+        <CheckBox
+            android:id="@+id/cb_remember"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_height="wrap_content"
+            android:text="@string/checkbox_remember_me">
+
+        </CheckBox>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_forgot_passsword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextLinkStyle"
+            android:text="@string/link_forgot_password">
+
+        </com.google.android.material.textview.MaterialTextView>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+
+        android:text="@string/login_title">
+
+    </com.google.android.material.button.MaterialButton>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_create_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_create_account">
+
+    </com.google.android.material.button.MaterialButton>
+
+</LinearLayout>

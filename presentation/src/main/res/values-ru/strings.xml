@@ -9,4 +9,8 @@
     <string name="sign_up_button">Зарегестрироваться</string>
     <string name="login_button">Войти</string>
     <string name="question_have_an_account">Уже зарегестрированы?</string>
+    <string name="login_title">Вход</string>
+    <string name="checkbox_remember_me">Запомнить</string>
+    <string name="link_forgot_password">Забыли пароль?</string>
+    <string name="button_create_account">Создать аккаунт</string>
 </resources>
