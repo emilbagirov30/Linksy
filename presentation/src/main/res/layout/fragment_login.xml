@@ -42,11 +42,6 @@
             android:background="@drawable/show_password"
             />
 
-        <ImageView
-            android:id="@+id/iv_password_hide"
-            style="@style/ButtonInEditTextStyle"
-            android:background="@drawable/hide_password"
-            />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
