@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 
-class LoginFragment : Fragment() {
+class PasswordRecoveryFragment : Fragment() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,8 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+
+        return inflater.inflate(R.layout.fragment_password_recovery, container, false)
     }
 
 

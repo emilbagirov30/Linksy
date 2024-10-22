@@ -18,6 +18,9 @@
     <string name="checkbox_remember_me">Remember me</string>
     <string name="link_forgot_password">Forgot password?</string>
     <string name="button_create_account">Create account</string>
+    <string name="password_recovery_title">Password Recovery</string>
+    <string name="button_continue">Continue</string>
+    <string name="button_back">Back</string>
 
 
 </resources>

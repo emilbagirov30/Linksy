@@ -13,4 +13,7 @@
     <string name="checkbox_remember_me">Запомнить</string>
     <string name="link_forgot_password">Забыли пароль?</string>
     <string name="button_create_account">Создать аккаунт</string>
+    <string name="password_recovery_title">Восстановление пароля</string>
+    <string name="button_continue">Продолжить</string>
+    <string name="button_back">Назад</string>
 </resources>
