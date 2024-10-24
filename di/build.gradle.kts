@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -37,6 +38,8 @@ android {
 dependencies {
     implementation (project(":domain"))
     implementation (project(":data"))
+    implementation ("com.google.dagger:dagger:2.51.1")
+    kapt ("com.google.dagger:dagger-compiler:2.51.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
