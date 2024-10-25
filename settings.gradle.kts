@@ -20,8 +20,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Linksy"
-include(":common")
-include(":domain")
 include(":data")
-include(":di")
 include(":presentation")
+include(":domain")
