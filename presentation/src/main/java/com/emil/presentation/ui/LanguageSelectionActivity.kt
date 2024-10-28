@@ -1,5 +1,5 @@
 package com.emil.presentation.ui
-import com.emil.presentation.utils.LocaleManager
+import com.emil.presentation.util.LocaleManager
 import com.emil.presentation.R
 import android.content.Context
 import android.content.Intent

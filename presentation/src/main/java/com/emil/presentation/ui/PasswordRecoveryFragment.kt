@@ -1,6 +1,6 @@
 package com.emil.presentation.ui
 import com.emil.presentation.R
-import com.emil.presentation.utils.replaceFragment
+import com.emil.presentation.util.replaceFragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment

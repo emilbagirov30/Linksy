@@ -1,9 +1,8 @@
-package com.emil.presentation.utils
+package com.emil.presentation.util
 
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.os.Build
 import java.util.Locale
 
 object LocaleManager {

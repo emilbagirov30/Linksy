@@ -1,4 +1,4 @@
-package com.emil.presentation.utils
+package com.emil.presentation.util
 import android.content.Context
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter

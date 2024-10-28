@@ -20,6 +20,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -38,12 +39,15 @@ android {
 dependencies {
     implementation (project(":data") )
     implementation (project(":domain") )
-    implementation ("androidx.fragment:fragment-ktx:1.4.1")
+    implementation ("androidx.fragment:fragment-ktx:1.8.4")
+    val koin_android_version = "4.0.0"
+    implementation("io.insert-koin:koin-android:$koin_android_version")
     implementation ("com.google.dagger:dagger:2.51.1")
     kapt ("com.google.dagger:dagger-compiler:2.51.1")
+    implementation ("javax.inject:javax.inject:1")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation ("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")

@@ -1,30 +1,27 @@
 package com.emil.presentation.ui
 
 import android.annotation.SuppressLint
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.os.Build
 import com.emil.presentation.R
-import com.emil.presentation.utils.replaceFragment
+import com.emil.presentation.util.replaceFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
-import com.emil.presentation.utils.BackgroundState
-import com.emil.presentation.utils.changeEditTextBackgroundColor
-import com.emil.presentation.utils.string
-import com.emil.presentation.utils.togglePasswordVisibility
+import androidx.lifecycle.ViewModelProvider
+import com.emil.presentation.util.BackgroundState
+import com.emil.presentation.util.changeEditTextBackgroundColor
+import com.emil.presentation.util.string
+import com.emil.presentation.util.togglePasswordVisibility
+import com.emil.presentation.viewmodel.RegistrationViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegistrationFragment : Fragment() {
 
@@ -36,10 +33,14 @@ class RegistrationFragment : Fragment() {
     private lateinit var signUpButton: MaterialButton
     private lateinit var changeInputTypePasswordButton: ImageView
     private lateinit var changeInputTypePasswordConfirmButton: ImageView
+    private val TAG  = this.javaClass.simpleName
+    private val registrationViewModel: RegistrationViewModel by viewModel<RegistrationViewModel> ()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
     }
 
     @SuppressLint("MissingInflatedId", "ResourceAsColor")
@@ -76,10 +77,24 @@ class RegistrationFragment : Fragment() {
             togglePasswordVisibility( passwordConfirmEditText, changeInputTypePasswordConfirmButton)
         }
         signUpButton.setOnClickListener {
-            if (passwordEditText.string()!= passwordConfirmEditText.string()){
-              changeEditTextBackgroundColor(requireContext(),BackgroundState.ERROR,passwordEditText,passwordConfirmEditText)
+            if (passwordEditText.string() != passwordConfirmEditText.string()) {
+                changeEditTextBackgroundColor(
+                    requireContext(),
+                    BackgroundState.ERROR,
+                    passwordEditText,
+                    passwordConfirmEditText
+                )
+            } else {
+                val username = usernameEditText.string()
+                val email = emailEditText.string()
+                val password = passwordEditText.string()
+                registrationViewModel.register(username, email, password,
+                    onSuccess = { Log.i(TAG,"Sucess") },
+                    onError = { Log.e(TAG,"Error") }
+                )
             }
         }
+
         return view
     }
 
