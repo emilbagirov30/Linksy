@@ -21,5 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Linksy"
 include(":data")
-include(":presentation")
+include(":app")
 include(":domain")
