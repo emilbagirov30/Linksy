@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".ui.LanguageSelectionActivity">
+    tools:context="com.emil.linksy.presentation.ui.LanguageSelectionActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/titleTextView"

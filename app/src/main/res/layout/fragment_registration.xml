@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".ui.RegistrationFragment">
+    tools:context="com.emil.linksy.presentation.ui.RegistrationFragment">
 
 <com.google.android.material.textview.MaterialTextView
     android:layout_width="wrap_content"
@@ -29,6 +29,22 @@
         android:inputType="textEmailAddress"
         android:hint="@string/hint_email">
     </EditText>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_error_email_exist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextErrorStyle"
+        android:text="@string/email_is_already_registered">
+
+    </com.google.android.material.textview.MaterialTextView>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_error_isNotMail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextErrorStyle"
+        android:text="@string/invalid_email_format">
+
+    </com.google.android.material.textview.MaterialTextView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -72,6 +88,24 @@
 
 
     </RelativeLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_error_password_mismatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextErrorStyle"
+        android:text="@string/passwords_do_not_match">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_error_password_short"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextErrorStyle"
+        android:text="@string/password_length_short">
+
+    </com.google.android.material.textview.MaterialTextView>
 
 
     <com.google.android.material.button.MaterialButton

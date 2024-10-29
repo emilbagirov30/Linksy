@@ -44,6 +44,12 @@
         <item name="android:textSize">26sp</item>
     </style>
 
+    <style name="TextErrorStyle" >
+        <item name="android:textColor">@color/textView_error_message</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="ButtonInEditTextStyle" >
         <item name="android:layout_width">25dp</item>
         <item name="android:layout_height">25dp</item>

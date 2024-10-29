@@ -21,6 +21,10 @@
     <string name="password_recovery_title">Password Recovery</string>
     <string name="button_continue">Continue</string>
     <string name="button_back">Back</string>
+    <string name="email_is_already_registered">This email is already registered</string>
+    <string name="invalid_email_format">Invalid email format</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="password_length_short">Password length must be greater than 6 characters</string>
 
 
 </resources>

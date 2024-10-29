@@ -16,4 +16,9 @@
     <string name="password_recovery_title">Восстановление пароля</string>
     <string name="button_continue">Продолжить</string>
     <string name="button_back">Назад</string>
+    <string name="email_is_already_registered">Такая почта уже зарегестрирована</string>
+    <string name="invalid_email_format">Неверный формат почты</string>
+    <string name="passwords_do_not_match">Пароли не совпадают</string>
+    <string name="password_length_short">Длина пароля должна быть больше 6 символов</string>
+
 </resources>
