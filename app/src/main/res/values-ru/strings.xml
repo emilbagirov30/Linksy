@@ -20,5 +20,7 @@
     <string name="invalid_email_format">Неверный формат почты</string>
     <string name="passwords_do_not_match">Пароли не совпадают</string>
     <string name="password_length_short">Длина пароля должна быть больше 6 символов</string>
-
+    <string name="confirmation_code_sent">Код подтверждения отправен на:</string>
+    <string name="send_button">Отправить</string>
+    <string name="invalid_confirmation_code">Неверный код подтверждения</string>
 </resources>

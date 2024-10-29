@@ -26,19 +26,20 @@ fun togglePasswordVisibility(passwordEditText: EditText, toggleButton: ImageView
 }
 enum class BackgroundState { ERROR, DEFAULT }
 
-fun changeEditTextBackgroundColor(context: Context, state: BackgroundState, vararg editTexts: EditText){
+fun changeEditTextBackgroundColor(context: Context, state: BackgroundState, vararg editTexts: EditText) {
     val colorResId = when (state) {
         BackgroundState.ERROR -> ContextCompat.getColor(context, R.color.edit_text_background_error_color)
         BackgroundState.DEFAULT -> ContextCompat.getColor(context, R.color.edit_text_background_default_color)
     }
-    val drawable = editTexts[0].background.mutate()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        drawable.colorFilter = BlendModeColorFilter(colorResId, BlendMode.SRC_IN)
-    }else{
-        drawable.colorFilter = PorterDuffColorFilter (colorResId, PorterDuff.Mode.SRC_IN)
-    }
+
     for (editText in editTexts) {
+
+        val drawable = editText.background.mutate().constantState?.newDrawable()?.mutate()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            drawable?.colorFilter = BlendModeColorFilter(colorResId, BlendMode.SRC_IN)
+        } else {
+            drawable?.colorFilter = PorterDuffColorFilter(colorResId, PorterDuff.Mode.SRC_IN)
+        }
         editText.background = drawable
     }
-
 }

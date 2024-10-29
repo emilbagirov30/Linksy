@@ -25,6 +25,9 @@
     <string name="invalid_email_format">Invalid email format</string>
     <string name="passwords_do_not_match">Passwords do not match</string>
     <string name="password_length_short">Password length must be greater than 6 characters</string>
+    <string name="confirmation_code_sent">The confirmation code has been sent to:</string>
+    <string name="send_button">Send</string>
+    <string name="invalid_confirmation_code">Invalid confirmation code</string>
 
 
 </resources>
