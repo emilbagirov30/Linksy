@@ -28,6 +28,7 @@
     <string name="confirmation_code_sent">The confirmation code has been sent to:</string>
     <string name="send_button">Send</string>
     <string name="invalid_confirmation_code">Invalid confirmation code</string>
+    <string name="failed_connection">Server connection error</string>
 
 
 </resources>

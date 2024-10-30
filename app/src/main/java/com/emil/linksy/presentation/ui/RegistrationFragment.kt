@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
+import com.emil.linksy.presentation.custom_view.CustomProgressBar
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.string
@@ -20,6 +22,7 @@ import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.isValidEmail
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -42,6 +45,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var emailInvalidFormatTextView: MaterialTextView
     private lateinit var passwordMismatchTextView: MaterialTextView
     private lateinit var passwordShortTextView: MaterialTextView
+    private lateinit var loading: CustomProgressBar
     private val registrationViewModel: RegistrationViewModel by viewModel<RegistrationViewModel> ()
     private val TAG  = this.javaClass.simpleName
     private lateinit var bsDialog:ConfirmCodeBottomSheet
@@ -71,7 +75,7 @@ class RegistrationFragment : Fragment() {
         emailInvalidFormatTextView = view.findViewById (R.id.tv_error_isNotMail)
         passwordMismatchTextView = view.findViewById (R.id.tv_error_password_mismatch)
         passwordShortTextView = view.findViewById (R.id.tv_error_password_short)
-
+        loading= view.findViewById (R.id.cpb_loading)
 
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { checkFieldsForEmptyValues() }
@@ -101,17 +105,22 @@ class RegistrationFragment : Fragment() {
             isEmailValid(email)
 
             if (errorCount==0) {
+                loading.visible()
                 registrationViewModel.register(username, email, password,
                     onAccepted = {
                                  bsDialog = ConfirmCodeBottomSheet(email)
                                  bsDialog.show(parentFragmentManager,bsDialog.tag)
                                  bsDialog.isCancelable = false
                                  },
-                    onConflict = { emailExistTextView.show()
+                    onConflict = {
+                        emailExistTextView.show()
                         changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, passwordEditText)
                                  },
-                    onError = { Log.e(TAG,"Error") }
+                    onError = { showToast(requireContext(),R.string.failed_connection)},
+                    onEnd = {loading.gone()}
+
                 )
+
             }
         }
         return view
@@ -135,7 +144,7 @@ class RegistrationFragment : Fragment() {
     }
     private fun isPasswordLengthValid(password: String) {
          if (password.length < 6) {
-            changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, passwordEditText)
+            changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, passwordEditText,passwordConfirmEditText)
             passwordShortTextView.show()
             errorCount++
         }

@@ -9,6 +9,7 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.emil.presentation.R
 
@@ -42,4 +43,9 @@ fun changeEditTextBackgroundColor(context: Context, state: BackgroundState, vara
         }
         editText.background = drawable
     }
+
+}
+
+fun showToast(context: Context,message:Int){
+    Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
 }

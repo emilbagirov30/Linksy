@@ -1,5 +1,6 @@
 package com.emil.linksy.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.UserRegistrationData
@@ -14,6 +15,7 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase ) : Vie
                  password: String,
                  onAccepted: () -> Unit,
                  onConflict: () -> Unit,
+                 onEnd: () -> Unit,
                  onError: (Throwable) -> Unit) {
         viewModelScope.launch {
             try {
@@ -25,6 +27,8 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase ) : Vie
                 }
             } catch (e: Exception) {
                 onError(e)
+            }finally {
+                withContext(Dispatchers.Main) {onEnd ()}
             }
         }
     }
