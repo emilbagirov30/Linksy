@@ -4,6 +4,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="3dp"
+        android:alpha="0.25"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/dialog_stick">
+    </ImageView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,8 +83,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        style="@style/Widget.Linksy.BottomSheetButton"
-       android:enabled="false"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/colorPrimary"
+        android:visibility="gone"
         android:text="@string/send_button">
     </com.google.android.material.button.MaterialButton>
     </LinearLayout>

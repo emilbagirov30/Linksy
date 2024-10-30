@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import com.emil.linksy.presentation.viewmodel.ConfirmViewModel
+import com.emil.linksy.util.BackgroundState
+import com.emil.linksy.util.changeEditTextBackgroundColor
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -57,15 +61,20 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
          num4editText = view.findViewById(R.id.et_num4)
          num5editText = view.findViewById(R.id.et_num5)
          emailTextView =view.findViewById(R.id.tv_email)
+
+        val numList = arrayOf(num1editText,num2editText,num3editText,num4editText,num5editText)
        invalidCodeTextView = view.findViewById(R.id.tv_invalid_code)
          sendButton = view.findViewById(R.id.bt_send)
          emailTextView.text = email
-         editTexts = listOf(num1editText, num2editText, num3editText, num4editText, num5editText)
+
          setupEditTexts()
          sendButton.setOnClickListener {
 registrationViewModel.confirm(email,code,
     onSuccess = {Log.i(TAG,"Sucess")},
-    onIncorrect = {invalidCodeTextView.show()} ,
+    onIncorrect = {invalidCodeTextView.show()
+                   changeEditTextBackgroundColor(requireContext(),BackgroundState.ERROR,*numList)
+                  }
+    ,
     onError = { Log.e(TAG,"Error") }
     )
         }
@@ -76,33 +85,38 @@ registrationViewModel.confirm(email,code,
     private fun setupEditTexts() {
         editTexts.forEachIndexed { index, editText ->
             editText.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    checkAllFields()
-                }
-
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                }
-
+                override fun afterTextChanged(s: Editable?) { checkAllFields() }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (s.isNullOrEmpty() && index > 0) {
-                        editTexts[index - 1].requestFocus()
-                    }
+                    if (s.isNullOrEmpty() && index > 0) { return }
                     if (!s.isNullOrEmpty() && index < editTexts.size - 1) {
                         editTexts[index + 1].requestFocus()
                     }
                 }
             })
+            editText.setOnKeyListener { _, keyCode, event ->
+                if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+                    if (editText.text.isEmpty() && index > 0) {
+                        editTexts[index - 1].requestFocus()
+                        editTexts[index - 1].setSelection(editTexts[index - 1].text.length)
+                        return@setOnKeyListener true
+                    }
+                }
+                false
+            }
         }
     }
+
+
 
 
     private fun checkAllFields() {
         val allFilled = editTexts.all { it.text.isNotEmpty() }
         if (allFilled) {
             code = editTexts.joinToString("") { it.text.toString() }
-            sendButton.isEnabled = true
+            sendButton.show()
         } else {
-            sendButton.isEnabled = false
+            sendButton.hide()
         }
     }
 }

@@ -8,9 +8,9 @@ import org.koin.dsl.module
 val domainModule = module {
 
     factory<RegisterUseCase>{
-        RegisterUseCase(userRepository = get())
+        RegisterUseCase(authRepository = get())
     }
     factory<ConfirmCodeUseCase>{
-       ConfirmCodeUseCase(userRepository = get())
+       ConfirmCodeUseCase(authRepository = get())
     }
 }

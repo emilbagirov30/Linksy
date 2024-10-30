@@ -8,5 +8,6 @@
     <color name="edit_text_hint_color">#737373</color>
     <color name="question">#555555</color>
     <color name="link">#137EB3</color>
+    <color name="code_edit_text">#4C4C4C</color>
     <color name="textView_error_message">#A51717</color>
 </resources>

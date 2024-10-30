@@ -4,7 +4,7 @@ import com.emil.domain.model.ConfirmCodeParam
 import com.emil.domain.model.UserRegistrationData
 import retrofit2.Response
 
-interface UserRepository {
+interface AuthRepository {
     suspend fun registerUser(request: UserRegistrationData): Response<Unit>
     suspend fun confirmCode(param: ConfirmCodeParam): Response<Unit>
 }

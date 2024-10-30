@@ -1,12 +1,11 @@
 package com.emil.domain.usecase
 
 import com.emil.domain.model.ConfirmCodeParam
-import com.emil.domain.model.UserRegistrationData
-import com.emil.domain.repository.UserRepository
+import com.emil.domain.repository.AuthRepository
 import retrofit2.Response
 
-class ConfirmCodeUseCase (private val userRepository:UserRepository) {
+class ConfirmCodeUseCase (private val authRepository:AuthRepository) {
     suspend fun execute (param:ConfirmCodeParam): Response<Unit> {
-        return userRepository.confirmCode(param)
+        return authRepository.confirmCode(param)
     }
 }
