@@ -114,7 +114,7 @@ class RegistrationFragment : Fragment() {
                                  },
                     onConflict = {
                         emailExistTextView.show()
-                        changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, passwordEditText)
+                        changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, emailEditText)
                                  },
                     onError = { showToast(requireContext(),R.string.failed_connection)},
                     onEnd = {loading.gone()}

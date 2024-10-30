@@ -66,7 +66,7 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
        invalidCodeTextView = view.findViewById(R.id.tv_invalid_code)
          sendButton = view.findViewById(R.id.bt_send)
          emailTextView.text = email
-
+        editTexts = numList.toList()
          setupEditTexts()
          sendButton.setOnClickListener {
 registrationViewModel.confirm(email,code,
