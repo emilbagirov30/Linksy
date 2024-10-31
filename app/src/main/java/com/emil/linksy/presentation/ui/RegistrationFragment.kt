@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -20,6 +22,7 @@ import com.emil.linksy.util.string
 import com.emil.linksy.util.togglePasswordVisibility
 import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
 import com.emil.linksy.util.hide
+import com.emil.linksy.util.hideKeyboard
 import com.emil.linksy.util.isValidEmail
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
@@ -95,6 +98,7 @@ class RegistrationFragment : Fragment() {
         }
         signUpButton.setOnClickListener {
             hideAllError()
+            hideKeyboard(requireContext(),view)
             val username = usernameEditText.string()
             val email = emailEditText.string()
             val password = passwordEditText.string()

@@ -1,4 +1,5 @@
 package com.emil.linksy.util
+import android.app.Activity
 import android.content.Context
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
@@ -7,6 +8,8 @@ import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -48,4 +51,9 @@ fun changeEditTextBackgroundColor(context: Context, state: BackgroundState, vara
 
 fun showToast(context: Context,message:Int){
     Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+}
+
+fun hideKeyboard (context: Context,view: View){
+    val inputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
