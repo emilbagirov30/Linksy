@@ -10,4 +10,5 @@
     <color name="link">#137EB3</color>
     <color name="code_edit_text">#4C4C4C</color>
     <color name="textView_error_message">#A51717</color>
+    <color name="red">#952D2D</color>
 </resources>

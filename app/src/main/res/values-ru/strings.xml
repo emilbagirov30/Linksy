@@ -24,4 +24,7 @@
     <string name="send_button">Отправить</string>
     <string name="invalid_confirmation_code">Неверный код подтверждения</string>
     <string name="failed_connection">Ошибка подключения к серверу</string>
+    <string name="didn_t_receive_the_code">Не пришёл код?</string>
+    <string name="cancel">Отменить</string>
+    <string name="resend">Отправить повторно</string>
 </resources>

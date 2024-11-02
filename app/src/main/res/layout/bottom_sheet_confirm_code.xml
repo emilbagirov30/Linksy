@@ -7,7 +7,7 @@
 
     <ImageView
         android:layout_width="45dp"
-        android:layout_height="3dp"
+        android:layout_height="5dp"
         android:alpha="0.25"
         android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/link"
-        android:text="emil_bgr@mail.ru"
+        android:text="test@gmail.com"
         >
 
     </com.google.android.material.textview.MaterialTextView>
@@ -78,16 +78,54 @@
 
     </com.google.android.material.textview.MaterialTextView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/bt_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/colorPrimary"
-        android:visibility="gone"
-        android:text="@string/send_button">
-    </com.google.android.material.button.MaterialButton>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/stick_shadow"
+            android:layout_marginTop="10dp"
+            >
+
+        </View>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            style="@style/TextQuestionStyle"
+            android:text="@string/didn_t_receive_the_code">
+
+        </com.google.android.material.textview.MaterialTextView>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_timer"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="1:00">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_send_new_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:background="@android:drawable/dialog_holo_light_frame"
+                android:text="@string/resend">
+            </com.google.android.material.button.MaterialButton>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/red"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:text="@string/cancel">
+
+        </com.google.android.material.button.MaterialButton>
     </LinearLayout>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

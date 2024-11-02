@@ -29,6 +29,9 @@
     <string name="send_button">Send</string>
     <string name="invalid_confirmation_code">Invalid confirmation code</string>
     <string name="failed_connection">Server connection error</string>
+    <string name="didn_t_receive_the_code">Didn\'t receive the code?</string>
+    <string name="cancel">Cancel</string>
+    <string name="resend">Resend</string>
 
 
 </resources>

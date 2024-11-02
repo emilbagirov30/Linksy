@@ -30,9 +30,12 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
     private lateinit var num5editText:EditText
     private lateinit var emailTextView:MaterialTextView
     private lateinit var invalidCodeTextView:MaterialTextView
-    private lateinit var sendButton:MaterialButton
+    private lateinit var timerTextView:MaterialTextView
+    private lateinit var resendButton:MaterialButton
+    private lateinit var cancelButton:MaterialButton
     private lateinit var code:String
     private lateinit var editTexts:List<EditText>
+    private lateinit var numList:Array<EditText>
     private val registrationViewModel: ConfirmViewModel by viewModel<ConfirmViewModel> ()
     private val TAG  = this.javaClass.simpleName
 
@@ -61,24 +64,12 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
          num4editText = view.findViewById(R.id.et_num4)
          num5editText = view.findViewById(R.id.et_num5)
          emailTextView =view.findViewById(R.id.tv_email)
-
-        val numList = arrayOf(num1editText,num2editText,num3editText,num4editText,num5editText)
-       invalidCodeTextView = view.findViewById(R.id.tv_invalid_code)
-         sendButton = view.findViewById(R.id.bt_send)
+         invalidCodeTextView = view.findViewById(R.id.tv_invalid_code)
+         numList = arrayOf(num1editText,num2editText,num3editText,num4editText,num5editText)
          emailTextView.text = email
-        editTexts = numList.toList()
+         editTexts = numList.toList()
          setupEditTexts()
-         sendButton.setOnClickListener {
-registrationViewModel.confirm(email,code,
-    onSuccess = {Log.i(TAG,"Sucess")},
-    onIncorrect = {invalidCodeTextView.show()
-                   changeEditTextBackgroundColor(requireContext(),BackgroundState.ERROR,*numList)
-                  }
-    ,
-    onError = { Log.e(TAG,"Error") }
-    )
-        }
-        return view
+         return view
     }
 
 
@@ -114,9 +105,12 @@ registrationViewModel.confirm(email,code,
         val allFilled = editTexts.all { it.text.isNotEmpty() }
         if (allFilled) {
             code = editTexts.joinToString("") { it.text.toString() }
-            sendButton.show()
-        } else {
-            sendButton.hide()
+            registrationViewModel.confirm(email,code,
+                onSuccess = {Log.i(TAG,"Sucess")},
+                onIncorrect = {invalidCodeTextView.show()
+                    changeEditTextBackgroundColor(requireContext(),BackgroundState.ERROR,*numList)
+                }, onError = { Log.e(TAG,"Error") }
+            )
         }
     }
 }
