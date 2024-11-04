@@ -4,11 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.ConfirmCodeParam
 import com.emil.domain.usecase.ConfirmCodeUseCase
+import com.emil.domain.usecase.ResendCodeUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ConfirmCodeViewModel(private val confirmUseCase: ConfirmCodeUseCase) : ViewModel () {
+class ConfirmCodeViewModel(private val confirmUseCase: ConfirmCodeUseCase,private val resendCodeUseCase: ResendCodeUseCase) : ViewModel () {
     fun confirm (email:String,code:String,onSuccess: () -> Unit, onIncorrect: () -> Unit, onError: (Throwable) -> Unit){
         viewModelScope.launch {
             try{
@@ -20,6 +21,15 @@ class ConfirmCodeViewModel(private val confirmUseCase: ConfirmCodeUseCase) : Vie
                }
             }catch (e: Exception) {
                 onError(e)
+            }
+        }
+    }
+    fun resend (email:String, onError: () -> Unit){
+        viewModelScope.launch {
+            try {
+                resendCodeUseCase.execute(email)
+            } catch (e:Exception){
+                onError()
             }
         }
     }

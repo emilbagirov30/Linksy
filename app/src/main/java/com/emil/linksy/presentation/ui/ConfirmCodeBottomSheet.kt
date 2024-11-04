@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
-import com.emil.linksy.presentation.viewmodel.ResendCodeViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.hide
@@ -43,7 +42,6 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
     private lateinit var editTexts:List<EditText>
     private lateinit var numList:Array<EditText>
     private val confirmCodeViewModel: ConfirmCodeViewModel by viewModel<ConfirmCodeViewModel> ()
-    private val resendCodeViewModel: ResendCodeViewModel by viewModel<ResendCodeViewModel> ()
     private val TAG  = this.javaClass.simpleName
 
     override fun getTheme() = R.style.BottomSheetDialogTheme
@@ -82,7 +80,7 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
             dialog?.dismiss()
         }
         resendButton.setOnClickListener {
-              resendCodeViewModel.resend(email, onError = { showToast(requireContext(),R.string.failed_connection) })
+             confirmCodeViewModel.resend(email, onError = { showToast(requireContext(),R.string.failed_connection) })
               startTimer()
         }
         setupEditTexts()
