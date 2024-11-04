@@ -24,7 +24,26 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragment() {
+class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
+    private lateinit var email: String
+
+    companion object {
+        private const val ARG_EMAIL = "email"
+
+        fun newInstance(email: String): ConfirmCodeBottomSheet {
+            val fragment = ConfirmCodeBottomSheet()
+            val args = Bundle()
+            args.putString(ARG_EMAIL, email)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        email = arguments?.getString(ARG_EMAIL) ?: ""
+    }
+
     private lateinit var num1editText:EditText
     private lateinit var num2editText:EditText
     private lateinit var num3editText:EditText
@@ -129,7 +148,7 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
 
     private fun startTimer() {
         resendButton.isEnabled = false
-        resendButton.alpha = 0.5f
+        resendButton.alpha = 0.1f
         timerTextView.show()
         timer = object : CountDownTimer(startTimeInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -153,5 +172,13 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
         timer.cancel()
         isTimerRunning = false
         timerTextView.hide()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (isTimerRunning) {
+            timer.cancel()
+            isTimerRunning = false
+        }
     }
 }

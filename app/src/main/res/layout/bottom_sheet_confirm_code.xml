@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:alpha= "0.5"
+                android:alpha= "0.1"
                 app:backgroundTint="@color/colorPrimary"
                 android:textColor="@color/white"
                 android:background="@android:drawable/dialog_holo_light_frame"

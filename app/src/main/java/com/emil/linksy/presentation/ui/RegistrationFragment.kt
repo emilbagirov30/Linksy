@@ -172,7 +172,7 @@ class RegistrationFragment : Fragment() {
                 loading.visible()
                 registrationViewModel.register(username, email, password,
                     onAccepted = {
-                        bsDialog = ConfirmCodeBottomSheet(email)
+                        bsDialog = ConfirmCodeBottomSheet.newInstance(email)
                         bsDialog.show(parentFragmentManager, bsDialog.tag)
                         bsDialog.isCancelable = false
                     },
