@@ -123,7 +123,7 @@
         android:id="@+id/cpb_loading"
         android:layout_width="50dp"
         android:layout_height="50dp"
-   android:visibility="gone"
+        android:visibility="gone"
         android:layout_marginVertical="5dp"
         android:layout_gravity="center">
     </com.emil.linksy.presentation.custom_view.CustomProgressBar>

@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.SavedStateHandle
 import com.emil.linksy.presentation.custom_view.CustomProgressBar
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
@@ -33,6 +34,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class RegistrationFragment : Fragment() {
 
@@ -40,7 +42,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var usernameEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
-    private lateinit var  passwordConfirmEditText: EditText
+    private lateinit var passwordConfirmEditText: EditText
     private lateinit var signUpButton: MaterialButton
     private lateinit var changeInputTypePasswordButton: ImageView
     private lateinit var changeInputTypePasswordConfirmButton: ImageView
@@ -49,9 +51,9 @@ class RegistrationFragment : Fragment() {
     private lateinit var passwordMismatchTextView: MaterialTextView
     private lateinit var passwordShortTextView: MaterialTextView
     private lateinit var loading: CustomProgressBar
-    private val registrationViewModel: RegistrationViewModel by viewModel<RegistrationViewModel> ()
-    private val TAG  = this.javaClass.simpleName
-    private lateinit var bsDialog:ConfirmCodeBottomSheet
+    private val registrationViewModel: RegistrationViewModel by viewModel<RegistrationViewModel>()
+    private val TAG = this.javaClass.simpleName
+    private lateinit var bsDialog: ConfirmCodeBottomSheet
     companion object private var errorCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,54 +76,111 @@ class RegistrationFragment : Fragment() {
         signUpButton = view.findViewById(R.id.bt_sign_up)
         changeInputTypePasswordButton = view.findViewById(R.id.iv_password_change_input_type)
         changeInputTypePasswordConfirmButton = view.findViewById(R.id.iv_password_confirm_change_input_type)
-        emailExistTextView = view.findViewById (R.id.tv_error_email_exist)
-        emailInvalidFormatTextView = view.findViewById (R.id.tv_error_isNotMail)
-        passwordMismatchTextView = view.findViewById (R.id.tv_error_password_mismatch)
-        passwordShortTextView = view.findViewById (R.id.tv_error_password_short)
-        loading= view.findViewById (R.id.cpb_loading)
+        emailExistTextView = view.findViewById(R.id.tv_error_email_exist)
+        emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
+        passwordMismatchTextView = view.findViewById(R.id.tv_error_password_mismatch)
+        passwordShortTextView = view.findViewById(R.id.tv_error_password_short)
+        loading = view.findViewById(R.id.cpb_loading)
 
-        val textWatcher = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { checkFieldsForEmptyValues() }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        registrationViewModel.username.observe(viewLifecycleOwner) { text ->
+            if (usernameEditText.text.toString() != text)
+                usernameEditText.setText(text)
+
         }
-        usernameEditText.addTextChangedListener(textWatcher)
-        emailEditText.addTextChangedListener(textWatcher)
-        passwordEditText.addTextChangedListener(textWatcher)
-        passwordConfirmEditText.addTextChangedListener(textWatcher)
+        registrationViewModel.email.observe(viewLifecycleOwner) { text ->
+            if (emailEditText.text.toString() != text)
+                emailEditText.setText(text)
+
+        }
+        registrationViewModel.password.observe(viewLifecycleOwner) { text ->
+            if (passwordEditText.text.toString() != text)
+                passwordEditText.setText(text)
+
+        }
+        registrationViewModel.passwordConfirm.observe(viewLifecycleOwner) { text ->
+            if (passwordConfirmEditText.text.toString() != text)
+                passwordConfirmEditText.setText(text)
+
+        }
+
+        registrationViewModel.errorStates.observe(viewLifecycleOwner) { errorStates ->
+            if (errorStates["emailExist"] == true) emailExistTextView.show() else emailExistTextView.hide()
+            if (errorStates["emailInvalidFormat"] == true) emailInvalidFormatTextView.show() else emailInvalidFormatTextView.hide()
+            if (errorStates["passwordMismatch"] == true) passwordMismatchTextView.show() else passwordMismatchTextView.hide()
+            if (errorStates["passwordShort"] == true) passwordShortTextView.show() else passwordShortTextView.hide()
+        }
+
+        registrationViewModel.backgroundStates.observe(viewLifecycleOwner) { states ->
+            changeEditTextBackgroundColor(
+                requireContext(), states["username"] ?: BackgroundState.DEFAULT, usernameEditText
+            )
+            changeEditTextBackgroundColor(
+                requireContext(), states["email"] ?: BackgroundState.DEFAULT, emailEditText
+            )
+            changeEditTextBackgroundColor(
+                requireContext(), states["password"] ?: BackgroundState.DEFAULT, passwordEditText
+            )
+            changeEditTextBackgroundColor(
+                requireContext(), states["passwordConfirm"] ?: BackgroundState.DEFAULT, passwordConfirmEditText
+            )
+        }
+        fun addListener(et: EditText, saveLiveData: () -> Unit) {
+            val textWatcher = object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    checkFieldsForEmptyValues()
+                    saveLiveData()
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            }
+            et.addTextChangedListener(textWatcher)
+        }
+
+        addListener(usernameEditText, saveLiveData = {
+            registrationViewModel.setUsername(usernameEditText.string())
+        })
+        addListener(emailEditText, saveLiveData = {
+            registrationViewModel.setEmail(emailEditText.string())
+        })
+        addListener(passwordEditText, saveLiveData = {
+            registrationViewModel.setPassword(passwordEditText.string())
+        })
+        addListener(passwordConfirmEditText, saveLiveData = {
+            registrationViewModel.setPasswordConfirm(passwordConfirmEditText.string())
+        })
+
         loginButton.setOnClickListener { replaceFragment(LoginFragment()) }
         changeInputTypePasswordButton.setOnClickListener {
             togglePasswordVisibility(passwordEditText, changeInputTypePasswordButton)
         }
         changeInputTypePasswordConfirmButton.setOnClickListener {
-            togglePasswordVisibility( passwordConfirmEditText, changeInputTypePasswordConfirmButton)
+            togglePasswordVisibility(passwordConfirmEditText, changeInputTypePasswordConfirmButton)
         }
         signUpButton.setOnClickListener {
             hideAllError()
-            hideKeyboard(requireContext(),view)
+            hideKeyboard(requireContext(), view)
             val username = usernameEditText.string()
             val email = emailEditText.string()
             val password = passwordEditText.string()
             val passwordConfirm = passwordConfirmEditText.string()
 
-            isPasswordValid(password,passwordConfirm)
+            isPasswordValid(password, passwordConfirm)
             isPasswordLengthValid(password)
             isEmailValid(email)
 
-            if (errorCount==0) {
+            if (errorCount == 0) {
                 loading.visible()
                 registrationViewModel.register(username, email, password,
                     onAccepted = {
-                                 bsDialog = ConfirmCodeBottomSheet(email)
-                                 bsDialog.show(parentFragmentManager,bsDialog.tag)
-                                 bsDialog.isCancelable = false
-                                 },
+                        bsDialog = ConfirmCodeBottomSheet(email)
+                        bsDialog.show(parentFragmentManager, bsDialog.tag)
+                        bsDialog.isCancelable = false
+                    },
                     onConflict = {
-                        emailExistTextView.show()
-                        changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, emailEditText)
-                                 },
-                    onError = { showToast(requireContext(),R.string.failed_connection)},
-                    onEnd = {loading.gone()}
+                        registrationViewModel.setErrorState("emailExist", true)
+                    },
+                    onError = { showToast(requireContext(), R.string.failed_connection) },
+                    onEnd = { loading.gone() }
 
                 )
 
@@ -135,37 +194,49 @@ class RegistrationFragment : Fragment() {
         val username = usernameEditText.string()
         val email = emailEditText.string()
         val password = passwordEditText.string()
-        val confirmPassword =  passwordConfirmEditText.string()
-        signUpButton.isEnabled = username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
+        val confirmPassword = passwordConfirmEditText.string()
+        signUpButton.isEnabled =
+            username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
+    }
+
+    private fun isEmailValid(email: String) {
+        if (!email.isValidEmail()) {
+            registrationViewModel.setErrorState("emailInvalidFormat", true)
+            registrationViewModel.setBackgroundState("email", BackgroundState.ERROR)
+            errorCount++
+        } else registrationViewModel.setErrorState("emailInvalidFormat", false)
+
     }
 
     private fun isPasswordValid(password: String, passwordConfirm: String) {
-       if (password != passwordConfirm) {
-            changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, passwordEditText, passwordConfirmEditText)
-            passwordMismatchTextView.show()
+        if (password != passwordConfirm) {
+            registrationViewModel.setErrorState("passwordMismatch", true)
+            registrationViewModel.setBackgroundState("password", BackgroundState.ERROR)
+            registrationViewModel.setBackgroundState("passwordConfirm", BackgroundState.ERROR)
             errorCount++
-        }
+        } else registrationViewModel.setErrorState("passwordMismatch", false)
+
     }
+
     private fun isPasswordLengthValid(password: String) {
-         if (password.length < 6) {
-            changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, passwordEditText,passwordConfirmEditText)
-            passwordShortTextView.show()
+        if (password.length < 6) {
+            registrationViewModel.setErrorState("passwordShort", true)
+            registrationViewModel.setBackgroundState("password", BackgroundState.ERROR)
+            registrationViewModel.setBackgroundState("passwordConfirm", BackgroundState.ERROR)
             errorCount++
-        }
+        } else registrationViewModel.setErrorState("passwordShort", false)
+
     }
-    private fun isEmailValid(email: String) {
-         if (!email.isValidEmail()) {
-             changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, emailEditText)
-            emailInvalidFormatTextView.show()
-             errorCount++
-        }
-    }
-    private fun hideAllError (){
-        errorCount=0
-        passwordMismatchTextView.hide()
-        passwordShortTextView.hide()
-        emailInvalidFormatTextView.hide()
-        emailExistTextView.hide()
-        changeEditTextBackgroundColor(requireContext(),BackgroundState.DEFAULT,emailEditText,passwordEditText,passwordConfirmEditText)
+
+    private fun hideAllError() {
+        errorCount = 0
+        registrationViewModel.setErrorState("emailInvalidFormat", false)
+        registrationViewModel.setErrorState("emailExist", false)
+        registrationViewModel.setErrorState("passwordMismatch", false)
+        registrationViewModel.setErrorState("passwordShort", false)
+        registrationViewModel.setBackgroundState("username", BackgroundState.DEFAULT)
+        registrationViewModel.setBackgroundState("email", BackgroundState.DEFAULT)
+        registrationViewModel.setBackgroundState("password", BackgroundState.DEFAULT)
+        registrationViewModel.setBackgroundState("passwordConfirm", BackgroundState.DEFAULT)
     }
 }
