@@ -7,4 +7,5 @@ import retrofit2.Response
 interface AuthRepository {
     suspend fun registerUser(request: UserRegistrationData): Response<Unit>
     suspend fun confirmCode(param: ConfirmCodeParam): Response<Unit>
+    suspend fun resendCode(emailParam: String): Response<Unit>
 }

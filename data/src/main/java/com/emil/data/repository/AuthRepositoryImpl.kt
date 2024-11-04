@@ -20,4 +20,8 @@ private val regRequest = RegistrationBody ()
         return  RetrofitInstance.apiService.confirmCode(confirmCodeParam.toDomainModel(param).email,confirmCodeParam.toDomainModel(param).code)
     }
 
+    override suspend fun resendCode(emailParam: String): Response<Unit> {
+        return RetrofitInstance.apiService.resendCode(emailParam)
+    }
+
 }

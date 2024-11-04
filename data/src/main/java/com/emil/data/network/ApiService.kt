@@ -12,4 +12,6 @@ interface ApiService {
 
     @POST("api/users/confirm")
     suspend fun confirmCode(@Query("email") email:String, @Query("code") code: String): Response<Unit>
+    @POST("api/users/resend_code")
+    suspend fun resendCode(@Query("email") emailParam:String): Response<Unit>
 }

@@ -2,6 +2,7 @@ package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -10,11 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import com.emil.linksy.presentation.viewmodel.ConfirmViewModel
+import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
+import com.emil.linksy.presentation.viewmodel.ResendCodeViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,10 +36,14 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
     private lateinit var timerTextView:MaterialTextView
     private lateinit var resendButton:MaterialButton
     private lateinit var cancelButton:MaterialButton
+    private lateinit var timer: CountDownTimer
+    private var isTimerRunning = false
+    private val startTimeInMillis = 60000L
     private lateinit var code:String
     private lateinit var editTexts:List<EditText>
     private lateinit var numList:Array<EditText>
-    private val registrationViewModel: ConfirmViewModel by viewModel<ConfirmViewModel> ()
+    private val confirmCodeViewModel: ConfirmCodeViewModel by viewModel<ConfirmCodeViewModel> ()
+    private val resendCodeViewModel: ResendCodeViewModel by viewModel<ResendCodeViewModel> ()
     private val TAG  = this.javaClass.simpleName
 
     override fun getTheme() = R.style.BottomSheetDialogTheme
@@ -65,10 +72,21 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
          num5editText = view.findViewById(R.id.et_num5)
          emailTextView =view.findViewById(R.id.tv_email)
          invalidCodeTextView = view.findViewById(R.id.tv_invalid_code)
+        cancelButton = view.findViewById(R.id.bt_cancel)
+        resendButton = view.findViewById(R.id.bt_send_new_code)
+        timerTextView = view.findViewById(R.id.tv_timer)
          numList = arrayOf(num1editText,num2editText,num3editText,num4editText,num5editText)
          emailTextView.text = email
          editTexts = numList.toList()
-         setupEditTexts()
+        cancelButton.setOnClickListener {
+            dialog?.dismiss()
+        }
+        resendButton.setOnClickListener {
+              resendCodeViewModel.resend(email, onError = { showToast(requireContext(),R.string.failed_connection) })
+              startTimer()
+        }
+        setupEditTexts()
+        startTimer()
          return view
     }
 
@@ -98,19 +116,44 @@ class ConfirmCodeBottomSheet (private var email:String): BottomSheetDialogFragme
         }
     }
 
-
-
-
     private fun checkAllFields() {
         val allFilled = editTexts.all { it.text.isNotEmpty() }
         if (allFilled) {
             code = editTexts.joinToString("") { it.text.toString() }
-            registrationViewModel.confirm(email,code,
+           confirmCodeViewModel.confirm(email,code,
                 onSuccess = {Log.i(TAG,"Sucess")},
                 onIncorrect = {invalidCodeTextView.show()
                     changeEditTextBackgroundColor(requireContext(),BackgroundState.ERROR,*numList)
                 }, onError = { Log.e(TAG,"Error") }
             )
         }
+    }
+
+    private fun startTimer() {
+        resendButton.isEnabled = false
+        resendButton.alpha = 0.5f
+        timerTextView.show()
+        timer = object : CountDownTimer(startTimeInMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                updateTimerText(millisUntilFinished)
+            }
+            override fun onFinish() {
+                isTimerRunning = false
+                timerFinishedAction()
+            }
+        }.start()
+        isTimerRunning = true
+    }
+    private fun updateTimerText(millisUntilFinished: Long) {
+        val seconds = (millisUntilFinished / 1000) % 60
+        val minutes = (millisUntilFinished / 1000) / 60
+        timerTextView.text = String.format("%02d:%02d", minutes, seconds)
+    }
+    private fun timerFinishedAction() {
+        resendButton.isEnabled = true
+        resendButton.alpha = 1f
+        timer.cancel()
+        isTimerRunning = false
+        timerTextView.hide()
     }
 }

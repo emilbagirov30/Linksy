@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.ConfirmCodeParam
 import com.emil.domain.usecase.ConfirmCodeUseCase
-import com.emil.domain.usecase.RegisterUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ConfirmViewModel(private val confirmUseCase: ConfirmCodeUseCase) : ViewModel () {
+class ConfirmCodeViewModel(private val confirmUseCase: ConfirmCodeUseCase) : ViewModel () {
     fun confirm (email:String,code:String,onSuccess: () -> Unit, onIncorrect: () -> Unit, onError: (Throwable) -> Unit){
         viewModelScope.launch {
             try{
