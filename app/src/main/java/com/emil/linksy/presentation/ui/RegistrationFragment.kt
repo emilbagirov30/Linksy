@@ -178,6 +178,7 @@ class RegistrationFragment : Fragment() {
                     },
                     onConflict = {
                         registrationViewModel.setErrorState("emailExist", true)
+                        registrationViewModel.setBackgroundState("email", BackgroundState.ERROR)
                     },
                     onError = { showToast(requireContext(), R.string.failed_connection) },
                     onEnd = { loading.gone() }

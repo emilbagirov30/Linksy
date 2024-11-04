@@ -1,15 +1,12 @@
 package com.emil.linksy.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.UserRegistrationData
 import com.emil.domain.usecase.RegisterUseCase
 import com.emil.linksy.util.BackgroundState
-import com.emil.presentation.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
