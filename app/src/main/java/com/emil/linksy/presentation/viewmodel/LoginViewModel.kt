@@ -3,7 +3,6 @@ package com.emil.linksy.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.UserLoginData
-import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.LoginUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

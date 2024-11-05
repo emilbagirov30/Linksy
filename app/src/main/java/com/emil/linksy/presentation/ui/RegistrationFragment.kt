@@ -1,21 +1,16 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.lifecycle.SavedStateHandle
 import com.emil.linksy.presentation.custom_view.CustomProgressBar
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
@@ -29,13 +24,10 @@ import com.emil.linksy.util.isValidEmail
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
 import com.emil.presentation.R
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+
 
 class RegistrationFragment : Fragment() {
 

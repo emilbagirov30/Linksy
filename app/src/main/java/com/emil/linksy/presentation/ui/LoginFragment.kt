@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.emil.linksy.presentation.custom_view.CustomProgressBar
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
-import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.hideKeyboard

@@ -12,9 +12,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.core.widget.addTextChangedListener
 import com.emil.linksy.presentation.custom_view.CustomProgressBar
-import com.emil.linksy.presentation.viewmodel.LoginViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.Linksy
@@ -37,6 +35,7 @@ class PasswordRecoveryFragment : Fragment() {
     private lateinit var  emailEditText: EditText
     private lateinit var  continueButton: MaterialButton
     private lateinit var  emailInvalidFormatTextView: MaterialTextView
+    private lateinit var  userNotFoundTextView: MaterialTextView
     private lateinit var loading: CustomProgressBar
     private lateinit var email: String
     private lateinit var  requestPasswordChangeLinerLayout: LinearLayout
@@ -73,6 +72,7 @@ class PasswordRecoveryFragment : Fragment() {
         emailEditText = view.findViewById(R.id.et_email)
         continueButton = view.findViewById(R.id.bt_continue)
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
+        userNotFoundTextView = view.findViewById(R.id.tv_user_not_found)
         loading = view.findViewById(R.id.cpb_loading)
         requestPasswordChangeLinerLayout = view.findViewById (R.id.ll_request_password_change)
         confirmPasswordChangeLinerLayout = view.findViewById (R.id.ll_confirm_password_change)
@@ -94,6 +94,7 @@ class PasswordRecoveryFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
+                userNotFoundTextView.hide()
                 isValidEmail = emailEditText.string().isValidEmail()
                 if (isValidEmail){
                     continueButton.isEnabled = true
@@ -109,6 +110,7 @@ class PasswordRecoveryFragment : Fragment() {
         })
 
     continueButton.setOnClickListener {
+        hideKeyboard(requireContext(),view)
     loading.visible()
     email = emailEditText.string()
     recoveryPasswordViewModel.requestPasswordChange(email,
@@ -118,7 +120,7 @@ class PasswordRecoveryFragment : Fragment() {
             emailTextView.text = email
 
                     },
-        onIncorrect = { showToast(requireContext(), R.string.user_not_found) },
+        onIncorrect = { userNotFoundTextView.show()},
         onError = {showToast(requireContext(), R.string.failed_connection)},
         onEnd = {loading.gone()}
         )
@@ -153,7 +155,11 @@ class PasswordRecoveryFragment : Fragment() {
                 recoveryPasswordViewModel.confirmPasswordChange(code,
                     email,
                     password,
-                    onSuccess = {},
+                    onSuccess = {requestPasswordChangeLinerLayout.show()
+                                 confirmPasswordChangeLinerLayout.hide()
+                                 showToast(requireContext(), R.string.password_update)
+                                 emailEditText.setText("")
+                                },
                     onIncorrect = {
                         invalidCodeTextView.text = getString(R.string.invalid_confirmation_code)
                         changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, codeEditText)

@@ -37,6 +37,6 @@
     <string name="new_password">New Password</string>
     <string name="change_button">Change</string>
     <string name="invalid_code_length">Enter a five-digit code</string>
-
+    <string name="password_update">Password updated</string>
 
 </resources>
