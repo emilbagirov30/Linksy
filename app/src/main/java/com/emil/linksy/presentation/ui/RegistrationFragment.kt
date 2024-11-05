@@ -22,6 +22,7 @@ import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.string
 import com.emil.linksy.util.togglePasswordVisibility
 import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.hideKeyboard
 import com.emil.linksy.util.isValidEmail
@@ -220,7 +221,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun isPasswordLengthValid(password: String) {
-        if (password.length < 6) {
+        if (password.length < Linksy.PASSWORD_MIN_LENGTH) {
             registrationViewModel.setErrorState("passwordShort", true)
             registrationViewModel.setBackgroundState("password", BackgroundState.ERROR)
             registrationViewModel.setBackgroundState("passwordConfirm", BackgroundState.ERROR)

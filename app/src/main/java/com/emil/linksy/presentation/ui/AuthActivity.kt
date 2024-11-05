@@ -1,10 +1,12 @@
 package com.emil.linksy.presentation.ui
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.emil.presentation.R
-
+import com.emil.linksy.util.replaceFragment
 
 class AuthActivity : AppCompatActivity() {
+    @SuppressLint("CommitTransaction")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)

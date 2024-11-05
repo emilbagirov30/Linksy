@@ -39,14 +39,12 @@
         android:text="@string/email_is_already_registered">
 
     </com.google.android.material.textview.MaterialTextView>
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_error_isNotMail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/TextErrorStyle"
-        android:text="@string/invalid_email_format">
 
-    </com.google.android.material.textview.MaterialTextView>
+    <include
+        android:id="@+id/tv_error_isNotMail"
+        layout="@layout/invalid_email_format_text"
+        />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -100,14 +98,10 @@
 
     </com.google.android.material.textview.MaterialTextView>
 
-    <com.google.android.material.textview.MaterialTextView
+    <include
         android:id="@+id/tv_error_password_short"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/TextErrorStyle"
-        android:text="@string/password_length_short">
-
-    </com.google.android.material.textview.MaterialTextView>
+        layout="@layout/password_short_text"
+        />
 
 
     <com.google.android.material.button.MaterialButton
@@ -121,11 +115,7 @@
     </com.google.android.material.button.MaterialButton>
     <com.emil.linksy.presentation.custom_view.CustomProgressBar
         android:id="@+id/cpb_loading"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:visibility="gone"
-        android:layout_marginVertical="5dp"
-        android:layout_gravity="center">
+      style="@style/CustomProgressBarStyle">
     </com.emil.linksy.presentation.custom_view.CustomProgressBar>
     <LinearLayout
         android:layout_width="wrap_content"

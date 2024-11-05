@@ -15,6 +15,7 @@ import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.hide
+import com.emil.linksy.util.hideKeyboard
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
 import com.emil.presentation.R
@@ -136,6 +137,7 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
     private fun checkAllFields() {
         val allFilled = editTexts.all { it.text.isNotEmpty() }
         if (allFilled) {
+            hideAllError()
             code = editTexts.joinToString("") { it.text.toString() }
            confirmCodeViewModel.confirm(email,code,
                 onSuccess = {Log.i(TAG,"Sucess")},
@@ -180,5 +182,9 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
             timer.cancel()
             isTimerRunning = false
         }
+    }
+    private fun hideAllError() {
+        invalidCodeTextView.hide()
+        changeEditTextBackgroundColor(requireContext(),BackgroundState.DEFAULT,*numList)
     }
 }

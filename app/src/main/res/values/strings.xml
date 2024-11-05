@@ -32,6 +32,7 @@
     <string name="didn_t_receive_the_code">Didn\'t receive the code?</string>
     <string name="cancel">Cancel</string>
     <string name="resend">Resend</string>
+    <string name="user_not_found">The user was not found</string>
 
 
 </resources>

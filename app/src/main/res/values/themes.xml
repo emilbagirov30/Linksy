@@ -87,6 +87,12 @@
     <style name="AppModalStyle" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:background">@drawable/bottom_sheet_rounded</item>
     </style>
-
+    <style name="CustomProgressBarStyle" >
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 
 </resources>

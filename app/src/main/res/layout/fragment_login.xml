@@ -23,6 +23,11 @@
         android:hint="@string/hint_email">
     </EditText>
 
+    <include
+        android:id="@+id/tv_error_isNotMail"
+        layout="@layout/invalid_email_format_text"
+        />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -43,6 +48,11 @@
             />
 
     </RelativeLayout>
+    <include
+        android:id="@+id/tv_error_password_short"
+        layout="@layout/password_short_text"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,7 +89,11 @@
 
     </com.google.android.material.button.MaterialButton>
 
+    <com.emil.linksy.presentation.custom_view.CustomProgressBar
+        android:id="@+id/cpb_loading"
+        style="@style/CustomProgressBarStyle">
 
+    </com.emil.linksy.presentation.custom_view.CustomProgressBar>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_create_account"
         android:layout_width="wrap_content"

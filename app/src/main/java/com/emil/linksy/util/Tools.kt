@@ -16,6 +16,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.emil.presentation.R
 
+class Linksy {
+    companion object {
+        const val PASSWORD_MIN_LENGTH = 6
+    }
+}
+
+
 fun togglePasswordVisibility(passwordEditText: EditText, toggleButton: ImageView) {
 
     if (passwordEditText.transformationMethod is PasswordTransformationMethod) {
