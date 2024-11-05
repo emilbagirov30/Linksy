@@ -56,6 +56,10 @@ class RegistrationFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private lateinit var bsDialog: ConfirmCodeBottomSheet
     companion object private var errorCount = 0
+    private lateinit var username:String
+    private lateinit var email:String
+    private lateinit var password:String
+    private lateinit var confirmPassword:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -160,12 +164,12 @@ class RegistrationFragment : Fragment() {
         signUpButton.setOnClickListener {
             hideAllError()
             hideKeyboard(requireContext(), view)
-            val username = usernameEditText.string()
-            val email = emailEditText.string()
-            val password = passwordEditText.string()
-            val passwordConfirm = passwordConfirmEditText.string()
+            username = usernameEditText.string()
+            email = emailEditText.string()
+            password = passwordEditText.string()
+            confirmPassword = passwordConfirmEditText.string()
 
-            isPasswordValid(password, passwordConfirm)
+            isPasswordValid(password, confirmPassword)
             isPasswordLengthValid(password)
             isEmailValid(email)
 
@@ -193,10 +197,10 @@ class RegistrationFragment : Fragment() {
 
 
     private fun checkFieldsForEmptyValues() {
-        val username = usernameEditText.string()
-        val email = emailEditText.string()
-        val password = passwordEditText.string()
-        val confirmPassword = passwordConfirmEditText.string()
+        username = usernameEditText.string()
+        email = emailEditText.string()
+        password = passwordEditText.string()
+        confirmPassword = passwordConfirmEditText.string()
         signUpButton.isEnabled =
             username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
     }

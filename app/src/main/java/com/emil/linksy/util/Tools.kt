@@ -19,6 +19,7 @@ import com.emil.presentation.R
 class Linksy {
     companion object {
         const val PASSWORD_MIN_LENGTH = 6
+        const val CODE_MIN_LENGTH = 5
     }
 }
 

@@ -41,6 +41,8 @@ class LoginFragment : Fragment() {
     private lateinit var loading: CustomProgressBar
     private val loginViewModel: LoginViewModel by viewModel<LoginViewModel>()
     private val TAG = this.javaClass.simpleName
+    private lateinit var email:String
+    private lateinit var password:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -90,8 +92,8 @@ class LoginFragment : Fragment() {
         return view
     }
     private fun checkFieldsForValidValues() {
-        val email = emailEditText.string()
-        val password = passwordEditText.string()
+        email = emailEditText.string()
+        password = passwordEditText.string()
 
         fun checkPassword(password: String) {
             when {

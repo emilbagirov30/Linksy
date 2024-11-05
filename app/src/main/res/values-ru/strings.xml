@@ -28,4 +28,8 @@
     <string name="cancel">Отменить</string>
     <string name="resend">Отправить повторно</string>
     <string name="user_not_found">Пользователь не найден</string>
+    <string name="code">Код</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="change_button">Поменять</string>
+    <string name="invalid_code_length">Введите пятизначный код</string>
 </resources>

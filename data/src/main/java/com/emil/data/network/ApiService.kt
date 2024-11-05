@@ -1,5 +1,6 @@
 package com.emil.data.network
 
+import com.emil.data.model.PasswordChangeBody
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.UserLoginBody
 import retrofit2.Response
@@ -17,5 +18,10 @@ interface ApiService {
     suspend fun resendCode(@Query("email") emailParam:String): Response<Unit>
     @POST("api/users/login")
     suspend fun login(@Body request:UserLoginBody): Response<Unit>
+    @POST("api/users/request_password_change")
+    suspend fun requestPasswordChange(@Query("email") emailParam:String): Response<Unit>
+
+    @POST("api/users/confirm_password_change")
+    suspend fun confirmPasswordChange(@Body request:PasswordChangeBody): Response<Unit>
 
 }

@@ -1,6 +1,7 @@
 package com.emil.domain.repository
 
 import com.emil.domain.model.ConfirmCodeParam
+import com.emil.domain.model.PasswordChangeData
 import com.emil.domain.model.UserLoginData
 import com.emil.domain.model.UserRegistrationData
 import retrofit2.Response
@@ -11,4 +12,7 @@ interface AuthRepository {
     suspend fun resendCode(emailParam: String): Response<Unit>
 
     suspend fun logIn(userLogin:UserLoginData): Response<Unit>
+
+    suspend fun requestPasswordChange (emailParam:String): Response<Unit>
+    suspend fun confirmPasswordChange (passwordChangeData: PasswordChangeData):Response<Unit>
 }

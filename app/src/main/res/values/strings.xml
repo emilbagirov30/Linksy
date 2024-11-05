@@ -33,6 +33,10 @@
     <string name="cancel">Cancel</string>
     <string name="resend">Resend</string>
     <string name="user_not_found">The user was not found</string>
+    <string name="code">Code</string>
+    <string name="new_password">New Password</string>
+    <string name="change_button">Change</string>
+    <string name="invalid_code_length">Enter a five-digit code</string>
 
 
 </resources>

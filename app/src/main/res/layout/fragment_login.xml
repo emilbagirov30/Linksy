@@ -92,8 +92,8 @@
     <com.emil.linksy.presentation.custom_view.CustomProgressBar
         android:id="@+id/cpb_loading"
         style="@style/CustomProgressBarStyle">
-
     </com.emil.linksy.presentation.custom_view.CustomProgressBar>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_create_account"
         android:layout_width="wrap_content"
