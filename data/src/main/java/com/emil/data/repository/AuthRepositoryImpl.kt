@@ -14,8 +14,8 @@ import com.emil.domain.repository.AuthRepository
 import retrofit2.Response
 
 class AuthRepositoryImpl : AuthRepository {
-private val regRequest = RegistrationBody ()
-    private val confirmCodeParam =ConfirmCodeQuery ()
+    private val regRequest = RegistrationBody ()
+    private val confirmCodeParam = ConfirmCodeQuery ()
     private val loginRequest = UserLoginBody ()
     private val passwordChangeRequest = PasswordChangeBody ()
     override suspend fun registerUser(request: UserRegistrationData):Response<Unit> {

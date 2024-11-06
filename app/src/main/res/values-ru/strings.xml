@@ -33,4 +33,5 @@
     <string name="change_button">Поменять</string>
     <string name="invalid_code_length">Введите пятизначный код</string>
     <string name="password_update">Пароль изменён</string>
+    <string name="registration_successful">Регистрация прошла успешно!</string>
 </resources>

@@ -10,9 +10,7 @@ interface AuthRepository {
     suspend fun registerUser(request: UserRegistrationData): Response<Unit>
     suspend fun confirmCode(param: ConfirmCodeParam): Response<Unit>
     suspend fun resendCode(emailParam: String): Response<Unit>
-
     suspend fun logIn(userLogin:UserLoginData): Response<Unit>
-
     suspend fun requestPasswordChange (emailParam:String): Response<Unit>
     suspend fun confirmPasswordChange (passwordChangeData: PasswordChangeData):Response<Unit>
 }

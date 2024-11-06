@@ -15,6 +15,7 @@ import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.hide
+import com.emil.linksy.util.replaceFragment
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
 import com.emil.presentation.R
@@ -139,10 +140,12 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
             hideAllError()
             code = editTexts.joinToString("") { it.text.toString() }
            confirmCodeViewModel.confirm(email,code,
-                onSuccess = {Log.i(TAG,"Sucess")},
+                onSuccess = {replaceFragment(LoginFragment())
+                             showToast(requireContext(), R.string.registration_successful)
+                            },
                 onIncorrect = {invalidCodeTextView.show()
                     changeEditTextBackgroundColor(requireContext(),BackgroundState.ERROR,*numList)
-                }, onError = { Log.e(TAG,"Error") }
+                }, onError = { showToast(requireContext(), R.string.failed_connection) }
             )
         }
     }
