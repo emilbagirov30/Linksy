@@ -36,7 +36,7 @@ class PasswordRecoveryFragment : Fragment() {
     private lateinit var  continueButton: MaterialButton
     private lateinit var  emailInvalidFormatTextView: MaterialTextView
     private lateinit var  userNotFoundTextView: MaterialTextView
-    private lateinit var loading: CustomProgressBar
+    private lateinit var loading: LoadingDialog
     private lateinit var email: String
     private lateinit var  requestPasswordChangeLinerLayout: LinearLayout
     private lateinit var  confirmPasswordChangeLinerLayout: LinearLayout
@@ -73,7 +73,7 @@ class PasswordRecoveryFragment : Fragment() {
         continueButton = view.findViewById(R.id.bt_continue)
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         userNotFoundTextView = view.findViewById(R.id.tv_user_not_found)
-        loading = view.findViewById(R.id.cpb_loading)
+        loading = LoadingDialog(requireContext())
         requestPasswordChangeLinerLayout = view.findViewById (R.id.ll_request_password_change)
         confirmPasswordChangeLinerLayout = view.findViewById (R.id.ll_confirm_password_change)
         emailTextView = view.findViewById(R.id.tv_email)
@@ -111,7 +111,7 @@ class PasswordRecoveryFragment : Fragment() {
 
     continueButton.setOnClickListener {
         hideKeyboard(requireContext(),view)
-    loading.visible()
+    loading.show()
     email = emailEditText.string()
     recoveryPasswordViewModel.requestPasswordChange(email,
         onSuccess = {
@@ -122,7 +122,7 @@ class PasswordRecoveryFragment : Fragment() {
                     },
         onIncorrect = { userNotFoundTextView.show()},
         onError = {showToast(requireContext(), R.string.failed_connection)},
-        onEnd = {loading.gone()}
+        onEnd = {loading.dismiss()}
         )
 }
         backButton.setOnClickListener { replaceFragment(LoginFragment()) }
@@ -151,7 +151,7 @@ class PasswordRecoveryFragment : Fragment() {
             isValidCodeLength(code)
 
             if (errorCount==0) {
-                loading.visible()
+                loading.show()
                 recoveryPasswordViewModel.confirmPasswordChange(code,
                     email,
                     password,
@@ -167,7 +167,7 @@ class PasswordRecoveryFragment : Fragment() {
 
                     },
                     onError = { showToast(requireContext(), R.string.failed_connection) },
-                    onEnd = { loading.gone() }
+                    onEnd = { loading.dismiss() }
 
 
                 )

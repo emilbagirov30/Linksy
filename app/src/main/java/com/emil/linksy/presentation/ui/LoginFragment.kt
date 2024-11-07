@@ -1,4 +1,5 @@
 package com.emil.linksy.presentation.ui
+import android.content.Intent
 import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import android.text.Editable
@@ -37,7 +38,7 @@ class LoginFragment : Fragment() {
     private lateinit var changeInputTypePasswordButton: ImageView
     private lateinit var emailInvalidFormatTextView: MaterialTextView
     private lateinit var passwordShortTextView: MaterialTextView
-    private lateinit var loading: CustomProgressBar
+    private lateinit var loading: LoadingDialog
     private val loginViewModel: LoginViewModel by viewModel<LoginViewModel>()
     private val TAG = this.javaClass.simpleName
     private lateinit var email:String
@@ -60,7 +61,7 @@ class LoginFragment : Fragment() {
         rememberCheckBox = view.findViewById(R.id.cb_remember)
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         passwordShortTextView = view.findViewById(R.id.tv_error_password_short)
-        loading = view.findViewById(R.id.cpb_loading)
+        loading = LoadingDialog(requireContext())
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { checkFieldsForValidValues() }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -75,16 +76,19 @@ class LoginFragment : Fragment() {
 
 
         loginButton.setOnClickListener {
-            loading.visible()
+            loading.show()
             hideAllError()
             hideKeyboard(requireContext(), view)
             val email = emailEditText.string()
             val password = passwordEditText.string()
             loginViewModel.login(
-                email = email, password = password, onSuccess = {Log.i(TAG,"Sucess")},
+                email = email, password = password, onSuccess = {
+                    val switchingToUserActivity = Intent(activity, UserActivity::class.java)
+                    startActivity(switchingToUserActivity)
+                    },
                 onIncorrect = {showToast(requireContext(), R.string.user_not_found)},
                 onError =  { showToast(requireContext(), R.string.failed_connection) },
-                onEnd = { loading.gone() })
+                onEnd = { loading.dismiss() })
         }
         createAccountButton.setOnClickListener { replaceFragment(RegistrationFragment()) }
         forgotLink.setOnClickListener { replaceFragment(PasswordRecoveryFragment()) }

@@ -113,10 +113,7 @@
         android:text="@string/sign_up_button">
 
     </com.google.android.material.button.MaterialButton>
-    <com.emil.linksy.presentation.custom_view.CustomProgressBar
-        android:id="@+id/cpb_loading"
-      style="@style/CustomProgressBarStyle">
-    </com.emil.linksy.presentation.custom_view.CustomProgressBar>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

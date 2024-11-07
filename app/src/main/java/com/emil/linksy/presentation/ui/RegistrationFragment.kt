@@ -43,7 +43,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var emailInvalidFormatTextView: MaterialTextView
     private lateinit var passwordMismatchTextView: MaterialTextView
     private lateinit var passwordShortTextView: MaterialTextView
-    private lateinit var loading: CustomProgressBar
+    private lateinit var loading: LoadingDialog
     private val registrationViewModel: RegistrationViewModel by viewModel<RegistrationViewModel>()
     private val TAG = this.javaClass.simpleName
     private lateinit var bsDialog: ConfirmCodeBottomSheet
@@ -77,8 +77,7 @@ class RegistrationFragment : Fragment() {
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         passwordMismatchTextView = view.findViewById(R.id.tv_error_password_mismatch)
         passwordShortTextView = view.findViewById(R.id.tv_error_password_short)
-        loading = view.findViewById(R.id.cpb_loading)
-
+        loading = LoadingDialog(requireContext())
         registrationViewModel.username.observe(viewLifecycleOwner) { text ->
             if (usernameEditText.text.toString() != text)
                 usernameEditText.setText(text)
@@ -166,7 +165,7 @@ class RegistrationFragment : Fragment() {
             isEmailValid(email)
 
             if (errorCount == 0) {
-                loading.visible()
+               loading.show()
                 registrationViewModel.register(username, email, password,
                     onAccepted = {
                         bsDialog = ConfirmCodeBottomSheet.newInstance(email)
@@ -178,7 +177,7 @@ class RegistrationFragment : Fragment() {
                         registrationViewModel.setBackgroundState("email", BackgroundState.ERROR)
                     },
                     onError = { showToast(requireContext(), R.string.failed_connection) },
-                    onEnd = { loading.gone() }
+                    onEnd = { loading.dismiss() }
 
                 )
 
