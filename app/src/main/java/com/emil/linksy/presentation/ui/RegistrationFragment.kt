@@ -77,7 +77,7 @@ class RegistrationFragment : Fragment() {
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         passwordMismatchTextView = view.findViewById(R.id.tv_error_password_mismatch)
         passwordShortTextView = view.findViewById(R.id.tv_error_password_short)
-        loading = LoadingDialog(requireContext())
+
         registrationViewModel.username.observe(viewLifecycleOwner) { text ->
             if (usernameEditText.text.toString() != text)
                 usernameEditText.setText(text)
@@ -165,7 +165,8 @@ class RegistrationFragment : Fragment() {
             isEmailValid(email)
 
             if (errorCount == 0) {
-               loading.show()
+                loading = LoadingDialog(requireContext())
+                loading.show()
                 registrationViewModel.register(username, email, password,
                     onAccepted = {
                         bsDialog = ConfirmCodeBottomSheet.newInstance(email)

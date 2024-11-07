@@ -61,7 +61,6 @@ class LoginFragment : Fragment() {
         rememberCheckBox = view.findViewById(R.id.cb_remember)
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         passwordShortTextView = view.findViewById(R.id.tv_error_password_short)
-        loading = LoadingDialog(requireContext())
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { checkFieldsForValidValues() }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -76,6 +75,7 @@ class LoginFragment : Fragment() {
 
 
         loginButton.setOnClickListener {
+            loading = LoadingDialog(requireContext())
             loading.show()
             hideAllError()
             hideKeyboard(requireContext(), view)

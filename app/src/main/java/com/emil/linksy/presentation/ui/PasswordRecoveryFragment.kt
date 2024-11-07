@@ -73,7 +73,6 @@ class PasswordRecoveryFragment : Fragment() {
         continueButton = view.findViewById(R.id.bt_continue)
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         userNotFoundTextView = view.findViewById(R.id.tv_user_not_found)
-        loading = LoadingDialog(requireContext())
         requestPasswordChangeLinerLayout = view.findViewById (R.id.ll_request_password_change)
         confirmPasswordChangeLinerLayout = view.findViewById (R.id.ll_confirm_password_change)
         emailTextView = view.findViewById(R.id.tv_email)
@@ -111,7 +110,8 @@ class PasswordRecoveryFragment : Fragment() {
 
     continueButton.setOnClickListener {
         hideKeyboard(requireContext(),view)
-    loading.show()
+        loading = LoadingDialog(requireContext())
+        loading.show()
     email = emailEditText.string()
     recoveryPasswordViewModel.requestPasswordChange(email,
         onSuccess = {
@@ -151,6 +151,7 @@ class PasswordRecoveryFragment : Fragment() {
             isValidCodeLength(code)
 
             if (errorCount==0) {
+                loading = LoadingDialog(requireContext())
                 loading.show()
                 recoveryPasswordViewModel.confirmPasswordChange(code,
                     email,

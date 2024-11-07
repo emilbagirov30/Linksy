@@ -2,6 +2,7 @@ package com.emil.linksy.presentation.ui
 
 import android.app.Dialog
 import android.content.Context
+import com.emil.linksy.presentation.custom_view.CustomProgressBar
 import com.emil.presentation.R
 
 class LoadingDialog (private val context: Context): Dialog(context,R.style.LoadingDialog) {
