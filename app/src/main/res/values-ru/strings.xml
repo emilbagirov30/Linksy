@@ -34,4 +34,9 @@
     <string name="invalid_code_length">Введите пятизначный код</string>
     <string name="password_update">Пароль изменён</string>
     <string name="registration_successful">Регистрация прошла успешно!</string>
+    <string name="profile">Профиль</string>
+    <string name="channels">Каналы</string>
+    <string name="chats">Чаты</string>
+    <string name="friends">Друзья</string>
+    <string name="settings">Настройки</string>
 </resources>

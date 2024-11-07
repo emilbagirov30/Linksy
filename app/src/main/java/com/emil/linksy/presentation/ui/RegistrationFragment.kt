@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -77,7 +78,6 @@ class RegistrationFragment : Fragment() {
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         passwordMismatchTextView = view.findViewById(R.id.tv_error_password_mismatch)
         passwordShortTextView = view.findViewById(R.id.tv_error_password_short)
-
         registrationViewModel.username.observe(viewLifecycleOwner) { text ->
             if (usernameEditText.text.toString() != text)
                 usernameEditText.setText(text)

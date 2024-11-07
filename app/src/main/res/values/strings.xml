@@ -39,4 +39,9 @@
     <string name="invalid_code_length">Enter a five-digit code</string>
     <string name="password_update">Password updated</string>
     <string name="registration_successful">Registration successful!</string>
+    <string name="profile">Profile</string>
+    <string name="channels">Channels</string>
+    <string name="chats">Chats</string>
+    <string name="friends">Friends</string>
+    <string name="settings">Settings</string>
 </resources>
