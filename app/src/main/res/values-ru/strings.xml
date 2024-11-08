@@ -39,4 +39,5 @@
     <string name="chats">Чаты</string>
     <string name="friends">Друзья</string>
     <string name="settings">Настройки</string>
+    <string name="feed">Лента</string>
 </resources>

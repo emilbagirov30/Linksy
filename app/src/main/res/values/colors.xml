@@ -10,5 +10,7 @@
     <color name="link">#137EB3</color>
     <color name="code_edit_text">#4C4C4C</color>
     <color name="textView_error_message">#A51717</color>
-    <color name="red">#952D2D</color>
+    <color name="red">#BC4747</color>
+    <color name="neutral">#285F85</color>
+    <color name="gray">#777676</color>
 </resources>

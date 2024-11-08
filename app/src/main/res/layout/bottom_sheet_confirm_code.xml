@@ -112,9 +112,8 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:alpha= "0.1"
-                app:backgroundTint="@color/colorPrimary"
+                app:backgroundTint="@color/neutral"
                 android:textColor="@color/white"
-                android:background="@android:drawable/dialog_holo_light_frame"
                 android:text="@string/resend">
             </com.google.android.material.button.MaterialButton>
 
@@ -124,7 +123,6 @@
             android:layout_height="wrap_content"
             app:backgroundTint="@color/red"
             android:textColor="@color/white"
-            android:background="@android:drawable/dialog_holo_light_frame"
             android:text="@string/cancel">
 
         </com.google.android.material.button.MaterialButton>
