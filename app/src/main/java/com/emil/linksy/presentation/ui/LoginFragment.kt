@@ -81,8 +81,10 @@ class LoginFragment : Fragment() {
             hideKeyboard(requireContext(), view)
             val email = emailEditText.string()
             val password = passwordEditText.string()
+            val isMemorized = rememberCheckBox.isChecked
             loginViewModel.login(
                 email = email, password = password, onSuccess = {
+                    if (isMemorized) rememberToLogin()
                     val switchingToUserActivity = Intent(activity, UserActivity::class.java)
                     startActivity(switchingToUserActivity)
                     },
@@ -117,5 +119,12 @@ class LoginFragment : Fragment() {
     private fun hideAllError() {
         passwordShortTextView.hide()
         emailInvalidFormatTextView.hide()
+    }
+
+    private fun rememberToLogin (){
+        val sharedPref: SharedPreferences = requireContext().getSharedPreferences("appData", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putBoolean("remember", true)
+        editor.apply()
     }
 }

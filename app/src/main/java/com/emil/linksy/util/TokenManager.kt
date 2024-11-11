@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class TokenManager(context: Context) {
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("AuthPreferences", Context.MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("TokenData", Context.MODE_PRIVATE)
 
     fun saveTokens(accessToken: String, refreshToken: String) {
         val editor = sharedPreferences.edit()

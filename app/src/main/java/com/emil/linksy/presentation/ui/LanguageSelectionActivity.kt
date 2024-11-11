@@ -19,14 +19,16 @@ class LanguageSelectionActivity : AppCompatActivity() {
     private lateinit var languageSelector: Spinner
     private lateinit var sharedPref: SharedPreferences
     private lateinit var selectedLanguage: String
-
+    private var  isRemember:Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE)
+        isRemember =  sharedPref.getBoolean("remember", false)
         sharedPref.getString("language", null)?.let { language ->
             applyLocaleAndSwitch(language)
             return
         }
+
         setContentView(R.layout.activity_language_selection)
         next = findViewById(R.id.bt_next)
         languageSelector = findViewById(R.id.language_spinner)
@@ -60,7 +62,8 @@ class LanguageSelectionActivity : AppCompatActivity() {
 
     private fun applyLocaleAndSwitch(language: String) {
         LocaleManager.setLocale(this, language)
-        startActivity(Intent(this, AuthActivity::class.java))
+        if (isRemember) startActivity(Intent(this, UserActivity::class.java))
+        else startActivity(Intent(this, AuthActivity::class.java))
         finish()
     }
 }
