@@ -1,5 +1,7 @@
 package com.emil.linksy.presentation.ui
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import android.text.Editable
@@ -72,8 +74,6 @@ class LoginFragment : Fragment() {
         changeInputTypePasswordButton.setOnClickListener {
             togglePasswordVisibility(passwordEditText, changeInputTypePasswordButton)
         }
-
-
         loginButton.setOnClickListener {
             loading = LoadingDialog(requireContext())
             loading.show()

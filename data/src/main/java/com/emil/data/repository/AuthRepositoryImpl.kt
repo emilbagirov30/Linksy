@@ -8,6 +8,7 @@ import com.emil.data.model.toDomainModel
 import com.emil.data.network.RetrofitInstance
 import com.emil.domain.model.ConfirmCodeParam
 import com.emil.domain.model.PasswordChangeData
+import com.emil.domain.model.Token
 import com.emil.domain.model.UserLoginData
 import com.emil.domain.model.UserRegistrationData
 import com.emil.domain.repository.AuthRepository
@@ -30,7 +31,7 @@ class AuthRepositoryImpl : AuthRepository {
         return RetrofitInstance.apiService.resendCode(emailParam)
     }
 
-    override suspend fun logIn(userLogin: UserLoginData): Response<Unit> {
+    override suspend fun logIn(userLogin: UserLoginData): Response<Token> {
         return RetrofitInstance.apiService.login(loginRequest.toDomainModel(userLogin))
     }
 
