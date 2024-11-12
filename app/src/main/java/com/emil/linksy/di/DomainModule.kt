@@ -6,6 +6,7 @@ import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.RegisterUseCase
 import com.emil.domain.usecase.RequestPasswordChangeUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
+import com.emil.domain.usecase.UserDataUseCase
 import org.koin.dsl.module
 
 
@@ -28,5 +29,8 @@ val domainModule = module {
     }
     factory<ConfirmPasswordChangeUseCase>{
         ConfirmPasswordChangeUseCase(authRepository = get())
+    }
+    factory<UserDataUseCase>{
+       UserDataUseCase(userRepository = get())
     }
 }

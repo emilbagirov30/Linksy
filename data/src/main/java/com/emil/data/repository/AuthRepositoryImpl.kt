@@ -32,7 +32,12 @@ class AuthRepositoryImpl : AuthRepository {
     }
 
     override suspend fun logIn(userLogin: UserLoginData): Response<Token> {
-        return RetrofitInstance.apiService.login(loginRequest.toDomainModel(userLogin))
+        val response = RetrofitInstance.apiService.login(loginRequest.toDomainModel(userLogin))
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModel())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
     }
 
     override suspend fun requestPasswordChange(emailParam: String): Response<Unit> {

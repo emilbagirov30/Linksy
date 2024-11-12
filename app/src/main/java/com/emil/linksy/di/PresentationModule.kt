@@ -4,6 +4,7 @@ import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
 import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
+import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -21,5 +22,8 @@ val presentationModule = module {
     }
     viewModel <RecoveryPasswordViewModel> {
        RecoveryPasswordViewModel(requestPasswordChangeUseCase = get(), confirmPasswordChangeUseCase = get ())
+    }
+    viewModel <UserProfileDataViewModel> {
+      UserProfileDataViewModel(userDataUseCase = get ())
     }
 }

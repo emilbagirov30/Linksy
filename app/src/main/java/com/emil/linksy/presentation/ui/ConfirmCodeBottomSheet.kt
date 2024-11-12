@@ -142,6 +142,7 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
            confirmCodeViewModel.confirm(email,code,
                 onSuccess = {replaceFragment(LoginFragment())
                              showToast(requireContext(), R.string.registration_successful)
+                    dialog?.dismiss()
                             },
                 onIncorrect = {invalidCodeTextView.show()
                     changeEditTextBackgroundColor(requireContext(),BackgroundState.ERROR,*numList)

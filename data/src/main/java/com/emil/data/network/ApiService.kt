@@ -2,10 +2,13 @@ package com.emil.data.network
 
 import com.emil.data.model.PasswordChangeBody
 import com.emil.data.model.RegistrationBody
+import com.emil.data.model.TokenDto
 import com.emil.data.model.UserLoginBody
-import com.emil.domain.model.Token
+import com.emil.data.model.UserProfileDataDto
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -18,11 +21,14 @@ interface ApiService {
     @POST("api/users/resend_code")
     suspend fun resendCode(@Query("email") emailParam:String): Response<Unit>
     @POST("api/users/login")
-    suspend fun login(@Body request:UserLoginBody): Response<Token>
+    suspend fun login(@Body request:UserLoginBody): Response<TokenDto>
     @POST("api/users/request_password_change")
     suspend fun requestPasswordChange(@Query("email") emailParam:String): Response<Unit>
 
     @POST("api/users/confirm_password_change")
     suspend fun confirmPasswordChange(@Body request:PasswordChangeBody): Response<Unit>
+
+    @GET ("api/users/data")
+    suspend fun getUserData (@Header("Authorization") token:String): Response<UserProfileDataDto>
 
 }
