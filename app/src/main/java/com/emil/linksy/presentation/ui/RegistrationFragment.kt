@@ -98,7 +98,8 @@ class RegistrationFragment : Fragment() {
                 passwordConfirmEditText.setText(text)
 
         }
-
+        val switchingToUserActivity = Intent(activity, UserActivity::class.java)
+        startActivity(switchingToUserActivity)
         registrationViewModel.errorStates.observe(viewLifecycleOwner) { errorStates ->
             if (errorStates["emailExist"] == true) emailExistTextView.show() else emailExistTextView.hide()
             if (errorStates["emailInvalidFormat"] == true) emailInvalidFormatTextView.show() else emailInvalidFormatTextView.hide()
@@ -145,7 +146,7 @@ class RegistrationFragment : Fragment() {
             registrationViewModel.setPasswordConfirm(passwordConfirmEditText.string())
         })
 
-        loginButton.setOnClickListener { replaceFragment(LoginFragment()) }
+        loginButton.setOnClickListener { replaceFragment(R.id.fl_fragment_container_auth,LoginFragment()) }
         changeInputTypePasswordButton.setOnClickListener {
             togglePasswordVisibility(passwordEditText, changeInputTypePasswordButton)
         }

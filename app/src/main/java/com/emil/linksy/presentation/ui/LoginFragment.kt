@@ -54,6 +54,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
+        val containerId = R.id.fl_fragment_container_auth
         forgotLink = view.findViewById(R.id.tv_forgot_passsword)
         createAccountButton =  view.findViewById(R.id.bt_create_account)
         emailEditText = view.findViewById(R.id.et_email)
@@ -92,8 +93,8 @@ class LoginFragment : Fragment() {
                 onError =  { showToast(requireContext(), R.string.failed_connection) },
                 onEnd = { loading.dismiss() })
         }
-        createAccountButton.setOnClickListener { replaceFragment(RegistrationFragment()) }
-        forgotLink.setOnClickListener { replaceFragment(PasswordRecoveryFragment()) }
+        createAccountButton.setOnClickListener { replaceFragment(containerId,RegistrationFragment()) }
+        forgotLink.setOnClickListener { replaceFragment(containerId,PasswordRecoveryFragment()) }
         return view
     }
     private fun checkFieldsForValidValues() {

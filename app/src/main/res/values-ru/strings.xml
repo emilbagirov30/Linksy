@@ -40,4 +40,6 @@
     <string name="friends">Друзья</string>
     <string name="settings">Настройки</string>
     <string name="feed">Лента</string>
+    <string name="posts">Посты</string>
+    <string name="photos">Фото</string>
 </resources>

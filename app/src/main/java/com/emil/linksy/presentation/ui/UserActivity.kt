@@ -11,11 +11,13 @@ class UserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
+        val containerId = R.id.fl_fragment_container_user
         bottomNavigationView = findViewById(R.id.bn_main)
+        replaceFragment(containerId,FeedFragment())
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.page_feed -> {
-
+                  replaceFragment(containerId,FeedFragment())
                     true
                 }
                 R.id.page_channels -> {
@@ -30,7 +32,7 @@ class UserActivity : AppCompatActivity() {
                     true
                 }
                 R.id.page_profile -> {
-                   replaceFragment(ProfileFragment ())
+                   replaceFragment(containerId,ProfileFragment ())
                     true
                 }
                 else -> false

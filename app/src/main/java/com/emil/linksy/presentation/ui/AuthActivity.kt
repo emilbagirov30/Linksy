@@ -10,10 +10,11 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        val containerId = R.id.fl_fragment_container_auth
+        val fragment = supportFragmentManager.findFragmentById(containerId)
         if (fragment == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, RegistrationFragment())
+                .add(containerId, RegistrationFragment())
                 .commit()
         }
     }

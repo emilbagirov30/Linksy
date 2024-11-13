@@ -7,17 +7,21 @@
     android:orientation="vertical"
     tools:context="com.emil.linksy.presentation.ui.LoginFragment">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
+    <Toolbar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_title"
-        style="@style/TextTitleStyle">
-    </com.google.android.material.textview.MaterialTextView>
-
+        tools:ignore="MissingConstraints">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_title"
+            style="@style/TextTitleStyle">
+        </com.google.android.material.textview.MaterialTextView>
+    </Toolbar>
 
     <EditText
         android:id="@+id/et_email"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         style="@style/EditTextStyle"
         android:inputType="textEmailAddress"
         android:hint="@string/hint_email">

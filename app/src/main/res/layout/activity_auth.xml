@@ -8,13 +8,13 @@
     tools:context="com.emil.linksy.presentation.ui.AuthActivity">
 
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/fl_fragment_container_auth"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-       android:paddingHorizontal="10dp"
+       android:paddingHorizontal="15dp"
       android:paddingTop="10dp"
         tools:ignore="MissingConstraints">
     </FrameLayout>

@@ -140,7 +140,7 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
             hideAllError()
             code = editTexts.joinToString("") { it.text.toString() }
            confirmCodeViewModel.confirm(email,code,
-                onSuccess = {replaceFragment(LoginFragment())
+                onSuccess = {replaceFragment(R.id.fl_fragment_container_auth,LoginFragment())
                              showToast(requireContext(), R.string.registration_successful)
                     dialog?.dismiss()
                             },

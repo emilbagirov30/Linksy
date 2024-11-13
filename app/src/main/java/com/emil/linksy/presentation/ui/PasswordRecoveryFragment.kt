@@ -68,6 +68,7 @@ class PasswordRecoveryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_password_recovery, container, false)
+        val containerId = R.id.fl_fragment_container_auth
         backButton = view.findViewById(R.id.bt_back)
         emailEditText = view.findViewById(R.id.et_email)
         continueButton = view.findViewById(R.id.bt_continue)
@@ -125,9 +126,7 @@ class PasswordRecoveryFragment : Fragment() {
         onEnd = {loading.dismiss()}
         )
 }
-        backButton.setOnClickListener { replaceFragment(LoginFragment()) }
-
-
+        backButton.setOnClickListener { replaceFragment(containerId,LoginFragment()) }
 
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { checkFieldsForEmptyValues() }
