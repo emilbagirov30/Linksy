@@ -3,6 +3,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
@@ -15,11 +16,19 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.emil.presentation.R
+import com.facebook.shimmer.Shimmer
 
 class Linksy {
     companion object {
         const val PASSWORD_MIN_LENGTH = 6
         const val CODE_MIN_LENGTH = 5
+        val CUSTOM_SHIMMER = Shimmer.ColorHighlightBuilder()
+            .setBaseColor(Color.GRAY)
+            .setHighlightColor(Color.WHITE)
+            .setWidthRatio(1.5f)
+            .setIntensity(0.01f)
+            .setDuration(1200)
+            .build()
     }
 }
 

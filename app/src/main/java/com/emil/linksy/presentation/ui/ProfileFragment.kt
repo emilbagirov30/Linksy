@@ -15,8 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.replaceFragment
 import com.emil.presentation.R
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.tabs.TabLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,6 +29,8 @@ class ProfileFragment : Fragment() {
     private lateinit var uploadAvatarImageView:ImageView
     private lateinit var tabLayout:TabLayout
     private lateinit var sharedPref: SharedPreferences
+    private lateinit var shimmerUsername: ShimmerFrameLayout
+    private lateinit var shimmerAvatar: ShimmerFrameLayout
     private val userProfileDataViewModel: UserProfileDataViewModel by viewModel<UserProfileDataViewModel>()
     private var containerId:Int =0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +38,7 @@ class ProfileFragment : Fragment() {
 
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,10 +46,17 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         containerId = R.id.fl_fragment_container_profile
         usernameTextView = view.findViewById(R.id.tv_username)
+        shimmerUsername = view.findViewById(R.id.shimmer_username)
+        shimmerAvatar = view.findViewById(R.id.shimmer_avatar)
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
         uploadAvatarImageView = view.findViewById(R.id.iv_upload_avatar)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
+
+        shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerUsername.startShimmer()
+        shimmerAvatar.startShimmer()
         showPosts()
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

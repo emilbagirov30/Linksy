@@ -19,5 +19,6 @@
     <color name="tabIndicatorColor">#BD4722</color>
     <color name="tabSelectedTextColor">#000000</color>
     <color name="tabTextColor">#888787</color>
-
+    <color name="shimmerBackground">#9F9F9F</color>
+    <color name="shimmerHighlight">#66C5C5C5</color>
 </resources>
