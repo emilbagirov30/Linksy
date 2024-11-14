@@ -13,7 +13,7 @@ import com.emil.linksy.adapters.model.SettingItem
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 
-class EditProfileDialogFragment : DialogFragment() {
+class CommonSettingsDialogFragment : DialogFragment() {
 private lateinit var toolBar: MaterialToolbar
 private lateinit var settingsRecyclerView: RecyclerView
     @SuppressLint("MissingInflatedId")
@@ -21,14 +21,16 @@ private lateinit var settingsRecyclerView: RecyclerView
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_edit_profile_dialog, container, false)
+        val view = inflater.inflate(R.layout.common_settings_dialog, container, false)
         toolBar = view.findViewById(R.id.tb_edit_data)
         settingsRecyclerView = view.findViewById(R.id.rv_settings)
         val settingsList = listOf(
+            SettingItem(getString(R.string.app_settings)),
             SettingItem(getString(R.string.profile_settings)),
             SettingItem(getString(R.string.сonfidentiality)),
-            SettingItem(getString(R.string.blacklist))
-        )
+            SettingItem(getString(R.string.blacklist)),
+           )
+
         settingsRecyclerView.layoutManager = LinearLayoutManager(context)
         settingsRecyclerView.adapter = SettingsAdapter(settingsList) { settingItem ->
             navigateToSettingDetail(settingItem)
@@ -56,6 +58,7 @@ private lateinit var settingsRecyclerView: RecyclerView
             getString(R.string.profile_settings) -> {  ProfileSettingsDialogFragment().show(parentFragmentManager, "ProfileSettingsDialog")  }
             getString(R.string.сonfidentiality)  -> { }
             getString(R.string.blacklist)-> {  }
+            getString(R.string.app_settings)-> {}
 
         }
     }

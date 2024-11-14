@@ -46,7 +46,8 @@
     <string name="profile_settings">Настройки профиля</string>
     <string name="сonfidentiality">Конфиденциальность</string>
     <string name="blacklist">Черный список</string>
-    <string name="edit_profile">Редактирование профиля</string>
-    <string name="hint_bithday">Дата рождения</string>
+    <string name="app_settings">App</string>
     <string name="save">Сохранить</string>
+    <string name="exit">Выйти</string>
+    <string name="share_your_thoughts">Поделитесь своими мыслями..</string>
 </resources>

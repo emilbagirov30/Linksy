@@ -22,7 +22,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.profile_settings_dialog_fragment, container, false)
+        val view = inflater.inflate(R.layout.profile_settings_dialog, container, false)
         uploadAvatarImageView = view.findViewById(R.id.iv_upload_avatar)
         toolBar = view.findViewById(R.id.tb_edit_data)
         val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->

@@ -80,7 +80,7 @@
         android:id="@+id/tl_profile_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="auto"
+       app:tabMode="fixed"
         style="@style/CustomTabLayoutStyle"
         >
         <com.google.android.material.tabs.TabItem
@@ -93,7 +93,6 @@
             android:layout_height="wrap_content"
             android:text="@string/photos" />
     </com.google.android.material.tabs.TabLayout>
-
     <FrameLayout
         android:id="@+id/fl_fragment_container_profile"
         android:layout_width="match_parent"

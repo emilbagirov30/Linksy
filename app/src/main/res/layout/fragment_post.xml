@@ -3,18 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context="com.emil.linksy.presentation.ui.PostFragment">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/ButtonProfile"
-                android:backgroundTint="@color/newPost_button"
-                android:drawableLeft="@drawable/ic_add_post"
-                android:text="Добавить пост">
-            </Button>
 
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_post_edit_text"
+        android:paddingTop="10dp"
+       android:paddingBottom="25dp"
+        android:paddingHorizontal="5dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/klukva"
+        android:hint="@string/share_your_thoughts">
+    </EditText>
 
 
 </LinearLayout>

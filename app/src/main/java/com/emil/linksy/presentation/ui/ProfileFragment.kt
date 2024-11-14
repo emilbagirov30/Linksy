@@ -3,7 +3,6 @@ package com.emil.linksy.presentation.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,9 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.replaceFragment
@@ -65,7 +62,7 @@ class ProfileFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
         editUserDataImageView.setOnClickListener {
-            EditProfileDialogFragment().show(parentFragmentManager, "EditProfileDialog")
+            CommonSettingsDialogFragment().show(parentFragmentManager, "EditProfileDialog")
         }
          val token = sharedPref.getString("ACCESS_TOKEN",null)
         userProfileDataViewModel.userData.observe(requireActivity()){

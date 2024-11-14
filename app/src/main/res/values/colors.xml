@@ -10,7 +10,7 @@
     <color name="link">#137EB3</color>
     <color name="code_edit_text">#4C4C4C</color>
     <color name="textView_error_message">#A51717</color>
-    <color name="red">#8F2121</color>
+    <color name="red">#7A1B1B</color>
     <color name="neutral">#285F85</color>
     <color name="gray">#777676</color>
     <color name="dark_gray">#353535</color>
@@ -23,5 +23,8 @@
     <color name="tabTextColor">#888787</color>
     <color name="shimmerBackground">#9F9F9F</color>
     <color name="shimmerHighlight">#66C5C5C5</color>
-    <color name="newPost_button">#034E70</color>
+    <color name="newPost_button">#084F70</color>
+    <color name="nav_default">#A1A1A1</color>
+    <color name="nav_active">#074F70</color>
+    <color name="post_edit_text">#F8F8F8</color>
 </resources>
