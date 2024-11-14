@@ -21,4 +21,5 @@
     <color name="tabTextColor">#888787</color>
     <color name="shimmerBackground">#9F9F9F</color>
     <color name="shimmerHighlight">#66C5C5C5</color>
+    <color name="newPost_button">#034E70</color>
 </resources>

@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.replaceFragment
+import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.tabs.TabLayout
@@ -26,7 +27,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ProfileFragment : Fragment() {
     private lateinit var usernameTextView:TextView
     private lateinit var avatarImageView:ImageView
-    private lateinit var uploadAvatarImageView:ImageView
+    private lateinit var editUserDataImageView:ImageView
     private lateinit var tabLayout:TabLayout
     private lateinit var sharedPref: SharedPreferences
     private lateinit var shimmerUsername: ShimmerFrameLayout
@@ -35,7 +36,6 @@ class ProfileFragment : Fragment() {
     private var containerId:Int =0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     @SuppressLint("MissingInflatedId", "ResourceAsColor")
@@ -49,14 +49,11 @@ class ProfileFragment : Fragment() {
         shimmerUsername = view.findViewById(R.id.shimmer_username)
         shimmerAvatar = view.findViewById(R.id.shimmer_avatar)
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
-        uploadAvatarImageView = view.findViewById(R.id.iv_upload_avatar)
+        editUserDataImageView = view.findViewById(R.id.iv_edit_user_data)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
-
         shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)
         shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
-        shimmerUsername.startShimmer()
-        shimmerAvatar.startShimmer()
         showPosts()
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -67,18 +64,8 @@ class ProfileFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-
-        val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                Glide.with(requireContext())
-                    .load(uri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImageView)
-                handleSelectedImage(uri)
-            }
-        }
-        uploadAvatarImageView.setOnClickListener {
-            pickImageLauncher.launch("image/*")
+        editUserDataImageView.setOnClickListener {
+            EditProfileDialogFragment().show(parentFragmentManager, "EditProfileDialog")
         }
          val token = sharedPref.getString("ACCESS_TOKEN",null)
         userProfileDataViewModel.userData.observe(requireActivity()){
@@ -89,15 +76,21 @@ class ProfileFragment : Fragment() {
                     .load(data.avatarUrl)
                     .into(avatarImageView)
             }
+            shimmerUsername.stopShimmer()
+            shimmerAvatar.stopShimmer()
+            usernameTextView.show()
+            avatarImageView.show()
         }
-        userProfileDataViewModel.getData(token!!, onSuccess = {
+        shimmerUsername.startShimmer()
+        shimmerAvatar.startShimmer()
 
+      userProfileDataViewModel.getData(token!!, onSuccess = {
         }, onIncorrect = {} , onError = {}, onEnd = {})
-        return view
-    }
-    private fun handleSelectedImage(uri: Uri) {
 
-    }
+      return view
+  }
+
+
 
     private fun showPosts(){
         replaceFragment(containerId,PostFragment())

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.emil.linksy.presentation.ui.RegistrationFragment">
 
-    <Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
@@ -17,7 +17,7 @@
             android:text="@string/sign_up_title"
             style="@style/TextTitleStyle">
         </com.google.android.material.textview.MaterialTextView>
-    </Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
     <EditText

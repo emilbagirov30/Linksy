@@ -22,7 +22,7 @@ class Linksy {
     companion object {
         const val PASSWORD_MIN_LENGTH = 6
         const val CODE_MIN_LENGTH = 5
-        val CUSTOM_SHIMMER = Shimmer.ColorHighlightBuilder()
+        val CUSTOM_SHIMMER: Shimmer? = Shimmer.ColorHighlightBuilder()
             .setBaseColor(Color.GRAY)
             .setHighlightColor(Color.WHITE)
             .setWidthRatio(1.5f)
