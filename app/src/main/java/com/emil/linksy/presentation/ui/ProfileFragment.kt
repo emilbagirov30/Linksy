@@ -84,8 +84,8 @@ class ProfileFragment : Fragment() {
         shimmerUsername.startShimmer()
         shimmerAvatar.startShimmer()
 
-      userProfileDataViewModel.getData(token!!, onSuccess = {
-        }, onIncorrect = {} , onError = {}, onEnd = {})
+     // userProfileDataViewModel.getData(token!!, onSuccess = {
+      //  }, onIncorrect = {} , onError = {}, onEnd = {})
 
       return view
   }

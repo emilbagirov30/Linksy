@@ -48,4 +48,12 @@
     <string name="feed">Feed</string>
     <string name="posts">Posts</string>
     <string name="photos">Photo</string>
+    <string name="profile_settings">Profile Settings</string>
+    <string name="сonfidentiality">Confidentiality</string>
+    <string name="blacklist">BlackList</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="hint_bithday">Bithday</string>
+    <string name="save">Save</string>
+
+
 </resources>

@@ -1,23 +1,21 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.emil.linksy.adapters.SettingsAdapter
+import com.emil.linksy.adapters.model.SettingItem
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 
 class EditProfileDialogFragment : DialogFragment() {
 private lateinit var toolBar: MaterialToolbar
-private lateinit var uploadAvatarImageView: ImageView
+private lateinit var settingsRecyclerView: RecyclerView
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,18 +23,15 @@ private lateinit var uploadAvatarImageView: ImageView
     ): View? {
         val view = inflater.inflate(R.layout.fragment_edit_profile_dialog, container, false)
         toolBar = view.findViewById(R.id.tb_edit_data)
-        uploadAvatarImageView = view.findViewById(R.id.iv_upload_avatar)
-        val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                Glide.with(requireContext())
-                    .load(uri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(uploadAvatarImageView)
-                handleSelectedImage(uri)
-            }
-        }
-        uploadAvatarImageView.setOnClickListener {
-            pickImageLauncher.launch("image/*")
+        settingsRecyclerView = view.findViewById(R.id.rv_settings)
+        val settingsList = listOf(
+            SettingItem(getString(R.string.profile_settings)),
+            SettingItem(getString(R.string.сonfidentiality)),
+            SettingItem(getString(R.string.blacklist))
+        )
+        settingsRecyclerView.layoutManager = LinearLayoutManager(context)
+        settingsRecyclerView.adapter = SettingsAdapter(settingsList) { settingItem ->
+            navigateToSettingDetail(settingItem)
         }
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
         return view
@@ -45,7 +40,6 @@ private lateinit var uploadAvatarImageView: ImageView
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
         setCancelable(false)
 
     }
@@ -56,7 +50,13 @@ private lateinit var uploadAvatarImageView: ImageView
             setWindowAnimations(android.R.style.Animation_Dialog)
         }
     }
-    private fun handleSelectedImage(uri: Uri) {
 
+    private fun navigateToSettingDetail(settingItem: SettingItem) {
+        when (settingItem.title) {
+            getString(R.string.profile_settings) -> {  ProfileSettingsDialogFragment().show(parentFragmentManager, "ProfileSettingsDialog")  }
+            getString(R.string.сonfidentiality)  -> { }
+            getString(R.string.blacklist)-> {  }
+
+        }
     }
 }

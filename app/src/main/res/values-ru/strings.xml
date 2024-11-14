@@ -43,4 +43,10 @@
     <string name="feed">Лента</string>
     <string name="posts">Посты</string>
     <string name="photos">Фото</string>
+    <string name="profile_settings">Настройки профиля</string>
+    <string name="сonfidentiality">Конфиденциальность</string>
+    <string name="blacklist">Черный список</string>
+    <string name="edit_profile">Редактирование профиля</string>
+    <string name="hint_bithday">Дата рождения</string>
+    <string name="save">Сохранить</string>
 </resources>

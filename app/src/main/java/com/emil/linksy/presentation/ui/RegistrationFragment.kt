@@ -98,6 +98,8 @@ class RegistrationFragment : Fragment() {
                 passwordConfirmEditText.setText(text)
 
         }
+        val switchingToUserActivity = Intent(activity, UserActivity::class.java)
+        startActivity(switchingToUserActivity)
         registrationViewModel.errorStates.observe(viewLifecycleOwner) { errorStates ->
             if (errorStates["emailExist"] == true) emailExistTextView.show() else emailExistTextView.hide()
             if (errorStates["emailInvalidFormat"] == true) emailInvalidFormatTextView.show() else emailInvalidFormatTextView.hide()
