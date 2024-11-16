@@ -27,8 +27,8 @@ interface ApiService {
 
     @POST("api/users/confirm_password_change")
     suspend fun confirmPasswordChange(@Body request:PasswordChangeBody): Response<Unit>
-
     @GET ("api/users/data")
     suspend fun getUserData (@Header("Authorization") token:String): Response<UserProfileDataDto>
-
+    @POST("api/users/refresh_token")
+    suspend fun refreshToken (@Query("refreshToken") token:String):Response<TokenDto>
 }
