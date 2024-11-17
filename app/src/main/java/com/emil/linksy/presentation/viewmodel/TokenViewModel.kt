@@ -22,7 +22,6 @@ class TokenViewModel(
     fun startRefreshing(onIncorrect: () -> Unit, onError: () -> Unit) {
         refreshJob = viewModelScope.launch {
             while (true) {
-                delay(TimeUnit.MINUTES.toMillis(TemporaryKeyStore.REFRESH_DELAY))
                 try {
                     val currentRefreshToken = tokenManager.getRefreshToken()
                     if (!currentRefreshToken.isNullOrEmpty()) {
@@ -39,6 +38,7 @@ class TokenViewModel(
                 } catch (e: Exception) {
                     onError()
                 }
+                delay(TimeUnit.MINUTES.toMillis(TemporaryKeyStore.REFRESH_DELAY))
             }
         }
     }

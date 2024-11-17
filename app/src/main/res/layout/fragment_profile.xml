@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.emil.linksy.presentation.ui.ProfileFragment">
+
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,18 +20,28 @@
 
             >
         <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:visibility="invisible"
+            android:text="Username">
+
+        </com.google.android.material.textview.MaterialTextView>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="15sp"
             android:textColor="@color/username_text"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:textStyle="bold"
-            android:text="Username">
+            android:text="">
 
         </com.google.android.material.textview.MaterialTextView>
-        </com.facebook.shimmer.ShimmerFrameLayout>
     </Toolbar>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,13 +62,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints">
         <ImageView
-            android:id="@+id/iv_user_avatar"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:src="@drawable/default_avatar"
             android:visibility="invisible"
             />
         </com.facebook.shimmer.ShimmerFrameLayout>
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/default_avatar"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints" />
+
         <ImageView
             android:id="@+id/iv_edit_user_data"
             android:layout_width="30dp"

@@ -17,7 +17,7 @@
     <color name="soft_gray">#E8E8E8</color>
     <color name="pressed">#ECECEC</color>
     <color name="layout_main">#F3F0F0</color>
-    <color name="username_text">#062D40</color>
+    <color name="username_text">#014465</color>
     <color name="tabIndicatorColor">#BD4722</color>
     <color name="tabSelectedTextColor">#000000</color>
     <color name="tabTextColor">#888787</color>
@@ -27,4 +27,6 @@
     <color name="nav_default">#A1A1A1</color>
     <color name="nav_active">#074F70</color>
     <color name="post_edit_text">#F8F8F8</color>
+
+
 </resources>

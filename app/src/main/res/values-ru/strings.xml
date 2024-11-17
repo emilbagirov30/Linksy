@@ -50,4 +50,6 @@
     <string name="save">Сохранить</string>
     <string name="exit">Выйти</string>
     <string name="share_your_thoughts">Поделитесь своими мыслями..</string>
+    <string name="error_loading_data"> Произошла ошибка при загрузке данных..</string>
+    <string name="repeat">Повторить</string>
 </resources>

@@ -55,6 +55,7 @@
     <string name="save">Save</string>
     <string name="exit">Exit</string>
     <string name="share_your_thoughts">Share your thoughts..</string>
-
+    <string name="error_loading_data"> An error occurred while loading data..</string>
+    <string name="repeat">Repeat</string>
 
 </resources>
