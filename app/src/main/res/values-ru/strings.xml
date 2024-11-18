@@ -46,7 +46,7 @@
     <string name="profile_settings">Настройки профиля</string>
     <string name="сonfidentiality">Конфиденциальность</string>
     <string name="blacklist">Черный список</string>
-    <string name="app_settings">App</string>
+    <string name="app_settings">Приложение</string>
     <string name="save">Сохранить</string>
     <string name="exit">Выйти</string>
     <string name="share_your_thoughts">Поделитесь своими мыслями..</string>
@@ -55,4 +55,5 @@
     <string name="change_password_link"><u>Я хочу поменять пароль</u></string>
     <string name="change_password_title">Изменение пароля</string>
     <string name="hint_old_password">Старый пароль</string>
+    <string name="hint_link">Ссылка</string>
 </resources>

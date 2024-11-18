@@ -60,5 +60,6 @@
     <string name="change_password_link"><u>I want to change password</u></string>
     <string name="change_password_title">Change password</string>
     <string name="hint_old_password">Old password</string>
+    <string name="hint_link">Link</string>
 
 </resources>

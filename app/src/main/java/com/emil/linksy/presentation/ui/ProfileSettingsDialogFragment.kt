@@ -43,6 +43,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var usernameEditText:EditText
     private lateinit var emailEditText:EditText
+    private lateinit var linkEditText:EditText
     private lateinit var birthdayEditText:EditText
     private lateinit var avatarFrameLayout: FrameLayout
     private lateinit var avatarImageView:ImageView
@@ -61,6 +62,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         contentLinearLayout = view.findViewById(R.id.ll_content)
         usernameEditText = view.findViewById(R.id.et_username)
         emailEditText = view.findViewById(R.id.et_email)
+        linkEditText = view.findViewById(R.id.et_link)
         birthdayEditText = view.findViewById(R.id.et_birthday)
         avatarFrameLayout = view.findViewById(R.id.fl_avatar)
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
@@ -88,7 +90,10 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         allUserDataViewModel.userData.observe(requireActivity()){data ->
             usernameEditText.setText(data.username)
             emailEditText.setText(data.email)
-            birthdayEditText.setText(if (data.birthday==null) "-"
+            println(data.link)
+            linkEditText.setText(if (data.link == null) ""
+            else data.link)
+            birthdayEditText.setText(if (data.birthday==null) ""
             else data.birthday )
             if (data.avatarUrl != "null") {
                 Glide.with(requireContext())

@@ -11,14 +11,49 @@
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_username"
+            android:id="@+id/shimmer_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:alpha="0.5"
             android:background="@color/shimmerBackground"
-
             >
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:text="\@test_test">
+
+            </com.google.android.material.textview.MaterialTextView>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/link"
+            android:visibility="gone"
+            android:text="">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+    </Toolbar>
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:alpha="0.5"
+        android:background="@color/shimmerBackground">
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,26 +63,29 @@
             android:text="Username">
 
         </com.google.android.material.textview.MaterialTextView>
-        </com.facebook.shimmer.ShimmerFrameLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="15sp"
-            android:textColor="@color/username_text"
-            android:visibility="gone"
-            android:textStyle="bold"
-            android:text="">
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
-        </com.google.android.material.textview.MaterialTextView>
-    </Toolbar>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+       android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:text="">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="5dp"
         android:paddingVertical="10dp">
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_avatar"

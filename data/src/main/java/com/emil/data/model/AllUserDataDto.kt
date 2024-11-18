@@ -7,6 +7,7 @@ import java.util.Date
 data class AllUserDataDto(
     @Json(name = "username") val username: String,
     @Json(name = "avatarUrl") val avatarUrl: String,
+    @Json(name = "link") val link: String?,
     @Json(name = "email") val email: String,
     @Json(name = "birthday") val birthday:String?
 )
@@ -15,6 +16,7 @@ fun AllUserDataDto.toDomainModel(): AllUserData {
         username = this.username,
         avatarUrl = this.avatarUrl,
         email = this.email,
+        link = this.link,
         birthday = this.birthday
     )
 }
