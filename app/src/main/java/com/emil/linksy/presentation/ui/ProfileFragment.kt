@@ -18,6 +18,7 @@ import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.replaceFragment
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
@@ -41,7 +42,7 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    @SuppressLint("MissingInflatedId", "ResourceAsColor")
+    @SuppressLint("MissingInflatedId", "ResourceAsColor", "SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,13 +58,23 @@ class ProfileFragment : Fragment() {
         editUserDataImageView = view.findViewById(R.id.iv_edit_user_data)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
-        shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)
-        shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
-        shimmerLink.setShimmer(Linksy.CUSTOM_SHIMMER)
-        shimmerUsername.startShimmer()
-        shimmerAvatar.startShimmer()
-        shimmerLink.startShimmer()
         showPosts()
+        fetchData()
+        editUserDataImageView.setOnClickListener {
+            CommonSettingsDialogFragment().show(parentFragmentManager, "EditProfileDialog")
+        }
+        userProfileDataViewModel.userData.observe(requireActivity()){ data ->
+            usernameTextView.text = data.username
+            if (data.avatarUrl != "null") {
+                Glide.with(requireContext())
+                    .load(data.avatarUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(avatarImageView)
+            }
+            showContent()
+            if (data.link!=null) linkTextView.text = "@${data.link}"
+            else linkTextView.hide()
+        }
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
@@ -73,39 +84,8 @@ class ProfileFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-        editUserDataImageView.setOnClickListener {
-            CommonSettingsDialogFragment().show(parentFragmentManager, "EditProfileDialog")
-        }
-         val token = sharedPref.getString("ACCESS_TOKEN",null)
-     userProfileDataViewModel.getData(token!!, onSuccess = {
-
-      }, onIncorrect = {} , onError = {
-
-         Snackbar.make(requireView(), getString(R.string.error_loading_data), Snackbar.LENGTH_INDEFINITE).apply {
-             setBackgroundTint(Color.WHITE)
-             setTextColor(Color.GRAY)
-             setAction(getString(R.string.repeat)) {
-             }
-             setActionTextColor(Color.BLUE)
-             show()
-         }
-     }, onEnd = {})
-
-        userProfileDataViewModel.userData.observe(requireActivity()){ data ->
-            usernameTextView.text = data.username
-            if (data.avatarUrl != "null") {
-                Glide.with(requireContext())
-                    .load(data.avatarUrl)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImageView)
-            }
-          showContent()
-            if (data.link!=null) linkTextView.text = "@${data.link}"
-            else linkTextView.hide()
-        }
       return view
   }
-
 
 
     private fun showPosts(){
@@ -115,6 +95,14 @@ class ProfileFragment : Fragment() {
         replaceFragment(containerId,PhotoFragment())
     }
 
+    private fun startShimmer(){
+        shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerLink.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerUsername.startShimmer()
+        shimmerAvatar.startShimmer()
+        shimmerLink.startShimmer()
+    }
     private fun showContent (){
         shimmerAvatar.stopShimmer()
         shimmerUsername.stopShimmer()
@@ -129,7 +117,28 @@ class ProfileFragment : Fragment() {
         usernameTextView.show()
         linkTextView.show()
     }
-
-
+private fun stopShimmer(){
+    shimmerAvatar.stopShimmer()
+    shimmerUsername.stopShimmer()
+    shimmerLink.stopShimmer()
+}
+    private fun fetchData() {
+        startShimmer()
+       val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+        userProfileDataViewModel.getData(token,onIncorrect = { showToast(requireContext(),R.string.error_invalid_token) } , onError = {
+            stopShimmer()
+            if (isAdded && view != null) {
+                Snackbar.make(requireView(), getString(R.string.error_loading_data), Snackbar.LENGTH_INDEFINITE).apply {
+                    setBackgroundTint(Color.WHITE)
+                    setTextColor(Color.GRAY)
+                    setAction(getString(R.string.repeat)) {
+                         fetchData()
+                    }
+                    setActionTextColor(Color.BLUE)
+                    show()
+                }
+            }
+        })
+    }
 
 }

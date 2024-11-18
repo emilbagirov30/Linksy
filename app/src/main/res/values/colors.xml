@@ -26,6 +26,7 @@
     <color name="nav_default">#A1A1A1</color>
     <color name="nav_active">#074F70</color>
     <color name="post_edit_text">#F8F8F8</color>
+    <color name="change_icon">#B6B6B6</color>
 
 
 </resources>

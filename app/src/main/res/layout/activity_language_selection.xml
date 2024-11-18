@@ -11,8 +11,9 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="@string/select_language_title"
         style="@style/TextTitleStyle">
     </com.google.android.material.textview.MaterialTextView>

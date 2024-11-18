@@ -15,10 +15,8 @@ class AllUserDataViewModel (private val allUserDataUseCase: AllUserDataUseCase):
 
     fun getData(
         token: String,
-        onSuccess: () -> Unit,
         onIncorrect: () -> Unit,
-        onError: () -> Unit,
-        onEnd: () -> Unit
+        onError: () -> Unit
     ) {
 
         viewModelScope.launch {
@@ -26,15 +24,13 @@ class AllUserDataViewModel (private val allUserDataUseCase: AllUserDataUseCase):
                 val response = allUserDataUseCase.execute(token)
                 if (response.isSuccessful){
                     _userData.value = response.body()
-                    onSuccess ()
+
                 }else {
                     onIncorrect ()
                 }
             }catch (e:Exception){
                 onError ()
                 println(e)
-            }finally {
-                onEnd ()
             }
         }
 

@@ -7,25 +7,20 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.AllUserDataViewModel
-import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
-import com.emil.linksy.util.showToast
-import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.appbar.MaterialToolbar
@@ -67,26 +62,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         avatarFrameLayout = view.findViewById(R.id.fl_avatar)
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
-        shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
-        shimmerContent.setShimmer(Linksy.CUSTOM_SHIMMER)
-        shimmerContent.startShimmer()
-        shimmerAvatar.startShimmer()
-        val token = sharedPref.getString("ACCESS_TOKEN",null)
-
-        allUserDataViewModel.getData(token!!, onSuccess = { },
-            onIncorrect = {} , onError = {
-                shimmerAvatar.stopShimmer()
-                shimmerContent.stopShimmer()
-                Snackbar.make(requireView(), getString(R.string.error_loading_data), Snackbar.LENGTH_INDEFINITE).apply {
-                setBackgroundTint(Color.WHITE)
-                setTextColor(Color.GRAY)
-                setAction(getString(R.string.repeat)) {
-                }
-                setActionTextColor(Color.BLUE)
-                show()
-            }
-            }, onEnd = {})
-
+        fetchData()
         allUserDataViewModel.userData.observe(requireActivity()){data ->
             usernameEditText.setText(data.username)
             emailEditText.setText(data.email)
@@ -104,7 +80,6 @@ class ProfileSettingsDialogFragment: DialogFragment() {
             }
             showContent()
         }
-
         val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 Glide.with(requireContext())
@@ -126,7 +101,6 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private fun handleSelectedImage(uri: Uri) {
 
     }
-
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,5 +123,34 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         shimmerAvatar.hide()
         avatarFrameLayout.show()
         contentLinearLayout.show()
+    }
+    private fun fetchData() {
+        startShimmer()
+        val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+        allUserDataViewModel.getData(token,
+            onIncorrect = {} , onError = {
+                stopShimmer()
+                if (isAdded && view != null) {
+                    Snackbar.make(requireView(), getString(R.string.error_loading_data), Snackbar.LENGTH_INDEFINITE).apply {
+                        setBackgroundTint(Color.WHITE)
+                        setTextColor(Color.GRAY)
+                        setAction(getString(R.string.repeat)) {
+                            fetchData()
+                        }
+                        setActionTextColor(Color.BLUE)
+                        show()
+                    }
+                }
+            })
+    }
+    private fun startShimmer(){
+        shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerContent.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerContent.startShimmer()
+        shimmerAvatar.startShimmer()
+    }
+    private fun stopShimmer (){
+        shimmerAvatar.stopShimmer()
+        shimmerContent.stopShimmer()
     }
 }

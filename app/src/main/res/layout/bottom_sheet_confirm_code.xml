@@ -24,8 +24,9 @@
 
 
     <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="@string/confirmation_code_sent"
         android:textSize="15sp"
         >
@@ -34,8 +35,9 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_email"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:textColor="@color/link"
         android:text="test@gmail.com"
         >
@@ -43,8 +45,9 @@
     </com.google.android.material.textview.MaterialTextView>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:orientation="horizontal" >
 
