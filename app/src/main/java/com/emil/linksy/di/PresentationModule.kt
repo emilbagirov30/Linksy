@@ -1,5 +1,6 @@
 package com.emil.linksy.di
 
+import com.emil.linksy.presentation.viewmodel.AllUserDataViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
@@ -26,6 +27,9 @@ val presentationModule = module {
     }
     viewModel <UserProfileDataViewModel> {
       UserProfileDataViewModel(userDataUseCase = get ())
+    }
+    viewModel <AllUserDataViewModel> {
+       AllUserDataViewModel(allUserDataUseCase = get ())
     }
     viewModel <TokenViewModel> {
        TokenViewModel(refreshTokenUseCase = get(), context = androidContext())

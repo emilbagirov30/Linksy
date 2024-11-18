@@ -53,8 +53,8 @@ class ProfileFragment : Fragment() {
         editUserDataImageView = view.findViewById(R.id.iv_edit_user_data)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
-       shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)
-      shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
         showPosts()
         shimmerUsername.startShimmer()
         shimmerAvatar.startShimmer()
@@ -75,7 +75,7 @@ class ProfileFragment : Fragment() {
 
       }, onIncorrect = {} , onError = {
 
-         Snackbar.make(view, getString(R.string.error_loading_data), Snackbar.LENGTH_INDEFINITE).apply {
+         Snackbar.make(requireView(), getString(R.string.error_loading_data), Snackbar.LENGTH_INDEFINITE).apply {
              setBackgroundTint(Color.WHITE)
              setTextColor(Color.GRAY)
              setAction(getString(R.string.repeat)) {

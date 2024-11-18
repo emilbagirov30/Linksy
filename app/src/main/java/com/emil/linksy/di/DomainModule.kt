@@ -1,5 +1,6 @@
 package com.emil.linksy.di
 
+import com.emil.domain.usecase.AllUserDataUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordChangeUseCase
 import com.emil.domain.usecase.LoginUseCase
@@ -33,6 +34,9 @@ val domainModule = module {
     }
     factory<UserDataUseCase>{
        UserDataUseCase(userRepository = get())
+    }
+    factory<AllUserDataUseCase>{
+       AllUserDataUseCase(userRepository = get())
     }
     factory<RefreshTokenUseCase>{
        RefreshTokenUseCase(tokenRepository = get())

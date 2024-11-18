@@ -6,6 +6,6 @@ import retrofit2.Response
 
 class UserDataUseCase (private val userRepository: UserRepository) {
     suspend fun execute (token:String):Response<UserProfileData>{
-        return userRepository.getUserData(token)
+        return userRepository.getUserProfileData(token)
     }
 }

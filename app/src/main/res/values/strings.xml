@@ -35,7 +35,7 @@
     <string name="resend">Resend</string>
     <string name="user_not_found">The user was not found</string>
     <string name="code">Code</string>
-    <string name="new_password">New Password</string>
+    <string name="hint_new_password">New Password</string>
     <string name="change_button">Change</string>
     <string name="invalid_code_length">Enter a five-digit code</string>
     <string name="password_update">Password updated</string>
@@ -57,5 +57,8 @@
     <string name="share_your_thoughts">Share your thoughts..</string>
     <string name="error_loading_data"> An error occurred while loading data..</string>
     <string name="repeat">Repeat</string>
+    <string name="change_password_link"><u>I want to change password</u></string>
+    <string name="change_password_title">Change password</string>
+    <string name="hint_old_password">Old password</string>
 
 </resources>

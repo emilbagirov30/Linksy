@@ -34,11 +34,19 @@
         android:alpha="0.5"
         android:background="@drawable/shimmer_circle">
 
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="gone"
+            android:layout_gravity="center"
             >
             <ImageView
                 android:id="@+id/iv_user_avatar"
@@ -51,16 +59,125 @@
                 android:id="@+id/iv_upload_avatar"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_gravity="end"
+                android:alpha="0.75"
                 android:src="@drawable/ic_new_avatar"
                 />
         </FrameLayout>
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:orientation="vertical"
+            >
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/hint_username"
+                android:textStyle="bold">
+            </com.google.android.material.textview.MaterialTextView>
+
+
+                <EditText
+                    style="@style/EditTextChangeStyle"
+                    android:layout_marginTop="3dp"
+                    android:alpha="0.4"
+                    android:enabled="false"
+                    android:inputType="text">
+                </EditText>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/hint_email"
+                android:textStyle="bold">
+
+            </com.google.android.material.textview.MaterialTextView>
+
+
+
+            <EditText
+                style="@style/EditTextChangeStyle"
+                android:layout_marginTop="3dp"
+                android:inputType="textEmailAddress"
+                android:alpha="0.4"
+                android:enabled="false"
+
+                >
+            </EditText>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/hint_birthday"
+                android:textStyle="bold">
+
+            </com.google.android.material.textview.MaterialTextView>
+
+
+                <EditText
+                    style="@style/EditTextChangeStyle"
+                    android:layout_marginTop="3dp"
+                    android:enabled="false"
+                    android:alpha="0.4"
+                    android:inputType="date">
+                </EditText>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:enabled="false"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/save">
+
+            </com.google.android.material.button.MaterialButton>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/change_password_link"
+                android:layout_gravity="center_horizontal"
+                style="@style/TextLinkStyle" >
+
+            </com.google.android.material.textview.MaterialTextView>
+        </LinearLayout>
+
+
+
+
     </com.facebook.shimmer.ShimmerFrameLayout>
 
 
+
+
+
+
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
+        android:visibility="gone"
         android:orientation="vertical"
         >
 
@@ -68,38 +185,24 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/hint_username"
             android:textStyle="bold">
         </com.google.android.material.textview.MaterialTextView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            >
             <EditText
                 style="@style/EditTextChangeStyle"
-                android:layout_marginTop="10dp"
-                android:enabled="false"
+                android:id="@+id/et_username"
                 android:inputType="text">
             </EditText>
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:id="@+id/iv_password_change_input_type"
-                android:layout_alignParentEnd = "true"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_pencil"
-                />
 
-        </RelativeLayout>
 
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/hint_email"
             android:textStyle="bold">
 
@@ -108,93 +211,53 @@
 
 
         <EditText
-            style="@style/EditTextChangeStyle"
-            android:layout_marginTop="10dp"
+            android:id="@+id/et_email"
+            style="@style/EditTextImmutableStyle"
+            android:layout_marginTop="3dp"
             android:inputType="textEmailAddress"
             android:enabled="false"
-            android:drawableEnd="@drawable/ic_lock"
-
             >
         </EditText>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hint_password"
-            android:textStyle="bold">
-
-        </com.google.android.material.textview.MaterialTextView>
-
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            >
-            <EditText
-                style="@style/EditTextChangeStyle"
-                android:layout_marginTop="10dp"
-                android:enabled="false"
-                android:inputType="textPassword">
-            </EditText>
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignParentEnd = "true"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_pencil"
-                />
-
-        </RelativeLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/hint_birthday"
             android:textStyle="bold">
 
         </com.google.android.material.textview.MaterialTextView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            >
             <EditText
+                android:id="@+id/et_birthday"
                 style="@style/EditTextChangeStyle"
-                android:layout_marginTop="10dp"
-                android:enabled="false"
+                android:layout_marginTop="3dp"
                 android:inputType="date">
             </EditText>
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignParentEnd = "true"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_pencil"
-                />
-
-        </RelativeLayout>
-
-
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            style="@style/ButtonProfile"
+            android:enabled="false"
             android:layout_gravity="center_horizontal"
-            android:alpha="0.1"
-            android:backgroundTint="@color/neutral"
             android:text="@string/save">
 
         </Button>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_change_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/change_password_link"
+            android:layout_gravity="center_horizontal"
+            style="@style/TextLinkStyle" >
+
+        </com.google.android.material.textview.MaterialTextView>
     </LinearLayout>
+
 
 
 </LinearLayout>

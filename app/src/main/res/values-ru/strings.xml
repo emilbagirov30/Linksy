@@ -30,7 +30,7 @@
     <string name="resend">Отправить повторно</string>
     <string name="user_not_found">Пользователь не найден</string>
     <string name="code">Код</string>
-    <string name="new_password">Новый пароль</string>
+    <string name="hint_new_password">Новый пароль</string>
     <string name="change_button">Поменять</string>
     <string name="invalid_code_length">Введите пятизначный код</string>
     <string name="password_update">Пароль изменён</string>
@@ -52,4 +52,7 @@
     <string name="share_your_thoughts">Поделитесь своими мыслями..</string>
     <string name="error_loading_data"> Произошла ошибка при загрузке данных..</string>
     <string name="repeat">Повторить</string>
+    <string name="change_password_link"><u>Я хочу поменять пароль</u></string>
+    <string name="change_password_title">Изменение пароля</string>
+    <string name="hint_old_password">Старый пароль</string>
 </resources>

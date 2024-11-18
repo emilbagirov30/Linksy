@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.emil.linksy.presentation.custom_view.CustomProgressBar
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.Linksy
@@ -38,8 +37,8 @@ class PasswordRecoveryFragment : Fragment() {
     private lateinit var  userNotFoundTextView: MaterialTextView
     private lateinit var loading: LoadingDialog
     private lateinit var email: String
-    private lateinit var  requestPasswordChangeLinerLayout: LinearLayout
-    private lateinit var  confirmPasswordChangeLinerLayout: LinearLayout
+    private lateinit var  requestPasswordChangeLinearLayout: LinearLayout
+    private lateinit var  confirmPasswordChangeLinearLayout: LinearLayout
     private lateinit var  emailTextView:MaterialTextView
     private lateinit var  codeEditText: EditText
     private lateinit var  newPasswordEditText: EditText
@@ -74,8 +73,8 @@ class PasswordRecoveryFragment : Fragment() {
         continueButton = view.findViewById(R.id.bt_continue)
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         userNotFoundTextView = view.findViewById(R.id.tv_user_not_found)
-        requestPasswordChangeLinerLayout = view.findViewById (R.id.ll_request_password_change)
-        confirmPasswordChangeLinerLayout = view.findViewById (R.id.ll_confirm_password_change)
+        requestPasswordChangeLinearLayout = view.findViewById (R.id.ll_request_password_change)
+        confirmPasswordChangeLinearLayout = view.findViewById (R.id.ll_confirm_password_change)
         emailTextView = view.findViewById(R.id.tv_email)
         codeEditText =  view.findViewById(R.id.et_code)
         newPasswordEditText = view.findViewById(R.id.et_new_password)
@@ -116,8 +115,8 @@ class PasswordRecoveryFragment : Fragment() {
     email = emailEditText.string()
     recoveryPasswordViewModel.requestPasswordChange(email,
         onSuccess = {
-            requestPasswordChangeLinerLayout.hide()
-            confirmPasswordChangeLinerLayout.show()
+            requestPasswordChangeLinearLayout.hide()
+            confirmPasswordChangeLinearLayout.show()
             emailTextView.text = email
 
                     },
@@ -155,8 +154,8 @@ class PasswordRecoveryFragment : Fragment() {
                 recoveryPasswordViewModel.confirmPasswordChange(code,
                     email,
                     password,
-                    onSuccess = {requestPasswordChangeLinerLayout.show()
-                                 confirmPasswordChangeLinerLayout.hide()
+                    onSuccess = {requestPasswordChangeLinearLayout.show()
+                                 confirmPasswordChangeLinearLayout.hide()
                                  showToast(requireContext(), R.string.password_update)
                                  emailEditText.setText("")
                                 },

@@ -1,5 +1,6 @@
 package com.emil.data.network
 
+import com.emil.data.model.AllUserDataDto
 import com.emil.data.model.PasswordChangeBody
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
@@ -27,8 +28,10 @@ interface ApiService {
 
     @POST("api/users/confirm_password_change")
     suspend fun confirmPasswordChange(@Body request:PasswordChangeBody): Response<Unit>
-    @GET ("api/users/data")
-    suspend fun getUserData (@Header("Authorization") token:String): Response<UserProfileDataDto>
+    @GET ("api/users/profile_data")
+    suspend fun getUserProfileData (@Header("Authorization") token:String): Response<UserProfileDataDto>
+    @GET ("api/users/all_data")
+    suspend fun getAllUserData (@Header("Authorization") token:String): Response<AllUserDataDto>
     @POST("api/users/refresh_token")
     suspend fun refreshToken (@Query("refreshToken") token:String):Response<TokenDto>
 }
