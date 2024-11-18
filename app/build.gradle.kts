@@ -40,6 +40,7 @@ dependencies {
     implementation (project(":data") )
     implementation (project(":domain") )
     implementation ("androidx.fragment:fragment-ktx:1.8.4")
+    implementation(libs.androidx.lifecycle.service)
     val koin_android_version = "4.0.0"
     implementation("io.insert-koin:koin-android:$koin_android_version")
     implementation ("com.google.dagger:dagger:2.51.1")

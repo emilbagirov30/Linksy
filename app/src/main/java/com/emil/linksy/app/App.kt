@@ -1,9 +1,9 @@
 package com.emil.linksy.app
 
 import android.app.Application
+import com.emil.linksy.di.appModule
 import com.emil.linksy.di.dataModule
 import com.emil.linksy.di.domainModule
-import com.emil.linksy.di.presentationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -15,7 +15,7 @@ class App: Application () {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@App)
-            modules(listOf(dataModule, domainModule, presentationModule))
+            modules(listOf(dataModule, domainModule, appModule))
         }
     }
 }

@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Linksy"
         tools:ignore="Instantiatable">
+        <service
+            android:name="com.emil.linksy.app.service.TokenService"
+            android:enabled="true"
+            android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.UserActivity"
             android:exported="false" />
