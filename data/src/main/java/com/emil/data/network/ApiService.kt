@@ -2,10 +2,12 @@ package com.emil.data.network
 
 import com.emil.data.model.AllUserDataDto
 import com.emil.data.model.PasswordChangeBody
+import com.emil.data.model.PasswordRecoveryBody
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
 import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserProfileDataDto
+import com.emil.domain.model.PasswordChangeData
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -30,7 +32,7 @@ interface ApiService {
     suspend fun requestPasswordChange(@Query("email") emailParam:String): Response<Unit>
 
     @POST("api/users/confirm_password_change")
-    suspend fun confirmPasswordChange(@Body request:PasswordChangeBody): Response<Unit>
+    suspend fun confirmPasswordChange(@Body request:PasswordRecoveryBody): Response<Unit>
     @GET ("api/users/profile_data")
     suspend fun getUserProfileData (@Header("Authorization") token:String): Response<UserProfileDataDto>
     @POST ("api/users/delete_avatar")
@@ -48,4 +50,6 @@ interface ApiService {
     suspend fun updateUsername (@Header("Authorization") token:String,@Query("username") username:String):Response<Unit>
     @POST("api/users/update_link")
     suspend fun updateLink (@Header("Authorization") token:String, @Query("link") link:String):Response<Unit>
+    @POST("api/users/change_password")
+    suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeData):Response<Unit>
 }

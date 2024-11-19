@@ -1,13 +1,13 @@
 package com.emil.data.repository
 
 import com.emil.data.model.ConfirmCodeQuery
-import com.emil.data.model.PasswordChangeBody
+import com.emil.data.model.PasswordRecoveryBody
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.UserLoginBody
 import com.emil.data.model.toDomainModel
 import com.emil.data.network.RetrofitInstance
 import com.emil.domain.model.ConfirmCodeParam
-import com.emil.domain.model.PasswordChangeData
+import com.emil.domain.model.PasswordRecoveryData
 import com.emil.domain.model.Token
 import com.emil.domain.model.UserLoginData
 import com.emil.domain.model.UserRegistrationData
@@ -18,7 +18,7 @@ class AuthRepositoryImpl : AuthRepository {
     private val regRequest = RegistrationBody ()
     private val confirmCodeParam = ConfirmCodeQuery ()
     private val loginRequest = UserLoginBody ()
-    private val passwordChangeRequest = PasswordChangeBody ()
+    private val passwordRecoveryRequest = PasswordRecoveryBody ()
     override suspend fun registerUser(request: UserRegistrationData):Response<Unit> {
         return RetrofitInstance.apiService.registerUser(regRequest.toDomainModel(request))
     }
@@ -44,8 +44,8 @@ class AuthRepositoryImpl : AuthRepository {
         return RetrofitInstance.apiService.requestPasswordChange(emailParam)
     }
 
-    override suspend fun confirmPasswordChange(passwordChangeData: PasswordChangeData): Response<Unit> {
-        return RetrofitInstance.apiService.confirmPasswordChange(passwordChangeRequest.toDomainModel(passwordChangeData))
+    override suspend fun confirmPasswordChange(passwordRecoveryData: PasswordRecoveryData): Response<Unit> {
+        return RetrofitInstance.apiService.confirmPasswordChange(passwordRecoveryRequest.toDomainModel(passwordRecoveryData))
     }
 
 }

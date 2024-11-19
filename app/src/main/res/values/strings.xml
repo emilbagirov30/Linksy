@@ -67,4 +67,6 @@
     <string name="upload">Upload</string>
     <string name="delete">Delete</string>
     <string name="error_password_short">Enter at least one character</string>
+    <string name="change">Change</string>
+    <string name="wrong_password">Wrong password</string>
 </resources>

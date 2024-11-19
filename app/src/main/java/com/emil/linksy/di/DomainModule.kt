@@ -1,13 +1,14 @@
 package com.emil.linksy.di
 
 import com.emil.domain.usecase.AllUserDataUseCase
+import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
-import com.emil.domain.usecase.ConfirmPasswordChangeUseCase
+import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
 import com.emil.domain.usecase.DeleteAvatarUseCase
 import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.RegisterUseCase
-import com.emil.domain.usecase.RequestPasswordChangeUseCase
+import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
 import com.emil.domain.usecase.UpdateBirthdayUseCase
 import com.emil.domain.usecase.UpdateLinkUseCase
@@ -31,11 +32,11 @@ val domainModule = module {
     factory<LoginUseCase>{
        LoginUseCase(authRepository = get())
     }
-    factory<RequestPasswordChangeUseCase>{
-        RequestPasswordChangeUseCase(authRepository = get())
+    factory<RequestPasswordRecoveryUseCase>{
+        RequestPasswordRecoveryUseCase(authRepository = get())
     }
-    factory<ConfirmPasswordChangeUseCase>{
-        ConfirmPasswordChangeUseCase(authRepository = get())
+    factory<ConfirmPasswordRecoveryUseCase>{
+        ConfirmPasswordRecoveryUseCase(authRepository = get())
     }
     factory<UserProfileDataUseCase>{
        UserProfileDataUseCase(userRepository = get())
@@ -60,5 +61,8 @@ val domainModule = module {
     }
     factory<DeleteAvatarUseCase>{
         DeleteAvatarUseCase(userRepository = get())
+    }
+    factory<ChangePasswordUseCase>{
+        ChangePasswordUseCase(userRepository = get())
     }
 }

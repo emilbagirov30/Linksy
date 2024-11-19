@@ -1,6 +1,7 @@
 package com.emil.domain.repository
 
 import com.emil.domain.model.AllUserData
+import com.emil.domain.model.PasswordChangeData
 import com.emil.domain.model.UserProfileData
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -13,5 +14,6 @@ interface UserRepository {
     suspend fun updateUsername (token:String,username:String):Response<Unit>
     suspend fun updateLink (token:String,link:String):Response<Unit>
     suspend fun deleteAvatar(token:String):Response<Unit>
+    suspend fun changePassword(token:String,passwordChangeData: PasswordChangeData):Response<Unit>
 
 }

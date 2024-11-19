@@ -5,6 +5,7 @@ import com.emil.linksy.app.service.TokenService
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
+import com.emil.linksy.presentation.viewmodel.PasswordChangeViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
 import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
@@ -27,10 +28,13 @@ val appModule = module {
       LoginViewModel(loginUseCase = get(), context = androidContext())
     }
     viewModel <RecoveryPasswordViewModel> {
-       RecoveryPasswordViewModel(requestPasswordChangeUseCase = get(), confirmPasswordChangeUseCase = get ())
+       RecoveryPasswordViewModel(requestPasswordRecoveryUseCase = get(), confirmPasswordRecoveryUseCase = get ())
     }
     viewModel <UserProfileDataViewModel> {
       UserProfileDataViewModel(userProfileDataUseCase = get ())
+    }
+    viewModel <PasswordChangeViewModel> {
+        PasswordChangeViewModel(changePasswordUseCase = get ())
     }
     viewModel <ProfileManagementViewModel> {
        ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),

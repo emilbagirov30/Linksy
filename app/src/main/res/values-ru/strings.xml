@@ -62,4 +62,6 @@
     <string name="upload">Загрузить</string>
     <string name="delete">Удалить</string>
     <string name="error_password_short">Введите хотя бы один символ</string>
+    <string name="change">Изменить</string>
+    <string name="wrong_password">Неверный пароль</string>
 </resources>
