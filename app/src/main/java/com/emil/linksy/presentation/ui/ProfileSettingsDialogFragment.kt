@@ -3,6 +3,8 @@ package com.emil.linksy.presentation.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -24,8 +26,12 @@ import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileSettingsDialogFragment: DialogFragment() {
@@ -42,7 +48,9 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var birthdayEditText:EditText
     private lateinit var avatarFrameLayout: FrameLayout
     private lateinit var avatarImageView:ImageView
+    private lateinit var saveButton:MaterialButton
     private val allUserDataViewModel:AllUserDataViewModel by viewModel<AllUserDataViewModel>()
+    private var selectedUri: Uri? = null
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,12 +69,17 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         birthdayEditText = view.findViewById(R.id.et_birthday)
         avatarFrameLayout = view.findViewById(R.id.fl_avatar)
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
+        saveButton = view.findViewById(R.id.bt_save)
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
         fetchData()
+        saveButton.setOnClickListener {
+            val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+            val filePart = createFilePart(selectedUri!!, requireContext())
+            allUserDataViewModel.uploadAvatar(token = token, filePart, onIncorrect = {}, onError = {})
+        }
         allUserDataViewModel.userData.observe(requireActivity()){data ->
             usernameEditText.setText(data.username)
             emailEditText.setText(data.email)
-            println(data.link)
             linkEditText.setText(if (data.link == null) ""
             else data.link)
             birthdayEditText.setText(if (data.birthday==null) ""
@@ -87,6 +100,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImageView)
                 handleSelectedImage(uri)
+
             }
         }
         changePasswordTextView.setOnClickListener {
@@ -98,8 +112,10 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
         return view
     }
+    @SuppressLint("Recycle", "NewApi")
     private fun handleSelectedImage(uri: Uri) {
-
+        selectedUri = uri
+        saveButton.isEnabled = true
     }
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,5 +168,12 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private fun stopShimmer (){
         shimmerAvatar.stopShimmer()
         shimmerContent.stopShimmer()
+    }
+    fun createFilePart(uri: Uri, context: Context): MultipartBody.Part {
+        val contentResolver = context.contentResolver
+        val inputStream = contentResolver.openInputStream(uri)!!
+        val fileName = "avatar_${System.currentTimeMillis()}.png"
+        val fileBody = RequestBody.create(MediaType.parse("image/png"), inputStream.readBytes())
+        return MultipartBody.Part.createFormData("file", fileName, fileBody)
     }
 }

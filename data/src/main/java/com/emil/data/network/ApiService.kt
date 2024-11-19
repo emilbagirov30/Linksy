@@ -6,11 +6,14 @@ import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
 import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserProfileDataDto
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface ApiService {
@@ -32,6 +35,10 @@ interface ApiService {
     suspend fun getUserProfileData (@Header("Authorization") token:String): Response<UserProfileDataDto>
     @GET ("api/users/all_data")
     suspend fun getAllUserData (@Header("Authorization") token:String): Response<AllUserDataDto>
+    @Multipart
+    @POST ("/api/users/upload/avatar")
+    suspend fun uploadAvatar (@Header("Authorization") token:String, @Part file: MultipartBody.Part): Response<Unit>
+
     @POST("api/users/refresh_token")
     suspend fun refreshToken (@Query("refreshToken") token:String):Response<TokenDto>
 }

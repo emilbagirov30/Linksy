@@ -5,6 +5,7 @@ import com.emil.data.network.RetrofitInstance
 import com.emil.domain.model.AllUserData
 import com.emil.domain.model.UserProfileData
 import com.emil.domain.repository.UserRepository
+import okhttp3.MultipartBody
 import retrofit2.Response
 
 class UserRepositoryImpl: UserRepository {
@@ -24,5 +25,9 @@ class UserRepositoryImpl: UserRepository {
         } else {
             Response.error(response.code(), response.errorBody()!!)
         }
+    }
+
+    override suspend fun uploadAvatar(token: String,file: MultipartBody.Part): Response<Unit> {
+        return RetrofitInstance.apiService.uploadAvatar("Bearer $token",file)
     }
 }

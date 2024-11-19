@@ -33,7 +33,7 @@ val appModule = module {
       UserProfileDataViewModel(userDataUseCase = get ())
     }
     viewModel <AllUserDataViewModel> {
-       AllUserDataViewModel(allUserDataUseCase = get ())
+       AllUserDataViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get())
     }
     single { TokenService() }
 }

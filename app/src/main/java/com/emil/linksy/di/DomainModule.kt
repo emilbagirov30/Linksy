@@ -8,6 +8,7 @@ import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.RegisterUseCase
 import com.emil.domain.usecase.RequestPasswordChangeUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
+import com.emil.domain.usecase.UploadAvatarUseCase
 import com.emil.domain.usecase.UserDataUseCase
 import org.koin.dsl.module
 
@@ -40,5 +41,8 @@ val domainModule = module {
     }
     factory<RefreshTokenUseCase>{
        RefreshTokenUseCase(tokenRepository = get())
+    }
+    factory<UploadAvatarUseCase>{
+        UploadAvatarUseCase(userRepository = get())
     }
 }

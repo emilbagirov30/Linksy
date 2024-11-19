@@ -6,9 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.AllUserData
 import com.emil.domain.usecase.AllUserDataUseCase
+import com.emil.domain.usecase.UploadAvatarUseCase
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
-class AllUserDataViewModel (private val allUserDataUseCase: AllUserDataUseCase): ViewModel() {
+class AllUserDataViewModel (private val allUserDataUseCase: AllUserDataUseCase,
+    private val uploadAvatarUseCase: UploadAvatarUseCase
+    ): ViewModel() {
 
     private val _userData = MutableLiveData<AllUserData> ()
     val userData: LiveData<AllUserData> = _userData
@@ -30,9 +34,22 @@ class AllUserDataViewModel (private val allUserDataUseCase: AllUserDataUseCase):
                 }
             }catch (e:Exception){
                 onError ()
-                println(e)
             }
         }
 
     }
+
+    fun uploadAvatar (token:String,avatar:MultipartBody.Part, onIncorrect: () -> Unit,
+                      onError: () -> Unit){
+        viewModelScope.launch {
+            try{
+               uploadAvatarUseCase.execute(token, avatar)
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+
+
+    }
+
 }
