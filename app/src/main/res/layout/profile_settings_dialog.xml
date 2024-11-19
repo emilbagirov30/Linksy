@@ -193,8 +193,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/change_password_link"
-                android:layout_gravity="center_horizontal"
-                style="@style/TextLinkStyle" >
+                android:textSize="15sp"
+                android:textColor="@color/dark_gray"
+                android:layout_gravity="center_horizontal">
 
             </com.google.android.material.textview.MaterialTextView>
         </LinearLayout>
@@ -337,8 +338,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/change_password_link"
-            android:layout_gravity="center_horizontal"
-            style="@style/TextLinkStyle" >
+            android:textSize="15sp"
+            android:textColor="@color/dark_gray"
+            android:layout_gravity="center_horizontal">
 
         </com.google.android.material.textview.MaterialTextView>
     </LinearLayout>

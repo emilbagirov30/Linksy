@@ -39,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
-        app:backgroundTint="@color/red"
         style="@style/ButtonProfile"
         android:drawableEnd="@drawable/ic_exit"
         android:text="@string/exit"
