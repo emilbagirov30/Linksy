@@ -232,6 +232,14 @@
                 android:id="@+id/et_username"
                 android:inputType="text">
             </EditText>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_error_username_short"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            style="@style/TextErrorStyle"
+            android:text="@string/error_password_short">
+        </com.google.android.material.textview.MaterialTextView>
 
 
 
@@ -318,6 +326,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
+            android:enabled="false"
             android:text="@string/save">
 
         </Button>

@@ -20,24 +20,19 @@ class ProfileManagementViewModel (private val allUserDataUseCase: AllUserDataUse
                                   private val updateBirthdayUseCase: UpdateBirthdayUseCase,
                                   private val updateUsernameUseCase: UpdateUsernameUseCase,
                                   private val updateLinkUseCase: UpdateLinkUseCase,
-                                  private val deleteAvatarUseCase: DeleteAvatarUseCase
-    ): ViewModel() {
+                                  private val deleteAvatarUseCase: DeleteAvatarUseCase): ViewModel() {
 
     private val _userData = MutableLiveData<AllUserData>()
     val userData: LiveData<AllUserData> = _userData
-
     fun getData(
         token: String,
         onIncorrect: () -> Unit,
         onError: () -> Unit
-    ) {
-
-        viewModelScope.launch {
+    ) { viewModelScope.launch {
             try {
                 val response = allUserDataUseCase.execute(token)
                 if (response.isSuccessful) {
                     _userData.value = response.body()
-
                 } else {
                     onIncorrect()
                 }
@@ -45,7 +40,6 @@ class ProfileManagementViewModel (private val allUserDataUseCase: AllUserDataUse
                 onError()
             }
         }
-
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -53,14 +47,12 @@ class ProfileManagementViewModel (private val allUserDataUseCase: AllUserDataUse
         token: String,
         avatar: MultipartBody.Part,
         onSuccess: () -> Unit,
-        onIncorrect: () -> Unit,
         onError: () -> Unit
     ) {
         viewModelScope.launch {
             try {
               val response=  uploadAvatarUseCase.execute(token, avatar)
                 if (response.isSuccessful) onSuccess()
-                else onIncorrect ()
             } catch (e: Exception) {
                 onError()
             }
@@ -73,14 +65,12 @@ class ProfileManagementViewModel (private val allUserDataUseCase: AllUserDataUse
         token: String,
         birthday: String,
         onSuccess: () -> Unit,
-        onIncorrect: () -> Unit,
         onError: () -> Unit
     ) {
         viewModelScope.launch {
             try {
                 val response = updateBirthdayUseCase.execute(token, birthday)
                 if (response.isSuccessful) onSuccess()
-                else onIncorrect ()
             } catch (e: Exception) {
                 onError()
             }
@@ -90,14 +80,12 @@ class ProfileManagementViewModel (private val allUserDataUseCase: AllUserDataUse
             token: String,
             username: String,
             onSuccess: () -> Unit,
-            onIncorrect: () -> Unit,
             onError: () -> Unit
         ) {
             viewModelScope.launch {
                 try {
                    val response = updateUsernameUseCase.execute(token, username)
                     if (response.isSuccessful)onSuccess ()
-                    else onIncorrect()
                 } catch (e: Exception) {
                     onError()
                 }
@@ -128,15 +116,12 @@ class ProfileManagementViewModel (private val allUserDataUseCase: AllUserDataUse
     fun deleteAvatar(
         token: String,
         onSuccess: () -> Unit,
-        onIncorrect: () -> Unit,
         onError: () -> Unit
     ) {
         viewModelScope.launch {
             try {
                 val response =deleteAvatarUseCase.execute(token)
                 if (response.isSuccessful) onSuccess()
-                else onIncorrect ()
-
             } catch (e: Exception) {
                 onError()
             }

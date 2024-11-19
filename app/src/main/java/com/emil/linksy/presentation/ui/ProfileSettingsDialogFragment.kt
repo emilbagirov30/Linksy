@@ -22,6 +22,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
@@ -32,6 +33,7 @@ import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showToast
 import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -42,12 +44,14 @@ import com.google.android.material.textview.MaterialTextView
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okio.source
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var changeAvatarImageView: ImageView
     private lateinit var changePasswordTextView: MaterialTextView
     private lateinit var linkExistTextView: MaterialTextView
+    private lateinit var usernameShortTextView: MaterialTextView
     private lateinit var toolBar: MaterialToolbar
     private lateinit var shimmerAvatar: ShimmerFrameLayout
     private lateinit var shimmerContent: ShimmerFrameLayout
@@ -61,9 +65,14 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var avatarImageView:ImageView
     private lateinit var saveButton:MaterialButton
     private val profileManagementViewModel:ProfileManagementViewModel by viewModel<ProfileManagementViewModel>()
+    private lateinit var currentUsername:String
+    private lateinit var currentAvatar:String
+    private lateinit var currentLink:String
+    private lateinit var currentBirthday:String
     private var selectedUri: Uri? = null
     private var shouldDeletePhoto:Boolean = false
     private var avatarExist:Boolean = false
+    private var currentToast: Toast? = null
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +83,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         toolBar = view.findViewById(R.id.tb_edit_data)
         changePasswordTextView = view.findViewById(R.id.tv_change_password)
         linkExistTextView = view.findViewById(R.id.tv_error_link_exist)
+        usernameShortTextView = view.findViewById(R.id.tv_error_username_short)
         shimmerAvatar = view.findViewById(R.id.shimmer_avatar)
         shimmerContent = view.findViewById(R.id.shimmer_content)
         contentLinearLayout = view.findViewById(R.id.ll_content)
@@ -86,37 +96,59 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         saveButton = view.findViewById(R.id.bt_save)
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
         fetchData()
+        val usernameTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                saveButton.isEnabled = s.toString()!=currentUsername
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        val linkTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {  saveButton.isEnabled = s.toString()!=currentLink }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        val birthdayTextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {saveButton.isEnabled = s.toString()!=currentBirthday }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        usernameEditText.addTextChangedListener(usernameTextWatcher)
+        linkEditText.addTextChangedListener(linkTextWatcher)
+        birthdayEditText.addTextChangedListener(birthdayTextWatcher)
         saveButton.setOnClickListener {
+            hideAllError()
             val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
             val birthday = birthdayEditText.string()
+            val link = linkEditText.string()
+            val username = usernameEditText.string()
             if(selectedUri!=null) {
                 val filePart = createFilePart(selectedUri!!, requireContext())
-                profileManagementViewModel.uploadAvatar(token = token, filePart, onSuccess = {}, onIncorrect = {}, onError = {})
+                profileManagementViewModel.uploadAvatar(token = token, filePart, onSuccess = { selectedUri=null}, onError = {displayError()})
             }
             if (shouldDeletePhoto){
-                profileManagementViewModel.deleteAvatar(token = token,onSuccess = {}, onIncorrect = {}, onError = {})
+                profileManagementViewModel.deleteAvatar(token = token,onSuccess = {shouldDeletePhoto = false}, onError = {displayError()})
             }
-            if (birthday.isNotEmpty()) {
-                profileManagementViewModel.updateBirthday(token = token, birthday = birthday,onSuccess = {},onIncorrect = {}, onError = {})
-            }
-            val username = usernameEditText.string()
-               profileManagementViewModel.updateUsername(token = token, username = username,onSuccess = {},onIncorrect = {}, onError = {})
-
-            val link = linkEditText.string()
-            if (link.isNotEmpty()) {
-                profileManagementViewModel.updateLink(token, link, onSuccess = {},
-                    onIncorrect = {
-                        changeEditTextBackgroundColor(
-                            requireContext(),
-                            BackgroundState.ERROR,
-                            linkEditText
-                        )
-                        linkExistTextView.show()
-
-                    },
-                    onError = {})
+            if (birthday!=currentBirthday) {
+                profileManagementViewModel.updateBirthday(token = token, birthday = birthday,onSuccess = {currentBirthday=birthday}, onError = {displayError()})
             }
 
+            if (username!=currentUsername){
+                if (username.isNotEmpty()) {
+                    profileManagementViewModel.updateUsername(token = token, username = username, onSuccess = { currentUsername = username },
+                        onError = {displayError()})
+                }
+                else usernameShortTextView.show()
+
+            }
+
+            if (link!=currentLink) {
+                profileManagementViewModel.updateLink(token, link, onSuccess = {currentLink=link},
+                    onIncorrect = { linkExistTextView.show() },
+                    onError = {displayError()})
+            }
+
+            saveButton.isEnabled = false
         }
         birthdayEditText.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -144,13 +176,15 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         }
 
         profileManagementViewModel.userData.observe(requireActivity()){ data ->
-            usernameEditText.setText(  data.username)
+            currentUsername = data.username
+            usernameEditText.setText(currentUsername)
             emailEditText.setText(data.email)
-            linkEditText.setText(if (data.link.isNullOrEmpty()) ""
-            else data.link)
-            birthdayEditText.setText(if (data.birthday.isNullOrEmpty()) ""
-            else data.birthday)
-            if (data.avatarUrl != "null") {
+            currentLink = if (data.link==null) "" else data.link!!
+            linkEditText.setText(currentLink)
+            currentBirthday = if (data.birthday.isNullOrEmpty()) "" else data.birthday.toString()
+            birthdayEditText.setText(currentBirthday)
+            currentAvatar = data.avatarUrl
+            if (currentAvatar != "null") {
                 avatarExist = true
                 Glide.with(requireContext())
                     .load(data.avatarUrl)
@@ -188,6 +222,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
                     1 -> {
                         pickImageLauncher.launch("image/*")
                         avatarExist = true
+                        shouldDeletePhoto = false
                         true
                     }
 
@@ -196,6 +231,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
                         selectedUri=null
                         avatarExist = false
                         avatarImageView.setImageResource(R.drawable.default_avatar)
+                        saveButton.isEnabled = true
                         true
                     }
                     else -> false
@@ -211,6 +247,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     @SuppressLint("Recycle", "NewApi")
     private fun handleSelectedImage(uri: Uri) {
         selectedUri = uri
+        saveButton.isEnabled = true
     }
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -238,7 +275,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private fun fetchData() {
         startShimmer()
         val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
-        profileManagementViewModel.getData(token, onIncorrect = {} ,
+        profileManagementViewModel.getData(token, onIncorrect = {showToast(requireContext(),R.string.error_invalid_token) } ,
             onError = {
                 stopShimmer()
                 if (isAdded && view != null) {
@@ -267,6 +304,16 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         val inputStream = contentResolver.openInputStream(uri)!!
         val fileName = "avatar_${System.currentTimeMillis()}.png"
         val fileBody = RequestBody.create(MediaType.parse("image/png"), inputStream.readBytes())
+        inputStream.close()
         return MultipartBody.Part.createFormData("file", fileName, fileBody)
+    }
+    private fun hideAllError(){
+        linkExistTextView.hide()
+        usernameShortTextView.hide()
+    }
+    private fun displayError(){
+        currentToast?.cancel()
+        currentToast = Toast.makeText(requireContext(), R.string.failed_connection, Toast.LENGTH_SHORT)
+        currentToast?.show()
     }
 }
