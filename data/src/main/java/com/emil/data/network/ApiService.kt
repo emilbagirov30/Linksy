@@ -38,7 +38,8 @@ interface ApiService {
     @Multipart
     @POST ("/api/users/upload/avatar")
     suspend fun uploadAvatar (@Header("Authorization") token:String, @Part file: MultipartBody.Part): Response<Unit>
-
     @POST("api/users/refresh_token")
     suspend fun refreshToken (@Query("refreshToken") token:String):Response<TokenDto>
+    @POST("api/users/update_birthday")
+    suspend fun updateBirthday (@Header("Authorization") token:String,@Query("birthday") birthday:String):Response<Unit>
 }

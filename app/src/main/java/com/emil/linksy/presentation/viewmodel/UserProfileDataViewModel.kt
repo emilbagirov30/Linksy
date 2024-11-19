@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.UserProfileData
-import com.emil.domain.usecase.UserDataUseCase
+import com.emil.domain.usecase.UserProfileDataUseCase
 import kotlinx.coroutines.launch
 
-class UserProfileDataViewModel (private val userDataUseCase: UserDataUseCase): ViewModel () {
+class UserProfileDataViewModel (private val userProfileDataUseCase: UserProfileDataUseCase): ViewModel () {
 
     private val _userData = MutableLiveData<UserProfileData> ()
     val userData:LiveData<UserProfileData>  = _userData
@@ -20,7 +20,7 @@ class UserProfileDataViewModel (private val userDataUseCase: UserDataUseCase): V
     ) {
         viewModelScope.launch {
             try {
-              val response = userDataUseCase.execute(token)
+              val response = userProfileDataUseCase.execute(token)
             if (response.isSuccessful){
                 _userData.value = response.body()
             }else {

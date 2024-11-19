@@ -1,16 +1,17 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -19,10 +20,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.emil.linksy.presentation.viewmodel.AllUserDataViewModel
+import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
+import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.appbar.MaterialToolbar
@@ -49,7 +51,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var avatarFrameLayout: FrameLayout
     private lateinit var avatarImageView:ImageView
     private lateinit var saveButton:MaterialButton
-    private val allUserDataViewModel:AllUserDataViewModel by viewModel<AllUserDataViewModel>()
+    private val profileManagementViewModel:ProfileManagementViewModel by viewModel<ProfileManagementViewModel>()
     private var selectedUri: Uri? = null
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -74,16 +76,50 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         fetchData()
         saveButton.setOnClickListener {
             val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
-            val filePart = createFilePart(selectedUri!!, requireContext())
-            allUserDataViewModel.uploadAvatar(token = token, filePart, onIncorrect = {}, onError = {})
+            val birthday = birthdayEditText.string()
+            if(selectedUri!=null) {
+                val filePart = createFilePart(selectedUri!!, requireContext())
+                profileManagementViewModel.uploadAvatar(token = token, filePart, onIncorrect = {}, onError = {})
+            }
+            if (birthday.isNotEmpty()) {
+                profileManagementViewModel.updateBirthday(token = token, birthday = birthday,onIncorrect = {}, onError = {})
+            }
+
         }
-        allUserDataViewModel.userData.observe(requireActivity()){data ->
+
+        birthdayEditText.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val dialogView = layoutInflater.inflate(R.layout.dialog_date_spinner, null)
+                val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
+
+                val alertDialog = AlertDialog.Builder(requireContext())
+                    .setView(dialogView)
+                    .setTitle(getString(R.string.indicate_date))
+                    .setPositiveButton(getString(R.string.save)) { _, _ ->
+                        val selectedYear = datePicker.year
+                        val selectedMonth = datePicker.month + 1
+                        val selectedDay = datePicker.dayOfMonth
+                        val formattedDate = String.format("%02d.%02d.%04d", selectedDay,selectedMonth,selectedYear)
+                        birthdayEditText.setText(formattedDate)
+                        saveButton.isEnabled = true
+                    }
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .create()
+
+                alertDialog.show()
+                true
+            } else {
+                false
+            }
+        }
+
+        profileManagementViewModel.userData.observe(requireActivity()){ data ->
             usernameEditText.setText(data.username)
             emailEditText.setText(data.email)
             linkEditText.setText(if (data.link == null) ""
             else data.link)
             birthdayEditText.setText(if (data.birthday==null) ""
-            else data.birthday )
+            else data.birthday)
             if (data.avatarUrl != "null") {
                 Glide.with(requireContext())
                     .load(data.avatarUrl)
@@ -143,7 +179,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private fun fetchData() {
         startShimmer()
         val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
-        allUserDataViewModel.getData(token,
+        profileManagementViewModel.getData(token,
             onIncorrect = {} , onError = {
                 stopShimmer()
                 if (isAdded && view != null) {

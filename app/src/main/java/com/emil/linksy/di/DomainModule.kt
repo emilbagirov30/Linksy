@@ -8,8 +8,9 @@ import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.RegisterUseCase
 import com.emil.domain.usecase.RequestPasswordChangeUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
+import com.emil.domain.usecase.UpdateBirthdayUseCase
 import com.emil.domain.usecase.UploadAvatarUseCase
-import com.emil.domain.usecase.UserDataUseCase
+import com.emil.domain.usecase.UserProfileDataUseCase
 import org.koin.dsl.module
 
 
@@ -33,8 +34,8 @@ val domainModule = module {
     factory<ConfirmPasswordChangeUseCase>{
         ConfirmPasswordChangeUseCase(authRepository = get())
     }
-    factory<UserDataUseCase>{
-       UserDataUseCase(userRepository = get())
+    factory<UserProfileDataUseCase>{
+       UserProfileDataUseCase(userRepository = get())
     }
     factory<AllUserDataUseCase>{
        AllUserDataUseCase(userRepository = get())
@@ -44,5 +45,8 @@ val domainModule = module {
     }
     factory<UploadAvatarUseCase>{
         UploadAvatarUseCase(userRepository = get())
+    }
+    factory<UpdateBirthdayUseCase>{
+        UpdateBirthdayUseCase(userRepository = get())
     }
 }

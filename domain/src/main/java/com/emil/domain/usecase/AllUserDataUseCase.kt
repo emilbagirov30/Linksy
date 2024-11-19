@@ -9,4 +9,5 @@ class AllUserDataUseCase(private val userRepository: UserRepository) {
     suspend fun execute (token:String): Response<AllUserData> {
         return userRepository.getAllUserData(token)
     }
+
 }

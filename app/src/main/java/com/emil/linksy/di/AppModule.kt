@@ -2,7 +2,7 @@ package com.emil.linksy.di
 
 import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.linksy.app.service.TokenService
-import com.emil.linksy.presentation.viewmodel.AllUserDataViewModel
+import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
@@ -30,10 +30,10 @@ val appModule = module {
        RecoveryPasswordViewModel(requestPasswordChangeUseCase = get(), confirmPasswordChangeUseCase = get ())
     }
     viewModel <UserProfileDataViewModel> {
-      UserProfileDataViewModel(userDataUseCase = get ())
+      UserProfileDataViewModel(userProfileDataUseCase = get ())
     }
-    viewModel <AllUserDataViewModel> {
-       AllUserDataViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get())
+    viewModel <ProfileManagementViewModel> {
+       ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(), updateBirthdayUseCase = get())
     }
     single { TokenService() }
 }
