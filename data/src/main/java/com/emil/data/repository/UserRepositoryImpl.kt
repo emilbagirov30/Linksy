@@ -34,4 +34,15 @@ class UserRepositoryImpl: UserRepository {
     override suspend fun updateBirthday(token: String, birthday: String): Response<Unit> {
         return RetrofitInstance.apiService.updateBirthday("Bearer $token",birthday)
     }
+    override suspend fun updateUsername(token: String, username: String): Response<Unit> {
+        return RetrofitInstance.apiService.updateUsername("Bearer $token",username)
+    }
+
+    override suspend fun updateLink(token: String, link: String): Response<Unit> {
+        return RetrofitInstance.apiService.updateLink("Bearer $token",link)
+    }
+
+    override suspend fun deleteAvatar(token: String): Response<Unit> {
+        return RetrofitInstance.apiService.deleteAvatar("Bearer $token")
+    }
 }

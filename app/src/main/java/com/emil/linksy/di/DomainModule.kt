@@ -3,12 +3,15 @@ package com.emil.linksy.di
 import com.emil.domain.usecase.AllUserDataUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordChangeUseCase
+import com.emil.domain.usecase.DeleteAvatarUseCase
 import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.RegisterUseCase
 import com.emil.domain.usecase.RequestPasswordChangeUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
 import com.emil.domain.usecase.UpdateBirthdayUseCase
+import com.emil.domain.usecase.UpdateLinkUseCase
+import com.emil.domain.usecase.UpdateUsernameUseCase
 import com.emil.domain.usecase.UploadAvatarUseCase
 import com.emil.domain.usecase.UserProfileDataUseCase
 import org.koin.dsl.module
@@ -48,5 +51,14 @@ val domainModule = module {
     }
     factory<UpdateBirthdayUseCase>{
         UpdateBirthdayUseCase(userRepository = get())
+    }
+    factory<UpdateUsernameUseCase>{
+        UpdateUsernameUseCase(userRepository = get())
+    }
+    factory<UpdateLinkUseCase>{
+        UpdateLinkUseCase(userRepository = get())
+    }
+    factory<DeleteAvatarUseCase>{
+        DeleteAvatarUseCase(userRepository = get())
     }
 }

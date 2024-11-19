@@ -45,7 +45,7 @@
             android:id="@+id/fl_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+           android:visibility="gone"
             android:layout_gravity="center"
             >
             <ImageView
@@ -56,12 +56,12 @@
 
                 />
             <ImageView
-                android:id="@+id/iv_upload_avatar"
+                android:id="@+id/iv_change_avatar"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="end"
                 android:alpha="0.75"
-                android:src="@drawable/ic_new_avatar"
+                android:src="@drawable/ic_change_avatar"
                 />
         </FrameLayout>
 
@@ -214,7 +214,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
-android:visibility="gone"
+        android:visibility="gone"
         android:orientation="vertical"
         >
 
@@ -283,10 +283,17 @@ android:visibility="gone"
             android:id="@+id/et_link"
             style="@style/EditTextChangeStyle"
             android:layout_marginTop="3dp"
-            android:layout_marginStart="3dp"
-            android:inputType="date">
+            android:layout_marginStart="3dp">
         </EditText>
         </LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_error_link_exist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            style="@style/TextErrorStyle"
+            android:text="@string/link_is_already_taken">
+        </com.google.android.material.textview.MaterialTextView>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -310,7 +317,6 @@ android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:enabled="false"
             android:layout_gravity="center_horizontal"
             android:text="@string/save">
 

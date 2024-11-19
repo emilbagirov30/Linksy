@@ -33,6 +33,8 @@ interface ApiService {
     suspend fun confirmPasswordChange(@Body request:PasswordChangeBody): Response<Unit>
     @GET ("api/users/profile_data")
     suspend fun getUserProfileData (@Header("Authorization") token:String): Response<UserProfileDataDto>
+    @POST ("api/users/delete_avatar")
+    suspend fun deleteAvatar (@Header("Authorization") token:String): Response<Unit>
     @GET ("api/users/all_data")
     suspend fun getAllUserData (@Header("Authorization") token:String): Response<AllUserDataDto>
     @Multipart
@@ -42,4 +44,8 @@ interface ApiService {
     suspend fun refreshToken (@Query("refreshToken") token:String):Response<TokenDto>
     @POST("api/users/update_birthday")
     suspend fun updateBirthday (@Header("Authorization") token:String,@Query("birthday") birthday:String):Response<Unit>
+    @POST("api/users/update_username")
+    suspend fun updateUsername (@Header("Authorization") token:String,@Query("username") username:String):Response<Unit>
+    @POST("api/users/update_link")
+    suspend fun updateLink (@Header("Authorization") token:String, @Query("link") link:String):Response<Unit>
 }

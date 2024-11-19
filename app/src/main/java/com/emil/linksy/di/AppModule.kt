@@ -33,7 +33,8 @@ val appModule = module {
       UserProfileDataViewModel(userProfileDataUseCase = get ())
     }
     viewModel <ProfileManagementViewModel> {
-       ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(), updateBirthdayUseCase = get())
+       ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),
+           updateBirthdayUseCase = get(), updateUsernameUseCase = get (), updateLinkUseCase = get (), deleteAvatarUseCase = get())
     }
     single { TokenService() }
 }

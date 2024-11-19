@@ -58,4 +58,7 @@
     <string name="hint_link">Ссылка</string>
     <string name="error_invalid_token">Неверный или истёкший токен</string>
     <string name="indicate_date">Укажите дату</string>
+    <string name="link_is_already_taken">"Эта ссылка уже занята"</string>
+    <string name="upload">Загрузить</string>
+    <string name="delete">Удалить</string>
 </resources>

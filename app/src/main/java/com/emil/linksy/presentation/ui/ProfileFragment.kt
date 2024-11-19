@@ -61,7 +61,7 @@ class ProfileFragment : Fragment() {
         showPosts()
         fetchData()
         editUserDataImageView.setOnClickListener {
-            CommonSettingsDialogFragment().show(parentFragmentManager, "EditProfileDialog")
+            CommonSettingsDialogFragment().show(parentFragmentManager, "CommonSettingsDialog")
         }
         userProfileDataViewModel.userData.observe(requireActivity()){ data ->
             usernameTextView.text = data.username
@@ -72,7 +72,7 @@ class ProfileFragment : Fragment() {
                     .into(avatarImageView)
             }
             showContent()
-            if (data.link!=null) linkTextView.text = "@${data.link}"
+            if (!data.link.isNullOrEmpty()) linkTextView.text = "@${data.link}"
             else linkTextView.hide()
         }
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

@@ -63,4 +63,7 @@
     <string name="hint_link">Link</string>
     <string name="error_invalid_token">Invalid or expired token</string>
     <string name="indicate_date">Indicate the date</string>
+    <string name="link_is_already_taken">This link is already taken</string>
+    <string name="upload">Upload</string>
+    <string name="delete">Delete</string>
 </resources>
