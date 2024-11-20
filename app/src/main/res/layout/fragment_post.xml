@@ -8,14 +8,15 @@ android:gravity="center_horizontal"
 
 
     <EditText
+        android:id="@+id/et_new_post"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:background="@drawable/rounded_post_edit_text"
-        android:paddingTop="10dp"
-       android:paddingBottom="25dp"
-        android:paddingHorizontal="5dp"
+        android:paddingStart="7dp"
+        android:paddingEnd="12dp"
         android:textColor="@color/black"
         android:fontFamily="@font/klukva"
+        android:drawableEnd="@drawable/ic_publish"
         android:hint="@string/share_your_thoughts">
     </EditText>
 

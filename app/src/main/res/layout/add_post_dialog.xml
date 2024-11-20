@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tb_edit_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_cancel">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="@string/new_post">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_add_image"
+           android:layout_marginStart="50dp">
+
+        </ImageButton>
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_add_video"
+            android:layout_marginStart="20dp">
+
+        </ImageButton>
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_add_audio"
+            android:layout_marginStart="20dp">
+
+        </ImageButton>
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_mic_posts"
+            android:layout_marginStart="20dp">
+
+        </ImageButton>
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="@string/share_your_thoughts"
+        android:layout_marginHorizontal="5dp"
+        android:gravity="start"
+        android:padding="10dp"
+        android:background="@drawable/rounded_edit_text_change"
+        android:paddingTop="10dp"
+        android:paddingBottom="25dp"
+        android:paddingHorizontal="5dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/klukva">
+
+    </EditText>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:backgroundTint="@color/neutral"
+        style="@style/ButtonProfile"
+        android:layout_marginEnd="5dp"
+        android:text="@string/publish"
+       >
+    </com.google.android.material.button.MaterialButton>
+
+</LinearLayout>

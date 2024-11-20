@@ -69,4 +69,6 @@
     <string name="error_password_short">Enter at least one character</string>
     <string name="change">Change</string>
     <string name="wrong_password">Wrong password</string>
+    <string name="new_post">New post</string>
+    <string name="publish">Publish</string>
 </resources>
