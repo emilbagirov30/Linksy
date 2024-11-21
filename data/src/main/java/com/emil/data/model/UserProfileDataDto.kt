@@ -10,8 +10,8 @@ data class UserProfileDataDto(
 )
 fun UserProfileDataDto.toDomainModel(): UserProfileData {
     return UserProfileData(
-        username = this.username,
-        link = this.link,
-        avatarUrl = this.avatarUrl
+        username = username,
+        link = link,
+        avatarUrl = avatarUrl
     )
 }

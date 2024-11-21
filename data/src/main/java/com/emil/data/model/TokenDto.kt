@@ -10,6 +10,6 @@ class TokenDto (@Json(name = "accessToken")val accessToken: String,
 
 fun TokenDto.toDomainModel(): Token {
     return Token(
-       accessToken = this.accessToken, refreshToken = this.refreshToken
+       accessToken = accessToken, refreshToken = refreshToken
     )
 }

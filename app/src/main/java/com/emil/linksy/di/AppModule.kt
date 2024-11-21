@@ -6,6 +6,7 @@ import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
 import com.emil.linksy.presentation.viewmodel.PasswordChangeViewModel
+import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
 import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
@@ -35,6 +36,9 @@ val appModule = module {
     }
     viewModel <PasswordChangeViewModel> {
         PasswordChangeViewModel(changePasswordUseCase = get ())
+    }
+    viewModel <PostViewModel> {
+        PostViewModel(publishPostUseCase = get ())
     }
     viewModel <ProfileManagementViewModel> {
        ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),

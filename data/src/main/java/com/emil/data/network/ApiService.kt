@@ -3,11 +3,13 @@ package com.emil.data.network
 import com.emil.data.model.AllUserDataDto
 import com.emil.data.model.PasswordChangeBody
 import com.emil.data.model.PasswordRecoveryBody
+import com.emil.data.model.PostBody
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
 import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserProfileDataDto
 import com.emil.domain.model.PasswordChangeData
+import com.emil.domain.model.PostData
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -51,5 +53,7 @@ interface ApiService {
     @POST("api/users/update_link")
     suspend fun updateLink (@Header("Authorization") token:String, @Query("link") link:String):Response<Unit>
     @POST("api/users/change_password")
-    suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeData):Response<Unit>
+    suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeBody):Response<Unit>
+    @POST("api/posts/create")
+    suspend fun createPost (@Header("Authorization") token:String, @Body postBody: PostBody):Response<Unit>
 }
