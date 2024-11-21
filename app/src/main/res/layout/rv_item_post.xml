@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:orientation="vertical">
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_post_background"
@@ -15,61 +14,67 @@
     android:orientation="vertical"
     >
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="start"
-    android:orientation="horizontal">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/default_avatar" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Username" />
+
+
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+            android:textColor="@color/gray"
+            android:text="00.00.00  00:00" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:layout_gravity="end" />
+
+        </LinearLayout>
+
+
+
+
     <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Username">
-
-    </com.google.android.material.textview.MaterialTextView>
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-       android:layout_gravity="center_horizontal"
-        android:src="@drawable/default_avatar"
-        >
-    </ImageView>
-    </LinearLayout>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:textColor="@color/red"
-        android:textStyle="bold"
-        android:gravity="end">
-
-    </com.google.android.material.textview.MaterialTextView>
-</LinearLayout>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/gray"
-        android:text="18.11.24  20:53">
-
-    </com.google.android.material.textview.MaterialTextView>
-
-    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_text_post_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/dark_gray"
-        android:text="Hello, Linksy!">
+        android:text="Test test test test">
 
     </com.google.android.material.textview.MaterialTextView>
 
@@ -78,34 +83,95 @@
 
 </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
+        android:layout_margin="5dp"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/rounded_post_background"
         android:orientation="horizontal">
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+        <LinearLayout
+            android:id="@+id/ll_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_repost">
+            android:orientation="vertical">
 
-        </ImageView>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_comment">
+
+            </ImageView>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:text="0"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/gray"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_reposts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_repost">
+
+            </ImageView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_reposts_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:text="0"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/gray"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
 
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_like">
+        <LinearLayout
+            android:id="@+id/ll_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        </ImageView>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_like" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:text="0"
+                android:textColor="@color/gray"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
 
     </LinearLayout>
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="10dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_comment">
 
-    </ImageView>
 </LinearLayout>
