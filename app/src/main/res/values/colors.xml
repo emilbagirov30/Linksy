@@ -29,5 +29,5 @@
     <color name="change_icon">#B6B6B6</color>
     <color name="like">#B13D3D</color>
     <color name="repost">#CACACA</color>
-
+    <color name="post_background">#FDFDFD</color>
 </resources>

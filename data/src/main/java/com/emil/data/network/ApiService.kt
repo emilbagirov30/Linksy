@@ -4,12 +4,11 @@ import com.emil.data.model.AllUserDataDto
 import com.emil.data.model.PasswordChangeBody
 import com.emil.data.model.PasswordRecoveryBody
 import com.emil.data.model.PostBody
+import com.emil.data.model.PostResponseDto
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
 import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserProfileDataDto
-import com.emil.domain.model.PasswordChangeData
-import com.emil.domain.model.PostData
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -56,4 +55,6 @@ interface ApiService {
     suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeBody):Response<Unit>
     @POST("api/posts/create")
     suspend fun createPost (@Header("Authorization") token:String, @Body postBody: PostBody):Response<Unit>
+    @GET ("api/posts/user_posts")
+    suspend fun getUserPosts (@Header("Authorization") token:String): Response<List<PostResponseDto>>
 }

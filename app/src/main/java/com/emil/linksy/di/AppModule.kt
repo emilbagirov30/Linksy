@@ -38,7 +38,7 @@ val appModule = module {
         PasswordChangeViewModel(changePasswordUseCase = get ())
     }
     viewModel <PostViewModel> {
-        PostViewModel(publishPostUseCase = get ())
+        PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get())
     }
     viewModel <ProfileManagementViewModel> {
        ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),
