@@ -40,9 +40,7 @@ class AddPostDialogFragment: DialogFragment() {
         publishButton.setOnClickListener {
             val text = postEditText.string()
             val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
-            postViewModel.publishPost(token,text)
-
-
+            postViewModel.publishPost(token, onSuccess = {dialog?.dismiss()},text)
         }
 
 

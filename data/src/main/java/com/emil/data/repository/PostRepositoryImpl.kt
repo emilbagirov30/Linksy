@@ -17,12 +17,14 @@ class PostRepositoryImpl:PostRepository {
 
     override suspend fun getUserPosts(token: String): Response<List<PostResponse>> {
        val response = RetrofitInstance.apiService.getUserPosts("Bearer $token")
-
         return if (response.isSuccessful) {
-
               Response.success(response.body()?.toDomainModelList())
         } else {
             Response.error(response.code(), response.errorBody()!!)
         }
+    }
+
+    override suspend fun deletePost(token: String, postId: Long): Response<Unit> {
+        return RetrofitInstance.apiService.deletePost("Bearer $token",postId)
     }
 }

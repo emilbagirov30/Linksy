@@ -12,6 +12,7 @@ import com.emil.data.model.UserProfileDataDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -57,4 +58,6 @@ interface ApiService {
     suspend fun createPost (@Header("Authorization") token:String, @Body postBody: PostBody):Response<Unit>
     @GET ("api/posts/user_posts")
     suspend fun getUserPosts (@Header("Authorization") token:String): Response<List<PostResponseDto>>
+    @DELETE ("api/posts/delete_post")
+    suspend fun deletePost (@Header("Authorization") token:String,@Query("postId")postId:Long): Response<Unit>
 }

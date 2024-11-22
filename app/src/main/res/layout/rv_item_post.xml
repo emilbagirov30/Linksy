@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
     android:orientation="vertical">
 
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_post_background"
-    android:layout_margin="5dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="5dp"
     android:paddingVertical="5dp"
     android:paddingHorizontal="10dp"
     android:orientation="vertical"
@@ -39,6 +41,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:fontFamily="@font/klukva"
+                    android:textSize="20sp"
                     android:text="username" />
 
 
@@ -52,16 +57,16 @@
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
             android:textColor="@color/gray"
+                android:textSize="15sp"
             android:text="00.00.00  00:00" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:textColor="@color/red"
-                android:textStyle="bold"
+            <ImageButton
+                android:id="@+id/ib_edit_post"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/ic_menu_post"
                 android:layout_gravity="end" />
+
 
         </LinearLayout>
 
@@ -73,9 +78,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
         android:textColor="@color/dark_gray"
-        android:text="Test test test test">
+        android:text="Test test test">
 
     </com.google.android.material.textview.MaterialTextView>
 
@@ -84,12 +88,13 @@
 
 </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
        android:layout_marginHorizontal="5dp"
         android:paddingVertical="5dp"
         android:paddingHorizontal="10dp"
-        android:gravity="end"
+        android:layout_marginTop="1dp"
+        android:layout_gravity="end"
         android:background="@drawable/rounded_post_background"
         android:orientation="horizontal">
         <LinearLayout
@@ -102,6 +107,7 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_comment">
 
             </ImageView>
@@ -129,6 +135,7 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_repost">
 
             </ImageView>
@@ -158,6 +165,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_like" />
 
             <com.google.android.material.textview.MaterialTextView

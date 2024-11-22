@@ -5,6 +5,7 @@ import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
 import com.emil.domain.usecase.DeleteAvatarUseCase
+import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.PublishPostUseCase
@@ -72,5 +73,8 @@ val domainModule = module {
     }
     factory<GetUserPostsUseCase>{
        GetUserPostsUseCase(postRepository = get())
+    }
+    factory<DeletePostUseCase>{
+        DeletePostUseCase(postRepository = get())
     }
 }

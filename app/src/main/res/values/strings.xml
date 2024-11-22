@@ -71,4 +71,9 @@
     <string name="wrong_password">Wrong password</string>
     <string name="new_post">New post</string>
     <string name="publish">Publish</string>
+    <string name="edit">Edit</string>
+    <string name="empty_message">Nothing here yet. \nShare something interesting!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_post_title">Delete a post?</string>
 </resources>

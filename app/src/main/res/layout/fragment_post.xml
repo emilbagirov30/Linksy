@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.emil.linksy.presentation.ui.PostFragment">
 
@@ -14,6 +13,8 @@ android:gravity="center_horizontal"
         android:background="@drawable/rounded_post_edit_text"
         android:paddingStart="7dp"
         android:paddingEnd="12dp"
+       android:paddingTop="10dp"
+        android:gravity="start"
         android:textColor="@color/black"
         android:fontFamily="@font/klukva"
         android:drawableEnd="@drawable/ic_publish"
@@ -21,15 +22,30 @@ android:gravity="center_horizontal"
     </EditText>
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_posts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        >
+        android:visibility="gone"
+        android:layout_marginTop="10dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <FrameLayout
+        android:id="@+id/fl_empty_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/empty_message"
+            android:textSize="15sp"
+            android:textColor="@color/gray"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
 
 </LinearLayout>
