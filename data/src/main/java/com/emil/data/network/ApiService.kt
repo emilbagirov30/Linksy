@@ -16,6 +16,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Query
@@ -37,22 +38,22 @@ interface ApiService {
     suspend fun confirmPasswordChange(@Body request:PasswordRecoveryBody): Response<Unit>
     @GET ("api/users/profile_data")
     suspend fun getUserProfileData (@Header("Authorization") token:String): Response<UserProfileDataDto>
-    @POST ("api/users/delete_avatar")
+    @DELETE ("api/users/delete_avatar")
     suspend fun deleteAvatar (@Header("Authorization") token:String): Response<Unit>
     @GET ("api/users/all_data")
     suspend fun getAllUserData (@Header("Authorization") token:String): Response<AllUserDataDto>
     @Multipart
     @POST ("/api/users/upload/avatar")
     suspend fun uploadAvatar (@Header("Authorization") token:String, @Part file: MultipartBody.Part): Response<Unit>
-    @POST("api/users/refresh_token")
+    @PATCH("api/users/refresh_token")
     suspend fun refreshToken (@Query("refreshToken") token:String):Response<TokenDto>
-    @POST("api/users/update_birthday")
+    @PATCH("api/users/update_birthday")
     suspend fun updateBirthday (@Header("Authorization") token:String,@Query("birthday") birthday:String):Response<Unit>
-    @POST("api/users/update_username")
+    @PATCH("api/users/update_username")
     suspend fun updateUsername (@Header("Authorization") token:String,@Query("username") username:String):Response<Unit>
-    @POST("api/users/update_link")
+    @PATCH("api/users/update_link")
     suspend fun updateLink (@Header("Authorization") token:String, @Query("link") link:String):Response<Unit>
-    @POST("api/users/change_password")
+    @PATCH("api/users/change_password")
     suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeBody):Response<Unit>
     @POST("api/posts/create")
     suspend fun createPost (@Header("Authorization") token:String, @Body postBody: PostBody):Response<Unit>
