@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.PostsAdapter
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.Linksy
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -32,6 +34,7 @@ class PostFragment : Fragment() {
     private  lateinit var emptyMessage:FrameLayout
     private  lateinit var shimmerPosts:ShimmerFrameLayout
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
+    private val tokenManager: TokenManager by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,7 +54,7 @@ class PostFragment : Fragment() {
         shimmerPosts.startShimmer()
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
         postsRecyclerView.layoutManager = LinearLayoutManager(context)
-        val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+        val token = tokenManager.getAccessToken()
         postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
         postViewModel.postList.observe(requireActivity()){ postlist ->
             postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel,context = requireContext())

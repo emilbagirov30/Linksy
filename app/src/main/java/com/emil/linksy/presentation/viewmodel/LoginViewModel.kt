@@ -10,8 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LoginViewModel(private val loginUseCase: LoginUseCase, context: Context):ViewModel () {
-    private val tokenManager = TokenManager(context)
+
+
+class LoginViewModel(private val loginUseCase: LoginUseCase, private val tokenManager: TokenManager):ViewModel () {
      fun login (email:String, password:String,onSuccess: () -> Unit,onIncorrect: () -> Unit, onError: () -> Unit, onEnd: () -> Unit){
         viewModelScope.launch {
             try {

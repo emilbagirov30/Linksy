@@ -30,6 +30,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.Linksy
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
@@ -45,7 +46,9 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.source
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.java.KoinJavaComponent.inject
 
 class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var changeAvatarImageView: ImageView
@@ -56,7 +59,6 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var shimmerAvatar: ShimmerFrameLayout
     private lateinit var shimmerContent: ShimmerFrameLayout
     private lateinit var contentLinearLayout:LinearLayout
-    private lateinit var sharedPref: SharedPreferences
     private lateinit var usernameEditText:EditText
     private lateinit var emailEditText:EditText
     private lateinit var linkEditText:EditText
@@ -73,6 +75,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private var shouldDeletePhoto:Boolean = false
     private var avatarExist:Boolean = false
     private var currentToast: Toast? = null
+    private val tokenManager: TokenManager by inject()
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,7 +97,6 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         avatarFrameLayout = view.findViewById(R.id.fl_avatar)
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
         saveButton = view.findViewById(R.id.bt_save)
-        sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
         fetchData()
         val usernameTextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -118,7 +120,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         birthdayEditText.addTextChangedListener(birthdayTextWatcher)
         saveButton.setOnClickListener {
             hideAllError()
-            val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+            val token = tokenManager.getAccessToken()
             val birthday = birthdayEditText.string()
             val link = linkEditText.string()
             val username = usernameEditText.string()
@@ -274,7 +276,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     }
     private fun fetchData() {
         startShimmer()
-        val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+        val token = tokenManager.getAccessToken()
         profileManagementViewModel.getData(token, onIncorrect = {showToast(requireContext(),R.string.error_invalid_token) } ,
             onError = {
                 stopShimmer()

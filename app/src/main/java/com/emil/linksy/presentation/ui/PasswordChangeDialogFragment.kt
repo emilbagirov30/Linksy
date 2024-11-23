@@ -15,6 +15,7 @@ import com.emil.linksy.presentation.viewmodel.PasswordChangeViewModel
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.Linksy
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
@@ -24,6 +25,7 @@ import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PasswordChangeDialogFragment: DialogFragment() {
@@ -42,7 +44,7 @@ class PasswordChangeDialogFragment: DialogFragment() {
     private lateinit var passwordMismatchTextView: MaterialTextView
     private lateinit var passwordShortTextView: MaterialTextView
     private lateinit var loading: LoadingDialog
-    private lateinit var sharedPref: SharedPreferences
+    private val tokenManager: TokenManager by inject()
     private val passwordChangeViewModel: PasswordChangeViewModel by viewModel<PasswordChangeViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,7 +65,7 @@ class PasswordChangeDialogFragment: DialogFragment() {
         changeButton = view.findViewById(R.id.bt_change)
         toolBar = view.findViewById(R.id.tb_edit_data)
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
-        sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
+
         changeInputTypeOldPasswordButton.setOnClickListener {
             togglePasswordVisibility(oldPasswordEditText, changeInputTypeOldPasswordButton)
         }
@@ -98,7 +100,7 @@ class PasswordChangeDialogFragment: DialogFragment() {
             if(validPassword&&validLength){
                 loading = LoadingDialog(requireContext())
                 loading.show()
-                val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+                val token = tokenManager.getAccessToken()
                passwordChangeViewModel.changePassword(token = token,oldPassword =oldPassword,newPassword = newPassword, onSuccess = {
                    showToast(requireContext(), R.string.password_update)
                    oldPasswordEditText.setText("")

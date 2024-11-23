@@ -55,6 +55,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
+    implementation ("androidx.security:security-crypto:1.1.0-alpha01")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

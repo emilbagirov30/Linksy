@@ -1,5 +1,6 @@
 package com.emil.linksy.presentation.viewmodel
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.PasswordChangeData
@@ -7,8 +8,8 @@ import com.emil.domain.usecase.ChangePasswordUseCase
 import kotlinx.coroutines.launch
 
 class PasswordChangeViewModel (private val changePasswordUseCase: ChangePasswordUseCase):ViewModel() {
-
-   fun changePassword (token:String, oldPassword:String, newPassword:String,onSuccess: () -> Unit,onIncorrect: () -> Unit,onError: () -> Unit,onEnd: () -> Unit) {
+   @SuppressLint("SuspiciousIndentation")
+   fun changePassword (token:String, oldPassword:String, newPassword:String, onSuccess: () -> Unit, onIncorrect: () -> Unit, onError: () -> Unit, onEnd: () -> Unit) {
        viewModelScope.launch {
            try {
           val response = changePasswordUseCase.execute(token, PasswordChangeData(oldPassword, newPassword))

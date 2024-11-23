@@ -11,10 +11,12 @@ import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import com.emil.linksy.presentation.viewmodel.PasswordChangeViewModel
 import com.emil.linksy.presentation.viewmodel.PostViewModel
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddPostDialogFragment: DialogFragment() {
@@ -23,7 +25,7 @@ class AddPostDialogFragment: DialogFragment() {
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     private lateinit var postEditText: EditText
     private lateinit var publishButton: MaterialButton
-    private lateinit var sharedPref: SharedPreferences
+    private val tokenManager: TokenManager by inject()
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,10 +38,9 @@ class AddPostDialogFragment: DialogFragment() {
         publishButton = view.findViewById(R.id.bt_publish)
         toolBar = view.findViewById(R.id.tb_edit_data)
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
-        sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
         publishButton.setOnClickListener {
             val text = postEditText.string()
-            val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+            val token = tokenManager.getAccessToken()
             postViewModel.publishPost(token, onSuccess = {dialog?.dismiss()},text)
         }
 

@@ -26,7 +26,7 @@ val appModule = module {
         ConfirmCodeViewModel(confirmUseCase = get(), resendCodeUseCase = get())
     }
     viewModel <LoginViewModel> {
-      LoginViewModel(loginUseCase = get(), context = androidContext())
+      LoginViewModel(loginUseCase = get(), tokenManager = get())
     }
     viewModel <RecoveryPasswordViewModel> {
        RecoveryPasswordViewModel(requestPasswordRecoveryUseCase = get(), confirmPasswordRecoveryUseCase = get ())

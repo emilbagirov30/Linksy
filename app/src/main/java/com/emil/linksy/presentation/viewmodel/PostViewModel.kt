@@ -12,13 +12,14 @@ import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import kotlinx.coroutines.launch
-import retrofit2.Response
+
 
 class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
                      private val getUserPostsUseCase: GetUserPostsUseCase,
                      private val deletePostUseCase: DeletePostUseCase
 
 ):ViewModel() {
+
     private val _postList = MutableLiveData<List<PostResponse>> ()
     val postList: LiveData<List<PostResponse>> = _postList
 

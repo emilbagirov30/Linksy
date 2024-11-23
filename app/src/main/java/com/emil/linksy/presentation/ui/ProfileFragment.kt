@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
 import com.emil.linksy.util.Linksy
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.replaceFragment
 import com.emil.linksy.util.show
@@ -23,6 +24,7 @@ import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -32,12 +34,12 @@ class ProfileFragment : Fragment() {
     private lateinit var avatarImageView:ImageView
     private lateinit var editUserDataImageView:ImageView
     private lateinit var tabLayout:TabLayout
-    private lateinit var sharedPref: SharedPreferences
    private lateinit var shimmerUsername: ShimmerFrameLayout
    private lateinit var shimmerAvatar: ShimmerFrameLayout
     private lateinit var shimmerLink: ShimmerFrameLayout
     private val userProfileDataViewModel: UserProfileDataViewModel by viewModel<UserProfileDataViewModel>()
     private var containerId:Int =0
+    private val tokenManager: TokenManager by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -57,7 +59,6 @@ class ProfileFragment : Fragment() {
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
         editUserDataImageView = view.findViewById(R.id.iv_edit_user_data)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
-        sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
         showPosts()
         fetchData()
         editUserDataImageView.setOnClickListener {
@@ -124,7 +125,7 @@ private fun stopShimmer(){
 }
     private fun fetchData() {
         startShimmer()
-       val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+        val token = tokenManager.getAccessToken()
         userProfileDataViewModel.getData(token,onIncorrect = { showToast(requireContext(),R.string.error_invalid_token) } , onError = {
             stopShimmer()
             if (isAdded && view != null) {

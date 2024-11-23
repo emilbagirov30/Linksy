@@ -40,7 +40,7 @@ class TokenService: LifecycleService() {
             while (true) {
                 try {
                     val currentRefreshToken = tokenManager.getRefreshToken()
-                    if (!currentRefreshToken.isNullOrEmpty()) {
+                    if (currentRefreshToken.isNotEmpty()) {
                         val response = refreshTokenUseCase.execute(currentRefreshToken)
                         if (response.isSuccessful) {
                             response.body()?.let { body ->
