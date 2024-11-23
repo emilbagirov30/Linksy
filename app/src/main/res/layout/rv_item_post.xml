@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="15dp"
+    android:paddingBottom="5dp"
+    android:background="@color/post_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -57,7 +60,7 @@
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
             android:textColor="@color/gray"
-                android:textSize="15sp"
+                android:textSize="10sp"
             android:text="00.00.00  00:00" />
 
             <ImageButton
@@ -79,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textColor="@color/dark_gray"
-        android:text="Test test test">
+        android:text="">
 
     </com.google.android.material.textview.MaterialTextView>
 
@@ -166,7 +169,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_like" />
+                android:background="@drawable/ic_like" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_like_count"

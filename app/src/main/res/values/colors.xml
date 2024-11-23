@@ -27,7 +27,7 @@
     <color name="nav_active">#074F70</color>
     <color name="post_edit_text">#FDFDFD</color>
     <color name="change_icon">#B6B6B6</color>
-    <color name="like">#B13D3D</color>
-    <color name="repost">#CACACA</color>
-    <color name="post_background">#FDFDFD</color>
+    <color name="like_active">#B13D3D</color>
+    <color name="inactive">#B5B5B5</color>
+    <color name="post_background">#FAFAFA</color>
 </resources>

@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.PostsAdapter
 import com.emil.linksy.presentation.viewmodel.PostViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
+import com.facebook.shimmer.ShimmerFrameLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -28,8 +30,8 @@ class PostFragment : Fragment() {
     private lateinit var postsRecyclerView:RecyclerView
     private lateinit var sharedPref: SharedPreferences
     private  lateinit var emptyMessage:FrameLayout
-
-private val postViewModel: PostViewModel by viewModel<PostViewModel>()
+    private  lateinit var shimmerPosts:ShimmerFrameLayout
+    private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,15 +46,18 @@ private val postViewModel: PostViewModel by viewModel<PostViewModel>()
         newPostEditText = view.findViewById(R.id.et_new_post)
         postsRecyclerView = view.findViewById(R.id.rv_posts)
         emptyMessage = view.findViewById(R.id.fl_empty_message)
+        shimmerPosts = view.findViewById(R.id.shimmer_posts)
+        shimmerPosts.setShimmer(Linksy.CUSTOM_SHIMMER)
+        shimmerPosts.startShimmer()
         sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
         postsRecyclerView.layoutManager = LinearLayoutManager(context)
         val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
-        postViewModel.getUserPosts(token, onError = {})
+        postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
         postViewModel.postList.observe(requireActivity()){ postlist ->
             postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel,context = requireContext())
-            if (postlist.isNotEmpty()) {
-                showContent()
-            }
+            if (postlist.isEmpty()) emptyMessage.show()
+            else showContent()
+
         }
         newPostEditText.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -66,8 +71,13 @@ private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     }
 
     private fun showContent (){
+        shimmerPosts.hide()
         postsRecyclerView.show()
         emptyMessage.hide()
+    }
+    private fun stopShimmer(){
+        shimmerPosts.stopShimmer()
+
     }
 
 }

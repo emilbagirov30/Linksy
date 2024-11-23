@@ -36,15 +36,14 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
         }
     }
 
-    fun getUserPosts(token: String,onError: ()->Unit) {
+    fun getUserPosts(token: String,onSuccess: ()->Unit,onError: ()->Unit) {
 
         viewModelScope.launch {
             try {
-
-
             val response = getUserPostsUseCase.execute(token)
             if (response.isSuccessful){
                 _postList.value = response.body()
+                onSuccess ()
             }
         }catch (e:Exception){
             onError ()

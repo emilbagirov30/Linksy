@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.emil.linksy.presentation.ui.PostFragment">
 
@@ -34,7 +35,8 @@
     <FrameLayout
         android:id="@+id/fl_empty_message"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -47,5 +49,31 @@
 
     </FrameLayout>
 
+<com.facebook.shimmer.ShimmerFrameLayout
+    android:id="@+id/shimmer_posts"
+    android:layout_width="match_parent"
+    android:alpha="0.4"
+    app:shimmer_colored="true"
+    app:shimmer_base_color="@color/soft_gray"
+    android:layout_marginTop="10dp"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <include
+        layout="@layout/rv_item_post"
+        />
+    <include
+        layout="@layout/rv_item_post"
+        />
+    <include
+        layout="@layout/rv_item_post"
+        />
+    <include
+        layout="@layout/rv_item_post"
+        />
+    </LinearLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>
 
 </LinearLayout>

@@ -133,6 +133,7 @@ private fun stopShimmer(){
                     setTextColor(Color.GRAY)
                     setAction(getString(R.string.repeat)) {
                          fetchData()
+                         showPosts()
                     }
                     setActionTextColor(Color.BLUE)
                     show()
