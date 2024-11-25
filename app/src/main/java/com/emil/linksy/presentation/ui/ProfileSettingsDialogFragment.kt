@@ -52,7 +52,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var changeAvatarImageView: ImageView
-    private lateinit var changePasswordTextView: MaterialTextView
+    private lateinit var changePasswordButton: MaterialButton
     private lateinit var linkExistTextView: MaterialTextView
     private lateinit var usernameShortTextView: MaterialTextView
     private lateinit var toolBar: MaterialToolbar
@@ -84,7 +84,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         val view = inflater.inflate(R.layout.profile_settings_dialog, container, false)
         changeAvatarImageView = view.findViewById(R.id.iv_change_avatar)
         toolBar = view.findViewById(R.id.tb_edit_data)
-        changePasswordTextView = view.findViewById(R.id.tv_change_password)
+        changePasswordButton = view.findViewById(R.id.bt_change_password)
         linkExistTextView = view.findViewById(R.id.tv_error_link_exist)
         usernameShortTextView = view.findViewById(R.id.tv_error_username_short)
         shimmerAvatar = view.findViewById(R.id.shimmer_avatar)
@@ -205,7 +205,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
                 handleSelectedImage(uri)
             }
         }
-        changePasswordTextView.setOnClickListener {
+        changePasswordButton.setOnClickListener {
            PasswordChangeDialogFragment().show(parentFragmentManager, "ChangePasswordDialogFragment")
         }
         changeAvatarImageView.setOnClickListener {
