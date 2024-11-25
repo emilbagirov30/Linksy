@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.PostsAdapter
@@ -31,7 +32,7 @@ class PostFragment : Fragment() {
     private lateinit var newPostEditText:EditText
     private lateinit var postsRecyclerView:RecyclerView
     private lateinit var sharedPref: SharedPreferences
-    private  lateinit var emptyMessage:FrameLayout
+    private  lateinit var emptyMessage:LinearLayout
     private  lateinit var shimmerPosts:ShimmerFrameLayout
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     private val tokenManager: TokenManager by inject()
