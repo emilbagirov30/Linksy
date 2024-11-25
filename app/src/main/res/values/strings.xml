@@ -75,5 +75,6 @@
     <string name="empty_message">Nothing here yet. \nShare something interesting!</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="delete_post_title">Delete a post?</string>
+    <string name="delete_post_title">Deleting a post</string>
+    <string name="delete_post_confirm_text">Are you sure you want to delete the post?</string>
 </resources>

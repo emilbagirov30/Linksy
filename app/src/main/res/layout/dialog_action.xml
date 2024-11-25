@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:layout_gravity="center"
-    android:padding="15dp"
+    android:padding="5dp"
     android:layout_margin="10dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -16,15 +17,29 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="20sp"
+        android:layout_gravity="start"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"
+        android:text="Удаление поста">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_confirm_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
         android:layout_gravity="center"
-        android:layout_marginBottom="50dp"
-        android:text="">
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/gray"
+        android:text="Вы уверены,что хотите удалить пост?">
 
     </com.google.android.material.textview.MaterialTextView>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:orientation="horizontal">
 
 
@@ -32,8 +47,10 @@
             android:id="@+id/bt_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/red"
-            android:text="@string/no">
+            android:background="@android:color/transparent"
+            android:foreground="?attr/selectableItemBackground"
+            android:textColor="@color/red"
+            android:text="@string/cancel">
 
         </com.google.android.material.button.MaterialButton>
 
@@ -41,11 +58,10 @@
             android:id="@+id/bt_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/neutral"
-            android:layout_marginLeft="20dp"
-            android:text="@string/yes">
-
-        </com.google.android.material.button.MaterialButton>
+           android:background="@android:color/transparent"
+            android:foreground="?attr/selectableItemBackground"
+            android:textColor="@color/neutral"
+            android:text="@string/yes" />
 
 
     </LinearLayout>

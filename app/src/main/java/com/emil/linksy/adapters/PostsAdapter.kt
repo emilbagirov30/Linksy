@@ -69,6 +69,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                         2 -> {
                             val dialog = ActionDialog(context)
                             dialog.setTitle(context.getString(R.string.delete_post_title))
+                            dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
                             dialog.setAction {
                                 val token = tokenManager.getAccessToken()
                                 postViewModel.deletePost(token,post.postId, onSuccess ={dialog.dismiss()}, onError = {})
