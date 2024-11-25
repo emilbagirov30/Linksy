@@ -19,11 +19,14 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.PostResponse
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.viewmodel.PostViewModel
+import com.emil.linksy.util.TokenManager
 import com.emil.presentation.R
 import com.google.android.material.textview.MaterialTextView
+import org.koin.android.ext.android.inject
+import org.koin.java.KoinJavaComponent.inject
 
 class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
-                   private val context:Context): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
+                   private val context:Context, private val tokenManager: TokenManager): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val authorAvatarImageView = itemView.findViewById<ImageView>(R.id.iv_author_avatar)
@@ -67,9 +70,8 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                             val dialog = ActionDialog(context)
                             dialog.setTitle(context.getString(R.string.delete_post_title))
                             dialog.setAction {
-                                val token = sharedPref.getString("ACCESS_TOKEN",null).toString()
+                                val token = tokenManager.getAccessToken()
                                 postViewModel.deletePost(token,post.postId, onSuccess ={dialog.dismiss()}, onError = {})
-
                             }
                             true
                         }

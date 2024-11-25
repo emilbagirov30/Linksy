@@ -58,7 +58,7 @@ class PostFragment : Fragment() {
         val token = tokenManager.getAccessToken()
         postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
         postViewModel.postList.observe(requireActivity()){ postlist ->
-            postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel,context = requireContext())
+            postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel,context = requireContext(),tokenManager = tokenManager)
             if (postlist.isEmpty()) emptyMessage.show()
             else showContent()
 
