@@ -64,7 +64,7 @@
     <string name="error_password_short">Введите хотя бы один символ</string>
     <string name="change">Изменить</string>
     <string name="wrong_password">Неверный пароль</string>
-    <string name="new_post">Новый пароль</string>
+    <string name="new_post">Новый пост</string>
     <string name="publish">Опубликовать</string>
     <string name="edit">Редактировать</string>
     <string name="empty_message">Пока ничего нет. \nДобавьте что-нибудь интересное!</string>
