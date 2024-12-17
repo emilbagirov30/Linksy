@@ -42,9 +42,11 @@ interface ApiService {
     suspend fun deleteAvatar (@Header("Authorization") token:String): Response<Unit>
     @GET ("api/users/all_data")
     suspend fun getAllUserData (@Header("Authorization") token:String): Response<AllUserDataDto>
+
+    @POST ("api/upload/avatar")
     @Multipart
-    @POST ("/api/users/upload/avatar")
-    suspend fun uploadAvatar (@Header("Authorization") token:String, @Part file: MultipartBody.Part): Response<Unit>
+    suspend fun uploadAvatar (@Header("Authorization") token:String,@Part image: MultipartBody.Part): Response<Unit>
+
     @PATCH("api/users/refresh_token")
     suspend fun refreshToken (@Query("refreshToken") token:String):Response<TokenDto>
     @PATCH("api/users/update_birthday")
@@ -55,8 +57,16 @@ interface ApiService {
     suspend fun updateLink (@Header("Authorization") token:String, @Query("link") link:String):Response<Unit>
     @PATCH("api/users/change_password")
     suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeBody):Response<Unit>
+
     @POST("api/posts/create")
-    suspend fun createPost (@Header("Authorization") token:String, @Body postBody: PostBody):Response<Unit>
+    @Multipart
+    suspend fun createPost (@Header("Authorization") token:String,
+                            @Part("text") text: String?,
+                            @Part image: MultipartBody.Part?,
+                            @Part video: MultipartBody.Part?,
+                            @Part audio: MultipartBody.Part?,
+                            @Part voice: MultipartBody.Part?):Response<Unit>
+
     @GET ("api/posts/user_posts")
     suspend fun getUserPosts (@Header("Authorization") token:String): Response<List<PostResponseDto>>
     @DELETE ("api/posts/delete_post")

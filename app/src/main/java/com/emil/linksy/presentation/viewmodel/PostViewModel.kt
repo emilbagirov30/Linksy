@@ -12,6 +12,7 @@ import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
 
 class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
@@ -24,10 +25,13 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
     val postList: LiveData<List<PostResponse>> = _postList
 
 
-    fun publishPost (token:String,onSuccess: ()->Unit,postText:String){
+    fun publishPost (token:String, postText:String, image: MultipartBody.Part?,
+                     video: MultipartBody.Part?,
+                     audio: MultipartBody.Part?,
+                     voice: MultipartBody.Part?,onSuccess: ()->Unit){
         viewModelScope.launch {
             try{
-               val response =publishPostUseCase.execute(token, PostData(postText))
+               val response =publishPostUseCase.execute(token, PostData(postText,image, video, audio, voice))
                 if(response.isSuccessful){
                     onSuccess ()
                 }

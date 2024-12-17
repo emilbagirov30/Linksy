@@ -6,6 +6,7 @@ import android.graphics.BlendModeColorFilter
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.net.Uri
 import android.os.Build
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -14,9 +15,16 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.emil.presentation.R
 import com.facebook.shimmer.Shimmer
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.InputStream
 
 class Linksy {
     companion object {
@@ -74,3 +82,50 @@ fun hideKeyboard (context: Context,view: View){
     val inputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+enum class ContentType(val mimeType: String) {
+    IMAGE("image/*"),
+    VIDEO("video/*"),
+    AUDIO("audio/*");
+
+    override fun toString(): String = mimeType
+}
+
+private fun createFilePart(uri: Uri, context: Context, fieldName: String, mimeType: String): MultipartBody.Part? {
+    val contentResolver = context.contentResolver
+    val inputStream: InputStream
+    try {
+        inputStream = contentResolver.openInputStream(uri)!!
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return null
+    }
+
+    val fileName = "${fieldName}_${System.currentTimeMillis()}.${mimeType.substringAfter("/")}"
+    val fileBody = RequestBody.create(MediaType.parse(mimeType), inputStream.readBytes())
+    inputStream.close()
+
+    return MultipartBody.Part.createFormData(fieldName, fileName, fileBody)
+}
+
+fun createImageFilePart(context: Context, uri: Uri): MultipartBody.Part? {
+    return createFilePart(uri, context, "image", "image/png")
+}
+
+fun createVideoFilePart(context: Context, uri: Uri): MultipartBody.Part? {
+    return createFilePart(uri, context, "video", "video/mp4")
+}
+
+fun createAudioFilePart(context: Context, uri: Uri): MultipartBody.Part? {
+    return createFilePart(uri, context, "audio", "audio/mpeg")
+}
+
+fun createVoiceFilePart(context: Context, uri: Uri): MultipartBody.Part? {
+    return createFilePart(uri, context, "voice", "audio/wav")
+}
+
+
+fun createContentPicker(fragment: Fragment, action: (Uri) -> Unit) =
+    fragment.registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { action(it) }
+    }

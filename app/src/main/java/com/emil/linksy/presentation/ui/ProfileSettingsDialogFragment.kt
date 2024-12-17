@@ -29,9 +29,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.util.BackgroundState
+import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.changeEditTextBackgroundColor
+import com.emil.linksy.util.createContentPicker
+import com.emil.linksy.util.createImageFilePart
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
@@ -76,7 +79,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private var avatarExist:Boolean = false
     private var currentToast: Toast? = null
     private val tokenManager: TokenManager by inject()
-    @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
+    @SuppressLint("MissingInflatedId", "ClickableViewAccessibility", "DefaultLocale")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -124,10 +127,13 @@ class ProfileSettingsDialogFragment: DialogFragment() {
             val birthday = birthdayEditText.string()
             val link = linkEditText.string()
             val username = usernameEditText.string()
-            if(selectedUri!=null) {
-                val filePart = createFilePart(selectedUri!!, requireContext())
-                profileManagementViewModel.uploadAvatar(token = token, filePart, onSuccess = { selectedUri=null}, onError = {displayError()})
+
+            selectedUri?.let {
+               val avatar = createImageFilePart(requireContext(), it)
+                profileManagementViewModel.uploadAvatar(token = token, avatar!!, onSuccess = { selectedUri=null}, onError = {displayError()})
+
             }
+
             if (shouldDeletePhoto){
                 profileManagementViewModel.deleteAvatar(token = token,onSuccess = {shouldDeletePhoto = false}, onError = {displayError()})
             }
@@ -195,15 +201,9 @@ class ProfileSettingsDialogFragment: DialogFragment() {
             }
             showContent()
         }
-        val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                Glide.with(requireContext())
-                    .load(uri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImageView)
-                shouldDeletePhoto = false
-                handleSelectedImage(uri)
-            }
+        val pickImageLauncher = createContentPicker(this) { uri ->
+            handleSelectedImage(uri)
+            selectedUri = uri
         }
         changePasswordButton.setOnClickListener {
            PasswordChangeDialogFragment().show(parentFragmentManager, "ChangePasswordDialogFragment")
@@ -222,7 +222,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     1 -> {
-                        pickImageLauncher.launch("image/*")
+                        pickImageLauncher.launch(ContentType.IMAGE.mimeType)
                         avatarExist = true
                         shouldDeletePhoto = false
                         true
@@ -248,7 +248,11 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     }
     @SuppressLint("Recycle", "NewApi")
     private fun handleSelectedImage(uri: Uri) {
-        selectedUri = uri
+        Glide.with(requireContext())
+            .load(uri)
+            .apply(RequestOptions.circleCropTransform())
+            .into(avatarImageView)
+        shouldDeletePhoto = false
         saveButton.isEnabled = true
     }
     override fun getTheme() = R.style.FullScreenDialog
@@ -301,14 +305,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         shimmerAvatar.stopShimmer()
         shimmerContent.stopShimmer()
     }
-    private fun createFilePart(uri: Uri, context: Context): MultipartBody.Part {
-        val contentResolver = context.contentResolver
-        val inputStream = contentResolver.openInputStream(uri)!!
-        val fileName = "avatar_${System.currentTimeMillis()}.png"
-        val fileBody = RequestBody.create(MediaType.parse("image/png"), inputStream.readBytes())
-        inputStream.close()
-        return MultipartBody.Part.createFormData("file", fileName, fileBody)
-    }
+
     private fun hideAllError(){
         linkExistTextView.hide()
         usernameShortTextView.hide()
@@ -318,4 +315,5 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         currentToast = Toast.makeText(requireContext(), R.string.failed_connection, Toast.LENGTH_SHORT)
         currentToast?.show()
     }
+
 }

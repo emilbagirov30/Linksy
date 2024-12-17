@@ -12,7 +12,13 @@ import retrofit2.Response
 class PostRepositoryImpl:PostRepository {
     private val postBody = PostBody ()
     override suspend fun createPost(token: String, post: PostData):Response<Unit> {
-        return RetrofitInstance.apiService.createPost("Bearer $token", postBody = postBody.toDomainModel(post))
+        return RetrofitInstance.apiService.createPost("Bearer $token",
+            postBody.toDomainModel(post).text,
+            postBody.toDomainModel(post).image,
+            postBody.toDomainModel(post).video,
+            postBody.toDomainModel(post).audio,
+            postBody.toDomainModel(post).voice
+            )
     }
 
     override suspend fun getUserPosts(token: String): Response<List<PostResponse>> {

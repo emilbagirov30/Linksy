@@ -9,7 +9,7 @@ import retrofit2.Response
 interface UserRepository {
     suspend fun getUserProfileData (token:String):Response<UserProfileData>
     suspend fun getAllUserData (token:String):Response<AllUserData>
-    suspend fun uploadAvatar (token:String,file: MultipartBody.Part):Response<Unit>
+    suspend fun uploadAvatar (token:String,avatar: MultipartBody.Part):Response<Unit>
     suspend fun updateBirthday (token:String,birthday:String):Response<Unit>
     suspend fun updateUsername (token:String,username:String):Response<Unit>
     suspend fun updateLink (token:String,link:String):Response<Unit>

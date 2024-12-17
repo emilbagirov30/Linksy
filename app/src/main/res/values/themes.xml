@@ -124,9 +124,20 @@
         <item name="android:windowBackground">@drawable/rounded_dialog</item>
     </style>
 
+    <style name="TransparentDialog" parent="Theme.Material3.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
     <style name="ButtonProfile" parent="Widget.Material3.Button">
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/klukva</item>
+    </style>
+
+    <style name="ButtonPostPanel" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
     </style>
     <style name="TabTextStyle">
         <item name="textAllCaps">false</item>

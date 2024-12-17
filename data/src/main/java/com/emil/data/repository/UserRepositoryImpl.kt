@@ -31,8 +31,8 @@ class UserRepositoryImpl: UserRepository {
         }
     }
 
-    override suspend fun uploadAvatar(token: String,file: MultipartBody.Part): Response<Unit> {
-        return RetrofitInstance.apiService.uploadAvatar("Bearer $token",file)
+    override suspend fun uploadAvatar(token: String,avatar: MultipartBody.Part): Response<Unit> {
+        return RetrofitInstance.apiService.uploadAvatar("Bearer $token",avatar)
     }
     override suspend fun updateBirthday(token: String, birthday: String): Response<Unit> {
         return RetrofitInstance.apiService.updateBirthday("Bearer $token",birthday)

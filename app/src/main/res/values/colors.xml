@@ -30,4 +30,7 @@
     <color name="like_active">#B13D3D</color>
     <color name="inactive">#B5B5B5</color>
     <color name="post_background">#FAFAFA</color>
+    <color name="audio_wave">#CC4518</color>
+    <color name="cross">#6F1815</color>
+    <color name="check">#01433C</color>
 </resources>
