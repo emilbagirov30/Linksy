@@ -16,10 +16,10 @@ fun Fragment.replaceFragment(containerId:Int,fragment: Fragment) {
 }
 
 
-fun FragmentActivity.replaceFragment(containerId:Int,fragment: Fragment) {
+fun FragmentActivity.replaceFragment(containerId:Int,fragment: Fragment,tag:String) {
     supportFragmentManager.commit {
         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        replace(containerId, fragment)
+        replace(containerId, fragment, tag)
     }
 }
 

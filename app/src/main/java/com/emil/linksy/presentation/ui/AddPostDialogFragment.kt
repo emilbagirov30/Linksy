@@ -42,7 +42,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
 
-class AddPostDialogFragment: DialogFragment() {
+class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragment() {
 
     private lateinit var toolBar: MaterialToolbar
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
@@ -141,16 +141,23 @@ class AddPostDialogFragment: DialogFragment() {
 
 
         publishButton.setOnClickListener {
+           val loading = LoadingDialog(requireContext())
+            loading.show()
             val text = postEditText.string()
             val token = tokenManager.getAccessToken()
             val imagePart = imageUri?.let { createImageFilePart(requireContext(), it) }
             val videoPart = videoUri?.let { createVideoFilePart(requireContext(), it) }
             val audioPart = audioUri?.let { createAudioFilePart(requireContext(), it) }
             val voicePart = voiceUri?.let { createVoiceFilePart(requireContext(), it) }
+
             postViewModel.publishPost(token,text,
                 image = imagePart, video = videoPart,
                 audio = audioPart,voice = voicePart,
-                onSuccess = {dialog?.dismiss()})
+                onSuccess = {
+                    postFragment.updatePosts()
+                    dialog?.dismiss()
+                    loading.dismiss()
+                })
         }
 
 

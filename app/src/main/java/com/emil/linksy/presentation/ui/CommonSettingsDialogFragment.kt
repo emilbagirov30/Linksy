@@ -13,7 +13,7 @@ import com.emil.linksy.adapters.model.SettingItem
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 
-class CommonSettingsDialogFragment : DialogFragment() {
+class CommonSettingsDialogFragment (private val profileFragment:ProfileFragment) : DialogFragment() {
 private lateinit var toolBar: MaterialToolbar
 private lateinit var settingsRecyclerView: RecyclerView
     @SuppressLint("MissingInflatedId")
@@ -35,7 +35,10 @@ private lateinit var settingsRecyclerView: RecyclerView
         settingsRecyclerView.adapter = SettingsAdapter(settingsList) { settingItem ->
             navigateToSettingDetail(settingItem)
         }
-        toolBar.setNavigationOnClickListener { dialog?.dismiss() }
+        toolBar.setNavigationOnClickListener {
+            profileFragment.fetchData()
+            dialog?.dismiss()
+        }
         return view
     }
 

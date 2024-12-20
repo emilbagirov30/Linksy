@@ -1,14 +1,13 @@
 package com.emil.data.network
 
 import com.emil.data.TemporaryKeyStore
-
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-object RetrofitInstance {
-    private const val BASE_URL = TemporaryKeyStore.BASE_URL
+object RetrofitCloudInstance {
+    private const val BASE_URL = "${TemporaryKeyStore.BASE_URL}:${TemporaryKeyStore.PORT_CLOUD}/"
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
@@ -24,6 +23,5 @@ object RetrofitInstance {
     val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
-
 
 }

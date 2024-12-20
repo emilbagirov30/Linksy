@@ -31,7 +31,6 @@ class PostFragment : Fragment() {
 
     private lateinit var newPostEditText:EditText
     private lateinit var postsRecyclerView:RecyclerView
-    private lateinit var sharedPref: SharedPreferences
     private  lateinit var emptyMessage:LinearLayout
     private  lateinit var shimmerPosts:ShimmerFrameLayout
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
@@ -53,19 +52,11 @@ class PostFragment : Fragment() {
         shimmerPosts = view.findViewById(R.id.shimmer_posts)
         shimmerPosts.setShimmer(Linksy.CUSTOM_SHIMMER)
         shimmerPosts.startShimmer()
-        sharedPref = requireContext().getSharedPreferences("TokenData", Context.MODE_PRIVATE)
         postsRecyclerView.layoutManager = LinearLayoutManager(context)
-        val token = tokenManager.getAccessToken()
-        postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
-        postViewModel.postList.observe(requireActivity()){ postlist ->
-            postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel,context = requireContext(),tokenManager = tokenManager)
-            if (postlist.isEmpty()) emptyMessage.show()
-            else showContent()
-
-        }
+        updatePosts()
         newPostEditText.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                AddPostDialogFragment().show(parentFragmentManager, "AddPostDialogFragment")
+                AddPostDialogFragment(this).show(parentFragmentManager, "AddPostDialogFragment")
                 true
             } else {
                 false
@@ -83,5 +74,18 @@ class PostFragment : Fragment() {
         shimmerPosts.stopShimmer()
 
     }
+    private fun showEmptyMessage (){
+        postsRecyclerView.hide()
+        emptyMessage.show()
+    }
+       fun updatePosts (){
+       val token = tokenManager.getAccessToken()
+       postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
+       postViewModel.postList.observe(requireActivity()){ postlist ->
+           postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel,this,context = requireContext(),tokenManager = tokenManager)
+           if (postlist.isEmpty()) showEmptyMessage()
+           else showContent()
+       }
+   }
 
 }

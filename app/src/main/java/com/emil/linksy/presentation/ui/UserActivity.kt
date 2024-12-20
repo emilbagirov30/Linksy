@@ -9,17 +9,24 @@ import com.emil.presentation.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class UserActivity : AppCompatActivity() {
+    companion object {
+        const val TAG_FEED = "FeedFragment"
+        const val TAG_PROFILE = "ProfileFragment"
+    }
     private lateinit var bottomNavigationView:BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
         val containerId = R.id.fl_fragment_container_user
         bottomNavigationView = findViewById(R.id.bn_main)
-        replaceFragment(containerId,FeedFragment())
+        replaceFragment(containerId,FeedFragment(),TAG_FEED)
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.page_feed -> {
-                  replaceFragment(containerId,FeedFragment())
+                    val currentFragmentTag = supportFragmentManager.findFragmentById(containerId)?.tag
+                    if (currentFragmentTag != TAG_FEED) {
+                        replaceFragment(containerId, FeedFragment(), TAG_FEED)
+                    }
                     true
                 }
                 R.id.page_channels -> {
@@ -34,7 +41,10 @@ class UserActivity : AppCompatActivity() {
                     true
                 }
                 R.id.page_profile -> {
-                   replaceFragment(containerId,ProfileFragment ())
+                    val currentFragmentTag = supportFragmentManager.findFragmentById(containerId)?.tag
+                    if (currentFragmentTag !=TAG_PROFILE) {
+                        replaceFragment(containerId, ProfileFragment(),TAG_PROFILE)
+                    }
                     true
                 }
                 else -> false
@@ -46,5 +56,7 @@ class UserActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
     }
+
+
 
 }

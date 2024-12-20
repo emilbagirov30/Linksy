@@ -28,7 +28,7 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
     fun publishPost (token:String, postText:String, image: MultipartBody.Part?,
                      video: MultipartBody.Part?,
                      audio: MultipartBody.Part?,
-                     voice: MultipartBody.Part?,onSuccess: ()->Unit){
+                     voice: MultipartBody.Part?,onSuccess: ()->Unit ){
         viewModelScope.launch {
             try{
                val response =publishPostUseCase.execute(token, PostData(postText,image, video, audio, voice))
@@ -41,7 +41,7 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
         }
     }
 
-    fun getUserPosts(token: String,onSuccess: ()->Unit,onError: ()->Unit) {
+    fun getUserPosts(token: String,onSuccess: ()->Unit = {},onError: ()->Unit = {}) {
 
         viewModelScope.launch {
             try {
@@ -61,7 +61,10 @@ fun deletePost(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
     viewModelScope.launch {
         try {
            val response = deletePostUseCase.execute(token, postId)
-            if (response.isSuccessful) onSuccess()
+            if (response.isSuccessful){
+                _postList.value = _postList.value?.filter { it.postId != postId }
+                onSuccess()
+            }
         }catch (e:Exception){
             onError ()
         }

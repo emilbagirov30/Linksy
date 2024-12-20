@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.PostResponse
 import com.emil.linksy.presentation.ui.ActionDialog
+import com.emil.linksy.presentation.ui.PostFragment
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.show
@@ -33,7 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
+class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,private val postFragment:PostFragment,
                    private val context:Context, private val tokenManager: TokenManager): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

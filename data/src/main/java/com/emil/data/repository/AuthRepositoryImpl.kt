@@ -5,7 +5,7 @@ import com.emil.data.model.PasswordRecoveryBody
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.UserLoginBody
 import com.emil.data.model.toDomainModel
-import com.emil.data.network.RetrofitInstance
+import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.ConfirmCodeParam
 import com.emil.domain.model.PasswordRecoveryData
 import com.emil.domain.model.Token
@@ -20,19 +20,19 @@ class AuthRepositoryImpl : AuthRepository {
     private val loginRequest = UserLoginBody ()
     private val passwordRecoveryRequest = PasswordRecoveryBody ()
     override suspend fun registerUser(request: UserRegistrationData):Response<Unit> {
-        return RetrofitInstance.apiService.registerUser(regRequest.toDomainModel(request))
+        return RetrofitUserInstance.apiService.registerUser(regRequest.toDomainModel(request))
     }
 
     override suspend fun confirmCode(param: ConfirmCodeParam): Response<Unit> {
-        return  RetrofitInstance.apiService.confirmCode(confirmCodeParam.toDomainModel(param).email,confirmCodeParam.toDomainModel(param).code)
+        return  RetrofitUserInstance.apiService.confirmCode(confirmCodeParam.toDomainModel(param).email,confirmCodeParam.toDomainModel(param).code)
     }
 
     override suspend fun resendCode(emailParam: String): Response<Unit> {
-        return RetrofitInstance.apiService.resendCode(emailParam)
+        return RetrofitUserInstance.apiService.resendCode(emailParam)
     }
 
     override suspend fun logIn(userLogin: UserLoginData): Response<Token> {
-        val response = RetrofitInstance.apiService.login(loginRequest.toDomainModel(userLogin))
+        val response = RetrofitUserInstance.apiService.login(loginRequest.toDomainModel(userLogin))
         return if (response.isSuccessful) {
             Response.success(response.body()?.toDomainModel())
         } else {
@@ -41,11 +41,11 @@ class AuthRepositoryImpl : AuthRepository {
     }
 
     override suspend fun requestPasswordChange(emailParam: String): Response<Unit> {
-        return RetrofitInstance.apiService.requestPasswordChange(emailParam)
+        return RetrofitUserInstance.apiService.requestPasswordChange(emailParam)
     }
 
     override suspend fun confirmPasswordChange(passwordRecoveryData: PasswordRecoveryData): Response<Unit> {
-        return RetrofitInstance.apiService.confirmPasswordChange(passwordRecoveryRequest.toDomainModel(passwordRecoveryData))
+        return RetrofitUserInstance.apiService.confirmPasswordChange(passwordRecoveryRequest.toDomainModel(passwordRecoveryData))
     }
 
 }

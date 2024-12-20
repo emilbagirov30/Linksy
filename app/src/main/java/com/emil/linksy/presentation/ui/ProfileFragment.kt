@@ -42,6 +42,7 @@ class ProfileFragment : Fragment() {
     private val tokenManager: TokenManager by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     @SuppressLint("MissingInflatedId", "ResourceAsColor", "SetTextI18n")
@@ -62,7 +63,7 @@ class ProfileFragment : Fragment() {
         showPosts()
         fetchData()
         editUserDataImageView.setOnClickListener {
-            CommonSettingsDialogFragment().show(parentFragmentManager, "CommonSettingsDialog")
+            CommonSettingsDialogFragment(this).show(parentFragmentManager, "CommonSettingsDialog")
         }
         userProfileDataViewModel.userData.observe(requireActivity()){ data ->
             usernameTextView.text = data.username
@@ -123,7 +124,7 @@ private fun stopShimmer(){
     shimmerUsername.stopShimmer()
     shimmerLink.stopShimmer()
 }
-    private fun fetchData() {
+     fun fetchData() {
         startShimmer()
         val token = tokenManager.getAccessToken()
         userProfileDataViewModel.getData(token,onIncorrect = { showToast(requireContext(),R.string.error_invalid_token) } , onError = {
