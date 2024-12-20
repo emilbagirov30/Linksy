@@ -33,4 +33,5 @@
     <color name="audio_wave">#CC4518</color>
     <color name="cross">#6F1815</color>
     <color name="check">#01433C</color>
+    <color name="bottom_navigation">#8CE8E8E8</color>
 </resources>

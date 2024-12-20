@@ -156,5 +156,9 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
+    <style name="CustomBottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+        <item name="android:background">@drawable/rounded_navigation</item>
+
+    </style>
 
 </resources>
