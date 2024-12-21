@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.emil.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.emil.domain"
@@ -34,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -56,6 +59,10 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
     implementation ("androidx.security:security-crypto:1.1.0-alpha01")
+    implementation("androidx.media3:media3-exoplayer:1.5.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.5.0")
+    implementation("androidx.media3:media3-ui:1.5.0")
+    implementation("io.getstream:photoview:1.0.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

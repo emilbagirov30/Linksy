@@ -16,14 +16,18 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.VideoView
+import androidx.appcompat.app.AppCompatActivity
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.PostResponse
 import com.emil.linksy.presentation.ui.ActionDialog
+import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.PostFragment
+import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.show
@@ -46,7 +50,10 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val likeCount = itemView.findViewById<MaterialTextView>(R.id.tv_like_count)
         private val repostsCount = itemView.findViewById<MaterialTextView>(R.id.tv_reposts_count)
         private val editPostButton = itemView.findViewById<ImageButton>(R.id.ib_edit_post)
-        private val videoView = itemView.findViewById<VideoView>(R.id.vv_video)
+        private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_post_video)
+        private val mediaLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_media)
+        private val frameImageView = itemView.findViewById<ImageView>(R.id.iv_frame)
+        private val playVideoImageButton = itemView.findViewById<ImageButton>(R.id.ib_play)
         private val audioLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_audio)
         private val voiceLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_voice)
         private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
@@ -67,22 +74,30 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                 postTextView.show()
                 postTextView.text = post.text
             }
-            if (post.imageUrl !=null){
+            val imageUrl = post.imageUrl
+            if (imageUrl !=null){
+                mediaLinearLayout.show()
                 postPictureImageView.show()
                 Glide.with(context)
-                    .load(post.imageUrl)
+                    .load(imageUrl)
                     .into(postPictureImageView)
+
+                postPictureImageView.setOnClickListener {
+                    BigPictureDialog(context,imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
+                }
             }
-            if (post.videoUrl!=null){
-                videoView.show()
-                videoView.setVideoURI(Uri.parse(post.videoUrl))
-                videoView.setOnPreparedListener { mp ->
-                    mp.setVolume(0f, 0f)
-                    videoView.start()
+            val videoUrl = post.videoUrl
+            if (videoUrl!=null){
+                mediaLinearLayout.show()
+                videoRelativeLayout.show()
+                Glide.with(context)
+                    .load(Uri.parse(videoUrl))
+                    .frame(0)
+                    .into(frameImageView)
+                playVideoImageButton.setOnClickListener{
+                    VideoPlayerDialog(context,videoUrl)
                 }
-                videoView.setOnCompletionListener {
-                    videoView.start()
-                }
+
             }
             var isPlayingAudio = false
             var mediaPlayerAudio:MediaPlayer? = null
@@ -104,14 +119,13 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     setDataSource(context, Uri.parse(post.audioUrl))
                     prepareAsync()
                     setOnPreparedListener {
-                        isPlayingAudio = false
                         audioProgressBar.progress = 0
                         audioProgressBar.max = it.duration
-
+                        isPlayingAudio = false
                     }
                     setOnCompletionListener {
-                        isPlayingAudio = false
                         audioProgressBar.progress = 0
+                        isPlayingAudio = false
                         playAudioButton.setImageResource(R.drawable.ic_play)
                     }
                     playAudioButton.setOnClickListener {
@@ -153,13 +167,13 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     setDataSource(context, Uri.parse(post.voiceUrl))
                     prepareAsync()
                     setOnPreparedListener {
-                        isPlayingVoice = false
                         voiceProgressBar.progress = 0
                         voiceProgressBar.max = it.duration
+                        isPlayingVoice = false
                     }
                     setOnCompletionListener {
-                        isPlayingVoice = false
                         voiceProgressBar.progress = 0
+                        isPlayingVoice = false
                         playVoiceButton.setImageResource(R.drawable.ic_play)
                     }
                     playVoiceButton.setOnClickListener {

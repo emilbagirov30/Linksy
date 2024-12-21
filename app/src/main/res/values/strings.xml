@@ -77,4 +77,7 @@
     <string name="no">No</string>
     <string name="delete_post_title">Deleting a post</string>
     <string name="delete_post_confirm_text">Are you sure you want to delete the post?</string>
+    <string name="title_activity_full_screen_video">FullScreenVideoActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

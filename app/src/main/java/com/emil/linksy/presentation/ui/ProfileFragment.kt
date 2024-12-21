@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.properties.Delegates
 
 
 class ProfileFragment : Fragment() {
@@ -38,13 +39,13 @@ class ProfileFragment : Fragment() {
    private lateinit var shimmerAvatar: ShimmerFrameLayout
     private lateinit var shimmerLink: ShimmerFrameLayout
     private val userProfileDataViewModel: UserProfileDataViewModel by viewModel<UserProfileDataViewModel>()
-    private var containerId:Int =0
+    private var containerId by Delegates.notNull<Int>()
     private val tokenManager: TokenManager by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
-
     @SuppressLint("MissingInflatedId", "ResourceAsColor", "SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,13 +55,13 @@ class ProfileFragment : Fragment() {
         containerId = R.id.fl_fragment_container_profile
         usernameTextView = view.findViewById(R.id.tv_username)
         linkTextView = view.findViewById(R.id.tv_link)
-       shimmerUsername = view.findViewById(R.id.shimmer_username)
+        shimmerUsername = view.findViewById(R.id.shimmer_username)
         shimmerAvatar = view.findViewById(R.id.shimmer_avatar)
         shimmerLink = view.findViewById(R.id.shimmer_link)
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
         editUserDataImageView = view.findViewById(R.id.iv_edit_user_data)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
-        showPosts()
+        if (savedInstanceState == null) showPosts()
         fetchData()
         editUserDataImageView.setOnClickListener {
             CommonSettingsDialogFragment(this).show(parentFragmentManager, "CommonSettingsDialog")
@@ -90,11 +91,15 @@ class ProfileFragment : Fragment() {
   }
 
 
-    private fun showPosts(){
-        replaceFragment(containerId,PostFragment())
+    private fun showPosts() {
+        if (childFragmentManager.findFragmentById(containerId) !is PostFragment)
+            replaceFragment(containerId, PostFragment())
+
     }
-    private fun showPhotos(){
-        replaceFragment(containerId,PhotoFragment())
+
+    private fun showPhotos() {
+        if (childFragmentManager.findFragmentById(containerId) !is PhotoFragment)
+            replaceFragment(containerId, PhotoFragment())
     }
 
     private fun startShimmer(){
