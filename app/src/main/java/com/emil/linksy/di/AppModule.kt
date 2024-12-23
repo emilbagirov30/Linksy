@@ -5,6 +5,7 @@ import com.emil.linksy.app.service.TokenService
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
+import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.presentation.viewmodel.PasswordChangeViewModel
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
@@ -39,6 +40,10 @@ val appModule = module {
     }
     viewModel <PostViewModel> {
         PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get(), deletePostUseCase = get())
+    }
+
+    viewModel <MomentViewModel> {
+        MomentViewModel(createMomentUseCase = get())
     }
     viewModel <ProfileManagementViewModel> {
        ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),

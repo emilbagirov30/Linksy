@@ -1,13 +1,11 @@
 package com.emil.linksy.presentation.ui
 
-import android.app.Activity
+
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer

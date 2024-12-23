@@ -67,6 +67,21 @@ interface ApiService {
                             @Part audio: MultipartBody.Part?,
                             @Part voice: MultipartBody.Part?):Response<Unit>
 
+
+
+    @POST("api/moments/create")
+    @Multipart
+    suspend fun createMoment (@Header("Authorization") token:String,
+                            @Part image: MultipartBody.Part?,
+                            @Part video: MultipartBody.Part?,
+                            @Part audio: MultipartBody.Part?, @Part("text") text: String?):Response<Unit>
+
+
+
+
+
+
+
     @GET ("api/posts/user_posts")
     suspend fun getUserPosts (@Header("Authorization") token:String): Response<List<PostResponseDto>>
     @DELETE ("api/posts/delete_post")

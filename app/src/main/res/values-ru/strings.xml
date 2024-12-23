@@ -42,7 +42,7 @@
     <string name="settings">Настройки</string>
     <string name="feed">Лента</string>
     <string name="posts">Посты</string>
-    <string name="photos">Фото</string>
+    <string name="moments">Моменты</string>
     <string name="profile_settings">Профиль</string>
     <string name="сonfidentiality">Конфиденциальность</string>
     <string name="blacklist">Черный список</string>
@@ -72,4 +72,7 @@
     <string name="no">Нет</string>
     <string name="delete_post_title">Удаление поста</string>
     <string name="delete_post_confirm_text">Вы уверены, что хотите удалить пост?</string>
+    <string name="new_moment">Новый момент</string>
+    <string name="write_something">Напишите что-нибудь..</string>
+    <string name="or">или</string>
 </resources>

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
 import com.emil.linksy.util.AudioRecorderManager
+import com.emil.linksy.util.anim
 import com.emil.presentation.R
 
 @SuppressLint("MissingInflatedId")

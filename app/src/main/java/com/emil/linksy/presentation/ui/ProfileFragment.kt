@@ -1,8 +1,6 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -82,7 +80,7 @@ class ProfileFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
                     0 -> { showPosts() }
-                    1 -> { showPhotos() }
+                    1 -> { showMoments() }
                 }}
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
@@ -97,9 +95,9 @@ class ProfileFragment : Fragment() {
 
     }
 
-    private fun showPhotos() {
-        if (childFragmentManager.findFragmentById(containerId) !is PhotoFragment)
-            replaceFragment(containerId, PhotoFragment())
+    private fun showMoments() {
+        if (childFragmentManager.findFragmentById(containerId) !is MomentsFragment)
+            replaceFragment(containerId, MomentsFragment())
     }
 
     private fun startShimmer(){

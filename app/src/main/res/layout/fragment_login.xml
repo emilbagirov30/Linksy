@@ -79,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextLinkStyle"
+            android:foreground="?attr/selectableItemBackground"
             android:text="@string/link_forgot_password">
 
         </com.google.android.material.textview.MaterialTextView>

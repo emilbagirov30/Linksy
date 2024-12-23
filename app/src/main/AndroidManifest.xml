@@ -22,7 +22,6 @@
             android:name="com.emil.linksy.presentation.ui.FullScreenVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:label="@string/title_activity_full_screen_video"
             android:theme="@style/FullScreenActivity" />
 
         <service

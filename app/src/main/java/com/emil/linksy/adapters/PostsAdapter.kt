@@ -17,7 +17,6 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
-import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +25,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.PostResponse
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
-import com.emil.linksy.presentation.ui.PostFragment
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
@@ -38,7 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,private val postFragment:PostFragment,
+class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
                    private val context:Context, private val tokenManager: TokenManager): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -231,7 +229,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_post, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_posts, parent, false)
         return PostsViewHolder(view)
     }
 

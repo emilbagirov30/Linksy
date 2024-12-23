@@ -1,7 +1,6 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -22,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.anim
 import com.emil.linksy.util.createAudioFilePart
 import com.emil.linksy.util.createContentPicker
 import com.emil.linksy.util.createImageFilePart
@@ -108,6 +108,7 @@ class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragm
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
 
         addVoiceButton.setOnClickListener {
+            it.anim()
             val dialog = VoiceRecordDialog(this)
         }
         val pickImageLauncher = createContentPicker(this) { uri ->
@@ -126,14 +127,17 @@ class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragm
             updatePublishButtonState()
         }
         addPictureButton.setOnClickListener {
+            it.anim()
             pickImageLauncher.launch(ContentType.IMAGE.mimeType)
         }
 
         addVideoButton.setOnClickListener {
+            it.anim()
         pickVideoLauncher.launch(ContentType.VIDEO.mimeType)
         }
 
         addAudioButton.setOnClickListener {
+            it.anim()
          pickAudioLauncher.launch(ContentType.AUDIO.mimeType)
 }
 
@@ -141,6 +145,7 @@ class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragm
 
 
         publishButton.setOnClickListener {
+            it.anim()
            val loading = LoadingDialog(requireContext())
             loading.show()
             val text = postEditText.string()
@@ -171,6 +176,7 @@ class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragm
             .into(pickedPictureImageView)
 
         deletePictureButton.setOnClickListener {
+            it.anim()
            pictureFrameLayout.hide()
             if (!videoFrameLayout.isVisible) mediaLinearLayout.hide()
             imageUri = null
@@ -190,6 +196,7 @@ class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragm
             pickedVideoVideoView.start()
         }
         deleteVideoButton.setOnClickListener {
+            it.anim()
             pickedVideoVideoView.stopPlayback()
             videoFrameLayout.hide()
             if (!pictureFrameLayout.isVisible) mediaLinearLayout.hide()
@@ -198,6 +205,7 @@ class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragm
         }
     }
     private fun handleSelectedAudio(uri: Uri) {
+
         audioLinearLayout.show()
         playAudio.setImageResource(R.drawable.ic_play)
         mediaPlayerAudio = MediaPlayer().apply {
@@ -232,6 +240,7 @@ class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragm
 
 
         deleteAudio.setOnClickListener {
+            it.anim()
             mediaPlayerAudio.stop()
             mediaPlayerAudio.reset()
             isPlayingAudio = false
@@ -306,6 +315,7 @@ class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragm
                 isPlayingVoice = false
             }
             deleteVoice.setOnClickListener {
+                it.anim()
                 mediaPlayerVoice.stop()
                 mediaPlayerVoice.reset()
                 isPlayingVoice = false
