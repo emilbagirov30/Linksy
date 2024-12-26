@@ -1,4 +1,5 @@
 package com.emil.domain.model
 
-class MomentResponse {
-}
+data class MomentResponse (val momentId:Long,val authorUsername:String,val authorAvatarUrl:String,
+                      val imageUrl:String?,val videoUrl:String?,val audioUrl:String?,
+                      val text:String?,val publishDate:String)

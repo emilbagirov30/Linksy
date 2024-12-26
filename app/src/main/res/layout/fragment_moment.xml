@@ -1,43 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.emil.linksy.presentation.ui.MomentsFragment">
-
-
-
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
     <FrameLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@color/soft_gray">
+        android:id="@+id/fl_add"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/moment_button"
+        android:foreground="?attr/selectableItemBackground"
+        >
 
         <TextView
-            android:id="@+id/tv_add"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="+"
+            android:textStyle="bold"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textSize="50sp">
+            android:textSize="25sp">
         </TextView>
-
     </FrameLayout>
 
 
+    <LinearLayout
+        android:id="@+id/ll_empty_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_empty_box"
+            android:layout_gravity="center" >
+        </ImageView>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rv_moments"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</androidx.recyclerview.widget.RecyclerView>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/empty_message"
+            android:textSize="15sp"
+            android:textColor="@color/gray"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_moments"
+        android:layout_width="match_parent"
+        android:alpha="0.4"
+        app:shimmer_colored="true"
+        app:shimmer_base_color="@color/soft_gray"
+        android:layout_marginTop="10dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+            <include
+                layout="@layout/rv_item_moments"
+                />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
+    <com.google.android.flexbox.FlexboxLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fl_moments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        app:flexDirection="row"
+        app:flexWrap="wrap"
+        android:visibility="gone"
+        app:justifyContent="flex_start">
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_moments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </androidx.recyclerview.widget.RecyclerView>
 
-
+    </com.google.android.flexbox.FlexboxLayout>
 
 
 </LinearLayout>

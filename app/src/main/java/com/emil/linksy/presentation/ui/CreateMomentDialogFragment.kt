@@ -3,6 +3,7 @@ package com.emil.linksy.presentation.ui
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +12,17 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.VideoView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.TooltipCompat
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.ContentType
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.createAudioFilePart
@@ -25,7 +31,9 @@ import com.emil.linksy.util.createImageFilePart
 import com.emil.linksy.util.createVideoFilePart
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showHint
 import com.emil.linksy.util.string
+import com.emil.linksy.util.trimMedia
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
@@ -36,13 +44,14 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateMomentDialogFragment: DialogFragment()  {
+class CreateMomentDialogFragment (private val momentFragment: MomentFragment): DialogFragment()  {
     private lateinit var toolBar: MaterialToolbar
     private lateinit var addImage: ImageView
     private lateinit var addVideo: ImageView
     private lateinit var addAudio: ImageView
     private lateinit var contentImageView: ImageView
     private lateinit var deleteContent: ImageButton
+    private lateinit var hintImageButton: ImageButton
     private lateinit var pickedVideoVideoView: VideoView
     private lateinit var publishButton: MaterialButton
     private lateinit var momentEditText: EditText
@@ -57,7 +66,8 @@ class CreateMomentDialogFragment: DialogFragment()  {
     private var audioUri: Uri? = null
     private val momentViewModel: MomentViewModel by viewModel<MomentViewModel>()
     private val tokenManager: TokenManager by inject()
-    @SuppressLint("MissingInflatedId")
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -80,6 +90,7 @@ class CreateMomentDialogFragment: DialogFragment()  {
         deleteAudio = view.findViewById(R.id.ib_delete_audio)
         audioLinearLayout = view.findViewById(R.id.ll_audio)
         pickedVideoVideoView = view.findViewById(R.id.vv_picked_video)
+        hintImageButton = view.findViewById(R.id.ib_hint)
         deleteContent.setOnClickListener {
             it.anim()
             imageUri = null
@@ -92,7 +103,10 @@ class CreateMomentDialogFragment: DialogFragment()  {
             updatePublishButtonState()
         }
 
-
+      hintImageButton.setOnClickListener {
+            it.anim()
+            it.showHint(requireContext(),R.string.moment_hint)
+        }
 
         val pickImageLauncher = createContentPicker(this) { uri ->
             handleSelectedImage(uri)
@@ -132,14 +146,23 @@ class CreateMomentDialogFragment: DialogFragment()  {
             loading.show()
             val text = momentEditText.string()
             val token = tokenManager.getAccessToken()
+
+            val durationLimitSec = if (imageUri==null) Linksy.MOMENT_LONG_DURATION else Linksy.MOMENT_SHORT_DURATION
+
+
+            val trimmedAudioUri = audioUri?.let { trimMedia(requireContext(), it, durationLimitSec) }
+            val trimmedVideoUri = videoUri?.let { trimMedia(requireContext(), it,durationLimitSec) }
+
             val imagePart = imageUri?.let { createImageFilePart(requireContext(), it) }
-            val videoPart = videoUri?.let { createVideoFilePart(requireContext(), it) }
-            val audioPart = audioUri?.let { createAudioFilePart(requireContext(), it) }
+            val videoPart = trimmedVideoUri?.let { createVideoFilePart(requireContext(), it) }
+            val audioPart = trimmedAudioUri?.let { createAudioFilePart(requireContext(), it) }
+
 
            momentViewModel.createMoment(token,
                 image = imagePart, video = videoPart,
                 audio = audioPart,text =text,
                 onSuccess = {
+                    momentFragment.updateMoments()
                     dialog?.dismiss()
                     loading.dismiss()
                 })

@@ -77,8 +77,11 @@
     <string name="no">No</string>
     <string name="delete_post_title">Deleting a post</string>
     <string name="delete_post_confirm_text">Are you sure you want to delete the post?</string>
+    <string name="delete_moment_title">Deleting a moment</string>
+    <string name="delete_moment_confirm_text">Are you sure you want to delete the moment?</string>
     <string name="new_moment">New moment</string>
     <string name="write_something">Write something..</string>
     <string name="or">or</string>
+    <string name="moment_hint">Please note: Videos will be trimmed to 45 seconds, and audio will be limited to 20 seconds if only an image is added.</string>
 
 </resources>

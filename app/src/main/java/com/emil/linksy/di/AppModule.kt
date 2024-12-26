@@ -43,7 +43,7 @@ val appModule = module {
     }
 
     viewModel <MomentViewModel> {
-        MomentViewModel(createMomentUseCase = get())
+        MomentViewModel(createMomentUseCase = get(), getUserMomentsUseCase = get(), deleteMomentUseCase = get())
     }
     viewModel <ProfileManagementViewModel> {
        ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),

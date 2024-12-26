@@ -63,6 +63,8 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-dash:1.5.0")
     implementation("androidx.media3:media3-ui:1.5.0")
     implementation("io.getstream:photoview:1.0.2")
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+    implementation ("com.arthenica:ffmpeg-kit-full:4.5.LTS")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

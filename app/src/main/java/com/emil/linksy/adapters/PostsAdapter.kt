@@ -29,6 +29,7 @@ import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showMenu
 import com.emil.presentation.R
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.CoroutineScope
@@ -193,37 +194,16 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             likeCount.text = post.likesCount.toString()
             repostsCount.text = post.repostsCount.toString()
             editPostButton.setOnClickListener {
-                val popupMenu = PopupMenu(context, editPostButton)
-                val menu = popupMenu.menu
-                menu.add(0, 1, 0, context.getString(R.string.edit))
-                menu.add(0, 2, 1, context.getString(R.string.delete))
-                val menuItem = menu.findItem(2)
-                val spannableTitle = SpannableString(menuItem.title)
-                spannableTitle.setSpan(ForegroundColorSpan(Color.RED), 0, spannableTitle.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                menuItem.title = spannableTitle
-
-                popupMenu.setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.itemId) {
-                        1 -> {
-
-                            true
-                        }
-
-                        2 -> {
-                            val dialog = ActionDialog(context)
-                            dialog.setTitle(context.getString(R.string.delete_post_title))
-                            dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
-                            dialog.setAction {
-                                val token = tokenManager.getAccessToken()
-                                postViewModel.deletePost(token,post.postId, onSuccess ={dialog.dismiss()}, onError = {})
-                            }
-                            true
-                        }
-                        else -> false
-                    }
+                it.showMenu(context, editAction = {}, deleteAction = {
+                    val dialog = ActionDialog(context)
+                    dialog.setTitle(context.getString(R.string.delete_post_title))
+                    dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
+                    dialog.setAction {
+                        val token = tokenManager.getAccessToken()
+                        postViewModel.deletePost(token,post.postId, onSuccess ={dialog.dismiss()}, onError = {})
                 }
-                popupMenu.show()
 
+            })
             }
         }
     }

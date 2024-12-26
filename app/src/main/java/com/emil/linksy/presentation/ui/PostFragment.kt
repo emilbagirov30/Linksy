@@ -48,7 +48,7 @@ class PostFragment : Fragment() {
        val view = inflater.inflate(R.layout.fragment_post, container, false)
         newPostEditText = view.findViewById(R.id.et_new_post)
         postsRecyclerView = view.findViewById(R.id.rv_posts)
-        emptyMessage = view.findViewById(R.id.fl_empty_message)
+        emptyMessage = view.findViewById(R.id.ll_empty_message)
         shimmerPosts = view.findViewById(R.id.shimmer_posts)
         shimmerPosts.setShimmer(Linksy.CUSTOM_SHIMMER)
         shimmerPosts.startShimmer()

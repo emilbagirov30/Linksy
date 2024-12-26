@@ -72,7 +72,10 @@
     <string name="no">Нет</string>
     <string name="delete_post_title">Удаление поста</string>
     <string name="delete_post_confirm_text">Вы уверены, что хотите удалить пост?</string>
+    <string name="delete_moment_title">Удаление момента</string>
+    <string name="delete_moment_confirm_text">Вы уверены, что хотите удалить момент?</string>
     <string name="new_moment">Новый момент</string>
     <string name="write_something">Напишите что-нибудь..</string>
     <string name="or">или</string>
+    <string name="moment_hint">Обратите внимание: видео будет обрезано до 45 секунд, а звук ограничен 20 секундами, если добавлено только изображение.</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.emil.data.network
 
 import com.emil.data.model.AllUserDataDto
+import com.emil.data.model.MomentResponseDto
 import com.emil.data.model.PasswordChangeBody
 import com.emil.data.model.PasswordRecoveryBody
 import com.emil.data.model.PostBody
@@ -86,4 +87,8 @@ interface ApiService {
     suspend fun getUserPosts (@Header("Authorization") token:String): Response<List<PostResponseDto>>
     @DELETE ("api/posts/delete_post")
     suspend fun deletePost (@Header("Authorization") token:String,@Query("postId")postId:Long): Response<Unit>
+    @GET ("api/moments/user_moments")
+    suspend fun getUserMoments (@Header("Authorization") token:String): Response<List<MomentResponseDto>>
+    @DELETE ("api/moments/delete_moment")
+    suspend fun deleteMoment (@Header("Authorization") token:String,@Query("momentId")momentId:Long): Response<Unit>
 }

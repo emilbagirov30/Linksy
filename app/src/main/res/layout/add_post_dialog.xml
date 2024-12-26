@@ -91,6 +91,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
+            android:scaleType="centerCrop"
             android:background="@color/soft_gray"
           >
         </ImageView>
@@ -112,6 +113,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
+                android:scaleType="centerCrop"
                 android:src="@color/black">
             </VideoView>
             <include

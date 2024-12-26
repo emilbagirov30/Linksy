@@ -36,6 +36,7 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="5dp"
                     android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/default_avatar" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -99,6 +100,7 @@
         android:id="@+id/iv_post_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:scaleType="centerCrop"
         android:visibility="gone">
     </ImageView>
 

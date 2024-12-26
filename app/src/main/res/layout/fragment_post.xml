@@ -33,7 +33,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
-        android:id="@+id/fl_empty_message"
+        android:id="@+id/ll_empty_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

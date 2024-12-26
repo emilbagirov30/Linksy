@@ -41,6 +41,8 @@
     <color name="black_overlay">#66000000</color>
     <color name="moment_background">#66F4F4F4</color>
     <color name="moment_stroke">#CECCCC</color>
+    <color name="light_gray">#F6F6F6</color>
+    <color name="moment_text_back">#4DF6F6F6</color>
     <color name="green">#009688</color>
     <color name="blue">#3F51B5</color>
     <color name="purple">#9C27B0</color>

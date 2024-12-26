@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.anim
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.replaceFragment
 import com.emil.linksy.util.show
@@ -39,7 +40,7 @@ class ProfileFragment : Fragment() {
     private val userProfileDataViewModel: UserProfileDataViewModel by viewModel<UserProfileDataViewModel>()
     private var containerId by Delegates.notNull<Int>()
     private val tokenManager: TokenManager by inject()
-
+     private var tabPosition:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,6 +63,7 @@ class ProfileFragment : Fragment() {
         if (savedInstanceState == null) showPosts()
         fetchData()
         editUserDataImageView.setOnClickListener {
+            it.anim()
             CommonSettingsDialogFragment(this).show(parentFragmentManager, "CommonSettingsDialog")
         }
         userProfileDataViewModel.userData.observe(requireActivity()){ data ->
@@ -92,12 +94,13 @@ class ProfileFragment : Fragment() {
     private fun showPosts() {
         if (childFragmentManager.findFragmentById(containerId) !is PostFragment)
             replaceFragment(containerId, PostFragment())
-
+        tabPosition = 0
     }
 
     private fun showMoments() {
-        if (childFragmentManager.findFragmentById(containerId) !is MomentsFragment)
-            replaceFragment(containerId, MomentsFragment())
+        if (childFragmentManager.findFragmentById(containerId) !is MomentFragment)
+            replaceFragment(containerId, MomentFragment())
+        tabPosition = 1
     }
 
     private fun startShimmer(){
@@ -138,7 +141,8 @@ private fun stopShimmer(){
                     setTextColor(Color.GRAY)
                     setAction(getString(R.string.repeat)) {
                          fetchData()
-                         showPosts()
+                        if (tabPosition==0) showPosts()
+                        else showMoments()
                     }
                     setActionTextColor(Color.BLUE)
                     show()
