@@ -39,13 +39,11 @@
             android:paddingHorizontal="5dp"
             android:fontFamily="@font/klukva"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="40dp"
-            android:visibility="gone"
-
-            >
+            android:visibility="gone">
 
 
         </TextView>
@@ -57,11 +55,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:max="100"
-            android:progressTint="@color/gray"
+            android:progressTint="@color/moment_progress"
            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="5dp"
             style="@android:style/Widget.Material.ProgressBar.Horizontal">
         </ProgressBar>
-        
+
     </FrameLayout>
 
 
