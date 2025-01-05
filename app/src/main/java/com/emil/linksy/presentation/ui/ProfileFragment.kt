@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.emil.linksy.adapters.ProfilePagerAdapter
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
@@ -23,6 +25,7 @@ import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
@@ -40,10 +43,14 @@ class ProfileFragment : Fragment() {
     private val userProfileDataViewModel: UserProfileDataViewModel by viewModel<UserProfileDataViewModel>()
     private var containerId by Delegates.notNull<Int>()
     private val tokenManager: TokenManager by inject()
-     private var tabPosition:Int = 0
+    private var currentTabPosition: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("current_tab", currentTabPosition)
     }
     @SuppressLint("MissingInflatedId", "ResourceAsColor", "SetTextI18n")
     override fun onCreateView(
@@ -51,7 +58,6 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        containerId = R.id.fl_fragment_container_profile
         usernameTextView = view.findViewById(R.id.tv_username)
         linkTextView = view.findViewById(R.id.tv_link)
         shimmerUsername = view.findViewById(R.id.shimmer_username)
@@ -60,7 +66,9 @@ class ProfileFragment : Fragment() {
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
         editUserDataImageView = view.findViewById(R.id.iv_edit_user_data)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
-        if (savedInstanceState == null) showPosts()
+        val viewPager = view.findViewById<ViewPager2>(R.id.vp_profile_pager)
+        val pagerAdapter = ProfilePagerAdapter(this)
+        viewPager.adapter = pagerAdapter
         fetchData()
         editUserDataImageView.setOnClickListener {
             it.anim()
@@ -78,30 +86,19 @@ class ProfileFragment : Fragment() {
             if (!data.link.isNullOrEmpty()) linkTextView.text = "@${data.link}"
             else linkTextView.hide()
         }
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    0 -> { showPosts() }
-                    1 -> { showMoments() }
-                }}
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> getString(R.string.posts)
+                1 -> getString(R.string.moments)
+                else -> null
+            }
+        }.attach()
+        savedInstanceState?.let {
+            currentTabPosition = it.getInt("current_tab", 0)
+            viewPager.setCurrentItem(currentTabPosition, false)
+        }
       return view
   }
-
-
-    private fun showPosts() {
-        if (childFragmentManager.findFragmentById(containerId) !is PostFragment)
-            replaceFragment(containerId, PostFragment())
-        tabPosition = 0
-    }
-
-    private fun showMoments() {
-        if (childFragmentManager.findFragmentById(containerId) !is MomentFragment)
-            replaceFragment(containerId, MomentFragment())
-        tabPosition = 1
-    }
 
     private fun startShimmer(){
         shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)
@@ -141,8 +138,6 @@ private fun stopShimmer(){
                     setTextColor(Color.GRAY)
                     setAction(getString(R.string.repeat)) {
                          fetchData()
-                        if (tabPosition==0) showPosts()
-                        else showMoments()
                     }
                     setActionTextColor(Color.BLUE)
                     show()

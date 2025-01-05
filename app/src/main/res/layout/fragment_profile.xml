@@ -146,23 +146,12 @@
         android:id="@+id/tl_profile_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       app:tabMode="fixed"
-        style="@style/CustomTabLayoutStyle"
-        >
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/posts" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/moments" />
-    </com.google.android.material.tabs.TabLayout>
-    <FrameLayout
-        android:id="@+id/fl_fragment_container_profile"
+        app:tabMode="fixed"
+        style="@style/CustomTabLayoutStyle" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_profile_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
-    </FrameLayout>
+        android:padding="10dp"/>
+
 </LinearLayout>

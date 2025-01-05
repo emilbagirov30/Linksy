@@ -53,53 +53,110 @@
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_moments"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:alpha="0.4"
         app:shimmer_colored="true"
         app:shimmer_base_color="@color/soft_gray"
-        android:layout_marginTop="10dp"
-        android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_marginTop="10dp">
+
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-            <include
-                layout="@layout/rv_item_moments"
-                />
-        </LinearLayout>
+            android:columnCount="4">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include layout="@layout/rv_item_moments" />
+            </FrameLayout>
+
+
+        </GridLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
+
 
 
     <com.google.android.flexbox.FlexboxLayout
