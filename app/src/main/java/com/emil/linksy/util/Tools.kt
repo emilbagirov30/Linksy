@@ -2,6 +2,7 @@ package com.emil.linksy.util
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Color
@@ -36,6 +37,10 @@ import com.arthenica.ffmpegkit.ReturnCode
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.presentation.R
 import com.facebook.shimmer.Shimmer
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.common.BitMatrix
+import com.google.zxing.qrcode.QRCodeWriter
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -274,4 +279,39 @@ fun View.showMenu(context: Context,editAction:()->Unit,deleteAction:()->Unit){
     }
     popupMenu.show()
 
+}
+
+fun generateQRCode(data: String, imageView: ImageView) {
+
+    /*
+Copyright (C) 2012-2022 ZXing authors, Journey Mobile
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+ */
+
+    val qrCodeWriter = QRCodeWriter()
+    val hints = mutableMapOf<EncodeHintType, Any>()
+    hints[EncodeHintType.MARGIN] = 1
+    val bitMatrix: BitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, 512, 512, hints)
+
+    val width = bitMatrix.width
+    val height = bitMatrix.height
+    val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+
+    for (x in 0 until width) {
+        for (y in 0 until height) {
+            bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+        }
+    }
+    imageView.setImageBitmap(bmp)
 }

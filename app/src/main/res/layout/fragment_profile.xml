@@ -117,12 +117,27 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:src="@drawable/default_avatar"
-            android:visibility="gone"
+android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />
+
+
+        <ImageButton
+            android:id="@+id/ib_qr"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_qr"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints">
+
+        </ImageButton>
 
         <ImageView
             android:id="@+id/iv_edit_user_data"

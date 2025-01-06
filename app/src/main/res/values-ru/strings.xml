@@ -84,4 +84,5 @@
     <string name="subscribers">Подписчики</string>
     <string name="message">Сообщение</string>
     <string name="subscribe">Подписаться</string>
+    <string name="camera_is_not_allowed">Камера не разрешена</string>
 </resources>

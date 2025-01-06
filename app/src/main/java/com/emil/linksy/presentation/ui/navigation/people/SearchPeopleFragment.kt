@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.navigation.people
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +14,8 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.UsersAdapter
+import com.emil.linksy.presentation.ui.CameraXActivity
+import com.emil.linksy.presentation.ui.auth.LanguageSelectionActivity
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -71,6 +74,8 @@ class SearchPeopleFragment : Fragment() {
         }
         scanImageButton.setOnClickListener {
             it.anim()
+            val switchingToCameraXActivity= Intent(requireContext(), CameraXActivity::class.java)
+            startActivity(switchingToCameraXActivity)
         }
         return view
     }
