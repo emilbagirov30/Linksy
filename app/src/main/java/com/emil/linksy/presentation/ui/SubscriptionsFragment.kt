@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import com.emil.presentation.R
 
 
-class FriendFragment : Fragment() {
+class SubscriptionsFragment : Fragment() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -18,8 +20,8 @@ class FriendFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_friend, container, false)
+        return inflater.inflate(R.layout.fragment_subscriptions, container, false)
     }
+
 
 }

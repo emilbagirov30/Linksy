@@ -17,10 +17,10 @@
         android:icon="@drawable/ic_chat"
         android:title="@string/chats"/>
     <item
-        android:id="@+id/page_friends"
+        android:id="@+id/page_people"
         android:enabled="true"
         android:icon="@drawable/ic_friend"
-        android:title="@string/friends"/>
+        android:title="@string/people"/>
     <item
         android:id="@+id/page_profile"
         android:enabled="true"

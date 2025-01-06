@@ -10,6 +10,7 @@ import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
 import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserProfileDataDto
+import com.emil.data.model.UserResponseDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -91,4 +92,9 @@ interface ApiService {
     suspend fun getUserMoments (@Header("Authorization") token:String): Response<List<MomentResponseDto>>
     @DELETE ("api/moments/delete_moment")
     suspend fun deleteMoment (@Header("Authorization") token:String,@Query("momentId")momentId:Long): Response<Unit>
+
+    @GET ("api/people/find/username")
+    suspend fun findUserByUsername (@Header("Authorization") token:String,@Query("startsWith")startsWith:String): Response<List<UserResponseDto>>
+    @GET ("api/people/find/link")
+    suspend fun findUserByLink (@Header("Authorization") token:String,@Query("startsWith")startsWith:String): Response<List<UserResponseDto>>
 }

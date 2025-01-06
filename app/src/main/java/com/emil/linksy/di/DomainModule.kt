@@ -10,6 +10,8 @@ import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.GetUserMomentsUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
+import com.emil.domain.usecase.GetUsersByLinkUseCase
+import com.emil.domain.usecase.GetUsersByUsernameUseCase
 import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import com.emil.domain.usecase.RefreshTokenUseCase
@@ -89,7 +91,11 @@ val domainModule = module {
     factory<DeleteMomentUseCase>{
         DeleteMomentUseCase(momentRepository = get())
     }
-
-
+    factory<GetUsersByUsernameUseCase>{
+        GetUsersByUsernameUseCase(peopleRepository = get())
+    }
+    factory<GetUsersByLinkUseCase>{
+        GetUsersByLinkUseCase(peopleRepository = get())
+    }
 
 }

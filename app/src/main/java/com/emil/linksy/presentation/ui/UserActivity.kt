@@ -12,6 +12,7 @@ class UserActivity : AppCompatActivity() {
     companion object {
         const val TAG_FEED = "FeedFragment"
         const val TAG_PROFILE = "ProfileFragment"
+        const val TAG_PEOPLE = "PeopleFragment"
     }
     private lateinit var bottomNavigationView:BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +38,11 @@ class UserActivity : AppCompatActivity() {
 
                     true
                 }
-                R.id.page_friends -> {
+                R.id.page_people -> {
+                    val currentFragmentTag = supportFragmentManager.findFragmentById(containerId)?.tag
+                    if (currentFragmentTag != TAG_PEOPLE) {
+                        replaceFragment(containerId, PeopleFragment(), TAG_PEOPLE)
+                    }
                     true
                 }
                 R.id.page_profile -> {

@@ -6,9 +6,7 @@ import com.emil.linksy.presentation.ui.MomentFragment
 import com.emil.linksy.presentation.ui.PostFragment
 
 class ProfilePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
     override fun getItemCount(): Int = 2
-
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> PostFragment()

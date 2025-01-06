@@ -7,6 +7,7 @@ import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.presentation.viewmodel.PasswordChangeViewModel
+import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
 import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
@@ -48,6 +49,9 @@ val appModule = module {
     viewModel <ProfileManagementViewModel> {
        ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),
            updateBirthdayUseCase = get(), updateUsernameUseCase = get (), updateLinkUseCase = get (), deleteAvatarUseCase = get())
+    }
+    viewModel <PeopleViewModel> {
+        PeopleViewModel(getUsersByUsernameUseCase = get(), getUsersByLinkUseCase = get())
     }
     single { TokenService() }
 }

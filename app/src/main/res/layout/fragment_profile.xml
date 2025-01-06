@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="com.emil.linksy.presentation.ui.ProfileFragment">
 
-    <Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
@@ -45,7 +45,7 @@
 
         </com.google.android.material.textview.MaterialTextView>
 
-    </Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
     <com.facebook.shimmer.ShimmerFrameLayout
@@ -147,7 +147,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabMode="fixed"
-        style="@style/CustomTabLayoutStyle" />
+        style="@style/CustomTabLayoutStyle"
+        app:tabIndicatorColor="@color/tabIndicatorColor_1"
+        />
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_profile_pager"
         android:layout_width="match_parent"

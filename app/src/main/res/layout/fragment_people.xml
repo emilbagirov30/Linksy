@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.emil.linksy.presentation.ui.PeopleFragment">
+
+
+
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_people_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            style="@style/CustomTabLayoutStyle"
+            app:tabMode="fixed"
+            app:tabIndicatorColor="@color/tabIndicatorColor_2"
+            />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_people_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"/>
+
+
+</LinearLayout>

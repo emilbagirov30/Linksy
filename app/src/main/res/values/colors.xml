@@ -17,9 +17,11 @@
     <color name="soft_gray">#E8E8E8</color>
     <color name="pressed">#ECECEC</color>
     <color name="layout_main">#F3F0F0</color>
-    <color name="tabIndicatorColor">#BD4722</color>
+    <color name="tabIndicatorColor_1">#BD4722</color>
     <color name="tabSelectedTextColor">#000000</color>
-    <color name="tabTextColor">#888787</color>
+    <color name="tabTextColor">#BABABA</color>
+    <color name="tabIndicatorColor_2">#115278</color>
+
     <color name="shimmerBackground">#9F9F9F</color>
     <color name="shimmerHighlight">#66C5C5C5</color>
     <color name="newPost_button">#084F70</color>

@@ -38,7 +38,7 @@
     <string name="profile">Профиль</string>
     <string name="channels">Каналы</string>
     <string name="chats">Чаты</string>
-    <string name="friends">Друзья</string>
+    <string name="people">Люди</string>
     <string name="settings">Настройки</string>
     <string name="feed">Лента</string>
     <string name="posts">Посты</string>
@@ -78,4 +78,8 @@
     <string name="write_something">Напишите что-нибудь..</string>
     <string name="or">или</string>
     <string name="moment_hint">Обратите внимание: видео будет обрезано до 45 секунд, а звук ограничен 20 секундами, если добавлено только изображение.</string>
+    <string name="user_search_hint">Начните вводить "@", если вы хотите найти пользователя по ссылке.</string>
+    <string name="search">Поиск</string>
+    <string name="subscriptions">Подписки</string>
+    <string name="subscribers">Подписчики</string>
 </resources>
