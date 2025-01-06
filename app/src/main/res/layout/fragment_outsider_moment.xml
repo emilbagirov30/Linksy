@@ -1,0 +1,32 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.emil.linksy.presentation.ui.page.OutsiderMomentFragment">
+
+
+    <com.google.android.flexbox.FlexboxLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fl_moments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:flexDirection="row"
+        app:flexWrap="wrap"
+        android:visibility="gone"
+        app:justifyContent="flex_start">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_moments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+    </ProgressBar>
+</FrameLayout>

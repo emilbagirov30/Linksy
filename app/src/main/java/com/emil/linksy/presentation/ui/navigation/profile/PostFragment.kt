@@ -1,8 +1,6 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +8,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -82,7 +78,9 @@ class PostFragment : Fragment() {
        val token = tokenManager.getAccessToken()
        postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
        postViewModel.postList.observe(requireActivity()){ postlist ->
-           postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel,context = requireContext(),tokenManager = tokenManager)
+           postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel,
+               context = requireContext(),
+               tokenManager = tokenManager)
            if (postlist.isEmpty()) showEmptyMessage()
            else showContent()
        }

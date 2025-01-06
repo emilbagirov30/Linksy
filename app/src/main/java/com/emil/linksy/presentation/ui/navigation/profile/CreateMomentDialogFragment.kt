@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
@@ -12,14 +12,12 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.PopupWindow
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.VideoView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.TooltipCompat
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
+import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.Linksy

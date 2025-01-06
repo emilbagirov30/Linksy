@@ -40,18 +40,18 @@ val appModule = module {
         PasswordChangeViewModel(changePasswordUseCase = get ())
     }
     viewModel <PostViewModel> {
-        PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get(), deletePostUseCase = get())
+        PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get(), getOutsiderUserPostsUseCase = get(), deletePostUseCase = get())
     }
 
     viewModel <MomentViewModel> {
-        MomentViewModel(createMomentUseCase = get(), getUserMomentsUseCase = get(), deleteMomentUseCase = get())
+        MomentViewModel(createMomentUseCase = get(), getUserMomentsUseCase = get(), getOutsiderUserMomentsUseCase = get(), deleteMomentUseCase = get())
     }
     viewModel <ProfileManagementViewModel> {
        ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),
            updateBirthdayUseCase = get(), updateUsernameUseCase = get (), updateLinkUseCase = get (), deleteAvatarUseCase = get())
     }
     viewModel <PeopleViewModel> {
-        PeopleViewModel(getUsersByUsernameUseCase = get(), getUsersByLinkUseCase = get())
+        PeopleViewModel(findUsersByUsernameUseCase = get(), findUsersByLinkUseCase = get(), getUserPageDataUseCase = get())
     }
     single { TokenService() }
 }

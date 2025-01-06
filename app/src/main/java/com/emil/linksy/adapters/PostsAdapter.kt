@@ -2,19 +2,14 @@ package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.Uri
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -38,7 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
-                   private val context:Context, private val tokenManager: TokenManager): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
+                   private val context:Context, private val tokenManager: TokenManager? =null): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val authorAvatarImageView = itemView.findViewById<ImageView>(R.id.iv_author_avatar)
@@ -194,16 +189,18 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             likeCount.text = post.likesCount.toString()
             repostsCount.text = post.repostsCount.toString()
             editPostButton.setOnClickListener {
-                it.showMenu(context, editAction = {}, deleteAction = {
-                    val dialog = ActionDialog(context)
-                    dialog.setTitle(context.getString(R.string.delete_post_title))
-                    dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
-                    dialog.setAction {
-                        val token = tokenManager.getAccessToken()
-                        postViewModel.deletePost(token,post.postId, onSuccess ={dialog.dismiss()}, onError = {})
-                }
+                if (tokenManager!=null) {
+                    it.showMenu(context, editAction = {}, deleteAction = {
+                        val dialog = ActionDialog(context)
+                        dialog.setTitle(context.getString(R.string.delete_post_title))
+                        dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
+                        dialog.setAction {
+                            val token = tokenManager.getAccessToken()
+                            postViewModel.deletePost(token, post.postId, onSuccess = { dialog.dismiss() }, onError = {})
+                        }
 
-            })
+                    })
+                }
             }
         }
     }

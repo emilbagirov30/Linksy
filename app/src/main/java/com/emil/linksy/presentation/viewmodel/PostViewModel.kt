@@ -9,6 +9,7 @@ import com.emil.domain.model.PostData
 import com.emil.domain.model.PostResponse
 import com.emil.domain.model.UserProfileData
 import com.emil.domain.usecase.DeletePostUseCase
+import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ import okhttp3.MultipartBody
 
 class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
                      private val getUserPostsUseCase: GetUserPostsUseCase,
+                     private val getOutsiderUserPostsUseCase: GetOutsiderUserPostsUseCase,
                      private val deletePostUseCase: DeletePostUseCase
 
 ):ViewModel() {
@@ -56,6 +58,20 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
         }
 
 }
+    fun getOutsiderUserPosts(id:Long,onSuccess: ()->Unit = {},onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                val response = getOutsiderUserPostsUseCase.execute(id)
+                if (response.isSuccessful){
+                    _postList.value = response.body()
+                    onSuccess ()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+
+    }
 
 fun deletePost(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
     viewModelScope.launch {

@@ -1,11 +1,10 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.auth
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -140,7 +139,7 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
             hideAllError()
             code = editTexts.joinToString("") { it.text.toString() }
            confirmCodeViewModel.confirm(email,code,
-                onSuccess = {replaceFragment(R.id.fl_fragment_container_auth,LoginFragment())
+                onSuccess = {replaceFragment(R.id.fl_fragment_container_auth, LoginFragment())
                              showToast(requireContext(), R.string.registration_successful)
                     dialog?.dismiss()
                             },

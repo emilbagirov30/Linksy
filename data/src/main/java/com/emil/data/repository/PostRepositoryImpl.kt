@@ -31,6 +31,15 @@ class PostRepositoryImpl:PostRepository {
         }
     }
 
+    override suspend fun getOutsiderUserPosts(id: Long): Response<List<PostResponse>> {
+        val response = RetrofitUserInstance.apiService.getOutsiderUserPosts(id)
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModelList())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
+    }
+
     override suspend fun deletePost(token: String, postId: Long): Response<Unit> {
         return RetrofitUserInstance.apiService.deletePost("Bearer $token",postId)
     }

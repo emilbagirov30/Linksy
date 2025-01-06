@@ -82,4 +82,6 @@
     <string name="search">Поиск</string>
     <string name="subscriptions">Подписки</string>
     <string name="subscribers">Подписчики</string>
+    <string name="message">Сообщение</string>
+    <string name="subscribe">Подписаться</string>
 </resources>

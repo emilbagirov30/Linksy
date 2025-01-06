@@ -1,14 +1,17 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.emil.linksy.app.service.TokenService
+import com.emil.linksy.presentation.ui.navigation.feed.FeedFragment
+import com.emil.linksy.presentation.ui.navigation.people.PeopleFragment
+import com.emil.linksy.presentation.ui.navigation.profile.ProfileFragment
 import com.emil.linksy.util.replaceFragment
 import com.emil.presentation.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class UserActivity : AppCompatActivity() {
+class MainNavigationActivity : AppCompatActivity() {
     companion object {
         const val TAG_FEED = "FeedFragment"
         const val TAG_PROFILE = "ProfileFragment"
@@ -17,10 +20,10 @@ class UserActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView:BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user)
+        setContentView(R.layout.activity_main_navigation)
         val containerId = R.id.fl_fragment_container_user
         bottomNavigationView = findViewById(R.id.bn_main)
-        replaceFragment(containerId,FeedFragment(),TAG_FEED)
+        replaceFragment(containerId, FeedFragment(), TAG_FEED)
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.page_feed -> {
@@ -47,8 +50,8 @@ class UserActivity : AppCompatActivity() {
                 }
                 R.id.page_profile -> {
                     val currentFragmentTag = supportFragmentManager.findFragmentById(containerId)?.tag
-                    if (currentFragmentTag !=TAG_PROFILE) {
-                        replaceFragment(containerId, ProfileFragment(),TAG_PROFILE)
+                    if (currentFragmentTag != TAG_PROFILE) {
+                        replaceFragment(containerId, ProfileFragment(), TAG_PROFILE)
                     }
                     true
                 }

@@ -10,8 +10,11 @@ import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.GetUserMomentsUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
-import com.emil.domain.usecase.GetUsersByLinkUseCase
-import com.emil.domain.usecase.GetUsersByUsernameUseCase
+import com.emil.domain.usecase.FindUsersByLinkUseCase
+import com.emil.domain.usecase.FindUsersByUsernameUseCase
+import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
+import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
+import com.emil.domain.usecase.GetUserPageDataUseCase
 import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import com.emil.domain.usecase.RefreshTokenUseCase
@@ -91,11 +94,20 @@ val domainModule = module {
     factory<DeleteMomentUseCase>{
         DeleteMomentUseCase(momentRepository = get())
     }
-    factory<GetUsersByUsernameUseCase>{
-        GetUsersByUsernameUseCase(peopleRepository = get())
+    factory<FindUsersByUsernameUseCase>{
+        FindUsersByUsernameUseCase(peopleRepository = get())
     }
-    factory<GetUsersByLinkUseCase>{
-        GetUsersByLinkUseCase(peopleRepository = get())
+    factory<FindUsersByLinkUseCase>{
+        FindUsersByLinkUseCase(peopleRepository = get())
+    }
+    factory<GetOutsiderUserPostsUseCase>{
+        GetOutsiderUserPostsUseCase(postRepository = get())
+    }
+    factory<GetOutsiderUserMomentsUseCase>{
+        GetOutsiderUserMomentsUseCase(momentRepository = get())
+    }
+    factory<GetUserPageDataUseCase>{
+        GetUserPageDataUseCase(peopleRepository = get())
     }
 
 }

@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation.people
 
 import android.annotation.SuppressLint
 import android.os.Bundle

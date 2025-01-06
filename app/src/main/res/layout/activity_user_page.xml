@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.emil.linksy.presentation.ui.page.UserPageActivity">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_back">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/link"
+            android:text="link">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:text="username">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp"
+        android:text="">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+    <ImageView
+        android:id="@+id/iv_user_avatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/default_avatar"
+        android:layout_gravity="center_horizontal">
+    </ImageView>
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ButtonProfile"
+        app:backgroundTint="@color/blue"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/message">
+    </com.google.android.material.button.MaterialButton>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_subscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ButtonProfile"
+        android:textStyle="bold"
+        app:backgroundTint="@color/gray"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/subscribe">
+    </com.google.android.material.button.MaterialButton>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+            
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_layout"
+            android:padding="10dp"
+            android:orientation="vertical">
+            
+            
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/subscriptions"
+                android:textStyle="bold"
+                android:fontFamily="@font/klukva"
+                android:textColor="@color/gray"
+                android:textSize="20sp">
+
+            </com.google.android.material.textview.MaterialTextView>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_subscriptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="0"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="15sp">
+
+            </com.google.android.material.textview.MaterialTextView>
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_layout"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/subscribers"
+                android:textStyle="bold"
+                android:fontFamily="@font/klukva"
+                android:textColor="@color/gray"
+                android:textSize="20sp">
+
+            </com.google.android.material.textview.MaterialTextView>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_subscriber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="15sp">
+
+            </com.google.android.material.textview.MaterialTextView>
+
+        </LinearLayout>
+       
+
+    </LinearLayout>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_profile_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:tabMode="fixed"
+        style="@style/CustomTabLayoutStyle"
+        app:tabIndicatorColor="@color/tabIndicatorColor_3"
+        />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_profile_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"/>
+
+
+
+
+</LinearLayout>

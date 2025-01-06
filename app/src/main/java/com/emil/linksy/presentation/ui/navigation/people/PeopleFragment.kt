@@ -1,17 +1,12 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation.people
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
 import androidx.viewpager2.widget.ViewPager2
 import com.emil.linksy.adapters.PeoplePagerAdapter
-import com.emil.linksy.adapters.ProfilePagerAdapter
-import com.emil.linksy.util.anim
-import com.emil.linksy.util.showHint
 import com.emil.presentation.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator

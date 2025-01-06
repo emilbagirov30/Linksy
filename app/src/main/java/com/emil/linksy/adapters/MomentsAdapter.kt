@@ -1,17 +1,11 @@
 package com.emil.linksy.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.net.Uri
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -20,15 +14,13 @@ import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.FullScreenMomentDialogFragment
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.TokenManager
-import com.emil.linksy.util.anim
 import com.emil.linksy.util.show
-import com.emil.linksy.util.showHint
 import com.emil.linksy.util.showMenu
 import com.emil.presentation.R
 
 
 class MomentsAdapter(private val momentsList: List<MomentResponse>, private val momentViewModel: MomentViewModel,
-                     private val context: Context, private val tokenManager: TokenManager
+                     private val context: Context, private val tokenManager: TokenManager? =null
 ): RecyclerView.Adapter< MomentsAdapter.MomentsViewHolder>() {
 
     inner class MomentsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -57,22 +49,25 @@ class MomentsAdapter(private val momentsList: List<MomentResponse>, private val 
                 FullScreenMomentDialogFragment(momentsList, bindingAdapterPosition).show((context as AppCompatActivity).supportFragmentManager," FullScreenMomentDialogFragment")
             }
             momentImageView.setOnLongClickListener {
-                it.showMenu(context, editAction = {},
-                    deleteAction = {
-                        val dialog = ActionDialog(context)
-                        dialog.setTitle(context.getString(R.string.delete_moment_title))
-                        dialog.setConfirmText(context.getString(R.string.delete_moment_confirm_text))
-                        dialog.setAction {
-                            val token = tokenManager.getAccessToken()
-                            momentViewModel.deleteMoment(
-                                token,
-                                moment.momentId,
-                                onSuccess = { dialog.dismiss() },
-                                onError = {})
+                if(tokenManager!=null) {
+                    it.showMenu(context, editAction = {},
+                        deleteAction = {
+                            val dialog = ActionDialog(context)
+                            dialog.setTitle(context.getString(R.string.delete_moment_title))
+                            dialog.setConfirmText(context.getString(R.string.delete_moment_confirm_text))
+                            dialog.setAction {
+                                val token = tokenManager.getAccessToken()
+                                momentViewModel.deleteMoment(
+                                    token,
+                                    moment.momentId,
+                                    onSuccess = { dialog.dismiss() },
+                                    onError = {})
+                            }
                         }
-                    }
                     )
+                }
                 true
+
             }
 
 

@@ -1,7 +1,6 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.auth
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,14 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import com.emil.linksy.presentation.custom_view.CustomProgressBar
+import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.string
 import com.emil.linksy.util.togglePasswordVisibility
 import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
 import com.emil.linksy.util.Linksy
-import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.hideKeyboard
 import com.emil.linksy.util.isValidEmail
@@ -28,7 +26,6 @@ import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -147,7 +144,9 @@ class RegistrationFragment : Fragment() {
             registrationViewModel.setPasswordConfirm(passwordConfirmEditText.string())
         })
 
-        loginButton.setOnClickListener { replaceFragment(R.id.fl_fragment_container_auth,LoginFragment()) }
+        loginButton.setOnClickListener { replaceFragment(R.id.fl_fragment_container_auth,
+            LoginFragment()
+        ) }
         changeInputTypePasswordButton.setOnClickListener {
             togglePasswordVisibility(passwordEditText, changeInputTypePasswordButton)
         }

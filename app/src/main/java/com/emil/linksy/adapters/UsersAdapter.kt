@@ -1,6 +1,8 @@
 package com.emil.linksy.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.PostResponse
 import com.emil.domain.model.UserResponse
+import com.emil.linksy.presentation.ui.auth.LanguageSelectionActivity
+import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
@@ -30,6 +34,7 @@ class UsersAdapter(private val userList: List<UserResponse>, private val peopleV
         private val usernameTextView = itemView.findViewById<MaterialTextView>(R.id.tv_username)
         private val linkTextView = itemView.findViewById<MaterialTextView>(R.id.tv_link)
         private val userLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_user)
+        @SuppressLint("SetTextI18n")
         fun bind(user:UserResponse){
             if (user.avatarUrl !="null"){
                 Glide.with(context)
@@ -43,7 +48,9 @@ class UsersAdapter(private val userList: List<UserResponse>, private val peopleV
                 linkTextView.text = "@${user.link}"
             }
             userLinearLayout.setOnClickListener {
-
+                val switchingToUserPageActivity = Intent(context, UserPageActivity()::class.java)
+                switchingToUserPageActivity.putExtra("USER_ID", user.id)
+                context.startActivity(switchingToUserPageActivity)
             }
         }
 

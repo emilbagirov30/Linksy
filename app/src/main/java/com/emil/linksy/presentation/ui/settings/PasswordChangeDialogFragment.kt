@@ -1,7 +1,5 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.settings
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
+import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.viewmodel.PasswordChangeViewModel
-import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
-import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide

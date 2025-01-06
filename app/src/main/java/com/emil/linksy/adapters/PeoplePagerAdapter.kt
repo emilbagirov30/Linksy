@@ -2,9 +2,9 @@ package com.emil.linksy.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.emil.linksy.presentation.ui.SearchPeopleFragment
-import com.emil.linksy.presentation.ui.SubscribersFragment
-import com.emil.linksy.presentation.ui.SubscriptionsFragment
+import com.emil.linksy.presentation.ui.navigation.people.SearchPeopleFragment
+import com.emil.linksy.presentation.ui.navigation.people.SubscribersFragment
+import com.emil.linksy.presentation.ui.navigation.people.SubscriptionsFragment
 
 class PeoplePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 3

@@ -1,9 +1,7 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.settings
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -23,16 +21,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
-import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
-import com.emil.linksy.util.changeEditTextBackgroundColor
 import com.emil.linksy.util.createContentPicker
 import com.emil.linksy.util.createImageFilePart
 import com.emil.linksy.util.hide
@@ -45,13 +40,8 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okio.source
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.java.KoinJavaComponent.inject
 
 class ProfileSettingsDialogFragment: DialogFragment() {
     private lateinit var changeAvatarImageView: ImageView

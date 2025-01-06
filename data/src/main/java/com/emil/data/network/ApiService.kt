@@ -9,6 +9,7 @@ import com.emil.data.model.PostResponseDto
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
 import com.emil.data.model.UserLoginBody
+import com.emil.data.model.UserPageDataResponseDto
 import com.emil.data.model.UserProfileDataDto
 import com.emil.data.model.UserResponseDto
 import okhttp3.MultipartBody
@@ -21,6 +22,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -95,6 +97,15 @@ interface ApiService {
 
     @GET ("api/people/find/username")
     suspend fun findUserByUsername (@Header("Authorization") token:String,@Query("startsWith")startsWith:String): Response<List<UserResponseDto>>
+
     @GET ("api/people/find/link")
     suspend fun findUserByLink (@Header("Authorization") token:String,@Query("startsWith")startsWith:String): Response<List<UserResponseDto>>
+
+    @GET("api/people/{id}")
+    suspend fun getUserPageData(@Path("id") id:Long): Response<UserPageDataResponseDto>
+    @GET ("api/people/user_posts/{id}")
+    suspend fun getOutsiderUserPosts (@Path("id") id:Long): Response<List<PostResponseDto>>
+    @GET ("api/people/user_moments/{id}")
+    suspend fun getOutsiderUserMoments (@Path("id") id:Long): Response<List<MomentResponseDto>>
+
 }

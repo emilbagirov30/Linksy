@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
@@ -18,6 +18,8 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
+import com.emil.linksy.presentation.ui.LoadingDialog
+import com.emil.linksy.presentation.ui.VoiceRecordDialog
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
@@ -42,7 +44,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
 
-class AddPostDialogFragment (private val postFragment:PostFragment): DialogFragment() {
+class AddPostDialogFragment (private val postFragment: PostFragment): DialogFragment() {
 
     private lateinit var toolBar: MaterialToolbar
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()

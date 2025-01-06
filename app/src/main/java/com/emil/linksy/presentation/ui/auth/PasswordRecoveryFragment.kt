@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.auth
 
 import com.emil.linksy.util.replaceFragment
 import android.annotation.SuppressLint
@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.Linksy
@@ -125,7 +126,7 @@ class PasswordRecoveryFragment : Fragment() {
         onEnd = {loading.dismiss()}
         )
 }
-        backButton.setOnClickListener { replaceFragment(containerId,LoginFragment()) }
+        backButton.setOnClickListener { replaceFragment(containerId, LoginFragment()) }
 
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { checkFieldsForEmptyValues() }

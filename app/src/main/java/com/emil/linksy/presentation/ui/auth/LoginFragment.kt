@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.auth
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -6,7 +6,6 @@ import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,8 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
-import com.emil.linksy.presentation.custom_view.CustomProgressBar
+import com.emil.linksy.presentation.ui.LoadingDialog
+import com.emil.linksy.presentation.ui.navigation.MainNavigationActivity
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.hide
@@ -86,15 +86,17 @@ class LoginFragment : Fragment() {
             loginViewModel.login(
                 email = email, password = password, onSuccess = {
                     if (isMemorized) rememberToLogin()
-                    val switchingToUserActivity = Intent(activity, UserActivity::class.java)
-                    startActivity(switchingToUserActivity)
+                    val switchingToMainNavigationActivity = Intent(activity, MainNavigationActivity::class.java)
+                    startActivity(switchingToMainNavigationActivity)
                     },
                 onIncorrect = {showToast(requireContext(), R.string.user_not_found)},
                 onError =  { showToast(requireContext(), R.string.failed_connection) },
                 onEnd = { loading.dismiss() })
         }
-        createAccountButton.setOnClickListener { replaceFragment(containerId,RegistrationFragment()) }
-        forgotLink.setOnClickListener { replaceFragment(containerId,PasswordRecoveryFragment()) }
+        createAccountButton.setOnClickListener { replaceFragment(containerId,
+            RegistrationFragment()
+        ) }
+        forgotLink.setOnClickListener { replaceFragment(containerId, PasswordRecoveryFragment()) }
         return view
     }
     private fun checkFieldsForValidValues() {

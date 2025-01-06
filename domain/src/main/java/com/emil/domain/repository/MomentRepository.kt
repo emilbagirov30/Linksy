@@ -7,5 +7,6 @@ import retrofit2.Response
 interface MomentRepository {
     suspend fun createMoment(token:String,moment:MomentData):Response<Unit>
     suspend fun getUserMoments(token:String):Response<List<MomentResponse>>
+    suspend fun getOutsiderUserMoments(id:Long):Response<List<MomentResponse>>
     suspend fun deleteMoment (token: String,momentId:Long):Response<Unit>
 }

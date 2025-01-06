@@ -2,8 +2,8 @@ package com.emil.linksy.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.emil.linksy.presentation.ui.MomentFragment
-import com.emil.linksy.presentation.ui.PostFragment
+import com.emil.linksy.presentation.ui.navigation.profile.MomentFragment
+import com.emil.linksy.presentation.ui.navigation.profile.PostFragment
 
 class ProfilePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 2

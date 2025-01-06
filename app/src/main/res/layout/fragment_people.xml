@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.emil.linksy.presentation.ui.PeopleFragment">
+    tools:context="com.emil.linksy.presentation.ui.navigation.people.PeopleFragment">
 
 
 

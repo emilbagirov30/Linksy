@@ -9,12 +9,13 @@ import com.emil.domain.model.MomentData
 import com.emil.domain.model.MomentResponse
 import com.emil.domain.usecase.CreateMomentUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
+import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetUserMomentsUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
 class MomentViewModel(private val createMomentUseCase: CreateMomentUseCase,
-    private val getUserMomentsUseCase: GetUserMomentsUseCase,
+    private val getUserMomentsUseCase: GetUserMomentsUseCase, private val getOutsiderUserMomentsUseCase: GetOutsiderUserMomentsUseCase,
     private val deleteMomentUseCase: DeleteMomentUseCase
     ):ViewModel (){
     private val _momentList = MutableLiveData<List<MomentResponse>> ()
@@ -39,6 +40,21 @@ class MomentViewModel(private val createMomentUseCase: CreateMomentUseCase,
         viewModelScope.launch {
             try {
                 val response = getUserMomentsUseCase.execute(token)
+                if (response.isSuccessful){
+                    _momentList.value = response.body()
+                    onSuccess ()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+
+    }
+
+    fun getOutsiderUserMoments(id:Long,onSuccess: ()->Unit = {},onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                val response = getOutsiderUserMomentsUseCase.execute(id)
                 if (response.isSuccessful){
                     _momentList.value = response.body()
                     onSuccess ()

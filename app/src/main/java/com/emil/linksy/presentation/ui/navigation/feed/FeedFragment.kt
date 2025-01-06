@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation.feed
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -7,7 +7,7 @@ import android.os.Handler
 import androidx.lifecycle.LifecycleService
 import com.emil.data.TemporaryKeyStore
 import com.emil.domain.usecase.RefreshTokenUseCase
-import com.emil.linksy.presentation.ui.AuthActivity
+import com.emil.linksy.presentation.ui.auth.AuthActivity
 import com.emil.linksy.util.TokenManager
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject

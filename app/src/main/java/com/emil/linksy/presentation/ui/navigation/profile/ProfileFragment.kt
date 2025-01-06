@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -13,12 +13,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.adapters.ProfilePagerAdapter
+import com.emil.linksy.presentation.ui.settings.CommonSettingsDialogFragment
 import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.hide
-import com.emil.linksy.util.replaceFragment
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
 import com.emil.presentation.R

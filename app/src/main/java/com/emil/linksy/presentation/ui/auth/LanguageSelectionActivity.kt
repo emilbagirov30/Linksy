@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.auth
 import com.emil.linksy.util.LocaleManager
 
 import android.content.Context
@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import com.emil.linksy.presentation.ui.navigation.MainNavigationActivity
 import com.emil.presentation.R
 import com.google.android.material.button.MaterialButton
 import java.util.Locale
@@ -62,7 +63,7 @@ class LanguageSelectionActivity : AppCompatActivity() {
 
     private fun applyLocaleAndSwitch(language: String) {
         LocaleManager.setLocale(this, language)
-        if (isRemember) startActivity(Intent(this, UserActivity::class.java))
+        if (isRemember) startActivity(Intent(this, MainNavigationActivity::class.java))
         else startActivity(Intent(this, AuthActivity::class.java))
         finish()
     }

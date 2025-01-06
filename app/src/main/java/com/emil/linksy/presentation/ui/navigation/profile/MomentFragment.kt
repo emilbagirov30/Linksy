@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.navigation.profile
 
 
 import android.annotation.SuppressLint
@@ -9,15 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.MomentsAdapter
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
-import com.emil.linksy.util.anim
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
@@ -78,7 +75,7 @@ private val tokenManager: TokenManager by inject()
         momentViewModel.getUserMoments(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
         momentViewModel.momentList.observe(requireActivity()){ momentlist ->
            momentsRecyclerView.adapter =
-               MomentsAdapter(momentlist,momentViewModel,context = requireContext(),tokenManager = tokenManager)
+               MomentsAdapter(momentlist,momentViewModel, context = requireContext(), tokenManager = tokenManager)
                 if (momentlist.isEmpty()) showEmptyMessage()
                 else showContent()
         }

@@ -4,16 +4,14 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.app.DialogFragment
-import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
+import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.util.AudioRecorderManager
-import com.emil.linksy.util.anim
 import com.emil.presentation.R
 
 @SuppressLint("MissingInflatedId")

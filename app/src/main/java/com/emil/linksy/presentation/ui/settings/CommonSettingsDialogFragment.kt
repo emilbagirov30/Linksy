@@ -1,4 +1,4 @@
-package com.emil.linksy.presentation.ui
+package com.emil.linksy.presentation.ui.settings
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.SettingsAdapter
 import com.emil.linksy.adapters.model.SettingItem
+import com.emil.linksy.presentation.ui.navigation.profile.ProfileFragment
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 
-class CommonSettingsDialogFragment (private val profileFragment:ProfileFragment) : DialogFragment() {
+class CommonSettingsDialogFragment (private val profileFragment: ProfileFragment) : DialogFragment() {
 private lateinit var toolBar: MaterialToolbar
 private lateinit var settingsRecyclerView: RecyclerView
     @SuppressLint("MissingInflatedId")
