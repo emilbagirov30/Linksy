@@ -5,12 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
     <ImageView
         android:id="@+id/iv_moment_full"
         android:layout_width="match_parent"
@@ -57,10 +55,23 @@
             android:max="100"
             android:progressTint="@color/moment_progress"
            android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             style="@android:style/Widget.Material.ProgressBar.Horizontal">
         </ProgressBar>
-
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_moment_background"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/klukva"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="2dp"
+            android:text=""
+            android:layout_gravity="center_horizontal|bottom"
+            >
+        </TextView>
     </FrameLayout>
 
 

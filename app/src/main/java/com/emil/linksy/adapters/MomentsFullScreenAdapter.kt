@@ -37,6 +37,7 @@ class MomentsFullScreenAdapter(
         private val momentImageView: ImageView = itemView.findViewById(R.id.iv_moment_full)
         private val momentPlayerView: PlayerView = itemView.findViewById(R.id.pv_moment)
         private val momentTextView: TextView = itemView.findViewById(R.id.tv_moment)
+        private val dateTextView: TextView = itemView.findViewById(R.id.tv_date)
         private val momentProgressBar: ProgressBar = itemView.findViewById(R.id.pb_moment)
         private var mediaPlayerAudio: MediaPlayer? = null
         private var progressJob: Job? = null
@@ -74,6 +75,7 @@ class MomentsFullScreenAdapter(
                 momentTextView.show()
                 momentTextView.text = text
             }
+            dateTextView.text = moment.publishDate
 
             if (audioUrl != null) {
                 mediaPlayerAudio = MediaPlayer().apply {
