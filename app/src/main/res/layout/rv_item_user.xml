@@ -31,7 +31,6 @@
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:textStyle="bold"
         android:textSize="15sp"
         android:textColor="@color/dark_gray"
@@ -44,10 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text=""
-            android:textColor="@color/link"
-            android:textSize="20sp"
             android:visibility="gone"
+            android:textColor="@color/link"
             android:fontFamily="@font/klukva"
+            android:textSize="15sp"
             android:textStyle="bold">
         </com.google.android.material.textview.MaterialTextView>
 

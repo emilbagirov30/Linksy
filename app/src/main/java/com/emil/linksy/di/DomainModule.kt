@@ -14,13 +14,19 @@ import com.emil.domain.usecase.FindUsersByLinkUseCase
 import com.emil.domain.usecase.FindUsersByUsernameUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
+import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
+import com.emil.domain.usecase.GetOutsiderUserSubscriptionsUseCase
 import com.emil.domain.usecase.GetUserPageDataUseCase
+import com.emil.domain.usecase.GetUserSubscribersUseCase
+import com.emil.domain.usecase.GetUserSubscriptionsUseCase
 import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.RegisterUseCase
 import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
+import com.emil.domain.usecase.SubscribeUseCase
+import com.emil.domain.usecase.UnsubscribeUseCase
 import com.emil.domain.usecase.UpdateBirthdayUseCase
 import com.emil.domain.usecase.UpdateLinkUseCase
 import com.emil.domain.usecase.UpdateUsernameUseCase
@@ -110,4 +116,22 @@ val domainModule = module {
         GetUserPageDataUseCase(peopleRepository = get())
     }
 
+    factory<SubscribeUseCase>{
+        SubscribeUseCase(peopleRepository = get())
+    }
+    factory<UnsubscribeUseCase>{
+        UnsubscribeUseCase(peopleRepository = get())
+    }
+    factory<GetUserSubscribersUseCase>{
+        GetUserSubscribersUseCase(peopleRepository = get())
+    }
+    factory<GetUserSubscriptionsUseCase>{
+        GetUserSubscriptionsUseCase(peopleRepository = get())
+    }
+    factory<GetOutsiderUserSubscriptionsUseCase>{
+        GetOutsiderUserSubscriptionsUseCase(peopleRepository = get())
+    }
+    factory<GetOutsiderUserSubscribersUseCase>{
+        GetOutsiderUserSubscribersUseCase(peopleRepository = get())
+    }
 }

@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.camera.view.PreviewView
 import androidx.camera.core.Preview
 import com.emil.linksy.presentation.ui.page.UserPageActivity
+import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -67,7 +68,7 @@ class CameraXActivity : AppCompatActivity() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startCamera()
             } else {
-                Toast.makeText(this, getString(R.string.camera_is_not_allowed), Toast.LENGTH_SHORT).show()
+                showToast(this,R.string.camera_is_not_allowed)
             }
         }
     }
@@ -77,7 +78,7 @@ class CameraXActivity : AppCompatActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         val sharedPref: SharedPreferences = getSharedPreferences("AppData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
-        var id:Long
+        var id:Long?
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder().build()
@@ -90,8 +91,8 @@ class CameraXActivity : AppCompatActivity() {
                         ContextCompat.getMainExecutor(this),
                         QRCodeAnalyzer { qrCode ->
                             if (!isActivityStarted) {
-                                id = qrCode.toLong()
-                                if(id!=userId) {
+                                id = qrCode.toLongOrNull()
+                                if(id!=userId && id!=null) {
                                     isActivityStarted = true
                                     val switchingToUserPageActivity =
                                         Intent(this, UserPageActivity()::class.java)

@@ -107,6 +107,13 @@ fun hideKeyboard (context: Context,view: View){
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+enum class RelationType() {
+    SUBSCRIBERS,
+    SUBSCRIPTIONS
+}
+
+
+
 enum class ContentType(val mimeType: String) {
     IMAGE("image/*"),
     VIDEO("video/*"),

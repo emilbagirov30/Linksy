@@ -7,7 +7,7 @@ import retrofit2.Response
 
 class GetUserPageDataUseCase ( private val peopleRepository: PeopleRepository) {
 
-    suspend fun execute(id: Long): Response<UserPageDataResponse> {
-        return peopleRepository.getUserPageData(id)
+    suspend fun execute(token:String,id: Long): Response<UserPageDataResponse> {
+        return peopleRepository.getUserPageData(token,id)
     }
 }

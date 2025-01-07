@@ -21,6 +21,7 @@ import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -102,10 +103,28 @@ interface ApiService {
     suspend fun findUserByLink (@Header("Authorization") token:String,@Query("startsWith")startsWith:String): Response<List<UserResponseDto>>
 
     @GET("api/people/{id}")
-    suspend fun getUserPageData(@Path("id") id:Long): Response<UserPageDataResponseDto>
+    suspend fun getUserPageData(@Header("Authorization") token:String,@Path("id") id:Long): Response<UserPageDataResponseDto>
     @GET ("api/people/user_posts/{id}")
     suspend fun getOutsiderUserPosts (@Path("id") id:Long): Response<List<PostResponseDto>>
     @GET ("api/people/user_moments/{id}")
     suspend fun getOutsiderUserMoments (@Path("id") id:Long): Response<List<MomentResponseDto>>
+
+
+
+
+    @PUT("api/people/subscribe/{id}")
+    suspend fun subscribe (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
+    @DELETE("api/people/unsubscribe/{id}")
+    suspend fun unsubscribe (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
+
+    @GET("api/people/user_subscribers")
+    suspend fun getUserSubscribers(@Header("Authorization") token:String): Response<List<UserResponseDto>>
+    @GET("api/people/user_subscriptions")
+    suspend fun getUserSubscriptions(@Header("Authorization") token:String): Response<List<UserResponseDto>>
+
+    @GET("api/people/outsider/user_subscribers/{id}")
+    suspend fun getOutsiderUserSubscribers(@Path("id") id:Long): Response<List<UserResponseDto>>
+    @GET("api/people/outsider/user_subscriptions/{id}")
+    suspend fun getOutsiderUserSubscriptions(@Path("id") id:Long): Response<List<UserResponseDto>>
 
 }

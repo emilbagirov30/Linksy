@@ -51,7 +51,10 @@ val appModule = module {
            updateBirthdayUseCase = get(), updateUsernameUseCase = get (), updateLinkUseCase = get (), deleteAvatarUseCase = get())
     }
     viewModel <PeopleViewModel> {
-        PeopleViewModel(findUsersByUsernameUseCase = get(), findUsersByLinkUseCase = get(), getUserPageDataUseCase = get())
+        PeopleViewModel(findUsersByUsernameUseCase = get(), findUsersByLinkUseCase = get(), getUserPageDataUseCase = get(),
+            subscribeUseCase = get(), unsubscribeUseCase = get(),
+            getUserSubscribersUseCase = get(), getUserSubscriptionsUseCase = get(),
+            getOutsiderUserSubscribersUseCase = get(), getOutsiderUserSubscriptionsUseCase = get())
     }
     single { TokenService() }
 }

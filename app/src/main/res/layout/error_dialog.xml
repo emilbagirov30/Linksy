@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/ib_close"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_close_2"
+        android:backgroundTint="@color/gray"
+        android:layout_gravity="end">
+
+    </ImageButton>
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_error"
+    android:layout_gravity="center">
+
+</ImageView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/klukva"
+        android:textSize="20sp"
+        android:textColor="@color/dark_gray"
+        android:layout_marginTop="5dp"
+        android:text="">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+
+
+</LinearLayout>

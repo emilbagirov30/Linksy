@@ -5,6 +5,7 @@
     android:id="@+id/ll_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="gone"
     android:orientation="vertical"
 
     tools:context="com.emil.linksy.presentation.ui.page.UserPageActivity">
@@ -80,7 +81,7 @@
         android:text="@string/message">
     </com.google.android.material.button.MaterialButton>
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/bt_subscribe"
+        android:id="@+id/bt_sub_unsub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/ButtonProfile"
@@ -100,6 +101,7 @@
 
             
         <LinearLayout
+            android:id="@+id/ll_subscriptions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_layout"
@@ -132,6 +134,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_subscribers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

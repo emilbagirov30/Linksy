@@ -89,6 +89,8 @@
     <string name="subscribers">Subscribers</string>
     <string name="message">Message</string>
     <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
     <string name="camera_is_not_allowed">Camera is not allowed</string>
-
+    <string name="subscribed">You have subscribed!</string>
+    <string name="unsubscribed">You have unsubscribed!</string>
 </resources>

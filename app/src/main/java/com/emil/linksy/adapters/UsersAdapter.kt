@@ -3,6 +3,7 @@ package com.emil.linksy.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,8 @@ class UsersAdapter(private val userList: List<UserResponse>, private val peopleV
         private val usernameTextView = itemView.findViewById<MaterialTextView>(R.id.tv_username)
         private val linkTextView = itemView.findViewById<MaterialTextView>(R.id.tv_link)
         private val userLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_user)
+        val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val id = sharedPref.getLong("ID",-1)
         @SuppressLint("SetTextI18n")
         fun bind(user:UserResponse){
             if (user.avatarUrl !="null"){
@@ -48,9 +51,11 @@ class UsersAdapter(private val userList: List<UserResponse>, private val peopleV
                 linkTextView.text = "@${user.link}"
             }
             userLinearLayout.setOnClickListener {
+                if(id!=user.id){
                 val switchingToUserPageActivity = Intent(context, UserPageActivity()::class.java)
                 switchingToUserPageActivity.putExtra("USER_ID", user.id)
                 context.startActivity(switchingToUserPageActivity)
+                }
             }
         }
 
