@@ -28,7 +28,7 @@ import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
-import com.emil.linksy.util.createContentPicker
+import com.emil.linksy.util.createContentPickerForFragment
 import com.emil.linksy.util.createImageFilePart
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
@@ -191,7 +191,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
             }
             showContent()
         }
-        val pickImageLauncher = createContentPicker(this) { uri ->
+        val pickImageLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedImage(uri)
             selectedUri = uri
         }

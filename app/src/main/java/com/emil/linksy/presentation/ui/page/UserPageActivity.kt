@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.page
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
@@ -13,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.adapters.OutsiderProfilePagerAdapter
 import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
+import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
 import com.emil.linksy.presentation.ui.navigation.people.OutsiderRelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.RelationType
@@ -74,7 +76,10 @@ class UserPageActivity (): AppCompatActivity() {
         val loading = LoadingDialog(this)
         loading.show()
 
-
+        messageButton.setOnClickListener {
+            val startMessageActivity = Intent(this,MessageActivity::class.java)
+            startActivity(startMessageActivity)
+        }
 
 
 

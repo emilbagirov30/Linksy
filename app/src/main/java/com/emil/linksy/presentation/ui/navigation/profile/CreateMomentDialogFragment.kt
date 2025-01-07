@@ -24,7 +24,7 @@ import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.createAudioFilePart
-import com.emil.linksy.util.createContentPicker
+import com.emil.linksy.util.createContentPickerForFragment
 import com.emil.linksy.util.createImageFilePart
 import com.emil.linksy.util.createVideoFilePart
 import com.emil.linksy.util.hide
@@ -106,17 +106,17 @@ class CreateMomentDialogFragment (private val momentFragment: MomentFragment): D
             it.showHint(requireContext(),R.string.moment_hint)
         }
 
-        val pickImageLauncher = createContentPicker(this) { uri ->
+        val pickImageLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedImage(uri)
             imageUri = uri
             updatePublishButtonState()
         }
-        val pickVideoLauncher = createContentPicker(this) { uri ->
+        val pickVideoLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedVideo(uri)
             videoUri = uri
             updatePublishButtonState()
         }
-        val pickAudioLauncher = createContentPicker(this) { uri ->
+        val pickAudioLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedAudio(uri)
             audioUri = uri
             updatePublishButtonState()

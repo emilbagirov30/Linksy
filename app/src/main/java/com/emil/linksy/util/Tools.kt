@@ -11,7 +11,6 @@ import android.graphics.PorterDuffColorFilter
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
-import android.os.FileUtils
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.HideReturnsTransformationMethod
@@ -27,14 +26,12 @@ import android.widget.PopupMenu
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.arthenica.ffmpegkit.FFmpegKit
-import com.arthenica.ffmpegkit.Log
 import com.arthenica.ffmpegkit.ReturnCode
-import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.presentation.R
 import com.facebook.shimmer.Shimmer
 import com.google.zxing.BarcodeFormat
@@ -173,8 +170,13 @@ fun createVoiceFilePart(context: Context, uri: Uri): MultipartBody.Part? {
 }
 
 
-fun createContentPicker(fragment: Fragment, action: (Uri) -> Unit) =
+fun createContentPickerForFragment(fragment: Fragment, action: (Uri) -> Unit) =
     fragment.registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { action(it) }
+    }
+
+fun createContentPickerForActivity(activity: AppCompatActivity, action: (Uri) -> Unit) =
+    activity.registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { action(it) }
     }
 

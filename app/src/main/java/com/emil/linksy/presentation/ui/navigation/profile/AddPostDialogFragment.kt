@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +27,7 @@ import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.createAudioFilePart
-import com.emil.linksy.util.createContentPicker
+import com.emil.linksy.util.createContentPickerForFragment
 import com.emil.linksy.util.createImageFilePart
 import com.emil.linksy.util.createVideoFilePart
 import com.emil.linksy.util.createVoiceFilePart
@@ -113,17 +115,17 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
             it.anim()
             val dialog = VoiceRecordDialog(this)
         }
-        val pickImageLauncher = createContentPicker(this) { uri ->
+        val pickImageLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedImage(uri)
             imageUri = uri
             updatePublishButtonState()
         }
-        val pickVideoLauncher = createContentPicker(this) { uri ->
+        val pickVideoLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedVideo(uri)
             videoUri = uri
             updatePublishButtonState()
         }
-        val pickAudioLauncher = createContentPicker(this) { uri ->
+        val pickAudioLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedAudio(uri)
             audioUri = uri
             updatePublishButtonState()

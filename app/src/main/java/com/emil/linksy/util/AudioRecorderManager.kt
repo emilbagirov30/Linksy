@@ -52,7 +52,7 @@ class AudioRecorderManager(private val context: Context) {
                     val byteArray = buffer.toByteArray()
                     fileOutputStream?.write(byteArray)
                 }
-                delay(15)
+                delay(5)
             }
         }
     }
