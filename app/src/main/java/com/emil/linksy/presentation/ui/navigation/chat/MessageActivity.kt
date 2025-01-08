@@ -92,7 +92,7 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var deleteVoice:ImageButton
     private val messageViewModel: MessageViewModel by viewModel<MessageViewModel>()
     private val tokenManager: TokenManager by inject()
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
@@ -120,12 +120,12 @@ class MessageActivity : AppCompatActivity() {
         stopWatchTextView = findViewById(R.id.tv_stopwatch)
         deleteVoice = findViewById(R.id.ib_delete_voice)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
+        toolBar.setNavigationOnClickListener {
+            finish()
+        }
         val userId = intent.getLongExtra("USER_ID", -1)
         val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val currentText = s.toString().trim()
                 if (currentText.isNotEmpty()) {
@@ -136,19 +136,13 @@ class MessageActivity : AppCompatActivity() {
                     recordButton.show()
                 }
             }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        }
-
-        messageEditText.addTextChangedListener(textWatcher)
+            override fun afterTextChanged(p0: Editable?) {} }
+            messageEditText.addTextChangedListener(textWatcher)
 
             sendButton.setOnClickListener {
-                it.anim()
+                 it.anim()
                  if (isRecording){
-                     audioRecorderManager.stopRecording()
+                     stopRecording()
                      val recordFile = audioRecorderManager.getRecordedFile()
                      voiceUri = Uri.fromFile(recordFile)
                  }
@@ -157,73 +151,40 @@ class MessageActivity : AppCompatActivity() {
                 val videoPart = videoUri?.let { createVideoFilePart(this, it) }
                 val audioPart = audioUri?.let { createAudioFilePart(this, it) }
                 val voicePart = voiceUri?.let { createVoiceFilePart(this, it) }
-
                 messageViewModel.sendMessage(tokenManager.getAccessToken(),userId,text,imagePart,videoPart,audioPart,voicePart,
-
-                    onSuccess = {
-                        sendButton.hide()
-                        recordButton.show()
-                        voiceLinearLayout.hide()
-                        mediaLinearLayout.hide()
-                        secondsElapsed=0
-                        messageEditText.setText("")
-                        audioWaveView.hide()
-                    })
+                    onSuccess = {clear()})
 
             }
 
 
             recordButton.setOnClickListener {
-                   it.anim()
+                it.anim()
                 audioWaveView.show()
-                if ( checkAudioPermission()) {
-                    startRecording()
-                    sendButton.show()
-                    recordButton.hide()
-                    voiceLinearLayout.show()
-                    updateStopwatch()
-                }
+                if (checkAudioPermission()) startRecording()
             }
 
 
-         deleteVoice.setOnClickListener {
-             audioWaveView.hide()
-             sendButton.hide()
-             recordButton.show()
-             voiceLinearLayout.hide()
-             secondsElapsed=0
-             audioRecorderManager.stopRecording()
-             job?.cancel()
-             isRecording = false
-         }
+         deleteVoice.setOnClickListener { stopRecording() }
 
 
-
-
-        toolBar.setNavigationOnClickListener {
-            finish()
-        }
           pickImageLauncher = createContentPickerForActivity(this) { uri ->
-            handleSelectedImage(uri)
-            imageUri = uri
+              handleSelectedImage(uri)
+              imageUri = uri
               sendButton.show()
-              recordButton.hide()
+
         }
           pickVideoLauncher =  createContentPickerForActivity(this) { uri ->
-            handleSelectedVideo(uri)
-            videoUri = uri
+              handleSelectedVideo(uri)
+              videoUri = uri
               sendButton.show()
-              recordButton.hide()
         }
           pickAudioLauncher =  createContentPickerForActivity(this) { uri ->
-            handleSelectedAudio(uri)
-            audioUri = uri
+              handleSelectedAudio(uri)
+              audioUri = uri
               sendButton.show()
-              recordButton.hide()
+
         }
-        attachImageButton.setOnClickListener {
-            showPopup(it)
-        }
+        attachImageButton.setOnClickListener { showPopup(it)}
     }
 
 
@@ -374,11 +335,8 @@ class MessageActivity : AppCompatActivity() {
             pickAudioLauncher.launch(ContentType.AUDIO.mimeType)
         }
     }
-
-
-
-
-    fun updateStopwatch () {
+    @SuppressLint("DefaultLocale")
+    private fun updateStopwatch () {
         secondsElapsed++
         val minutes = secondsElapsed / 60
         val seconds = secondsElapsed % 60
@@ -391,7 +349,6 @@ class MessageActivity : AppCompatActivity() {
 
 
     private fun checkAudioPermission(): Boolean {
-
         val readPermission = ContextCompat.checkSelfPermission(this,
             Manifest.permission.READ_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
@@ -421,6 +378,10 @@ class MessageActivity : AppCompatActivity() {
     }
     private fun startRecording() {
         isRecording = true
+        sendButton.show()
+        recordButton.hide()
+        voiceLinearLayout.show()
+        updateStopwatch()
         audioRecorderManager.startRecording { amplitude ->
               runOnUiThread {
                 audioWaveView.addAmplitude(amplitude)
@@ -429,6 +390,28 @@ class MessageActivity : AppCompatActivity() {
     }
 
 
-
+    private fun stopRecording() {
+        audioWaveView.hide()
+        sendButton.hide()
+        recordButton.show()
+        voiceLinearLayout.hide()
+        secondsElapsed=0
+        audioRecorderManager.stopRecording()
+        job?.cancel()
+        isRecording = false
+    }
+    private fun clear() {
+        sendButton.hide()
+        recordButton.show()
+        voiceLinearLayout.hide()
+        mediaLinearLayout.hide()
+        secondsElapsed=0
+        messageEditText.setText("")
+        audioWaveView.hide()
+        imageUri = null
+        videoUri = null
+        audioUri = null
+        voiceUri = null
+    }
 
 }

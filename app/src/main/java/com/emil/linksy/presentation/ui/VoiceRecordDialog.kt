@@ -40,9 +40,9 @@ class VoiceRecordDialog (private val dialog: Fragment): Dialog(dialog.requireCon
             audioRecorderManager.stopRecording()
             dismiss()
         }
-        if ( checkAudioPermission()) startRecording()
+        checkAudioPermissionAndStartRecording()
     }
-    private fun checkAudioPermission(): Boolean {
+    private fun checkAudioPermissionAndStartRecording(): Boolean {
 
         val readPermission = ContextCompat.checkSelfPermission(context,
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -57,6 +57,7 @@ class VoiceRecordDialog (private val dialog: Fragment): Dialog(dialog.requireCon
         ) == PackageManager.PERMISSION_GRANTED
 
         if (readPermission && writePermission && recordAudioPermission) {
+            startRecording()
             return true
         }
         ActivityCompat.requestPermissions(
@@ -71,6 +72,7 @@ class VoiceRecordDialog (private val dialog: Fragment): Dialog(dialog.requireCon
 
         return false
     }
+
     private fun startRecording() {
         audioRecorderManager.startRecording { amplitude ->
             (dialog.requireContext() as? Activity)?.runOnUiThread {
