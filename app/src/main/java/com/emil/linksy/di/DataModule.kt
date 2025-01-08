@@ -1,12 +1,14 @@
 package com.emil.linksy.di
 
 import com.emil.data.repository.AuthRepositoryImpl
+import com.emil.data.repository.MessageRepositoryImpl
 import com.emil.data.repository.MomentRepositoryImpl
 import com.emil.data.repository.PeopleRepositoryImpl
 import com.emil.data.repository.PostRepositoryImpl
 import com.emil.data.repository.TokenRepositoryImpl
 import com.emil.data.repository.UserRepositoryImpl
 import com.emil.domain.repository.AuthRepository
+import com.emil.domain.repository.MessageRepository
 import com.emil.domain.repository.MomentRepository
 import com.emil.domain.repository.PeopleRepository
 import com.emil.domain.repository.PostRepository
@@ -33,6 +35,9 @@ val dataModule = module {
     }
     single<PeopleRepository>{
       PeopleRepositoryImpl()
+    }
+    single<MessageRepository>{
+       MessageRepositoryImpl()
     }
 
 }

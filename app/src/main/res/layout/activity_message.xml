@@ -168,32 +168,6 @@
 
     </LinearLayout>
 
-<LinearLayout
-    android:id="@+id/ll_voice"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:visibility="gone"
-    android:orientation="horizontal">
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_stopwatch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:text="00:00"
-        android:textStyle="bold">
-    </com.google.android.material.textview.MaterialTextView>
-    <include
-        android:id="@+id/ib_delete_voice"
-        layout="@layout/delete_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp">
-    </include>
-
-</LinearLayout>
 
 
     <com.emil.linksy.presentation.custom_view.CustomAudioWave
@@ -203,7 +177,32 @@
         android:layout_marginBottom="5dp"
         android:visibility="gone"
         />
+    <LinearLayout
+        android:id="@+id/ll_voice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:orientation="horizontal">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_stopwatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:text="00:00"
+            android:textStyle="bold">
+        </com.google.android.material.textview.MaterialTextView>
+        <include
+            android:id="@+id/ib_delete_voice"
+            layout="@layout/delete_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp">
+        </include>
+
+    </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

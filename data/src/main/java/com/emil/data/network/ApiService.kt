@@ -126,5 +126,12 @@ interface ApiService {
     suspend fun getOutsiderUserSubscribers(@Path("id") id:Long): Response<List<UserResponseDto>>
     @GET("api/people/outsider/user_subscriptions/{id}")
     suspend fun getOutsiderUserSubscriptions(@Path("id") id:Long): Response<List<UserResponseDto>>
-
+    @POST("api/message/send/{id}")
+    @Multipart
+    suspend fun sendMessage (@Header("Authorization") token:String, @Path("id") id:Long,
+                            @Part("text") text: String?,
+                            @Part image: MultipartBody.Part?,
+                            @Part video: MultipartBody.Part?,
+                            @Part audio: MultipartBody.Part?,
+                            @Part voice: MultipartBody.Part?):Response<Unit>
 }

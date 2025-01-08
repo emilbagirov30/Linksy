@@ -25,6 +25,7 @@ import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.RegisterUseCase
 import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
+import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.domain.usecase.SubscribeUseCase
 import com.emil.domain.usecase.UnsubscribeUseCase
 import com.emil.domain.usecase.UpdateBirthdayUseCase
@@ -133,5 +134,9 @@ val domainModule = module {
     }
     factory<GetOutsiderUserSubscribersUseCase>{
         GetOutsiderUserSubscribersUseCase(peopleRepository = get())
+    }
+
+    factory<SendMessageUseCase>{
+        SendMessageUseCase(messageRepository = get())
     }
 }

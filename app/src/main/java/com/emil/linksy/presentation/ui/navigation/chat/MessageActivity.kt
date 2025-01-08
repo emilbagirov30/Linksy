@@ -28,12 +28,20 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
+import com.emil.linksy.presentation.viewmodel.MessageViewModel
+import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.AudioRecorderManager
 import com.emil.linksy.util.ContentType
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
+import com.emil.linksy.util.createAudioFilePart
 import com.emil.linksy.util.createContentPickerForActivity
+import com.emil.linksy.util.createImageFilePart
+import com.emil.linksy.util.createVideoFilePart
+import com.emil.linksy.util.createVoiceFilePart
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
+import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textview.MaterialTextView
@@ -42,6 +50,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MessageActivity : AppCompatActivity() {
     private lateinit var avatarImageView: ImageView
@@ -67,6 +77,7 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var pickVideoLauncher:ActivityResultLauncher<String>
     private lateinit var pickAudioLauncher:ActivityResultLauncher<String>
     private var isPlayingAudio = false
+    private var isRecording = false
     private var imageUri: Uri? = null
     private var videoUri: Uri? = null
     private var audioUri: Uri? = null
@@ -79,6 +90,8 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var voiceLinearLayout: LinearLayout
     private lateinit var stopWatchTextView: MaterialTextView
     private lateinit var deleteVoice:ImageButton
+    private val messageViewModel: MessageViewModel by viewModel<MessageViewModel>()
+    private val tokenManager: TokenManager by inject()
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +120,7 @@ class MessageActivity : AppCompatActivity() {
         stopWatchTextView = findViewById(R.id.tv_stopwatch)
         deleteVoice = findViewById(R.id.ib_delete_voice)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
-
+        val userId = intent.getLongExtra("USER_ID", -1)
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -132,10 +145,32 @@ class MessageActivity : AppCompatActivity() {
 
         messageEditText.addTextChangedListener(textWatcher)
 
+            sendButton.setOnClickListener {
+                it.anim()
+                 if (isRecording){
+                     audioRecorderManager.stopRecording()
+                     val recordFile = audioRecorderManager.getRecordedFile()
+                     voiceUri = Uri.fromFile(recordFile)
+                 }
+                val text = messageEditText.string()
+                val imagePart = imageUri?.let { createImageFilePart(this, it) }
+                val videoPart = videoUri?.let { createVideoFilePart(this, it) }
+                val audioPart = audioUri?.let { createAudioFilePart(this, it) }
+                val voicePart = voiceUri?.let { createVoiceFilePart(this, it) }
 
-messageEditText.setOnClickListener {
-    it.anim()
-}
+                messageViewModel.sendMessage(tokenManager.getAccessToken(),userId,text,imagePart,videoPart,audioPart,voicePart,
+
+                    onSuccess = {
+                        sendButton.hide()
+                        recordButton.show()
+                        voiceLinearLayout.hide()
+                        mediaLinearLayout.hide()
+                        secondsElapsed=0
+                        messageEditText.setText("")
+                        audioWaveView.hide()
+                    })
+
+            }
 
 
             recordButton.setOnClickListener {
@@ -159,6 +194,7 @@ messageEditText.setOnClickListener {
              secondsElapsed=0
              audioRecorderManager.stopRecording()
              job?.cancel()
+             isRecording = false
          }
 
 
@@ -170,14 +206,20 @@ messageEditText.setOnClickListener {
           pickImageLauncher = createContentPickerForActivity(this) { uri ->
             handleSelectedImage(uri)
             imageUri = uri
+              sendButton.show()
+              recordButton.hide()
         }
           pickVideoLauncher =  createContentPickerForActivity(this) { uri ->
             handleSelectedVideo(uri)
             videoUri = uri
+              sendButton.show()
+              recordButton.hide()
         }
           pickAudioLauncher =  createContentPickerForActivity(this) { uri ->
             handleSelectedAudio(uri)
             audioUri = uri
+              sendButton.show()
+              recordButton.hide()
         }
         attachImageButton.setOnClickListener {
             showPopup(it)
@@ -195,7 +237,11 @@ messageEditText.setOnClickListener {
         deletePictureButton.setOnClickListener {
             it.anim()
             pictureFrameLayout.hide()
-            if (!videoFrameLayout.isVisible) mediaLinearLayout.hide()
+            if (!videoFrameLayout.isVisible) {
+                mediaLinearLayout.hide()
+                sendButton.hide()
+                recordButton.show()
+            }
             imageUri = null
         }
     }
@@ -216,7 +262,11 @@ messageEditText.setOnClickListener {
             it.anim()
             pickedVideoVideoView.stopPlayback()
             videoFrameLayout.hide()
-            if (!pictureFrameLayout.isVisible) mediaLinearLayout.hide()
+            if (!pictureFrameLayout.isVisible) {
+                mediaLinearLayout.hide()
+                sendButton.hide()
+                recordButton.show()
+            }
             videoUri = null
         }
     }
@@ -265,7 +315,10 @@ messageEditText.setOnClickListener {
             audioProgressBar.progress = 0
             audioLinearLayout.hide()
             audioUri = null
-
+            if(!mediaLinearLayout.isVisible) {
+                sendButton.hide()
+                recordButton.show()
+            }
         }
 
 
@@ -367,6 +420,7 @@ messageEditText.setOnClickListener {
         return false
     }
     private fun startRecording() {
+        isRecording = true
         audioRecorderManager.startRecording { amplitude ->
               runOnUiThread {
                 audioWaveView.addAmplitude(amplitude)

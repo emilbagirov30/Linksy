@@ -78,6 +78,7 @@ class UserPageActivity (): AppCompatActivity() {
 
         messageButton.setOnClickListener {
             val startMessageActivity = Intent(this,MessageActivity::class.java)
+            startMessageActivity.putExtra("USER_ID",userId)
             startActivity(startMessageActivity)
         }
 

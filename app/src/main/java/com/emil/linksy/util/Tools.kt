@@ -1,7 +1,9 @@
 package com.emil.linksy.util
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
@@ -28,6 +30,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.arthenica.ffmpegkit.FFmpegKit
@@ -324,3 +327,8 @@ limitations under the License.
     }
     imageView.setImageBitmap(bmp)
 }
+
+
+
+
+

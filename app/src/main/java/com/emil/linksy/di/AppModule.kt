@@ -1,10 +1,12 @@
 package com.emil.linksy.di
 
 import com.emil.domain.usecase.RefreshTokenUseCase
+import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.linksy.app.service.TokenService
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
+import com.emil.linksy.presentation.viewmodel.MessageViewModel
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.presentation.viewmodel.PasswordChangeViewModel
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
@@ -55,6 +57,10 @@ val appModule = module {
             subscribeUseCase = get(), unsubscribeUseCase = get(),
             getUserSubscribersUseCase = get(), getUserSubscriptionsUseCase = get(),
             getOutsiderUserSubscribersUseCase = get(), getOutsiderUserSubscriptionsUseCase = get())
+    }
+
+    viewModel <MessageViewModel> {
+       MessageViewModel(sendMessageUseCase = get())
     }
     single { TokenService() }
 }
