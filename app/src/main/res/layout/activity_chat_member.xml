@@ -1,11 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    tools:context="com.emil.linksy.presentation.ui.navigation.chat.ChatMemberActivity">
 
-    tools:context="com.emil.linksy.presentation.ui.navigation.chat.ChatFragment">
 
 
 
@@ -14,33 +16,29 @@
         android:id="@+id/tb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
-        <LinearLayout
-            android:layout_width="match_parent"
+        app:navigationIcon="@drawable/ic_back">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/chats"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="20sp">
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="@string/chat_members">
 
-            </TextView>
-
-        </LinearLayout>
+        </com.google.android.material.textview.MaterialTextView>
 
     </com.google.android.material.appbar.MaterialToolbar>
 
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_chats"
+        android:id="@+id/rv_users"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         >
-
     </androidx.recyclerview.widget.RecyclerView>
+
+
+
 
 </LinearLayout>

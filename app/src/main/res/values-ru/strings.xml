@@ -88,4 +88,11 @@
     <string name="unsubscribe">Отписаться</string>
     <string name="subscribed">Вы подписались!</string>
     <string name="unsubscribed">Вы отписались!</string>
+    <string name="create_group">Cоздать группу</string>
+    <string name="name">Название</string>
+    <string name="create">Создать</string>
+    <string name="add_participants">Добавьте участников</string>
+    <string name="empty_field">Поле не может быть пустым</string>
+    <string name="chat_members">Участники чата</string>
+    <string name="members">участника</string>
 </resources>

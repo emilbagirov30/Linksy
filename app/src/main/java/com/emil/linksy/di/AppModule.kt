@@ -64,7 +64,7 @@ val appModule = module {
        MessageViewModel(sendMessageUseCase = get(), getUserMessagesUseCase = get(), insertMessageInLocalDbUseCase = get(), getUserMessagesFromLocalDb = get())
     }
     viewModel <ChatViewModel> {
-      ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get())
+      ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get())
     }
     single { TokenService() }
 }

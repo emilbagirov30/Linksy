@@ -55,17 +55,15 @@ import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MessageActivity : AppCompatActivity() {
     private lateinit var avatarImageView: ImageView
     private lateinit var titleTextView: MaterialTextView
+    private lateinit var memberCountTextView: MaterialTextView
     private lateinit var messageRecyclerView: RecyclerView
     private lateinit var messageEditText: EditText
     private lateinit var sendButton: ImageButton
@@ -104,12 +102,13 @@ class MessageActivity : AppCompatActivity() {
     private val messageViewModel: MessageViewModel by viewModel<MessageViewModel>()
     private val chatViewModel:ChatViewModel by viewModel<ChatViewModel>()
     private val tokenManager: TokenManager by inject()
-    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
+    @SuppressLint("MissingInflatedId", "SuspiciousIndentation", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
         avatarImageView = findViewById(R.id.iv_avatar)
         titleTextView = findViewById(R.id.tv_title)
+        memberCountTextView = findViewById(R.id.tv_member_count)
         messageRecyclerView = findViewById(R.id.rv_message)
         messageEditText = findViewById(R.id.et_message)
         attachImageButton = findViewById(R.id.ib_attach)
@@ -133,6 +132,8 @@ class MessageActivity : AppCompatActivity() {
         deleteVoice = findViewById(R.id.ib_delete_voice)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
+        val sharedPref: SharedPreferences = getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong("ID",-1)
         toolBar.setNavigationOnClickListener {
             finish()
         }
@@ -142,6 +143,34 @@ class MessageActivity : AppCompatActivity() {
         val chatId = intent.getLongExtra("CHAT_ID", -1)
         val isGroup = intent.getBooleanExtra("ISGROUP",false)
 
+        if(isGroup) {
+            memberCountTextView.show()
+            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId)
+            chatViewModel.memberList.observe(this) { ml ->
+                memberCountTextView.text = "${ml.size.toString()} ${getString(R.string.members)}"
+
+                messageViewModel.getUserMessagesByChat(chatId)
+                messageViewModel.messageList.observe(this) { messageList ->
+                    messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId,ml)
+                }
+
+            }
+        }else{
+
+            if(chatId == -1L) chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId)
+            else messageViewModel.getUserMessagesByChat(chatId)
+
+            chatViewModel.chatId.observe(this){id ->
+                if(id!=-100L){
+                    messageViewModel.getUserMessagesByChat(id)
+                }
+            }
+
+            messageViewModel.messageList.observe(this){messageList ->
+                messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId)
+            }
+
+        }
 
         if (avatarUrl!="null"){
             Glide.with(this)
@@ -156,29 +185,15 @@ avatarImageView.setOnClickListener {
             Intent(this, UserPageActivity()::class.java)
         switchingToUserPageActivity.putExtra("USER_ID", recipientId)
         startActivity(switchingToUserPageActivity)
+    }else{
+        val switchingToGroupMemberActivity =
+            Intent(this, ChatMemberActivity::class.java)
+        switchingToGroupMemberActivity.putExtra("GROUP_ID", chatId)
+        startActivity(switchingToGroupMemberActivity)
     }
 }
-        val sharedPref: SharedPreferences = getSharedPreferences("AppData", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("ID",-1)
-        messageViewModel.messageList.observe(this){messageList ->
-        messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId)
-}
 
 
-
-
-        chatViewModel.chatId.observe(this){id ->
-            if(id!=-100L){
-                messageViewModel.getUserMessagesByChat(id)
-            }
-        }
-
-
-     if(chatId == -1L){
-         chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId)
-     }else{
-         messageViewModel.getUserMessagesByChat(chatId)
-     }
 
 
 

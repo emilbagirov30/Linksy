@@ -23,6 +23,12 @@
         android:theme="@style/Theme.Linksy"
         tools:ignore="Instantiatable">
         <activity
+            android:name="com.emil.linksy.presentation.ui.navigation.chat.ChatMemberActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.emil.linksy.presentation.ui.navigation.chat.CreateGroupActivity"
+            android:exported="false" />
+        <activity
             android:name="com.emil.linksy.presentation.ui.navigation.chat.MessageActivity"
             android:exported="false" />
         <activity

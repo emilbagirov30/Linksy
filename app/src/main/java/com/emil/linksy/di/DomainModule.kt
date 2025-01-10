@@ -5,6 +5,7 @@ import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
+import com.emil.domain.usecase.CreateGroupUseCase
 import com.emil.domain.usecase.CreateMomentUseCase
 import com.emil.domain.usecase.DeleteAvatarUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
@@ -14,6 +15,7 @@ import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.FindUsersByLinkUseCase
 import com.emil.domain.usecase.FindUsersByUsernameUseCase
 import com.emil.domain.usecase.GetChatIdUseCase
+import com.emil.domain.usecase.GetGroupMembersUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
@@ -170,5 +172,11 @@ val domainModule = module {
     }
     factory<GetChatIdUseCase>{
         GetChatIdUseCase(chatRepository = get())
+    }
+    factory<CreateGroupUseCase>{
+       CreateGroupUseCase(chatRepository = get())
+    }
+    factory<GetGroupMembersUseCase>{
+        GetGroupMembersUseCase(chatRepository = get())
     }
 }

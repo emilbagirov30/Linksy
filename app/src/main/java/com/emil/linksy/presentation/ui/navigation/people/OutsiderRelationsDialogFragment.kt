@@ -55,7 +55,7 @@ class OutsiderRelationsDialogFragment(val type: RelationType, val userId:Long, v
         }
         peopleViewModel.userList.observe(requireActivity()){ userlist ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = userlist,peopleViewModel = peopleViewModel,context = requireContext(),tokenManager = tokenManager)
+                UsersAdapter(userList = userlist,context = requireContext())
         }
         toolBar.setNavigationOnClickListener {
            dismiss()

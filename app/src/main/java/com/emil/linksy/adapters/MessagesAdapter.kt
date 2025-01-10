@@ -19,7 +19,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.MessageResponse
+import com.emil.domain.model.UserResponse
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.util.show
@@ -32,7 +34,8 @@ import kotlinx.coroutines.launch
 
 class MessagesAdapter(private val messageList: List<MessageResponse>,
                       private val context: Context,
-                      private val userId: Long
+                      private val userId: Long,
+                      private val chatMemberList:List<UserResponse> = emptyList()
 ):RecyclerView.Adapter<MessagesAdapter.MessageViewHolder>(){
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -41,6 +44,8 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
         private val messageLayout = itemView.findViewById<LinearLayout>(R.id.ll_message)
         private val cardView = itemView.findViewById<CardView>(R.id.cw_main)
         private val pictureImageView = itemView.findViewById<ImageView>(R.id.iv_picture)
+        private val senderAvatarImageView = itemView.findViewById<ImageView>(R.id.iv_sender_avatar)
+        private val senderUsernameTextView = itemView.findViewById<TextView>(R.id.tv_sender_username)
         private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_video)
         private val frameImageView = itemView.findViewById<ImageView>(R.id.iv_frame)
         private val playVideoButton = itemView.findViewById<ImageButton>(R.id.ib_play)
@@ -185,7 +190,21 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                 }
             }
 
-
+if (chatMemberList.isNotEmpty()){
+    senderAvatarImageView.show()
+    senderUsernameTextView.show()
+   val senderId = message.senderId
+   val sender = chatMemberList.find { it.id == senderId }
+    val senderAvatarUrl =sender?.avatarUrl
+    val senderUsername = sender?.username
+    senderUsernameTextView.text = senderUsername
+    if (senderAvatarUrl!="null"){
+        Glide.with(context)
+            .load(senderAvatarUrl)
+            .apply(RequestOptions.circleCropTransform())
+            .into(senderAvatarImageView)
+    }
+}
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {

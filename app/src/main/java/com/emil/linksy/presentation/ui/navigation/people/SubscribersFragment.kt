@@ -37,7 +37,7 @@ class SubscribersFragment : Fragment() {
 
         peopleViewModel.userList.observe(requireActivity()){ userlist ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = userlist,peopleViewModel = peopleViewModel,context = requireContext(),tokenManager = tokenManager)
+                UsersAdapter(userList = userlist,context = requireContext())
         }
         peopleViewModel.getUserSubscribers(tokenManager.getAccessToken())
         return view

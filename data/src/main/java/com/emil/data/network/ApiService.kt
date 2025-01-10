@@ -146,4 +146,18 @@ interface ApiService {
     suspend fun getUserChats(@Header("Authorization") token:String): Response<List<ChatResponseDto>>
     @GET("api/chats/users_chat_id")
     suspend fun getChatId(@Header("Authorization") token:String,@Query("id") id:Long): Response<Long>
+
+
+    @POST("api/chats/create/group")
+    @Multipart
+    suspend fun createGroup (@Header("Authorization") token:String,
+                             @Part("ids") participant: String?,
+                             @Part("name") text: String?,
+                             @Part image: MultipartBody.Part?,
+                             ):Response<Unit>
+
+
+
+    @GET("api/chats/group/members/{id}")
+    suspend fun getGroupMembers(@Header("Authorization") token:String,@Path("id")groupId:Long): Response<List<UserResponseDto>>
 }

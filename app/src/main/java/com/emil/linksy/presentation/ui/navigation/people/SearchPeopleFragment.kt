@@ -50,7 +50,7 @@ class SearchPeopleFragment : Fragment() {
 
         peopleViewModel.userList.observe(requireActivity()){ userlist ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = userlist,peopleViewModel = peopleViewModel,context = requireContext(),tokenManager = tokenManager)
+                UsersAdapter(userList = userlist,context = requireContext())
         }
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.emil.linksy.presentation.ui.auth.LanguageSelectionActivity
 import com.emil.presentation.R
 
+
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,16 +1,22 @@
 package com.emil.data.repository
 
 import com.emil.data.model.ChatLocalDb
+import com.emil.data.model.GroupBody
+import com.emil.data.model.PostBody
 import com.emil.data.model.toDomainModel
 import com.emil.data.model.toDomainModelList
+import com.emil.data.network.RetrofitCloudInstance
 import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.ChatLocal
 import com.emil.domain.model.ChatResponse
+import com.emil.domain.model.GroupData
+import com.emil.domain.model.UserResponse
 import com.emil.domain.repository.ChatRepository
 import retrofit2.Response
 
 class ChatRepositoryImpl(private val chatDao: ChatDao):ChatRepository {
     private val chatLocalDb = ChatLocalDb();
+    private val groupBody = GroupBody ()
     override suspend fun getUserChats(token: String): Response<List<ChatResponse>> {
         val response = RetrofitUserInstance.apiService.getUserChats("Bearer $token")
         return if (response.isSuccessful) {
@@ -34,5 +40,21 @@ class ChatRepositoryImpl(private val chatDao: ChatDao):ChatRepository {
 
     override suspend fun isGroup(chatId:Long):Boolean {
         return chatDao.isGroup(chatId)
+    }
+
+    override suspend fun createGroup(token: String, groupData: GroupData): Response<Unit> {
+        return RetrofitCloudInstance.apiService.createGroup("Bearer $token",
+            groupBody.toDomainModel(groupData).participantIds,
+            groupBody.toDomainModel(groupData).name,
+            groupBody.toDomainModel(groupData).avatar
+            )
+    }
+
+    override suspend fun getGroupMembers(token: String, groupId: Long): Response<List<UserResponse>> {
+        val response = RetrofitUserInstance.apiService.getGroupMembers("Bearer $token",groupId)
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModelList())
+         else Response.error(response.code(), response.errorBody()!!)
+
     }
 }

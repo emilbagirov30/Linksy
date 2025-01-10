@@ -31,10 +31,36 @@
                 android:orientation="horizontal">
 
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            >
+                <ImageView
+                    android:id="@+id/iv_sender_avatar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:background="@drawable/default_avatar"
+                    >
+                </ImageView>
 
-
-
-
+                <TextView
+                    android:id="@+id/tv_sender_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    android:textColor="@color/gray"
+                    android:fontFamily="@font/klukva"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text=""
+                    >
+                </TextView>
+        </LinearLayout>
 
 
                 <LinearLayout
@@ -50,6 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -153,20 +180,22 @@
                             android:id="@+id/tv_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="2dp"
                             android:textSize="20sp"
-                            android:visibility="gone"
-                            android:fontFamily="@font/klukva"
-                            android:layout_weight="1">
+                            android:maxEms="15"
+                       android:text=""
+                            android:fontFamily="@font/klukva">
                         </TextView>
+
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_time"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:padding="5dp"
                         android:textStyle="bold"
+                        android:padding="5dp"
+                        android:visibility="gone"
                         android:layout_gravity="bottom|end"
                         android:text="00:00">
 

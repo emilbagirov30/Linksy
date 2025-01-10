@@ -14,8 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="@string/select_language_title"
-        style="@style/TextTitleStyle">
+        android:textSize="25sp"
+        android:fontFamily="@font/klukva"
+        android:textStyle="bold"
+        android:text="@string/select_language_title">
     </com.google.android.material.textview.MaterialTextView>
 
     <Spinner
@@ -30,6 +32,7 @@
         android:id="@+id/bt_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:backgroundTint="@color/neutral"
         android:text="@string/next" >
     </com.google.android.material.button.MaterialButton>
 

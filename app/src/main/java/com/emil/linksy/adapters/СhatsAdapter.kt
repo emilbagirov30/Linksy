@@ -42,14 +42,20 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
                   .load(avatarUrl)
                   .apply(RequestOptions.circleCropTransform())
                   .into(avatarImageView)
+          }else{
+              if (isGroup)
+                  avatarImageView.setBackgroundResource(R.drawable.default_group_avatar)
+
           }
+
+
+
           nameTextView.text = name
           dateTextView.text = date
           lastMessageTextView.text = lastMessage
 
           chatLayout.setOnClickListener {
               val startMessageActivity = Intent(context, MessageActivity::class.java)
-
               startMessageActivity.putExtra("USER_ID",userId)
               startMessageActivity.putExtra("CHAT_ID",id)
               startMessageActivity.putExtra("ISGROUP",isGroup)
