@@ -20,6 +20,7 @@ class SplashScreenActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val switchingToLanguageSelectionActivity= Intent(this, LanguageSelectionActivity::class.java)
         startActivity(switchingToLanguageSelectionActivity)
         finish()

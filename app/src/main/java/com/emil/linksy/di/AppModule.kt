@@ -3,6 +3,7 @@ package com.emil.linksy.di
 import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.linksy.app.service.TokenService
+import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
@@ -60,7 +61,10 @@ val appModule = module {
     }
 
     viewModel <MessageViewModel> {
-       MessageViewModel(sendMessageUseCase = get())
+       MessageViewModel(sendMessageUseCase = get(), getUserMessagesUseCase = get(), insertMessageInLocalDbUseCase = get(), getUserMessagesFromLocalDb = get())
+    }
+    viewModel <ChatViewModel> {
+      ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get())
     }
     single { TokenService() }
 }

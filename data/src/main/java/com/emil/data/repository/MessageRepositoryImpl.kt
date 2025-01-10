@@ -1,15 +1,21 @@
 package com.emil.data.repository
 
 import com.emil.data.model.MessageBody
+import com.emil.data.model.MessageLocalDb
 import com.emil.data.model.MomentBody
 import com.emil.data.model.toDomainModel
+import com.emil.data.model.toDomainModelList
 import com.emil.data.network.RetrofitCloudInstance
+import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.MessageData
+import com.emil.domain.model.MessageLocal
+import com.emil.domain.model.MessageResponse
 import com.emil.domain.repository.MessageRepository
 import retrofit2.Response
 
-class MessageRepositoryImpl:MessageRepository {
+class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepository {
     private val messageBody = MessageBody ()
+    private val messageLocalDb = MessageLocalDb()
     override suspend fun sendMessage(token: String, message: MessageData): Response<Unit> {
         return RetrofitCloudInstance.apiService.sendMessage("Bearer $token",
             messageBody.toDomainModel(message).recipientId,
@@ -20,4 +26,23 @@ class MessageRepositoryImpl:MessageRepository {
             messageBody.toDomainModel(message).voice
         )
     }
+
+    override suspend fun getUserMessages(token: String): Response<List<MessageResponse>> {
+        val response = RetrofitUserInstance.apiService.getUserMessages("Bearer $token")
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModelList())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
+    }
+
+    override suspend fun getMessagesByChat(chatId: Long): List<MessageLocal> {
+       return messageDao.getMessagesByChat(chatId).toDomainModelList()
+    }
+
+    override suspend fun insertMessage(message: MessageLocal) {
+       return messageDao.insertMessage(messageLocalDb.toDomainModel(message))
+    }
+
+
 }

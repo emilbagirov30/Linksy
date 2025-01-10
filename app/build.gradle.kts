@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id ("kotlin-kapt")
+
 }
 
 android {
@@ -72,6 +73,9 @@ dependencies {
     implementation ("androidx.camera:camera-lifecycle:1.0.0")
     implementation ("androidx.camera:camera-view:1.0.0-alpha27")
     implementation ("com.google.mlkit:barcode-scanning:17.0.2")
+    implementation ("androidx.room:room-runtime:2.6.1")
+    kapt ("androidx.room:room-compiler:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

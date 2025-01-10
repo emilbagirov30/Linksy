@@ -1,6 +1,8 @@
 package com.emil.data.network
 
 import com.emil.data.model.AllUserDataDto
+import com.emil.data.model.ChatResponseDto
+import com.emil.data.model.MessageResponseDto
 import com.emil.data.model.MomentResponseDto
 import com.emil.data.model.PasswordChangeBody
 import com.emil.data.model.PasswordRecoveryBody
@@ -12,6 +14,8 @@ import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserPageDataResponseDto
 import com.emil.data.model.UserProfileDataDto
 import com.emil.data.model.UserResponseDto
+import com.emil.domain.model.ChatResponse
+import com.emil.domain.model.MessageResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -134,4 +138,12 @@ interface ApiService {
                             @Part video: MultipartBody.Part?,
                             @Part audio: MultipartBody.Part?,
                             @Part voice: MultipartBody.Part?):Response<Unit>
+
+
+    @GET("api/messages/user_messages")
+    suspend fun getUserMessages(@Header("Authorization") token:String): Response<List<MessageResponseDto>>
+    @GET("api/chats/user_chats")
+    suspend fun getUserChats(@Header("Authorization") token:String): Response<List<ChatResponseDto>>
+    @GET("api/chats/users_chat_id")
+    suspend fun getChatId(@Header("Authorization") token:String,@Query("id") id:Long): Response<Long>
 }

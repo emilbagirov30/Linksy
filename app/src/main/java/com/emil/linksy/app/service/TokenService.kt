@@ -72,7 +72,6 @@ class TokenService: LifecycleService() {
         refreshJob?.cancel()
         refreshJob = null
     }
-
     private fun logoutUser() {
         val sharedPref: SharedPreferences =
             getSharedPreferences("appData", Context.MODE_PRIVATE)

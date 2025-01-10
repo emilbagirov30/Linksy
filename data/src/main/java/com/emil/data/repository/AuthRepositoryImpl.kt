@@ -12,6 +12,7 @@ import com.emil.domain.model.Token
 import com.emil.domain.model.UserLoginData
 import com.emil.domain.model.UserRegistrationData
 import com.emil.domain.repository.AuthRepository
+
 import retrofit2.Response
 
 class AuthRepositoryImpl : AuthRepository {

@@ -76,15 +76,6 @@ class UserPageActivity (): AppCompatActivity() {
         val loading = LoadingDialog(this)
         loading.show()
 
-        messageButton.setOnClickListener {
-            val startMessageActivity = Intent(this,MessageActivity::class.java)
-            startMessageActivity.putExtra("USER_ID",userId)
-            startActivity(startMessageActivity)
-        }
-
-
-
-
         peopleViewModel.pageData.observe(this){ pageData ->
             val link = pageData.link
             if (link!=null){
@@ -115,7 +106,14 @@ class UserPageActivity (): AppCompatActivity() {
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImageView)
             }
-
+            messageButton.setOnClickListener {
+                val startMessageActivity = Intent(this,MessageActivity::class.java)
+                startMessageActivity.putExtra("USER_ID",userId)
+                startMessageActivity.putExtra("AVATAR_URL",avatarUrl)
+                startMessageActivity.putExtra("NAME",username)
+                startMessageActivity.putExtra("ISGROUP",false)
+                startActivity(startMessageActivity)
+            }
             val birthday = pageData.birthday
             if (birthday!=null){
                 birthdayTextView.show()

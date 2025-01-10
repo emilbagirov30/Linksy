@@ -2,7 +2,9 @@ package com.emil.linksy.presentation.ui.navigation.chat
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -25,11 +27,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.emil.domain.usecase.CheckIsGroupUseCase
+import com.emil.linksy.adapters.MessagesAdapter
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
+import com.emil.linksy.presentation.ui.page.UserPageActivity
+import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
-import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.AudioRecorderManager
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
@@ -48,15 +55,18 @@ import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MessageActivity : AppCompatActivity() {
     private lateinit var avatarImageView: ImageView
     private lateinit var titleTextView: MaterialTextView
-    private lateinit var chatRecyclerView: RecyclerView
+    private lateinit var messageRecyclerView: RecyclerView
     private lateinit var messageEditText: EditText
     private lateinit var sendButton: ImageButton
     private lateinit var recordButton: ImageButton
@@ -76,6 +86,7 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var pickImageLauncher:ActivityResultLauncher<String>
     private lateinit var pickVideoLauncher:ActivityResultLauncher<String>
     private lateinit var pickAudioLauncher:ActivityResultLauncher<String>
+    private val checkIsGroupUseCase: CheckIsGroupUseCase by inject()
     private var isPlayingAudio = false
     private var isRecording = false
     private var imageUri: Uri? = null
@@ -91,6 +102,7 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var stopWatchTextView: MaterialTextView
     private lateinit var deleteVoice:ImageButton
     private val messageViewModel: MessageViewModel by viewModel<MessageViewModel>()
+    private val chatViewModel:ChatViewModel by viewModel<ChatViewModel>()
     private val tokenManager: TokenManager by inject()
     @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,7 +110,7 @@ class MessageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_message)
         avatarImageView = findViewById(R.id.iv_avatar)
         titleTextView = findViewById(R.id.tv_title)
-        chatRecyclerView = findViewById(R.id.rv_chat)
+        messageRecyclerView = findViewById(R.id.rv_message)
         messageEditText = findViewById(R.id.et_message)
         attachImageButton = findViewById(R.id.ib_attach)
         sendButton = findViewById(R.id.ib_send)
@@ -120,10 +132,56 @@ class MessageActivity : AppCompatActivity() {
         stopWatchTextView = findViewById(R.id.tv_stopwatch)
         deleteVoice = findViewById(R.id.ib_delete_voice)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
+        messageRecyclerView.layoutManager = LinearLayoutManager(this)
         toolBar.setNavigationOnClickListener {
             finish()
         }
-        val userId = intent.getLongExtra("USER_ID", -1)
+        val recipientId = intent.getLongExtra("USER_ID", -1)
+        val avatarUrl = intent.getStringExtra("AVATAR_URL")
+        val title = intent.getStringExtra("NAME")
+        val chatId = intent.getLongExtra("CHAT_ID", -1)
+        val isGroup = intent.getBooleanExtra("ISGROUP",false)
+
+
+        if (avatarUrl!="null"){
+            Glide.with(this)
+                .load(avatarUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatarImageView)
+        }
+        titleTextView.text = title
+avatarImageView.setOnClickListener {
+    if(!isGroup) {
+        val switchingToUserPageActivity =
+            Intent(this, UserPageActivity()::class.java)
+        switchingToUserPageActivity.putExtra("USER_ID", recipientId)
+        startActivity(switchingToUserPageActivity)
+    }
+}
+        val sharedPref: SharedPreferences = getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong("ID",-1)
+        messageViewModel.messageList.observe(this){messageList ->
+        messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId)
+}
+
+
+
+
+        chatViewModel.chatId.observe(this){id ->
+            if(id!=-100L){
+                messageViewModel.getUserMessagesByChat(id)
+            }
+        }
+
+
+     if(chatId == -1L){
+         chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId)
+     }else{
+         messageViewModel.getUserMessagesByChat(chatId)
+     }
+
+
+
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -151,11 +209,10 @@ class MessageActivity : AppCompatActivity() {
                 val videoPart = videoUri?.let { createVideoFilePart(this, it) }
                 val audioPart = audioUri?.let { createAudioFilePart(this, it) }
                 val voicePart = voiceUri?.let { createVoiceFilePart(this, it) }
-                messageViewModel.sendMessage(tokenManager.getAccessToken(),userId,text,imagePart,videoPart,audioPart,voicePart,
+                messageViewModel.sendMessage(tokenManager.getAccessToken(),recipientId,text,imagePart,videoPart,audioPart,voicePart,
                     onSuccess = {clear()})
 
             }
-
 
             recordButton.setOnClickListener {
                 it.anim()
@@ -171,17 +228,20 @@ class MessageActivity : AppCompatActivity() {
               handleSelectedImage(uri)
               imageUri = uri
               sendButton.show()
+              recordButton.hide()
 
         }
           pickVideoLauncher =  createContentPickerForActivity(this) { uri ->
               handleSelectedVideo(uri)
               videoUri = uri
               sendButton.show()
+              recordButton.hide()
         }
           pickAudioLauncher =  createContentPickerForActivity(this) { uri ->
               handleSelectedAudio(uri)
               audioUri = uri
               sendButton.show()
+              recordButton.hide()
 
         }
         attachImageButton.setOnClickListener { showPopup(it)}

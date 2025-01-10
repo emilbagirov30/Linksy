@@ -2,6 +2,7 @@ package com.emil.linksy.di
 
 import com.emil.domain.usecase.AllUserDataUseCase
 import com.emil.domain.usecase.ChangePasswordUseCase
+import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
 import com.emil.domain.usecase.CreateMomentUseCase
@@ -12,13 +13,20 @@ import com.emil.domain.usecase.GetUserMomentsUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.FindUsersByLinkUseCase
 import com.emil.domain.usecase.FindUsersByUsernameUseCase
+import com.emil.domain.usecase.GetChatIdUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscriptionsUseCase
+import com.emil.domain.usecase.GetUserChatsFromLocalDb
+import com.emil.domain.usecase.GetUserChatsUseCase
+import com.emil.domain.usecase.GetUserMessagesFromLocalDb
+import com.emil.domain.usecase.GetUserMessagesUseCase
 import com.emil.domain.usecase.GetUserPageDataUseCase
 import com.emil.domain.usecase.GetUserSubscribersUseCase
 import com.emil.domain.usecase.GetUserSubscriptionsUseCase
+import com.emil.domain.usecase.InsertChatInLocalDbUseCase
+import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
 import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import com.emil.domain.usecase.RefreshTokenUseCase
@@ -138,5 +146,29 @@ val domainModule = module {
 
     factory<SendMessageUseCase>{
         SendMessageUseCase(messageRepository = get())
+    }
+    factory<GetUserMessagesUseCase>{
+        GetUserMessagesUseCase(messageRepository = get())
+    }
+    factory<GetUserChatsUseCase>{
+       GetUserChatsUseCase(chatRepository = get())
+    }
+    factory<GetUserMessagesFromLocalDb>{
+        GetUserMessagesFromLocalDb(messageRepository = get())
+    }
+    factory<InsertMessageInLocalDbUseCase>{
+        InsertMessageInLocalDbUseCase(messageRepository = get())
+    }
+    factory<GetUserChatsFromLocalDb>{
+        GetUserChatsFromLocalDb(chatRepository = get())
+    }
+    factory<InsertChatInLocalDbUseCase>{
+        InsertChatInLocalDbUseCase(chatRepository = get())
+    }
+    factory<CheckIsGroupUseCase>{
+        CheckIsGroupUseCase(chatRepository = get())
+    }
+    factory<GetChatIdUseCase>{
+        GetChatIdUseCase(chatRepository = get())
     }
 }

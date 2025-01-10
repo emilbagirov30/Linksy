@@ -17,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class OutsiderPostFragment (private val id:Long): Fragment() {
+
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     private lateinit var postsRecyclerView:RecyclerView
     private lateinit var loading:ProgressBar
