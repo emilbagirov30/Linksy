@@ -20,7 +20,7 @@ class ChatMemberActivity : AppCompatActivity() {
     private val chatViewModel: ChatViewModel by viewModel<ChatViewModel>()
     private val tokenManager: TokenManager by inject()
     private lateinit var userRecyclerView: RecyclerView
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_member)
@@ -28,8 +28,6 @@ class ChatMemberActivity : AppCompatActivity() {
         userRecyclerView = findViewById(R.id.rv_users)
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         val groupId = intent.getLongExtra("GROUP_ID", -1)
-
-
           chatViewModel.memberList.observe(this){ memberList ->
             userRecyclerView.adapter =
                 UsersAdapter(userList = memberList,context = this)

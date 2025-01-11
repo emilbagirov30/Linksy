@@ -81,6 +81,7 @@ class CreateGroupActivity : AppCompatActivity() {
 
         }
        loadAvatarButton.setOnClickListener {
+            it.anim()
             pickImageLauncher.launch(ContentType.IMAGE.mimeType)
         }
         createButton.setOnClickListener {

@@ -3,6 +3,7 @@ package com.emil.linksy.di
 import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.linksy.app.service.TokenService
+import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
@@ -65,6 +66,11 @@ val appModule = module {
     }
     viewModel <ChatViewModel> {
       ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get())
+    }
+
+
+    viewModel <ChannelViewModel>{
+       ChannelViewModel(createChannelUseCase = get())
     }
     single { TokenService() }
 }

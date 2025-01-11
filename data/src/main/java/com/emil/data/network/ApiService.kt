@@ -160,4 +160,14 @@ interface ApiService {
 
     @GET("api/chats/group/members/{id}")
     suspend fun getGroupMembers(@Header("Authorization") token:String,@Path("id")groupId:Long): Response<List<UserResponseDto>>
+
+
+
+    @POST("api/channels/create")
+    @Multipart
+    suspend fun createChannel (@Header("Authorization") token:String, @Part("name") name: String?,
+                             @Part("link") link: String?, @Part("description") description: String, @Part("type") type: String,
+                             @Part image: MultipartBody.Part?
+    ):Response<Unit>
+
 }

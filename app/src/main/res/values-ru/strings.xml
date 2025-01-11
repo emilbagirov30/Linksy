@@ -95,4 +95,11 @@
     <string name="empty_field">Поле не может быть пустым</string>
     <string name="chat_members">Участники чата</string>
     <string name="members">участника</string>
+    <string name="create_channel">Создать канал</string>
+    <string name="description">Описание</string>
+    <string name="type">Тип</string>
+    <string-array name="channel_type_array">
+        <item>Публичный</item>
+        <item>Закрытый</item>
+    </string-array>
 </resources>

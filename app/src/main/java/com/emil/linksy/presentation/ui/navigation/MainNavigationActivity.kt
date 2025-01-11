@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.emil.linksy.app.service.TokenService
+import com.emil.linksy.presentation.ui.navigation.channel.ChannelFragment
 import com.emil.linksy.presentation.ui.navigation.chat.ChatFragment
 import com.emil.linksy.presentation.ui.navigation.feed.FeedFragment
 import com.emil.linksy.presentation.ui.navigation.people.PeopleFragment
@@ -23,6 +24,7 @@ class MainNavigationActivity : AppCompatActivity() {
         const val TAG_PROFILE = "ProfileFragment"
         const val TAG_PEOPLE = "PeopleFragment"
         const val TAG_CHAT = "ChatFragment"
+        const val TAG_CHANNEL = "ChannelFragment"
     }
     private lateinit var bottomNavigationView:BottomNavigationView
     private val messageViewModel: MessageViewModel by viewModel<MessageViewModel>()
@@ -43,7 +45,10 @@ class MainNavigationActivity : AppCompatActivity() {
                     true
                 }
                 R.id.page_channels -> {
-
+                    val currentFragmentTag = supportFragmentManager.findFragmentById(containerId)?.tag
+                    if (currentFragmentTag != TAG_CHANNEL) {
+                        replaceFragment(containerId,ChannelFragment(), TAG_CHANNEL)
+                    }
                     true
                 }
                 R.id.page_chats -> {

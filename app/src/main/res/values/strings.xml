@@ -12,6 +12,10 @@
         <item>English</item>
         <item>Русский</item>
     </string-array>
+    <string-array name="channel_type_array" translatable="true">
+        <item>Public</item>
+        <item>Private</item>
+    </string-array>
     <string name="sign_up_button">Sign up</string>
     <string name="login_button">Login</string>
     <string name="question_have_an_account">Already have an account?</string>
@@ -100,4 +104,8 @@
     <string name="empty_field">The field cannot be empty</string>
     <string name="chat_members">Chat members</string>
     <string name="members">members</string>
+    <string name="create_channel">Create channel</string>
+    <string name="description">Description</string>
+    <string name="type">Type</string>
+
 </resources>

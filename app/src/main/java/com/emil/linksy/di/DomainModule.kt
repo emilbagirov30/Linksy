@@ -5,6 +5,7 @@ import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
+import com.emil.domain.usecase.CreateChannelUseCase
 import com.emil.domain.usecase.CreateGroupUseCase
 import com.emil.domain.usecase.CreateMomentUseCase
 import com.emil.domain.usecase.DeleteAvatarUseCase
@@ -178,5 +179,8 @@ val domainModule = module {
     }
     factory<GetGroupMembersUseCase>{
         GetGroupMembersUseCase(chatRepository = get())
+    }
+    factory<CreateChannelUseCase>{
+        CreateChannelUseCase(channelRepository = get())
     }
 }
