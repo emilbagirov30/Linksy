@@ -2,6 +2,7 @@ package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChannelResponse
+import com.emil.linksy.presentation.ui.page.ChannelPageActivity
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 
@@ -26,6 +28,7 @@ class ChannelsAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(channel: ChannelResponse) {
+
             val avatarUrl = channel.avatarUrl
             val name = channel.name
             val link = channel.link
@@ -54,7 +57,10 @@ class ChannelsAdapter(
             if(rating >=4)  ViewCompat.setBackgroundTintList(binding.ivRating, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green)))
 
             binding.root.setOnClickListener {
-
+                val switchingToChannelPageActivity =
+                    Intent(context, ChannelPageActivity()::class.java)
+                switchingToChannelPageActivity.putExtra("GROUP_ID", channel.channelId)
+                context.startActivity(switchingToChannelPageActivity)
             }
         }
     }

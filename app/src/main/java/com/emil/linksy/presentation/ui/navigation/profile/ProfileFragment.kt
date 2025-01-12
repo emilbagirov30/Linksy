@@ -110,8 +110,6 @@ class ProfileFragment : Fragment() {
             viewPager.setCurrentItem(currentTabPosition, false)
         }
 
-
-
         qrImageButton.setOnClickListener {
              it.anim()
              val bsDialog = QrBottomSheet.newInstance(id)

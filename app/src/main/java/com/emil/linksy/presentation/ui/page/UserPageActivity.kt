@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
@@ -14,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.adapters.OutsiderProfilePagerAdapter
 import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
+import com.emil.linksy.presentation.ui.QrBottomSheet
 import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
 import com.emil.linksy.presentation.ui.navigation.people.OutsiderRelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
@@ -56,12 +58,18 @@ class UserPageActivity (): AppCompatActivity() {
         val subscriptionsLinerLayout = findViewById<LinearLayout>(R.id.ll_subscriptions)
         val subscribersLinerLayout = findViewById<LinearLayout>(R.id.ll_subscribers)
         val messageButton = findViewById<MaterialButton>(R.id.bt_message)
+        val qrImageButton = findViewById<ImageButton>(R.id.ib_qr)
          sub_unsubButton = findViewById(R.id.bt_sub_unsub)
         val tabLayout = findViewById<TabLayout>(R.id.tl_profile_navigation)
         toolBar.setNavigationOnClickListener {
             finish()
         }
         userId = intent.getLongExtra("USER_ID", -1)
+        qrImageButton.setOnClickListener {
+            it.anim()
+            val bsDialog = QrBottomSheet.newInstance(userId)
+            bsDialog.show(supportFragmentManager,bsDialog.tag)
+        }
         val viewPager = findViewById<ViewPager2>(R.id.vp_profile_pager)
         val pagerAdapter = OutsiderProfilePagerAdapter(userId,this)
         viewPager.adapter = pagerAdapter

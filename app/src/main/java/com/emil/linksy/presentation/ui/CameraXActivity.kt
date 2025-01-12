@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.camera.view.PreviewView
 import androidx.camera.core.Preview
+import com.emil.linksy.presentation.ui.page.ChannelPageActivity
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.util.showToast
 import com.emil.presentation.R
@@ -34,11 +35,12 @@ class CameraXActivity : AppCompatActivity() {
     }
 
     private lateinit var previewView: PreviewView
-
+   private lateinit var target:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_x)
         previewView = findViewById(R.id.previewView)
+         target = intent.getStringExtra("TARGET").toString()
         if (hasCameraPermission()) {
             startCamera()
         } else {
@@ -92,12 +94,21 @@ class CameraXActivity : AppCompatActivity() {
                         QRCodeAnalyzer { qrCode ->
                             if (!isActivityStarted) {
                                 id = qrCode.toLongOrNull()
-                                if(id!=userId && id!=null) {
+                                if (target == "USER"){
+                                    if (id != userId && id != null) {
+                                        isActivityStarted = true
+                                        val switchingToUserPageActivity =
+                                            Intent(this, UserPageActivity()::class.java)
+                                        switchingToUserPageActivity.putExtra("USER_ID", id)
+                                        startActivity(switchingToUserPageActivity)
+                                        finish()
+                                    }
+                            }else if (target == "GROUP"){
                                     isActivityStarted = true
-                                    val switchingToUserPageActivity =
-                                        Intent(this, UserPageActivity()::class.java)
-                                    switchingToUserPageActivity.putExtra("USER_ID", id)
-                                    startActivity(switchingToUserPageActivity)
+                                    val switchingToChannelPageActivity =
+                                        Intent(this, ChannelPageActivity()::class.java)
+                                    switchingToChannelPageActivity.putExtra("GROUP_ID", id)
+                                    startActivity(switchingToChannelPageActivity)
                                     finish()
                                 }
                             }

@@ -23,6 +23,9 @@
         android:theme="@style/Theme.Linksy"
         tools:ignore="Instantiatable">
         <activity
+            android:name="com.emil.linksy.presentation.ui.page.ChannelPageActivity"
+            android:exported="false" />
+        <activity
             android:name="com.emil.linksy.presentation.ui.navigation.channel.CreateChannelActivity"
             android:exported="false" />
         <activity

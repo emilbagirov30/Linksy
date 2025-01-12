@@ -7,6 +7,7 @@ import com.emil.data.model.toDomainModelList
 import com.emil.data.network.RetrofitCloudInstance
 import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.ChannelData
+import com.emil.domain.model.ChannelPageDataResponse
 import com.emil.domain.model.ChannelResponse
 import com.emil.domain.repository.ChannelRepository
 import retrofit2.Response
@@ -27,6 +28,13 @@ class ChannelRepositoryImpl : ChannelRepository{
         val response = RetrofitUserInstance.apiService.getChannels("Bearer $token")
         return if (response.isSuccessful)
             Response.success(response.body()?.toDomainModelList())
+        else Response.error(response.code(), response.errorBody()!!)
+    }
+
+    override suspend fun getChannelPageData(token: String, channelId: Long): Response<ChannelPageDataResponse> {
+        val response = RetrofitUserInstance.apiService.getChannelPageData("Bearer $token",channelId)
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModel())
         else Response.error(response.code(), response.errorBody()!!)
     }
 }

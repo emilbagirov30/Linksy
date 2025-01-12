@@ -1,6 +1,7 @@
 package com.emil.data.network
 
 import com.emil.data.model.AllUserDataDto
+import com.emil.data.model.ChannelPageDataResponseDto
 import com.emil.data.model.ChannelResponseDto
 import com.emil.data.model.ChatResponseDto
 import com.emil.data.model.MessageResponseDto
@@ -173,4 +174,8 @@ interface ApiService {
 
     @GET("api/channels/user_channels")
     suspend fun getChannels (@Header("Authorization") token:String):Response<List<ChannelResponseDto>>
+
+
+    @GET("api/channels/{id}")
+    suspend fun getChannelPageData(@Header("Authorization") token:String,@Path("id") id:Long): Response<ChannelPageDataResponseDto>
 }

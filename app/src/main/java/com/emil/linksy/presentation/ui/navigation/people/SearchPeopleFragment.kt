@@ -75,6 +75,7 @@ class SearchPeopleFragment : Fragment() {
         scanImageButton.setOnClickListener {
             it.anim()
             val switchingToCameraXActivity= Intent(requireContext(), CameraXActivity::class.java)
+            switchingToCameraXActivity.putExtra("TARGET","USER")
             startActivity(switchingToCameraXActivity)
         }
         return view

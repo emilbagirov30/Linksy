@@ -103,4 +103,5 @@
         <item>Публичный</item>
         <item>Закрытый</item>
     </string-array>
+    <string name="channel_not_found">Канал не найден</string>
 </resources>
