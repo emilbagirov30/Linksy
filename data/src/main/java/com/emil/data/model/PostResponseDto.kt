@@ -5,7 +5,7 @@ import com.emil.domain.model.PostResponse
 
 data class PostResponseDto (val postId:Long=0,val authorUsername:String="",val authorAvatarUrl:String="",val imageUrl:String?="",
                             val videoUrl:String?="",val audioUrl:String?="",val voiceUrl:String?="",
-                            val text:String?=null,val publishDate:String="",val likesCount:Int=0,val repostsCount:Int=0)
+                            val text:String?=null,val publishDate:String="",val likesCount:Long=0,val repostsCount:Long=0)
 
 
 fun PostResponseDto.toDomainModel():PostResponse {

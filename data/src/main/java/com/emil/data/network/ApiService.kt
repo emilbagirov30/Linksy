@@ -1,6 +1,7 @@
 package com.emil.data.network
 
 import com.emil.data.model.AllUserDataDto
+import com.emil.data.model.ChannelResponseDto
 import com.emil.data.model.ChatResponseDto
 import com.emil.data.model.MessageResponseDto
 import com.emil.data.model.MomentResponseDto
@@ -170,4 +171,6 @@ interface ApiService {
                              @Part image: MultipartBody.Part?
     ):Response<Unit>
 
+    @GET("api/channels/user_channels")
+    suspend fun getChannels (@Header("Authorization") token:String):Response<List<ChannelResponseDto>>
 }

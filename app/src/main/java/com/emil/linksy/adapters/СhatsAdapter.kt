@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChatResponse
 import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
-import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.presentation.R
 import com.google.android.material.textview.MaterialTextView
 

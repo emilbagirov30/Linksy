@@ -50,4 +50,5 @@
     <color name="purple">#9C27B0</color>
     <color name="moment_progress">#C5471F</color>
     <color name="user_message">#A7CFEF</color>
+    <color name="yellow">#FFC107</color>
 </resources>

@@ -70,7 +70,7 @@ val appModule = module {
 
 
     viewModel <ChannelViewModel>{
-       ChannelViewModel(createChannelUseCase = get())
+       ChannelViewModel(createChannelUseCase = get(), getChannelsUseCase = get())
     }
     single { TokenService() }
 }

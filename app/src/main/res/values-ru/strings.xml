@@ -79,6 +79,7 @@
     <string name="or">или</string>
     <string name="moment_hint">Обратите внимание: видео будет обрезано до 45 секунд, а звук ограничен 20 секундами, если добавлено только изображение.</string>
     <string name="user_search_hint">Начните вводить "@", если вы хотите найти пользователя по ссылке.</string>
+    <string name="channel_search_hint">Начните вводить "@", если вы хотите найти канал по ссылке.</string>
     <string name="search">Поиск</string>
     <string name="subscriptions">Подписки</string>
     <string name="subscribers">Подписчики</string>

@@ -3,8 +3,11 @@ package com.emil.data.repository;
 import com.emil.data.model.ChannelBody
 import com.emil.data.model.GroupBody
 import com.emil.data.model.toDomainModel
+import com.emil.data.model.toDomainModelList
 import com.emil.data.network.RetrofitCloudInstance
+import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.ChannelData
+import com.emil.domain.model.ChannelResponse
 import com.emil.domain.repository.ChannelRepository
 import retrofit2.Response
 
@@ -18,5 +21,12 @@ class ChannelRepositoryImpl : ChannelRepository{
             channelBody.toDomainModel(channelData).type,
             channelBody.toDomainModel(channelData).avatar
             )
+    }
+
+    override suspend fun getUserChannels(token: String): Response<List<ChannelResponse>> {
+        val response = RetrofitUserInstance.apiService.getChannels("Bearer $token")
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModelList())
+        else Response.error(response.code(), response.errorBody()!!)
     }
 }
