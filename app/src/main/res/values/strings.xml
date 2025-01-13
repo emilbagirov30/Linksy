@@ -109,4 +109,5 @@
     <string name="description">Description</string>
     <string name="type">Type</string>
     <string name="channel_not_found">The channel was not found</string>
+    <string name="titile">Titile</string>
 </resources>

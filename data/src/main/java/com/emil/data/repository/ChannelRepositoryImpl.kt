@@ -1,19 +1,25 @@
 package com.emil.data.repository;
 
 import com.emil.data.model.ChannelBody
+import com.emil.data.model.ChannelPostBody
 import com.emil.data.model.GroupBody
+import com.emil.data.model.PostBody
 import com.emil.data.model.toDomainModel
 import com.emil.data.model.toDomainModelList
 import com.emil.data.network.RetrofitCloudInstance
 import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.ChannelData
 import com.emil.domain.model.ChannelPageDataResponse
+import com.emil.domain.model.ChannelPostData
+import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.ChannelResponse
+import com.emil.domain.model.UserResponse
 import com.emil.domain.repository.ChannelRepository
 import retrofit2.Response
 
 class ChannelRepositoryImpl : ChannelRepository{
     private val channelBody = ChannelBody ()
+    private val postBody = ChannelPostBody ()
     override suspend fun createChannel(token: String, channelData: ChannelData): Response<Unit> {
         return RetrofitCloudInstance.apiService.createChannel("Bearer $token",
             channelBody.toDomainModel(channelData).name,
@@ -36,5 +42,58 @@ class ChannelRepositoryImpl : ChannelRepository{
         return if (response.isSuccessful)
             Response.success(response.body()?.toDomainModel())
         else Response.error(response.code(), response.errorBody()!!)
+    }
+
+    override suspend fun createPost(token: String, postData: ChannelPostData): Response<Unit> {
+        return RetrofitCloudInstance.apiService.createChannelPost("Bearer $token",
+            postBody.toDomainModel(postData).channelId,
+            postBody.toDomainModel(postData).text,
+            postBody.toDomainModel(postData).image,
+            postBody.toDomainModel(postData).video,
+            postBody.toDomainModel(postData).audio,
+            postBody.toDomainModel(postData).pollTitle,
+            postBody.toDomainModel(postData).options
+        )
+    }
+
+    override suspend fun getChannelPosts(token: String, channelId: Long): Response<List<ChannelPostResponse>> {
+        val response = RetrofitUserInstance.apiService.getChannelsPost("Bearer $token",channelId)
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModelList())
+        else Response.error(response.code(), response.errorBody()!!)
+    }
+
+    override suspend fun submitRequest(token: String, channelId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.submitRequest("Bearer $token",channelId)
+    }
+
+    override suspend fun deleteRequest(token: String, channelId: Long): Response<Unit> {
+      return  RetrofitUserInstance.apiService.deleteRequest("Bearer $token",channelId)
+    }
+
+    override suspend fun getChannelSubscriptionRequests(token: String, channelId: Long): Response<List<UserResponse>> {
+        val response =  RetrofitUserInstance.apiService.getChannelSubscriptionRequests("Bearer $token",channelId)
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModelList())
+        else Response.error(response.code(), response.errorBody()!!)
+    }
+
+    override suspend fun acceptUserToChannel(token: String, channelId: Long, candidateId: Long): Response<Unit> {
+       return RetrofitUserInstance.apiService.acceptUserToChannel("Bearer $token",channelId, candidateId)
+    }
+
+    override suspend fun rejectSubscriptionRequest(token: String, channelId: Long, candidateId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.rejectSubscriptionRequest("Bearer $token",channelId, candidateId)
+    }
+
+    override suspend fun getChannelMembers(token: String, channelId: Long): Response<List<UserResponse>> {
+        val response =  RetrofitUserInstance.apiService.getChannelMembers("Bearer $token",channelId)
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModelList())
+        else Response.error(response.code(), response.errorBody()!!)
+    }
+
+    override suspend fun deleteChannelPost(token: String, channelId: Long): Response<Unit> {
+      return RetrofitUserInstance.apiService.deleteChannelPost(token, channelId)
     }
 }

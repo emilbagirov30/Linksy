@@ -187,7 +187,7 @@
 
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/ll_subscriptions"
+        android:id="@+id/ll_subscribers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_layout"

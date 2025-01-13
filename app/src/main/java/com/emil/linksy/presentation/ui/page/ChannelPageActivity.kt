@@ -73,13 +73,17 @@ class ChannelPageActivity : AppCompatActivity() {
             if (userId == pageData.ownerId){
                 binding.etNewPost.show()
                 binding.ivEditChannel.show()
-                binding.llRequest.show()
+
+                if (pageData.type == "PRIVATE") binding.llRequest.show()
+                binding.llSubscribers.setOnClickListener {
+
+                }
             }
 
         }
         channelViewModel.getChannelPageData(tokenManager.getAccessToken(),groupId,
-onSuccess = {loading.dismiss()
-    view.show()},
+         onSuccess = {loading.dismiss()
+              view.show()},
 
             onConflict = {
                 val errorDialog =  ErrorDialog(this,R.string.channel_not_found)

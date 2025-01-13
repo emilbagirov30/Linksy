@@ -1,0 +1,40 @@
+package com.emil.linksy.presentation.ui.navigation.channel
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.emil.linksy.adapters.OptionsAdapter
+import com.emil.presentation.databinding.AddPollDialogBinding
+
+class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChannelPostDialogFragment): DialogFragment() {
+    private lateinit var binding: AddPollDialogBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = AddPollDialogBinding.inflate(inflater, container, false)
+        val view = binding.root
+        binding.rvOptions.layoutManager = LinearLayoutManager (requireContext())
+        val adapter = OptionsAdapter()
+        binding.rvOptions.adapter = adapter
+
+        binding.btAdd.setOnClickListener {
+            adapter.addOption()
+        }
+
+        binding.btCreate.setOnClickListener {
+            val title = binding.etTitle.text.toString()
+            addChannelPostDialogFragment.addPollInPost(title,adapter.getOptionList())
+            dismiss()
+        }
+
+
+
+
+        return view
+    }
+
+
+}

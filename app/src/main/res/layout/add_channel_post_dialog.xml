@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tb_edit_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_cancel">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="@string/new_post">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_add_picture"
+            android:background="@drawable/ic_add_image"
+            android:layout_marginStart="50dp"
+            style="@style/ButtonPostPanel">
+
+        </com.google.android.material.button.MaterialButton>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_add_video"
+
+            android:background="@drawable/ic_add_video"
+            style="@style/ButtonPostPanel"
+            android:layout_marginStart="20dp">
+
+        </com.google.android.material.button.MaterialButton>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_add_audio"
+            android:background="@drawable/ic_add_audio"
+            style="@style/ButtonPostPanel"
+            android:layout_marginStart="20dp">
+
+        </com.google.android.material.button.MaterialButton>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_add_poll"
+            android:background="@drawable/ic_poll"
+            style="@style/ButtonPostPanel"
+            android:layout_marginStart="20dp">
+
+        </com.google.android.material.button.MaterialButton>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_publish"
+            android:background="@drawable/ic_publish"
+            android:backgroundTint="@color/neutral"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="end"
+            style="@style/ButtonPostPanel"
+            android:enabled="false"
+            android:layout_marginEnd="10dp">
+
+        </com.google.android.material.button.MaterialButton>
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <LinearLayout
+        android:id="@+id/ll_picked_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="5dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/fl_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/iv_picked_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="centerCrop"
+                android:background="@color/soft_gray"
+                >
+            </ImageView>
+            <include
+                android:id="@+id/ib_delete_picture"
+                layout="@layout/delete_button">
+            </include>
+
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/fl_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <VideoView
+                android:id="@+id/vv_picked_video"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="centerCrop"
+                android:src="@color/black">
+            </VideoView>
+            <include
+                android:id="@+id/ib_delete_video"
+                layout="@layout/delete_button">
+            </include>
+        </FrameLayout>
+
+
+
+        <FrameLayout
+            android:id="@+id/fl_poll"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_poll"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/poll"
+                >
+            </ImageView>
+            <include
+                android:id="@+id/ib_delete_poll"
+                layout="@layout/delete_button">
+            </include>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_picked_audio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_play_audio"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/ic_play">
+
+        </ImageView>
+
+
+        <ProgressBar
+            android:id="@+id/pb_picked_audio"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center"
+            android:progress="0"
+            android:max="100"
+            android:progressTint="@color/neutral"
+            android:layout_marginEnd="10dp"
+            style="@android:style/Widget.Material.ProgressBar.Horizontal">
+        </ProgressBar>
+        <include
+            android:id="@+id/ib_delete_audio"
+            layout="@layout/delete_button">
+        </include>
+
+
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/et_post"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/share_your_thoughts"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="start"
+        android:padding="10dp"
+        android:background="@drawable/rounded_edit_text_change"
+        android:paddingTop="10dp"
+        android:paddingBottom="25dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/klukva">
+
+    </EditText>
+
+
+</LinearLayout>

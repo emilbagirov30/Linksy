@@ -127,7 +127,7 @@ class UserPageActivity (): AppCompatActivity() {
                 birthdayTextView.show()
                 birthdayTextView.text = "$birthday"
             }
-            var isSubscriber = pageData.isSubscriber
+            val isSubscriber = pageData.isSubscriber
             if(isSubscriber) setUnSubscribeAction() else setSubscribeAction()
 
             subscriptionsTextView.text = pageData.subscriptionsCount.toString()
