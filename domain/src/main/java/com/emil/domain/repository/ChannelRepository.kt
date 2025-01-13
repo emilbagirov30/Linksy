@@ -25,4 +25,5 @@ interface ChannelRepository {
     suspend fun deleteChannelPost(token: String, channelId: Long): Response<Unit>
     suspend fun subscribe(token: String, channelId: Long): Response<Unit>
     suspend fun unsubscribe(token: String, channelId: Long): Response<Unit>
+    suspend fun vote(token: String, optionId: Long): Response<Unit>
 }

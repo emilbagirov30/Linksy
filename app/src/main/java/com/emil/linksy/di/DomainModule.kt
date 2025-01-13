@@ -56,6 +56,7 @@ import com.emil.domain.usecase.UpdateLinkUseCase
 import com.emil.domain.usecase.UpdateUsernameUseCase
 import com.emil.domain.usecase.UploadAvatarUseCase
 import com.emil.domain.usecase.UserProfileDataUseCase
+import com.emil.domain.usecase.VoteUseCase
 import org.koin.dsl.module
 
 
@@ -241,6 +242,8 @@ val domainModule = module {
     }
     factory<UnsubscribeChannelUseCase>{
         UnsubscribeChannelUseCase(channelRepository = get())}
+    factory<VoteUseCase>{
+      VoteUseCase(channelRepository = get())}
 }
 
 

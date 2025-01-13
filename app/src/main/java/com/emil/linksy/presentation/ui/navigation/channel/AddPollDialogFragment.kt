@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.emil.linksy.adapters.OptionsAdapter
+import com.emil.linksy.adapters.OptionsCreatingAdapter
 import com.emil.presentation.databinding.AddPollDialogBinding
 
 class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChannelPostDialogFragment): DialogFragment() {
@@ -17,7 +17,7 @@ class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChanne
         binding = AddPollDialogBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.rvOptions.layoutManager = LinearLayoutManager (requireContext())
-        val adapter = OptionsAdapter()
+        val adapter = OptionsCreatingAdapter()
         binding.rvOptions.adapter = adapter
 
         binding.btAdd.setOnClickListener {

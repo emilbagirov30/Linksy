@@ -121,7 +121,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="подать заявку">
+        android:text="@string/submit_request">
     </com.google.android.material.button.MaterialButton>
     <View
         android:id="@+id/stroke_top"
@@ -156,7 +156,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rating"
+            android:text="@string/rating"
             android:textStyle="bold"
             android:fontFamily="@font/klukva"
             android:textColor="@color/gray"
@@ -225,7 +225,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_layout"
             android:layout_gravity="center"
-            android:visibility="gone"
             android:layout_marginLeft="10dp"
             android:padding="10dp"
             android:orientation="vertical">

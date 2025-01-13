@@ -30,6 +30,7 @@ import com.emil.domain.usecase.RejectSubscriptionRequestUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
 import com.emil.domain.usecase.UnsubscribeChannelUseCase
+import com.emil.domain.usecase.VoteUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
@@ -46,7 +47,8 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     private val rejectSubscriptionRequestUseCase: RejectSubscriptionRequestUseCase,
     private val submitRequestUseCase: SubmitRequestUseCase,
     private val subscribeChannelUseCase: SubscribeChannelUseCase,
-    private val unsubscribeChannelUseCase: UnsubscribeChannelUseCase
+    private val unsubscribeChannelUseCase: UnsubscribeChannelUseCase,
+    private val voteUseCase: VoteUseCase
     ):ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelResponse>> ()
@@ -253,6 +255,20 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
         viewModelScope.launch {
             try{
                 val response = unsubscribeChannelUseCase.execute(token, id)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+    }
+
+
+    fun vote (token:String,id:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try{
+                val response = voteUseCase.execute(token, id)
                 if (response.isSuccessful){
                     onSuccess()
                 }

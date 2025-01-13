@@ -216,7 +216,8 @@ interface ApiService {
     @DELETE("api/channels/unsubscribe/{id}")
     suspend fun unsubscribeChannel (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
 
-
+    @POST("/poll/option/vote/{id}")
+    suspend fun vote (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
 
 
 

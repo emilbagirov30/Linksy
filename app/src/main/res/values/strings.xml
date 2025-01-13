@@ -110,4 +110,6 @@
     <string name="type">Type</string>
     <string name="channel_not_found">The channel was not found</string>
     <string name="titile">Titile</string>
+    <string name="submit_request">Submit request</string>
+    <string name="rating">Rating</string>
 </resources>

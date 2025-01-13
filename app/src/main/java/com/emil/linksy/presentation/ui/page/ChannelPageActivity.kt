@@ -73,8 +73,12 @@ class ChannelPageActivity : AppCompatActivity() {
             if (userId == pageData.ownerId){
                 binding.etNewPost.show()
                 binding.ivEditChannel.show()
+                if (pageData.type == "PRIVATE") {
+                    binding.llRequest.show()
 
-                if (pageData.type == "PRIVATE") binding.llRequest.show()
+                }
+
+
                 binding.llSubscribers.setOnClickListener {
 
                 }
