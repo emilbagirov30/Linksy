@@ -96,4 +96,12 @@ class ChannelRepositoryImpl : ChannelRepository{
     override suspend fun deleteChannelPost(token: String, channelId: Long): Response<Unit> {
       return RetrofitUserInstance.apiService.deleteChannelPost(token, channelId)
     }
+
+    override suspend fun subscribe(token: String, channelId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.subscribeChannel(token,channelId)
+    }
+
+    override suspend fun unsubscribe(token: String, channelId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.unsubscribeChannel(token,channelId)
+    }
 }

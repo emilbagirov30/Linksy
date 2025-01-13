@@ -47,7 +47,9 @@ import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
 import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
+import com.emil.domain.usecase.SubscribeChannelUseCase
 import com.emil.domain.usecase.SubscribeUseCase
+import com.emil.domain.usecase.UnsubscribeChannelUseCase
 import com.emil.domain.usecase.UnsubscribeUseCase
 import com.emil.domain.usecase.UpdateBirthdayUseCase
 import com.emil.domain.usecase.UpdateLinkUseCase
@@ -230,7 +232,15 @@ val domainModule = module {
     }
 
     factory<SubmitRequestUseCase>{
-        SubmitRequestUseCase(channelRepository = get())}
+        SubmitRequestUseCase(channelRepository = get())
+    }
+
+
+    factory<SubscribeChannelUseCase>{
+        SubscribeChannelUseCase(channelRepository = get())
+    }
+    factory<UnsubscribeChannelUseCase>{
+        UnsubscribeChannelUseCase(channelRepository = get())}
 }
 
 

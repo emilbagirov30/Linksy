@@ -211,15 +211,10 @@ interface ApiService {
         @DELETE("api/channels/delete_post")
         suspend fun deleteChannelPost(@Header("Authorization") token: String, @Query("channelId") channelId: Long): Response<Unit>
 
-
-
-
-
-
-
-
-
-
+    @PUT("api/channels/subscribe/{id}")
+    suspend fun subscribeChannel (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
+    @DELETE("api/channels/unsubscribe/{id}")
+    suspend fun unsubscribeChannel (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
 
 
 
