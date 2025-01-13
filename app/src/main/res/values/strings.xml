@@ -112,4 +112,6 @@
     <string name="titile">Titile</string>
     <string name="submit_request">Submit request</string>
     <string name="rating">Rating</string>
+    <string name="subscription_request">subscription \nrequest</string>
+    <string name="delete_request">delete request</string>
 </resources>

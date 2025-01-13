@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -15,14 +16,21 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.UserResponse
 import com.emil.linksy.presentation.ui.page.UserPageActivity
+import com.emil.linksy.presentation.viewmodel.ChannelViewModel
+import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.anim
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.google.android.material.textview.MaterialTextView
 
 class UsersAdapter(
-    private val userList: List<UserResponse>,
+    private val userList: MutableList<UserResponse>,
     private val context: Context,
-    private val isNeedChoice: Boolean = false
+    private val isNeedChoice: Boolean = false,
+    private val isChannelAdmin: Boolean = false,
+    private val channelId:Long? = null,
+    private val channelViewModel: ChannelViewModel? = null,
+    private val tokenManager: TokenManager? = null
 ) : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
     private val selectedUserIds = mutableSetOf<Long>()
 
@@ -31,7 +39,9 @@ class UsersAdapter(
         private val usernameTextView = itemView.findViewById<MaterialTextView>(R.id.tv_username)
         private val linkTextView = itemView.findViewById<MaterialTextView>(R.id.tv_link)
         private val userLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_user)
-        private val selectorCheckBox = itemView.findViewById<CheckBox>(R.id.cb_selector)
+        private val selectorCheckBox = itemView.findViewById<CheckBox>(R.id.сb_selector)
+        private val acceptImageButton = itemView.findViewById<ImageButton>(R.id.ib_accept)
+        private val rejectImageButton = itemView.findViewById<ImageButton>(R.id.ib_reject)
         private val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
         val id = sharedPref.getLong("ID", -1)
 
@@ -56,6 +66,28 @@ class UsersAdapter(
                         switchingToUserPageActivity.putExtra("USER_ID", user.id)
                         context.startActivity(switchingToUserPageActivity)
                     }
+                }
+            }
+
+
+            if (isChannelAdmin){
+                rejectImageButton.show()
+                acceptImageButton.show()
+
+                rejectImageButton.setOnClickListener {
+                    it.anim()
+                    channelViewModel?.rejectSubscriptionRequest(tokenManager!!.getAccessToken(),channelId!!,user.id, onConflict = {}, onSuccess = {
+                        userList.removeAt(bindingAdapterPosition)
+                        notifyItemRemoved(bindingAdapterPosition)
+                    })
+                }
+
+                acceptImageButton.setOnClickListener {
+                    it.anim()
+                    channelViewModel?.acceptUserToChannel(tokenManager!!.getAccessToken(),channelId!!,user.id, onConflict = {}, onSuccess = {
+                        userList.removeAt(bindingAdapterPosition)
+                        notifyItemRemoved(bindingAdapterPosition)
+                    })
                 }
             }
 

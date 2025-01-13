@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.emil.linksy.adapters.OptionsCreatingAdapter
+import com.emil.presentation.R
 import com.emil.presentation.databinding.AddPollDialogBinding
 
 class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChannelPostDialogFragment): DialogFragment() {
@@ -35,6 +36,20 @@ class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChanne
 
         return view
     }
+    override fun getTheme() = R.style.FullScreenDialog
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setCancelable(false)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.apply {
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            setWindowAnimations(android.R.style.Animation_Dialog)
+        }
+    }
 
 }

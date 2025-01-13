@@ -170,7 +170,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
 
 
-    fun deleteRequestUseCase (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun deleteRequest (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = deleteRequestUseCase.execute(token, channelId)
@@ -212,7 +212,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
         }
     }
 
-    fun getChannelSubscription (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun getChannelSubscriptionRequest (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = getChannelSubscriptionsRequestUseCse.execute(token, channelId)

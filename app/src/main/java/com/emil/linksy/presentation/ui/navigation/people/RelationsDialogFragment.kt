@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.UsersAdapter
+import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
@@ -18,9 +19,10 @@ import com.google.android.material.textview.MaterialTextView
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class OutsiderRelationsDialogFragment(val type: RelationType, val userId:Long, val username:String): DialogFragment() {
+class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val username:String="",val channelId:Long = -1): DialogFragment() {
     private lateinit var userRecyclerView: RecyclerView
     private val peopleViewModel: PeopleViewModel by viewModel<PeopleViewModel>()
+    private val channelViewModel: ChannelViewModel by viewModel<ChannelViewModel>()
     private val tokenManager: TokenManager by inject()
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,13 +51,34 @@ class OutsiderRelationsDialogFragment(val type: RelationType, val userId:Long, v
         if (type == RelationType.SUBSCRIBERS){
             titleTextView.text = "$username\n${getString(R.string.subscribers)}"
             peopleViewModel.getOutsiderUserSubscribers(userId)
-        }else{
+        }else if  (type == RelationType.SUBSCRIPTIONS){
             titleTextView.text = "$username\n${getString(R.string.subscriptions)}"
             peopleViewModel.getOutsiderUserSubscriptions(userId)
+        } else if (type == RelationType.REQUESTS){
+            titleTextView.text = "$username\n${getString(R.string.subscription_request)}"
+            channelViewModel.getChannelSubscriptionRequest(tokenManager.getAccessToken(), channelId =channelId , onConflict = {})
+        }else if (type == RelationType.CHANNEL_MEMBERS){
+              channelViewModel.getChannelMembers(tokenManager.getAccessToken(),channelId, onConflict = {})
         }
+
+
+        channelViewModel.memberList.observe(this){memberList ->
+            userRecyclerView.adapter =
+                UsersAdapter(userList = memberList.toMutableList(),context = requireContext())
+        }
+        channelViewModel.subscriptionsRequestList.observe(this){requestList ->
+            userRecyclerView.adapter =
+                UsersAdapter(userList = requestList.toMutableList(),context = requireContext(), isChannelAdmin = true, channelViewModel = channelViewModel, tokenManager = tokenManager)
+        }
+
+
+
+
+
+
         peopleViewModel.userList.observe(requireActivity()){ userlist ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = userlist,context = requireContext())
+                UsersAdapter(userList = userlist.toMutableList(),context = requireContext())
         }
         toolBar.setNavigationOnClickListener {
            dismiss()

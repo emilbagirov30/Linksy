@@ -1,5 +1,6 @@
 package com.emil.linksy.presentation.ui.navigation.channel
 
+import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -43,11 +44,14 @@ class AddChannelPostDialogFragment(private val channelId:Long): DialogFragment()
     private var isPlayingAudio = false
     private val tokenManager: TokenManager by inject()
     private val channelViewModel:ChannelViewModel by viewModel<ChannelViewModel>()
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = AddChannelPostDialogBinding.inflate(inflater, container, false)
        val view = binding.root
-
+           binding.tb.setNavigationOnClickListener {
+               dismiss()
+           }
        binding.etPost.addTextChangedListener { updatePublishButtonState() }
 
         val pickImageLauncher = createContentPickerForFragment(this) { uri ->
@@ -93,7 +97,7 @@ class AddChannelPostDialogFragment(private val channelId:Long): DialogFragment()
                     val imagePart = imageUri?.let { createImageFilePart(requireContext(), it) }
                     val videoPart = videoUri?.let { createVideoFilePart(requireContext(), it) }
                     val audioPart = audioUri?.let { createAudioFilePart(requireContext(), it) }
-                    channelViewModel.publishPost(tokenManager.getAccessToken(),channelId,text,imagePart,videoPart,audioPart,pollTitle,optionlist.toList(),
+                    channelViewModel.publishPost(token,channelId,text,imagePart,videoPart,audioPart,pollTitle,optionlist.toList(),
                         onSuccess = {
                             loading.dismiss()
                             dismiss()})
@@ -212,4 +216,22 @@ class AddChannelPostDialogFragment(private val channelId:Long): DialogFragment()
             val isTextNotEmpty = binding.etPost.string().isNotEmpty()
            binding.btPublish.isEnabled = isMediaSelected || isTextNotEmpty || isPollAdded
         }
+
+
+    override fun getTheme() = R.style.FullScreenDialog
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setCancelable(false)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.apply {
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            setWindowAnimations(android.R.style.Animation_Dialog)
+        }
+    }
+
 }

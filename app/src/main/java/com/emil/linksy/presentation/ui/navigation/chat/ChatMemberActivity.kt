@@ -30,7 +30,7 @@ class ChatMemberActivity : AppCompatActivity() {
         val groupId = intent.getLongExtra("GROUP_ID", -1)
           chatViewModel.memberList.observe(this){ memberList ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = memberList,context = this)
+                UsersAdapter(userList = memberList.toMutableList(),context = this)
         }
         chatViewModel.getGroupMembers(tokenManager.getAccessToken(),groupId)
 

@@ -109,7 +109,9 @@ fun hideKeyboard (context: Context,view: View){
 
 enum class RelationType() {
     SUBSCRIBERS,
-    SUBSCRIPTIONS
+    SUBSCRIPTIONS,
+    REQUESTS,
+    CHANNEL_MEMBERS
 }
 
 

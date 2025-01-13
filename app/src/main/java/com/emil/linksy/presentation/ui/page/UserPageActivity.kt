@@ -17,7 +17,7 @@ import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
 import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
-import com.emil.linksy.presentation.ui.navigation.people.OutsiderRelationsDialogFragment
+import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
@@ -95,14 +95,14 @@ class UserPageActivity (): AppCompatActivity() {
 
             subscriptionsLinerLayout.setOnClickListener {
                 it.anim()
-                OutsiderRelationsDialogFragment(RelationType.SUBSCRIPTIONS,userId,username).show(
-                    supportFragmentManager, "OutsiderRelationsDialogFragment"
+                RelationsDialogFragment(RelationType.SUBSCRIPTIONS,userId =userId,username =username).show(
+                    supportFragmentManager, "rRelationsDialogFragment"
                 )
             }
             subscribersLinerLayout.setOnClickListener {
                 it.anim()
-                OutsiderRelationsDialogFragment(RelationType.SUBSCRIBERS,userId,username).show(
-                    supportFragmentManager, "OutsiderRelationsDialogFragment"
+                RelationsDialogFragment(RelationType.SUBSCRIBERS,userId = userId,username = username).show(
+                    supportFragmentManager, "RelationsDialogFragment"
                 )
             }
 

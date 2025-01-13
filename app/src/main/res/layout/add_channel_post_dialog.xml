@@ -7,7 +7,7 @@
 
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/tb_edit_data"
+        android:id="@+id/tb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/ic_cancel">

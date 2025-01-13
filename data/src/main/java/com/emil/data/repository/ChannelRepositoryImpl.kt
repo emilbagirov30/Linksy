@@ -57,7 +57,7 @@ class ChannelRepositoryImpl : ChannelRepository{
     }
 
     override suspend fun getChannelPosts(token: String, channelId: Long): Response<List<ChannelPostResponse>> {
-        val response = RetrofitUserInstance.apiService.getChannelsPost("Bearer $token",channelId)
+        val response =RetrofitUserInstance.apiService.getChannelsPost("Bearer $token",channelId)
         return if (response.isSuccessful)
             Response.success(response.body()?.toDomainModelList())
         else Response.error(response.code(), response.errorBody()!!)

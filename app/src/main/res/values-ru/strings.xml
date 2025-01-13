@@ -104,4 +104,9 @@
         <item>Закрытый</item>
     </string-array>
     <string name="channel_not_found">Канал не найден</string>
+    <string name="titile">Заголовок</string>
+    <string name="submit_request">Подать заявку</string>
+    <string name="rating">Рейтинг</string>
+    <string name="subscription_request">Заявки на подписку</string>
+    <string name="delete_request">Отменить заявку</string>
 </resources>

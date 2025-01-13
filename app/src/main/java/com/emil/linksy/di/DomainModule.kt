@@ -6,6 +6,7 @@ import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
+import com.emil.domain.usecase.CreateChannelPostUseCase
 import com.emil.domain.usecase.CreateChannelUseCase
 import com.emil.domain.usecase.CreateGroupUseCase
 import com.emil.domain.usecase.CreateMomentUseCase
@@ -205,6 +206,10 @@ val domainModule = module {
 
     factory<AcceptUserToChannelUseCase>{
         AcceptUserToChannelUseCase(channelRepository = get())
+    }
+
+    factory<CreateChannelPostUseCase>{
+        CreateChannelPostUseCase(channelRepository = get())
     }
     factory<CreateChannelUseCase> {
         CreateChannelUseCase(channelRepository = get())

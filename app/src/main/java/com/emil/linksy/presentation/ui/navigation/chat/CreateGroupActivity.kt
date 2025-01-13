@@ -67,7 +67,7 @@ class CreateGroupActivity : AppCompatActivity() {
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         peopleViewModel.userList.observe(this){ userlist ->
             userAdapter = UsersAdapter(
-                userList = userlist,
+                userList = userlist.toMutableList(),
                 context = this,
                 isNeedChoice = true
             )
