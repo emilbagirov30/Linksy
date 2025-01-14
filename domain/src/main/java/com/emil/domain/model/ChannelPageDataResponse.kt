@@ -8,6 +8,7 @@ data class ChannelPageDataResponse (
     val avatarUrl: String,
     val description: String?,
     val isSubscriber: Boolean,
+    val isSubmitted: Boolean,
     val rating: Double,
     val type: String,
     val subscribersCount: Long,

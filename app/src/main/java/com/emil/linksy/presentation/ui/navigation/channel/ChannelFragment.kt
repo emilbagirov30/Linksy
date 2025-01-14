@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -20,6 +22,7 @@ import com.emil.linksy.presentation.ui.navigation.chat.CreateGroupActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
+import com.emil.linksy.util.show
 import com.emil.linksy.util.showHint
 import com.emil.presentation.R
 import com.emil.presentation.databinding.ActivityCreateChannelBinding
@@ -66,6 +69,28 @@ class ChannelFragment : Fragment() {
         val userId = sharedPref.getLong("ID",-1)
 
 
+        val textWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                s?.let {
+                    val currentText = it.toString()
+                    if (currentText.startsWith("@")) {
+                       channelViewModel.findChannelByLink(currentText, onSuccess = {
+                           binding.tvSearchTitle.show()
+                           binding.tvSearchTitle.text = getString(R.string.search_results)})
+                    }else{
+                        channelViewModel.findChannelByName(currentText, onSuccess = {
+                            binding.tvSearchTitle.show()
+                            binding.tvSearchTitle.text = getString(R.string.search_results)})
+                    }
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+        binding.etSearch.addTextChangedListener(textWatcher)
+
+
         binding.rvChannels.layoutManager = LinearLayoutManager(context)
 
 
@@ -74,7 +99,10 @@ class ChannelFragment : Fragment() {
         }
 
 
-        channelViewModel.getChannels(token = tokenManager.getAccessToken())
+        channelViewModel.getChannels(token = tokenManager.getAccessToken(), onSuccess = {
+            binding.tvSearchTitle.show()
+            binding.tvSearchTitle.text = getString(R.string.your_subscriptions)
+        })
 
         binding.ibScan.setOnClickListener {
             it.anim()

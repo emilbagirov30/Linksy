@@ -21,6 +21,8 @@ import com.emil.domain.usecase.CreateChannelPostUseCase
 import com.emil.domain.usecase.CreateChannelUseCase
 import com.emil.domain.usecase.DeleteChannelPostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
+import com.emil.domain.usecase.FindChannelByLinkUseCase
+import com.emil.domain.usecase.FindChannelByNameUseCase
 import com.emil.domain.usecase.GetChannelMembersUseCase
 import com.emil.domain.usecase.GetChannelPageDataUseCase
 import com.emil.domain.usecase.GetChannelPostsUseCase
@@ -48,7 +50,9 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     private val submitRequestUseCase: SubmitRequestUseCase,
     private val subscribeChannelUseCase: SubscribeChannelUseCase,
     private val unsubscribeChannelUseCase: UnsubscribeChannelUseCase,
-    private val voteUseCase: VoteUseCase
+    private val voteUseCase: VoteUseCase,
+    private val findChannelByNameUseCase: FindChannelByNameUseCase,
+    private val findChannelByLinkUseCase: FindChannelByLinkUseCase
     ):ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelResponse>> ()
@@ -277,4 +281,36 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
             }
         }
     }
+
+
+    fun findChannelByLink (prefix:String, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try{
+                val response = findChannelByLinkUseCase.execute(prefix.substring(1))
+                if (response.isSuccessful){
+                    onSuccess()
+                    _channelList.value = response.body()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+    }
+
+    fun findChannelByName (prefix:String, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try{
+                val response = findChannelByNameUseCase.execute(prefix)
+                if (response.isSuccessful){
+                    onSuccess()
+                    _channelList.value = response.body()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+    }
+
+
+
     }

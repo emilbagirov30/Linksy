@@ -37,7 +37,7 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
             setWindowAnimations(android.R.style.Animation_Dialog)
         }
     }
-    @SuppressLint("MissingInflatedId", "SetTextI18n")
+    @SuppressLint("MissingInflatedId", "SetTextI18n", "SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,9 +55,10 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
             titleTextView.text = "$username\n${getString(R.string.subscriptions)}"
             peopleViewModel.getOutsiderUserSubscriptions(userId)
         } else if (type == RelationType.REQUESTS){
-            titleTextView.text = "$username\n${getString(R.string.subscription_request)}"
+            titleTextView.text = getString(R.string.subscription_request)
             channelViewModel.getChannelSubscriptionRequest(tokenManager.getAccessToken(), channelId =channelId , onConflict = {})
         }else if (type == RelationType.CHANNEL_MEMBERS){
+            titleTextView.text = getString(R.string.subscribers)
               channelViewModel.getChannelMembers(tokenManager.getAccessToken(),channelId, onConflict = {})
         }
 
@@ -68,7 +69,8 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
         }
         channelViewModel.subscriptionsRequestList.observe(this){requestList ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = requestList.toMutableList(),context = requireContext(), channelId = channelId, isChannelAdmin = true, channelViewModel = channelViewModel, tokenManager = tokenManager)
+                UsersAdapter(userList = requestList.toMutableList(),context = requireContext(), channelId = channelId,
+                    isChannelAdmin = true, channelViewModel = channelViewModel, tokenManager = tokenManager)
         }
 
 

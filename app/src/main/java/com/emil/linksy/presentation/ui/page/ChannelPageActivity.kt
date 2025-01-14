@@ -111,7 +111,7 @@ class ChannelPageActivity : AppCompatActivity() {
                        }else setSubscribeAction()
                    }
 
-                           if (pageData.type == "PRIVATE" && !pageData.isSubscriber  && pageData.ownerId!=userId){
+                           if (pageData.type == "PRIVATE" && !pageData.isSubscriber  && pageData.ownerId!=userId&& !pageData.isSubmitted){
                                binding.btSubmit.show()
                                binding.btSub.hide()
                                binding.tvPosts.hide()
@@ -121,14 +121,24 @@ class ChannelPageActivity : AppCompatActivity() {
                                    }
                                }
             if (pageData.type == "PRIVATE" && pageData.isSubscriber && pageData.ownerId!=userId){
-                binding.btSubmit.show()
-                binding.btSub.hide()
-                binding.btSubmit.setOnClickListener {
-                    setDeleteRequestAction()
+                binding.btSubmit.hide()
+                binding.btSub.show()
+                binding.btSub.setOnClickListener {
+                   setUnSubscribeAction()
                 }
             }
 
+                 if(pageData.type == "PRIVATE" && pageData.isSubmitted){
+                     binding.btSubmit.show()
+                     binding.btSub.hide()
+                     binding.tvPosts.hide()
+                     binding.rvPosts.hide()
+                     binding.btSubmit.text = getString(R.string.delete_request)
+                     binding.btSubmit.setOnClickListener {
+                        setDeleteRequestAction()
+                     }
 
+                 }
 
                 if (isSubscriber) {
                     binding.llSubscribers.setOnClickListener { RelationsDialogFragment(RelationType.CHANNEL_MEMBERS, channelId = pageData.channelId).show(
@@ -170,7 +180,7 @@ class ChannelPageActivity : AppCompatActivity() {
     private fun setSubscribeAction(){
         binding.btSub.text = getString(R.string.subscribe)
         binding.btSub.setOnClickListener {
-           channelViewModel.subscribe(tokenManager.getAccessToken(),userId, onSuccess = {
+           channelViewModel.subscribe(tokenManager.getAccessToken(),channelId, onSuccess = {
                binding.btSub.text = getString(R.string.unsubscribe)
                 showToast(this,R.string.subscribed)
                 setUnSubscribeAction()
@@ -183,7 +193,7 @@ class ChannelPageActivity : AppCompatActivity() {
     private fun setUnSubscribeAction(){
         binding.btSub.text = getString(R.string.unsubscribe)
         binding.btSub.setOnClickListener {
-            channelViewModel.unsubscribe(tokenManager.getAccessToken(),userId, onSuccess = {
+            channelViewModel.unsubscribe(tokenManager.getAccessToken(),channelId, onSuccess = {
                 binding.btSub.text = getString(R.string.subscribe)
                 showToast(this,R.string.unsubscribed)
                 setSubscribeAction()
@@ -195,6 +205,7 @@ class ChannelPageActivity : AppCompatActivity() {
 
 
     private fun setSubmitAction(){
+        binding.btSubmit.text = getString(R.string.submit_request)
         channelViewModel.submitRequest(tokenManager.getAccessToken(), channelId = channelId, onConflict = {}, onSuccess = {
             binding.btSubmit.text = getString(R.string.delete_request)
             binding.btSubmit.setOnClickListener {
@@ -202,6 +213,7 @@ class ChannelPageActivity : AppCompatActivity() {
             }
     })}
             private fun setDeleteRequestAction(){
+                binding.btSubmit.text = getString(R.string.delete_request)
                 channelViewModel.deleteRequest(tokenManager.getAccessToken(), channelId = channelId, onConflict = {}, onSuccess = {
                     binding.btSubmit.text = getString(R.string.submit_request)
                     binding.btSubmit.setOnClickListener {

@@ -10,6 +10,7 @@ import com.emil.domain.model.UserResponse
 import retrofit2.Response
 
 
+
 interface ChannelRepository {
     suspend fun createChannel(token:String,channelData: ChannelData): Response<Unit>
     suspend fun getUserChannels (token:String):Response<List<ChannelResponse>>
@@ -26,4 +27,6 @@ interface ChannelRepository {
     suspend fun subscribe(token: String, channelId: Long): Response<Unit>
     suspend fun unsubscribe(token: String, channelId: Long): Response<Unit>
     suspend fun vote(token: String, optionId: Long): Response<Unit>
+    suspend fun findChannelByName (prefix:String): Response<List<ChannelResponse>>
+    suspend fun findChannelByLink (prefix:String): Response<List<ChannelResponse>>
 }

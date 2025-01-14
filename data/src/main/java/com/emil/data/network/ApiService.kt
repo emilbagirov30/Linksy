@@ -220,20 +220,10 @@ interface ApiService {
     @POST("api/channels/poll/option/vote/{id}")
     suspend fun vote (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
 
+    @GET ("api/channels/find/name")
+    suspend fun findChannelByName (@Query("prefix")prefix:String): Response<List<ChannelResponseDto>>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @GET ("api/channels/find/link")
+    suspend fun findChannelByLink (@Query("prefix")prefix:String): Response<List<ChannelResponseDto>>
 
 }

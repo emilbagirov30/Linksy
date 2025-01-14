@@ -15,6 +15,8 @@ import com.emil.domain.usecase.DeleteChannelPostUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
+import com.emil.domain.usecase.FindChannelByLinkUseCase
+import com.emil.domain.usecase.FindChannelByNameUseCase
 import com.emil.domain.usecase.GetUserMomentsUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.FindUsersByLinkUseCase
@@ -249,6 +251,13 @@ val domainModule = module {
         UnsubscribeChannelUseCase(channelRepository = get())}
     factory<VoteUseCase>{
       VoteUseCase(channelRepository = get())}
+
+
+        factory<FindChannelByLinkUseCase>{
+       FindChannelByLinkUseCase(channelRepository = get())
+        }
+    factory<FindChannelByNameUseCase>{
+       FindChannelByNameUseCase(channelRepository = get())}
 }
 
 

@@ -111,4 +111,6 @@
     <string name="delete_request">Отменить заявку</string>
     <string name="poll">Опрос</string>
     <string name="add">Добавить</string>
+    <string name="search_results">Результаты поиска</string>
+    <string name="your_subscriptions">Ваши подписки</string>
 </resources>

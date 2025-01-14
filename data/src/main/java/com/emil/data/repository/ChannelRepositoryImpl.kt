@@ -108,4 +108,19 @@ class ChannelRepositoryImpl : ChannelRepository{
     override suspend fun vote(token: String, optionId: Long): Response<Unit> {
         return RetrofitUserInstance.apiService.vote("Bearer $token",optionId)
     }
+
+    override suspend fun findChannelByName(prefix: String): Response<List<ChannelResponse>> {
+       val response =  RetrofitUserInstance.apiService.findChannelByName(prefix);
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModelList())
+            else Response.error(response.code(), response.errorBody()!!)
+
+    }
+
+    override suspend fun findChannelByLink(prefix: String): Response<List<ChannelResponse>> {
+        val response =  RetrofitUserInstance.apiService.findChannelByLink(prefix);
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModelList())
+        else Response.error(response.code(), response.errorBody()!!)
+    }
 }
