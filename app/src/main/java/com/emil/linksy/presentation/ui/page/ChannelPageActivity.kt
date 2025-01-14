@@ -10,7 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -20,9 +20,7 @@ import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
-import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
-import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -85,6 +83,9 @@ class ChannelPageActivity : AppCompatActivity() {
 
             if (userId == pageData.ownerId){
                 binding.etNewPost.show()
+                binding.btSubmit.hide()
+                binding.btSub.hide()
+                binding.ivEditChannel.show()
                 binding.etNewPost.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                        AddChannelPostDialogFragment(pageData.channelId).show(supportFragmentManager, "AddPostDialogFragment")
@@ -93,10 +94,10 @@ class ChannelPageActivity : AppCompatActivity() {
                         false
                     }
                 }}
-                binding.ivEditChannel.show()
+
                 if (pageData.type == "PRIVATE" && pageData.ownerId == userId) {
                     binding.llRequest.show()
-                    binding.btSubmit.hide()
+                    binding.tvRequests.text = pageData.requestsCount.toString()
                     binding.llRequest.setOnClickListener {
                         RelationsDialogFragment(RelationType.REQUESTS, channelId = pageData.channelId).show(
                             supportFragmentManager, "RelationsDialogFragment"
@@ -104,19 +105,28 @@ class ChannelPageActivity : AppCompatActivity() {
                     }
                 }
 
-                   if(pageData.type == "PUBLIC"){
-                       if (!pageData.isSubscriber){
+                   if(pageData.type == "PUBLIC" && pageData.ownerId!=userId){
+                       if (pageData.isSubscriber){
                            setUnSubscribeAction()
                        }else setSubscribeAction()
                    }
 
-                           if (pageData.type == "PRIVATE" && !pageData.isSubscriber){
+                           if (pageData.type == "PRIVATE" && !pageData.isSubscriber  && pageData.ownerId!=userId){
                                binding.btSubmit.show()
                                binding.btSub.hide()
+                               binding.tvPosts.hide()
+                               binding.rvPosts.hide()
                                binding.btSubmit.setOnClickListener {
                                 setSubmitAction()
                                    }
                                }
+            if (pageData.type == "PRIVATE" && pageData.isSubscriber && pageData.ownerId!=userId){
+                binding.btSubmit.show()
+                binding.btSub.hide()
+                binding.btSubmit.setOnClickListener {
+                    setDeleteRequestAction()
+                }
+            }
 
 
 
@@ -129,10 +139,7 @@ class ChannelPageActivity : AppCompatActivity() {
 
             channelViewModel.getChannelPosts(tokenManager.getAccessToken(),pageData.channelId, onConflict = {})
 
-                   channelViewModel.postList.observe(this){postlist ->
-                       binding.rvPosts.layoutManager = LinearLayoutManager(this)
-                       binding.rvPosts.adapter = ChannelPostsAdapter(postlist,this,tokenManager,channelViewModel)
-                   }
+
         }
         channelViewModel.getChannelPageData(tokenManager.getAccessToken(),groupId,
          onSuccess = {loading.dismiss()
@@ -143,6 +150,10 @@ class ChannelPageActivity : AppCompatActivity() {
                 errorDialog.close(action = {finish()})
         })
 
+        channelViewModel.postList.observe(this){postlist ->
+            binding.rvPosts.layoutManager = LinearLayoutManager(this)
+            binding.rvPosts.adapter = ChannelPostsAdapter(postlist,this,tokenManager,channelViewModel)
+        }
         binding.ibQr.setOnClickListener {
             it.anim()
             val bsDialog = QrBottomSheet.newInstance(groupId)

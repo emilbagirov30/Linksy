@@ -76,7 +76,7 @@ class UsersAdapter(
 
                 rejectImageButton.setOnClickListener {
                     it.anim()
-                    channelViewModel?.rejectSubscriptionRequest(tokenManager!!.getAccessToken(),channelId!!,user.id, onConflict = {}, onSuccess = {
+                    channelViewModel?.rejectSubscriptionRequest(tokenManager!!.getAccessToken(), channelId = channelId!!, candidateId = user.id, onConflict = {}, onSuccess = {
                         userList.removeAt(bindingAdapterPosition)
                         notifyItemRemoved(bindingAdapterPosition)
                     })

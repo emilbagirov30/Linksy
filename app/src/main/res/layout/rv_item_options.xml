@@ -3,47 +3,55 @@
     android:id="@+id/ll_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
 
 
-    <TextView
-        android:id="@+id/tv_option"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:fontFamily="@font/klukva"
-        android:textSize="30sp"
-        android:text="------------">
-
-    </TextView>
 
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="5dp"
+    android:background="@drawable/rounded_dialog"
     android:orientation="horizontal">
-    <ProgressBar
-        android:id="@+id/pb_option"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="50dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fontFamily="@font/klukva"
+            android:textSize="25sp"
+            android:text="">
+
+        </TextView>
+
+        <ProgressBar
+        android:id="@+id/pb_option"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal">
+
     </ProgressBar>
+        <TextView
+            android:id="@+id/tv_option_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textStyle="bold"
+            android:layout_marginEnd="5dp"
+            android:textSize="20sp"
+             android:visibility="gone"
+            android:text="">
 
-    <TextView
-        android:id="@+id/tv_option_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:visibility="gone"
-        android:fontFamily="@font/klukva"
-        android:textSize="30sp"
-        android:text="">
+        </TextView>
+    </FrameLayout>
 
-    </TextView>
 </LinearLayout>
 
 </LinearLayout>

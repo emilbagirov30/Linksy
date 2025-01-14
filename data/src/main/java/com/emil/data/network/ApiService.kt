@@ -182,6 +182,7 @@ interface ApiService {
 
 
     @POST("api/channels/create_post")
+    @Multipart
     suspend fun createChannelPost(@Header("Authorization") token:String, @Part("id") channelId:Long, @Part("text") text:String?,
                            @Part image: MultipartBody.Part?, @Part video: MultipartBody.Part?, @Part audio: MultipartBody.Part?,
                                   @Part("title") pollTitle:String?, @Part("options") options:List<String>):Response<Unit>
@@ -197,10 +198,10 @@ interface ApiService {
         suspend fun getChannelSubscriptionRequests(@Header("Authorization") token: String, @Query("id") channelId: Long): Response<List<UserResponseDto>>
 
         @POST("api/channels/requests/accept")
-        suspend fun acceptUserToChannel(@Header("Authorization") token: String, @Query("id") channelId: Long, @Query("candidateId") candidateId: Long): Response<Unit>
+        suspend fun acceptUserToChannel(@Header("Authorization") token: String, @Query("channelId") channelId: Long, @Query("candidateId") candidateId: Long): Response<Unit>
 
         @POST("api/channels/requests/reject")
-        suspend fun rejectSubscriptionRequest(@Header("Authorization") token: String, @Query("id") channelId: Long, @Query("candidateId") candidateId: Long): Response<Unit>
+        suspend fun rejectSubscriptionRequest(@Header("Authorization") token: String, @Query("channelId") channelId: Long, @Query("candidateId") candidateId: Long): Response<Unit>
 
         @GET("api/channels/posts/{id}")
         suspend fun getChannelsPost(@Header("Authorization") token: String, @Path("id") channelId: Long): Response<List<ChannelPostResponseDto>>
@@ -216,7 +217,7 @@ interface ApiService {
     @DELETE("api/channels/unsubscribe/{id}")
     suspend fun unsubscribeChannel (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
 
-    @POST("/poll/option/vote/{id}")
+    @POST("api/channels/poll/option/vote/{id}")
     suspend fun vote (@Header("Authorization") token:String,@Path("id") id:Long): Response<Unit>
 
 

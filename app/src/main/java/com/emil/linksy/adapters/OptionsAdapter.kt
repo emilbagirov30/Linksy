@@ -38,22 +38,37 @@ class OptionsAdapter(var isVoted:Boolean, val options:List<OptionResponse>, val 
         private val titleTextView = itemView.findViewById<TextView>(R.id.tv_option)
         private val optionProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_option)
         private val optionCount = itemView.findViewById<TextView>(R.id.tv_option_count)
-        @SuppressLint("SetTextI18n")
-        fun bind(option:OptionResponse) {
-                  titleTextView.text = option.optionText
-            if(isVoted) {
+        @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
+
+        fun bind(option: OptionResponse) {
+            titleTextView.text = option.optionText
+            if (isVoted) {
                 optionProgressBar.max = options.sumOf { it.selectedCount }.toInt()
+                optionProgressBar.setProgress(option.selectedCount.toInt(), true)
                 optionCount.show()
                 optionCount.text = option.selectedCount.toString()
-            }
-            mainLinearLayout.setOnClickListener {
-                channelViewModel.vote(tokenManager.getAccessToken(),option.optionId, onSuccess = {isVoted=true
-                    options[bindingAdapterPosition].selectedCount++
-                    notifyItemChanged(bindingAdapterPosition)
-                })
-            }
+                mainLinearLayout.setOnClickListener(null)
+            } else {
+
+                mainLinearLayout.setOnClickListener {
+                    channelViewModel.vote(
+                        tokenManager.getAccessToken(),
+                        option.optionId,
+                        onSuccess = {
+                            optionProgressBar.max = options.sumOf { it.selectedCount }.toInt()
+                            optionCount.show()
+                            optionCount.text = option.selectedCount.toString()
+                            optionProgressBar.setProgress(option.selectedCount.toInt() + 1, true)
+                            options[bindingAdapterPosition].selectedCount++
+                            isVoted = true
+                            notifyDataSetChanged()
+                        }
+                    )
+                }
             }
         }
+
+    }
 
     }
 

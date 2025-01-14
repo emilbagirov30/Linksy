@@ -70,7 +70,6 @@ class ChannelFragment : Fragment() {
 
 
         channelViewModel.channelList.observe(requireActivity()){channelList ->
-            println (channelList.size)
             binding.rvChannels.adapter = ChannelsAdapter(channelList,requireContext(),userId)
         }
 

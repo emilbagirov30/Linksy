@@ -169,16 +169,30 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="5dp"
             android:visibility="gone"
+            android:backgroundTint="@color/option_background"
             android:layout_marginTop="5dp"
             android:background="@drawable/rounded_layout"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:text="@string/poll">
+            </com.google.android.material.textview.MaterialTextView>
+
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:layout_gravity="center"
+                android:fontFamily="@font/klukva"
+                android:textSize="20sp"
                 android:text="">
             </com.google.android.material.textview.MaterialTextView>
 
@@ -274,11 +288,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/iv_rating"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_horizontal"
-               app:backgroundTint="@color/neutral"
+               app:backgroundTint="@color/gray"
                 android:background="@drawable/ic_rating" />
 
             <com.google.android.material.textview.MaterialTextView

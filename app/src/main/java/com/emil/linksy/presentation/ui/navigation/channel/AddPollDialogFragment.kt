@@ -31,9 +31,6 @@ class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChanne
             dismiss()
         }
 
-
-
-
         return view
     }
     override fun getTheme() = R.style.FullScreenDialog

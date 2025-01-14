@@ -68,7 +68,7 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
         }
         channelViewModel.subscriptionsRequestList.observe(this){requestList ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = requestList.toMutableList(),context = requireContext(), isChannelAdmin = true, channelViewModel = channelViewModel, tokenManager = tokenManager)
+                UsersAdapter(userList = requestList.toMutableList(),context = requireContext(), channelId = channelId, isChannelAdmin = true, channelViewModel = channelViewModel, tokenManager = tokenManager)
         }
 
 

@@ -109,4 +109,6 @@
     <string name="rating">Рейтинг</string>
     <string name="subscription_request">Заявки на подписку</string>
     <string name="delete_request">Отменить заявку</string>
+    <string name="poll">Опрос</string>
+    <string name="add">Добавить</string>
 </resources>

@@ -51,4 +51,5 @@
     <color name="moment_progress">#C5471F</color>
     <color name="user_message">#A7CFEF</color>
     <color name="yellow">#FFC107</color>
+    <color name="option_background">#4D96D7D1</color>
 </resources>

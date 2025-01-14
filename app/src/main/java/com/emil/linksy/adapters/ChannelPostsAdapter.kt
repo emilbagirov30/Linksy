@@ -1,6 +1,8 @@
 package com.emil.linksy.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.LayoutInflater
@@ -12,6 +14,8 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -40,7 +44,8 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
         private val channelName = itemView.findViewById<MaterialTextView>(R.id.tv_channel_name)
         private val publicationDate = itemView.findViewById<MaterialTextView>(R.id.tv_date)
         private val postTextView = itemView.findViewById<MaterialTextView>(R.id.tv_text_post_content)
-        private val rating = itemView.findViewById<MaterialTextView>(R.id.tv_rating_average)
+        private val ratingTextView = itemView.findViewById<MaterialTextView>(R.id.tv_rating_average)
+        private val ratingImageView = itemView.findViewById<ImageView>(R.id.iv_rating)
         private val repostsCount = itemView.findViewById<MaterialTextView>(R.id.tv_reposts_count)
         private val editPostButton = itemView.findViewById<ImageButton>(R.id.ib_edit_post)
         private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_post_video)
@@ -53,6 +58,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
         private val pollLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_poll)
         private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
         private val optionRecyclerView = itemView.findViewById<RecyclerView>(R.id.rv_options)
+        @SuppressLint("SuspiciousIndentation", "SetTextI18n")
         fun bind(post:ChannelPostResponse){
             if (post.channelAvatarUrl !="null"){
                 Glide.with(context)
@@ -137,15 +143,23 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                 }
             }
 
+                   var rating = post.averageRating
+                ratingTextView.text = rating.toString()
+            if (rating<2.99 && rating>0)
+                ViewCompat.setBackgroundTintList(ratingImageView, ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.red)))
+            if(rating >= 3.0 && rating < 4.0)  ViewCompat.setBackgroundTintList(ratingImageView, ColorStateList.valueOf(
+                ContextCompat.getColor(context, R.color.yellow)))
+            if(rating >=4)  ViewCompat.setBackgroundTintList(ratingImageView, ColorStateList.valueOf(
+                ContextCompat.getColor(context, R.color.green)))
 
-                rating.text = post.averageRating.toString()
-                repostsCount.text = post.repostsCount.toString()
+            repostsCount.text = post.repostsCount.toString()
 
-                  if (post.options.isNotEmpty()){
+                  if (post.options!=null){
                       pollLinearLayout.show()
                       pollTitleTextView.text = post.pollTitle
                       optionRecyclerView.layoutManager = LinearLayoutManager(context)
-                      optionRecyclerView.adapter = OptionsAdapter(post.isVoted,post.options,channelViewModel,tokenManager)
+                      optionRecyclerView.adapter = OptionsAdapter(post.isVoted,post.options!!,channelViewModel,tokenManager)
                   }
             editPostButton.setOnClickListener {
                     it.showMenu(context, editAction = {}, deleteAction = {

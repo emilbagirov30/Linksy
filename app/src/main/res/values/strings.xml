@@ -114,4 +114,6 @@
     <string name="rating">Rating</string>
     <string name="subscription_request">subscription \nrequest</string>
     <string name="delete_request">delete request</string>
+    <string name="poll">Poll</string>
+    <string name="add">Add</string>
 </resources>
