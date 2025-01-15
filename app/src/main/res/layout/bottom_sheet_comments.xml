@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/dialog_stick">
+    </ImageView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="@string/comments">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/rv_comments"
+       android:layout_width="match_parent"
+       android:layout_weight="1"
+       android:layout_height="0dp">
+
+   </androidx.recyclerview.widget.RecyclerView>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_reply_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_layout"
+        android:orientation="horizontal">
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        android:text="@string/reply_to"
+        android:textStyle="bold">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_whom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="jack"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/klukva"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold">
+
+        </com.google.android.material.textview.MaterialTextView>
+        <ImageButton
+            android:id="@+id/ib_delete_reply"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_delete">
+        </ImageButton>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/message_edit_text_background"
+            android:hint="@string/write_something"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/klukva"
+            android:textSize="20sp"
+            android:maxLines="6"
+            android:textColor="@color/dark_gray"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:layout_height="wrap_content">
+
+        </EditText>
+
+
+        <ImageButton
+            android:id="@+id/ib_send"
+            android:background="@drawable/ic_send_message"
+            android:layout_width="40dp"
+            android:layout_marginVertical="2dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/gray"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="10dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

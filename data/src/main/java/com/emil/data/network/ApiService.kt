@@ -5,6 +5,8 @@ import com.emil.data.model.ChannelPageDataResponseDto
 import com.emil.data.model.ChannelPostResponseDto
 import com.emil.data.model.ChannelResponseDto
 import com.emil.data.model.ChatResponseDto
+import com.emil.data.model.CommentBody
+import com.emil.data.model.CommentResponseDto
 import com.emil.data.model.MessageResponseDto
 import com.emil.data.model.MomentResponseDto
 import com.emil.data.model.PasswordChangeBody
@@ -112,7 +114,7 @@ interface ApiService {
     @GET("api/people/{id}")
     suspend fun getUserPageData(@Header("Authorization") token:String,@Path("id") id:Long): Response<UserPageDataResponseDto>
     @GET ("api/people/user_posts/{id}")
-    suspend fun getOutsiderUserPosts (@Path("id") id:Long): Response<List<PostResponseDto>>
+    suspend fun getOutsiderUserPosts (@Header("Authorization") token: String,@Path("id") id:Long): Response<List<PostResponseDto>>
     @GET ("api/people/user_moments/{id}")
     suspend fun getOutsiderUserMoments (@Path("id") id:Long): Response<List<MomentResponseDto>>
 
@@ -226,4 +228,16 @@ interface ApiService {
     @GET ("api/channels/find/link")
     suspend fun findChannelByLink (@Query("prefix")prefix:String): Response<List<ChannelResponseDto>>
 
+
+    @POST("api/posts/like/add/{id}")
+    suspend fun addLike(@Header("Authorization") token: String, @Path("id") id: Long): Response<Unit>
+
+    @DELETE("api/posts/like/delete/{id}")
+    suspend fun deleteLike(@Header("Authorization") token: String, @Path("id") id: Long): Response<Unit>
+
+    @POST("api/posts/add/comment")
+    suspend fun addComment(@Header("Authorization") token: String, @Body commentRequest: CommentBody): Response<Unit>
+
+    @GET("api/posts/{id}/comments")
+    suspend fun getPostComments(@Path("id") id: Long): Response<List<CommentResponseDto>>
 }

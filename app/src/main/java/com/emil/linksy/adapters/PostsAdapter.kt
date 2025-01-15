@@ -2,6 +2,8 @@ package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.LayoutInflater
@@ -13,6 +15,11 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,8 +28,11 @@ import com.emil.domain.model.PostResponse
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
+import com.emil.linksy.presentation.ui.auth.ConfirmCodeBottomSheet
+import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.anim
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showMenu
 import com.emil.presentation.R
@@ -33,7 +43,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
-                   private val context:Context, private val tokenManager: TokenManager? =null): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
+                   private val context:Context, private val tokenManager: TokenManager,
+                   private val isOutsider:Boolean = false
+    ): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val authorAvatarImageView = itemView.findViewById<ImageView>(R.id.iv_author_avatar)
@@ -42,6 +54,9 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val publicationDate = itemView.findViewById<MaterialTextView>(R.id.tv_date)
         private val postTextView = itemView.findViewById<MaterialTextView>(R.id.tv_text_post_content)
         private val likeCount = itemView.findViewById<MaterialTextView>(R.id.tv_like_count)
+        private val likeImageView = itemView.findViewById<ImageView>(R.id.iv_like)
+        private val commentImageView = itemView.findViewById<ImageView>(R.id.iv_comment)
+        private val commentCount = itemView.findViewById<MaterialTextView>(R.id.tv_comment_count)
         private val repostsCount = itemView.findViewById<MaterialTextView>(R.id.tv_reposts_count)
         private val editPostButton = itemView.findViewById<ImageButton>(R.id.ib_edit_post)
         private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_post_video)
@@ -54,7 +69,9 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val playVoiceButton = itemView.findViewById<ImageView>(R.id.iv_play_voice)
         private val audioProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_audio)
         private val voiceProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_voice)
-        @SuppressLint("SetTextI18n")
+        val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong("ID",-1)
+        @SuppressLint("SetTextI18n", "SuspiciousIndentation")
         fun bind(post: PostResponse) {
               if (post.authorAvatarUrl !="null"){
                   Glide.with(context)
@@ -187,9 +204,44 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             }
 
             likeCount.text = post.likesCount.toString()
+
+              commentImageView.setOnClickListener {
+                  it.anim()
+                  val fragmentActivity = context as? FragmentActivity
+                  val bsComment = CommentsBottomSheet.newInstance(post.postId, userId = userId)
+                  fragmentActivity?.supportFragmentManager?.let { it1 -> bsComment.show(it1," CommentsBottomSheet") }
+              }
+            if (post.isLikedIt){
+                ViewCompat.setBackgroundTintList(likeImageView, ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.red)))
+
+                likeImageView.setOnClickListener {
+                    it.anim()
+                    postViewModel.deleteLike(tokenManager.getAccessToken(),post.postId, onSuccess = {
+                        post.isLikedIt = false
+                        ViewCompat.setBackgroundTintList(likeImageView, ColorStateList.valueOf(
+                            ContextCompat.getColor(context, R.color.gray)))
+                        likeCount.text = post.likesCount--.toString()
+                        notifyItemChanged(bindingAdapterPosition)
+                    }, onError = {})
+                }
+            }else{
+                likeImageView.setOnClickListener {
+                    it.anim()
+                    postViewModel.addLike(tokenManager.getAccessToken(),post.postId, onSuccess = {
+                        post.isLikedIt = true
+                        ViewCompat.setBackgroundTintList(likeImageView, ColorStateList.valueOf(
+                            ContextCompat.getColor(context, R.color.red)))
+                       likeCount.text = post.likesCount++.toString()
+                        notifyItemChanged(bindingAdapterPosition)
+                    }, onError = {})
+                }
+
+            }
             repostsCount.text = post.repostsCount.toString()
+            commentCount.text = post.commentsCount.toString()
             editPostButton.setOnClickListener {
-                if (tokenManager!=null) {
+                if (!isOutsider) {
                     it.showMenu(context, editAction = {}, deleteAction = {
                         val dialog = ActionDialog(context)
                         dialog.setTitle(context.getString(R.string.delete_post_title))

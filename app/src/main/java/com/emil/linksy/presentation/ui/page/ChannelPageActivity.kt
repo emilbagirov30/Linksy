@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.adapters.ChannelPostsAdapter
+import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
@@ -60,6 +61,10 @@ class ChannelPageActivity : AppCompatActivity() {
                     .load(avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.ivAvatar)
+                binding.ivAvatar.setOnClickListener {
+                    BigPictureDialog(this,avatarUrl).show(supportFragmentManager,  "BigPictureDialog")
+                }
+
             }
             pageData.link?.let { binding.tvLink.show()
             binding.tvLink.text = "@${pageData.link}"

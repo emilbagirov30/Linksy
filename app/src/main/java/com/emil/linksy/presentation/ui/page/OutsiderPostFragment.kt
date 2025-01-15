@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.PostsAdapter
 import com.emil.linksy.presentation.viewmodel.PostViewModel
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -21,6 +23,7 @@ class OutsiderPostFragment (private val id:Long): Fragment() {
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     private lateinit var postsRecyclerView:RecyclerView
     private lateinit var loading:ProgressBar
+    private val tokenManager:TokenManager by inject<TokenManager>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,12 +45,12 @@ class OutsiderPostFragment (private val id:Long): Fragment() {
         return view
     }
     private fun updatePosts (){
-        postViewModel.getOutsiderUserPosts(id, onSuccess = {
+        postViewModel.getOutsiderUserPosts(tokenManager.getAccessToken(),id, onSuccess = {
             loading.hide()
             postsRecyclerView.show()
         })
         postViewModel.postList.observe(requireActivity()){ postlist ->
-            postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel, context = requireContext())
+            postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel, context = requireContext(),tokenManager,isOutsider = true)
 
         }
     }

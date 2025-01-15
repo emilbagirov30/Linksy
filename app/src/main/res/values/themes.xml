@@ -101,7 +101,7 @@
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:layout_margin">7dp</item>
     </style>
-    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="BottomSheetDialogTheme" parent="Theme.Material3.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
     </style>

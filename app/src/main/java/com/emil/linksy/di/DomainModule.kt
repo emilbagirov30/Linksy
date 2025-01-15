@@ -1,6 +1,8 @@
 package com.emil.linksy.di
 
 import com.emil.domain.usecase.AcceptUserToChannelUseCase
+import com.emil.domain.usecase.AddCommentUseCase
+import com.emil.domain.usecase.AddLikeUseCase
 import com.emil.domain.usecase.AllUserDataUseCase
 import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.CheckIsGroupUseCase
@@ -12,6 +14,7 @@ import com.emil.domain.usecase.CreateGroupUseCase
 import com.emil.domain.usecase.CreateMomentUseCase
 import com.emil.domain.usecase.DeleteAvatarUseCase
 import com.emil.domain.usecase.DeleteChannelPostUseCase
+import com.emil.domain.usecase.DeleteLikeUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
@@ -27,6 +30,7 @@ import com.emil.domain.usecase.GetChannelPostsUseCase
 import com.emil.domain.usecase.GetChannelSubscriptionsRequestUseCse
 import com.emil.domain.usecase.GetChannelsUseCase
 import com.emil.domain.usecase.GetChatIdUseCase
+import com.emil.domain.usecase.GetCommentsUseCase
 import com.emil.domain.usecase.GetGroupMembersUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
@@ -252,12 +256,40 @@ val domainModule = module {
     factory<VoteUseCase>{
       VoteUseCase(channelRepository = get())}
 
-
         factory<FindChannelByLinkUseCase>{
        FindChannelByLinkUseCase(channelRepository = get())
         }
     factory<FindChannelByNameUseCase>{
-       FindChannelByNameUseCase(channelRepository = get())}
+       FindChannelByNameUseCase(channelRepository = get())
+    }
+
+
+
+    factory<AddLikeUseCase>{
+        AddLikeUseCase(postRepository = get())
+    }
+
+    factory<DeleteLikeUseCase>{
+        DeleteLikeUseCase(postRepository = get())
+    }
+
+
+    factory<GetCommentsUseCase>{
+        GetCommentsUseCase(postRepository = get())
+    }
+
+    factory<AddCommentUseCase>{
+        AddCommentUseCase(postRepository = get())
+    }
+
+
+
+
+
+
+
+
+
 }
 
 

@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.adapters.OutsiderProfilePagerAdapter
+import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
@@ -113,6 +114,8 @@ class UserPageActivity (): AppCompatActivity() {
                     .load(avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImageView)
+                avatarImageView.setOnClickListener { BigPictureDialog(this,avatarUrl).show(supportFragmentManager,  "BigPictureDialog") }
+
             }
             messageButton.setOnClickListener {
                 val startMessageActivity = Intent(this,MessageActivity::class.java)

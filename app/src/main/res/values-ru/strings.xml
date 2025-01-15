@@ -113,4 +113,8 @@
     <string name="add">Добавить</string>
     <string name="search_results">Результаты поиска</string>
     <string name="your_subscriptions">Ваши подписки</string>
+    <string name="reply">Ответить</string>
+    <string name="view_responses">посмотреть ответы</string>
+    <string name="comments">Комментарии</string>
+    <string name="reply_to">ответить: </string>
 </resources>
