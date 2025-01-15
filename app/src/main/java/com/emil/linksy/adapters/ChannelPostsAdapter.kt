@@ -81,7 +81,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                     .into(postPictureImageView)
 
                 postPictureImageView.setOnClickListener {
-                    BigPictureDialog(context,imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
+                    BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
                 }
             }
             val videoUrl = post.videoUrl

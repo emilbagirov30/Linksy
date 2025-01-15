@@ -114,7 +114,7 @@ class UserPageActivity (): AppCompatActivity() {
                     .load(avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImageView)
-                avatarImageView.setOnClickListener { BigPictureDialog(this,avatarUrl).show(supportFragmentManager,  "BigPictureDialog") }
+                avatarImageView.setOnClickListener { BigPictureDialog.newInstance(avatarUrl).show(supportFragmentManager,  "BigPictureDialog") }
 
             }
             messageButton.setOnClickListener {

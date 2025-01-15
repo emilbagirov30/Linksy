@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateMomentDialogFragment (private val momentFragment: MomentFragment): DialogFragment()  {
+class CreateMomentDialogFragment: DialogFragment()  {
     private lateinit var toolBar: MaterialToolbar
     private lateinit var addImage: ImageView
     private lateinit var addVideo: ImageView
@@ -160,7 +160,6 @@ class CreateMomentDialogFragment (private val momentFragment: MomentFragment): D
                 image = imagePart, video = videoPart,
                 audio = audioPart,text =text,
                 onSuccess = {
-                    momentFragment.updateMoments()
                     dialog?.dismiss()
                     loading.dismiss()
                 })

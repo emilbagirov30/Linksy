@@ -1,14 +1,13 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
+import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import io.getstream.photoview.PhotoView
@@ -29,7 +28,28 @@ import io.getstream.photoview.PhotoView
  * limitations under the License.
  */
 @SuppressLint("MissingInflatedId")
-class BigPictureDialog (private val context: Context,private val imageUrl:String):  DialogFragment() {
+class BigPictureDialog:  DialogFragment() {
+
+    private var imageUrl:String = ""
+
+    companion object{
+        private const val URL = "URL"
+        fun newInstance(url:String): BigPictureDialog {
+            val fragment = BigPictureDialog()
+            val args = Bundle()
+            args.putString(URL, url)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+
+
+
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,20 +57,27 @@ class BigPictureDialog (private val context: Context,private val imageUrl:String
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.dialog_big_picture, container, false)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val  bigPictureImageView = view.findViewById<PhotoView>(R.id.iv_big_picture)
-        Glide.with(context)
+        Glide.with(requireContext())
             .load(imageUrl)
             .into(bigPictureImageView)
-       val toolBar = view.findViewById<MaterialToolbar>(R.id.tb_edit_data)
+        val toolBar = view.findViewById<MaterialToolbar>(R.id.tb_edit_data)
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
-        return view
     }
 
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setCancelable(false)
-
+        arguments?.let {
+            imageUrl = it.getString(URL).toString()
+        }
     }
 
     override fun onStart() {

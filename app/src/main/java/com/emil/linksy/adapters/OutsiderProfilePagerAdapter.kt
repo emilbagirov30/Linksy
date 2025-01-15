@@ -10,8 +10,8 @@ class OutsiderProfilePagerAdapter(val id:Long,activity: FragmentActivity) : Frag
     override fun getItemCount(): Int = 2
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> OutsiderPostFragment(id)
-            1 -> OutsiderMomentFragment (id)
+            0 -> OutsiderPostFragment.newInstance(id)
+            1 -> OutsiderMomentFragment.newInstance(id)
             else -> throw IllegalStateException("Unexpected position: $position")
         }
     }

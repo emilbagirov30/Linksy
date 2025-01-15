@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.PostsAdapter
+import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
@@ -18,7 +19,23 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class OutsiderPostFragment (private val id:Long): Fragment() {
+class OutsiderPostFragment: Fragment() {
+
+
+
+    private var userId:Long = -1
+
+    companion object{
+        private const val USER_ID = "USER_ID"
+        fun newInstance(userId: Long):  OutsiderPostFragment {
+            val fragment = OutsiderPostFragment()
+            val args = Bundle()
+            args.putLong(USER_ID, userId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
 
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     private lateinit var postsRecyclerView:RecyclerView
@@ -26,7 +43,9 @@ class OutsiderPostFragment (private val id:Long): Fragment() {
     private val tokenManager:TokenManager by inject<TokenManager>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        arguments?.let {
+            userId = it.getLong(USER_ID)
+        }
     }
 
     override fun onCreateView(
@@ -45,7 +64,7 @@ class OutsiderPostFragment (private val id:Long): Fragment() {
         return view
     }
     private fun updatePosts (){
-        postViewModel.getOutsiderUserPosts(tokenManager.getAccessToken(),id, onSuccess = {
+        postViewModel.getOutsiderUserPosts(tokenManager.getAccessToken(),userId, onSuccess = {
             loading.hide()
             postsRecyclerView.show()
         })

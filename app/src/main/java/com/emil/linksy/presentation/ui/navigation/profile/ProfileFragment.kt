@@ -80,7 +80,7 @@ class ProfileFragment : Fragment() {
         fetchData()
         editUserDataImageView.setOnClickListener {
             it.anim()
-            CommonSettingsDialogFragment(this).show(parentFragmentManager, "CommonSettingsDialog")
+            CommonSettingsDialogFragment().show(parentFragmentManager, "CommonSettingsDialog")
         }
         userProfileDataViewModel.userData.observe(requireActivity()){ data ->
             id = data.id

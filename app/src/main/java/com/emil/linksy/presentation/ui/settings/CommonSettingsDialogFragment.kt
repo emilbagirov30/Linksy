@@ -1,20 +1,26 @@
 package com.emil.linksy.presentation.ui.settings
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.SettingsAdapter
 import com.emil.linksy.adapters.model.SettingItem
+import com.emil.linksy.presentation.ui.auth.AuthActivity
 import com.emil.linksy.presentation.ui.navigation.profile.ProfileFragment
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
 
-class CommonSettingsDialogFragment (private val profileFragment: ProfileFragment) : DialogFragment() {
+class CommonSettingsDialogFragment: DialogFragment() {
 private lateinit var toolBar: MaterialToolbar
 private lateinit var settingsRecyclerView: RecyclerView
     @SuppressLint("MissingInflatedId")
@@ -25,6 +31,7 @@ private lateinit var settingsRecyclerView: RecyclerView
         val view = inflater.inflate(R.layout.common_settings_dialog, container, false)
         toolBar = view.findViewById(R.id.tb_edit_data)
         settingsRecyclerView = view.findViewById(R.id.rv_settings)
+        val exitButton = view.findViewById<MaterialButton>(R.id.bt_exit)
         val settingsList = listOf(
             SettingItem(getString(R.string.app_settings)),
             SettingItem(getString(R.string.profile_settings)),
@@ -37,8 +44,11 @@ private lateinit var settingsRecyclerView: RecyclerView
             navigateToSettingDetail(settingItem)
         }
         toolBar.setNavigationOnClickListener {
-            profileFragment.fetchData()
             dialog?.dismiss()
+        }
+
+        exitButton.setOnClickListener {
+            logoutUser()
         }
         return view
     }
@@ -62,8 +72,18 @@ private lateinit var settingsRecyclerView: RecyclerView
             getString(R.string.profile_settings) -> {  ProfileSettingsDialogFragment().show(parentFragmentManager, "ProfileSettingsDialog")  }
             getString(R.string.сonfidentiality)  -> { }
             getString(R.string.blacklist)-> {  }
-            getString(R.string.app_settings)-> {}
+            getString(R.string.app_settings)-> { AppSettingsDialogFragment().show(parentFragmentManager, "AppSettingsDialogFragment") }
 
         }
+    }
+    private fun logoutUser() {
+        val sharedPref: SharedPreferences =
+            requireContext().getSharedPreferences("appData", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putBoolean("remember", false)
+        editor.apply()
+        val authIntent = Intent(requireContext(), AuthActivity::class.java)
+        authIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(authIntent)
     }
 }

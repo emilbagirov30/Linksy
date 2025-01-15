@@ -53,7 +53,7 @@ private val tokenManager: TokenManager by inject()
 
         updateMoments()
         addMoment.setOnClickListener {
-            CreateMomentDialogFragment(this).show(parentFragmentManager, "CreateMomentDialogFragment")
+            CreateMomentDialogFragment().show(parentFragmentManager, "CreateMomentDialogFragment")
         }
         return view
     }
@@ -70,7 +70,7 @@ private val tokenManager: TokenManager by inject()
         emptyMessage.hide()
         contentFlexboxLayout.show()
     }
-      fun updateMoments (){
+      private fun updateMoments (){
         val token = tokenManager.getAccessToken()
         momentViewModel.getUserMoments(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
         momentViewModel.momentList.observe(requireActivity()){ momentlist ->

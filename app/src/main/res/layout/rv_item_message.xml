@@ -183,7 +183,7 @@
                             android:textSize="20sp"
                             android:maxEms="15"
                             android:textIsSelectable="true"
-                       android:text=""
+                            android:text=""
                             android:fontFamily="@font/klukva">
                         </TextView>
 

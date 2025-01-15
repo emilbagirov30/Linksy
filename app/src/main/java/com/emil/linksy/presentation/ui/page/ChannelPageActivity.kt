@@ -62,7 +62,7 @@ class ChannelPageActivity : AppCompatActivity() {
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.ivAvatar)
                 binding.ivAvatar.setOnClickListener {
-                    BigPictureDialog(this,avatarUrl).show(supportFragmentManager,  "BigPictureDialog")
+                    BigPictureDialog.newInstance(avatarUrl).show(supportFragmentManager,  "BigPictureDialog")
                 }
 
             }
@@ -93,7 +93,7 @@ class ChannelPageActivity : AppCompatActivity() {
                 binding.ivEditChannel.show()
                 binding.etNewPost.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                       AddChannelPostDialogFragment(pageData.channelId).show(supportFragmentManager, "AddPostDialogFragment")
+                       AddChannelPostDialogFragment.newInstance(pageData.channelId).show(supportFragmentManager, "AddPostDialogFragment")
                         true
                     } else {
                         false

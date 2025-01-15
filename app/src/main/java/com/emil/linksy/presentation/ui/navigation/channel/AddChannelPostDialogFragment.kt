@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.navigation.channel
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -32,7 +33,21 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AddChannelPostDialogFragment(private val channelId:Long): DialogFragment() {
+class AddChannelPostDialogFragment: DialogFragment() {
+    private  var channelId: Long = -1
+
+    companion object {
+        private const val CHANNEL_ID = "CHANNEL_ID"
+
+        fun newInstance(channelId: Long): AddChannelPostDialogFragment {
+            val fragment = AddChannelPostDialogFragment()
+            val args = Bundle()
+            args.putLong(CHANNEL_ID, channelId)
+            fragment.arguments = args
+            return fragment
+        }
+
+    }
 
     private lateinit var binding: AddChannelPostDialogBinding
     private var pollTitle:String = ""
@@ -44,15 +59,22 @@ class AddChannelPostDialogFragment(private val channelId:Long): DialogFragment()
     private var isPlayingAudio = false
     private val tokenManager: TokenManager by inject()
     private val channelViewModel:ChannelViewModel by viewModel<ChannelViewModel>()
+
+
+
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = AddChannelPostDialogBinding.inflate(inflater, container, false)
-       val view = binding.root
-           binding.tb.setNavigationOnClickListener {
-               dismiss()
-           }
-       binding.etPost.addTextChangedListener { updatePublishButtonState() }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.tb.setNavigationOnClickListener {
+            dismiss()
+        }
+        binding.etPost.addTextChangedListener { updatePublishButtonState() }
 
         val pickImageLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedImage(uri)
@@ -69,9 +91,9 @@ class AddChannelPostDialogFragment(private val channelId:Long): DialogFragment()
             audioUri = uri
             updatePublishButtonState()
         }
-       binding.btAddPoll.setOnClickListener {
-           AddPollDialogFragment(this).show(parentFragmentManager,"AddPollDialogFragment")
-       }
+        binding.btAddPoll.setOnClickListener {
+            AddPollDialogFragment(this).show(parentFragmentManager,"AddPollDialogFragment")
+        }
 
         binding.btAddPicture.setOnClickListener {
             it.anim()
@@ -88,23 +110,22 @@ class AddChannelPostDialogFragment(private val channelId:Long): DialogFragment()
             it.anim()
             pickAudioLauncher.launch(ContentType.AUDIO.mimeType)
         }
-                binding.btPublish.setOnClickListener { it ->
-                    it.anim()
-                    val loading = LoadingDialog(requireContext())
-                    loading.show()
-                    val text = binding.etPost.string()
-                    val token = tokenManager.getAccessToken()
-                    val imagePart = imageUri?.let { createImageFilePart(requireContext(), it) }
-                    val videoPart = videoUri?.let { createVideoFilePart(requireContext(), it) }
-                    val audioPart = audioUri?.let { createAudioFilePart(requireContext(), it) }
-                    channelViewModel.publishPost(token,channelId,text,imagePart,videoPart,audioPart,pollTitle,optionlist.toList(),
-                        onSuccess = {
-                            loading.dismiss()
-                            dismiss()})
-                }
-
-        return view
+        binding.btPublish.setOnClickListener { it ->
+            it.anim()
+            val loading = LoadingDialog(requireContext())
+            loading.show()
+            val text = binding.etPost.string()
+            val token = tokenManager.getAccessToken()
+            val imagePart = imageUri?.let { createImageFilePart(requireContext(), it) }
+            val videoPart = videoUri?.let { createVideoFilePart(requireContext(), it) }
+            val audioPart = audioUri?.let { createAudioFilePart(requireContext(), it) }
+            channelViewModel.publishPost(token,channelId,text,imagePart,videoPart,audioPart,pollTitle,optionlist.toList(),
+                onSuccess = {
+                    loading.dismiss()
+                    dismiss()})
+        }
     }
+
     private fun handleSelectedImage(uri: Uri) {
         binding.llPickedContent.show()
         binding.flPicture.show()
@@ -223,6 +244,9 @@ class AddChannelPostDialogFragment(private val channelId:Long): DialogFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setCancelable(false)
+        arguments?.let {
+            channelId = it.getLong(CHANNEL_ID)
+        }
 
     }
 

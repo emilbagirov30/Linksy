@@ -141,9 +141,10 @@ android:visibility="gone"
 
         <ImageView
             android:id="@+id/iv_edit_user_data"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_change"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_settings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

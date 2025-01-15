@@ -1,16 +1,18 @@
 package com.emil.linksy.presentation.ui.navigation
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.emil.linksy.app.service.TokenService
 import com.emil.linksy.presentation.ui.navigation.channel.ChannelFragment
 import com.emil.linksy.presentation.ui.navigation.chat.ChatFragment
 import com.emil.linksy.presentation.ui.navigation.feed.FeedFragment
 import com.emil.linksy.presentation.ui.navigation.people.PeopleFragment
 import com.emil.linksy.presentation.ui.navigation.profile.ProfileFragment
-import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
+import com.emil.linksy.util.LocaleManager
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.replaceFragment
 import com.emil.presentation.R
@@ -32,6 +34,15 @@ class MainNavigationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_navigation)
+        val sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE)
+        val theme = sharedPref.getString("theme",null)
+        if (theme==null)
+            sharedPref.edit().putString("theme","light").apply()
+        else {
+            if(theme == "light")
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
         val containerId = R.id.fl_fragment_container_user
         bottomNavigationView = findViewById(R.id.bn_main)
         replaceFragment(containerId, FeedFragment(), TAG_FEED)

@@ -1,5 +1,6 @@
 package com.emil.linksy.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
 
 
     inner class CommentViewHolder(private val binding: RvItemCommentsBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind (comment:CommentResponse){
             if (comment.authorAvatarUrl != "null") {
                 Glide.with(context)

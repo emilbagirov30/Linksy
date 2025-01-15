@@ -117,4 +117,9 @@
     <string name="view_responses">посмотреть ответы</string>
     <string name="comments">Комментарии</string>
     <string name="reply_to">ответить: </string>
+    <string name="language">Язык</string>
+    <string name="theme">Тема</string>
+    <string name="light">светлая</string>
+    <string name="dark">темная</string>
+    <string name="apply">Применить</string>
 </resources>

@@ -1,11 +1,176 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Linksy" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+    <style name="Base.Theme.Linksy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
+
+    <style name="Theme.Linksy" parent="Base.Theme.Linksy" />
+
+    <style name="SplashScreenTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+    <style name="EditTextStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:background">@drawable/rounded_edit_text</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/edit_text_hint_color</item>
+    </style>
+    <style name="EditTextChangeStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:background">@drawable/rounded_edit_text_change</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/edit_text_hint_color</item>
+    </style>
+
+    <style name="EditTextImmutableStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:background">@drawable/rounded_edit_text_immutable</item>
+        <item name="android:drawableEnd">@drawable/ic_lock</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/edit_text_hint_color</item>
+    </style>
+
+
+    <style name="LandscapeEditTextStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:background">@drawable/rounded_edit_text</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/edit_text_hint_color</item>
+    </style>
+
+    <style name="CodeEditTextStyle" >
+        <item name="android:background">@drawable/rounded_edit_text</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textColor">@color/code_edit_text</item>
+        <item name="android:textColorHint">@color/edit_text_hint_color</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:inputType">number</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+
+    <style name="TextTitleStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">35sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextQuestionStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:textColor">@color/question</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+
+    <style name="TextLinkStyle" >
+        <item name="android:fontFamily">@font/klukva</item>
+        <item name="android:textColor">@color/link</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="TextErrorStyle" >
+        <item name="android:textColor">@color/textView_error_message</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="ButtonInEditTextStyle" >
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_margin">7dp</item>
+    </style>
+    <style name="BottomSheetDialogTheme" parent="Theme.Material3.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:background">@drawable/bottom_sheet_rounded</item>
+    </style>
+    <style name="CustomProgressBarStyle" >
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="LoadingDialog" parent="Theme.Material3.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="RoundedDialog" parent="Theme.Material3.Light.Dialog">
+        <item name="android:windowBackground">@drawable/rounded_dialog</item>
+    </style>
+
+    <style name="TransparentDialog" parent="Theme.Material3.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
+    <style name="ButtonProfile" parent="Widget.Material3.Button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/klukva</item>
+    </style>
+
+    <style name="ButtonPostPanel" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+    </style>
+    <style name="TabTextStyle">
+        <item name="textAllCaps">false</item>
+        <item name="tabTextColor">@color/black</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="CustomTabLayoutStyle" parent="Widget.Material3.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextStyle</item>
+        <item name="tabTextColor">@color/tabTextColor</item>
+        <item name="tabSelectedTextColor">@color/tabSelectedTextColor</item>
+    </style>
+
+    <style name="FullScreenDialog" parent="Theme.Linksy">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="CustomBottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+        <item name="android:background">@drawable/rounded_navigation</item>
+
+    </style>
+    <style name="Theme.Linksy.Fullscreen" parent="Theme.Linksy">
+        <item name="android:actionBarStyle">@style/Widget.Theme.Linksy.ActionBar.Fullscreen</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
     <style name="ThemeOverlay.Linksy.FullscreenContainer" parent="">
-        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
-        <item name="fullscreenTextColor">@color/light_blue_A400</item>
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
+
+    <style name="FullScreenActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>

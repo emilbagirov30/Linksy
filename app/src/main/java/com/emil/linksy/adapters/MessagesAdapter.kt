@@ -87,7 +87,7 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                 pictureImageView.show()
                 Glide.with(context).load(Uri.parse(it)).into(pictureImageView)
                pictureImageView.setOnClickListener {
-                   BigPictureDialog(context, imageUrl).show((context as AppCompatActivity).supportFragmentManager, "BigPictureDialog")
+                   BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager, "BigPictureDialog")
                }
             }
             videoUrl?.let {

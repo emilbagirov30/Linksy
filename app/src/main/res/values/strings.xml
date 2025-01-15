@@ -122,4 +122,9 @@
     <string name="view_responses">view responses</string>
     <string name="comments">Comments</string>
     <string name="reply_to">reply to: </string>
+    <string name="language">Language</string>
+    <string name="theme">Theme</string>
+    <string name="light">light</string>
+    <string name="dark">dark</string>
+    <string name="apply">Apply</string>
 </resources>

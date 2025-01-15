@@ -16,7 +16,12 @@ class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChanne
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = AddPollDialogBinding.inflate(inflater, container, false)
-        val view = binding.root
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.rvOptions.layoutManager = LinearLayoutManager (requireContext())
         val adapter = OptionsCreatingAdapter()
         binding.rvOptions.adapter = adapter
@@ -24,14 +29,11 @@ class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChanne
         binding.btAdd.setOnClickListener {
             adapter.addOption()
         }
-
         binding.btCreate.setOnClickListener {
             val title = binding.etTitle.text.toString()
             addChannelPostDialogFragment.addPollInPost(title,adapter.getOptionList())
             dismiss()
         }
-
-        return view
     }
     override fun getTheme() = R.style.FullScreenDialog
 

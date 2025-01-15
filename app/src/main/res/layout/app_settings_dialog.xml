@@ -1,0 +1,117 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+    android:id="@+id/tb"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:navigationIcon="@drawable/ic_back">
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="@string/app_settings">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+</com.google.android.material.appbar.MaterialToolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/settings_border_selector"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        >
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_settings_title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/language"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/language_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:spinnerMode="dropdown"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/settings_border_selector"
+        android:orientation="horizontal"
+       android:paddingVertical="10dp"
+        android:paddingHorizontal="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/theme"
+            android:layout_gravity="center"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_light"
+                android:layout_width="wrap_content"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background"
+                android:textColor="@color/chip_text"
+                android:text="@string/light"
+                android:textSize="15sp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                app:chipBackgroundColor="@color/chip_background"
+                android:textColor="@color/chip_text"
+                android:text="@string/dark"
+                android:textSize="15sp" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:text="@string/apply">
+
+    </com.google.android.material.button.MaterialButton>
+
+
+
+</LinearLayout>
