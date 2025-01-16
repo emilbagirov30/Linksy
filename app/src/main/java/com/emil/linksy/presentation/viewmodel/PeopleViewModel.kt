@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.UserPageDataResponse
 import com.emil.domain.model.UserResponse
+import com.emil.domain.usecase.AddToBlackListUseCase
 import com.emil.domain.usecase.FindUsersByLinkUseCase
 import com.emil.domain.usecase.FindUsersByUsernameUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscriptionsUseCase
@@ -14,6 +15,7 @@ import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
 import com.emil.domain.usecase.GetUserPageDataUseCase
 import com.emil.domain.usecase.GetUserSubscribersUseCase
 import com.emil.domain.usecase.GetUserSubscriptionsUseCase
+import com.emil.domain.usecase.RemoveFromBlackListUseCase
 import com.emil.domain.usecase.SubscribeUseCase
 import com.emil.domain.usecase.UnsubscribeUseCase
 import kotlinx.coroutines.launch
@@ -26,7 +28,9 @@ class PeopleViewModel(private val findUsersByUsernameUseCase: FindUsersByUsernam
                       private val getUserSubscriptionsUseCase: GetUserSubscriptionsUseCase,
                       private val getUserSubscribersUseCase: GetUserSubscribersUseCase,
                       private val getOutsiderUserSubscriptionsUseCase: GetOutsiderUserSubscriptionsUseCase,
-                      private val getOutsiderUserSubscribersUseCase: GetOutsiderUserSubscribersUseCase
+                      private val getOutsiderUserSubscribersUseCase: GetOutsiderUserSubscribersUseCase,
+                      private val addToBlackListUseCase: AddToBlackListUseCase,
+                      private val removeFromBlackListUseCase: RemoveFromBlackListUseCase
     ):ViewModel() {
 
     private val _userList = MutableLiveData<List<UserResponse>> ()
@@ -67,15 +71,15 @@ class PeopleViewModel(private val findUsersByUsernameUseCase: FindUsersByUsernam
 
     }
     @SuppressLint("SuspiciousIndentation")
-    fun getUserPageData (token: String,id:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}){
+    fun getUserPageData (token: String,id:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit,  noAccess: ()->Unit, onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response = getUserPageDataUseCase.execute(token,id)
                 if (response.isSuccessful){
                   _pageData.value = response.body()
                     onSuccess()
-                }else onConflict()
-
+                }else if (response.code() == 404) onConflict()
+                     else if (response.code()==403) noAccess ()
             }catch (e:Exception){
                 onError()
             }
@@ -167,6 +171,31 @@ class PeopleViewModel(private val findUsersByUsernameUseCase: FindUsersByUsernam
         }
 
     }
+    fun addToBlackList(token:String,id:Long,onSuccess: ()->Unit = {},onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                val response = addToBlackListUseCase.execute(token,id)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
 
+    }
+    fun removeBlackList(token:String,id:Long,onSuccess: ()->Unit = {},onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                val response = removeFromBlackListUseCase.execute(token,id)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+
+    }
 
 }

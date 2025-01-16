@@ -38,7 +38,7 @@ val appModule = module {
        RecoveryPasswordViewModel(requestPasswordRecoveryUseCase = get(), confirmPasswordRecoveryUseCase = get ())
     }
     viewModel <UserProfileDataViewModel> {
-      UserProfileDataViewModel(userProfileDataUseCase = get ())
+      UserProfileDataViewModel(userProfileDataUseCase = get (), getEveryoneOffTheBlacklistUseCase = get())
     }
     viewModel <PasswordChangeViewModel> {
         PasswordChangeViewModel(changePasswordUseCase = get ())
@@ -59,7 +59,7 @@ val appModule = module {
         PeopleViewModel(findUsersByUsernameUseCase = get(), findUsersByLinkUseCase = get(), getUserPageDataUseCase = get(),
             subscribeUseCase = get(), unsubscribeUseCase = get(),
             getUserSubscribersUseCase = get(), getUserSubscriptionsUseCase = get(),
-            getOutsiderUserSubscribersUseCase = get(), getOutsiderUserSubscriptionsUseCase = get())
+            getOutsiderUserSubscribersUseCase = get(), getOutsiderUserSubscriptionsUseCase = get(), addToBlackListUseCase = get(), removeFromBlackListUseCase = get())
     }
 
     viewModel <MessageViewModel> {

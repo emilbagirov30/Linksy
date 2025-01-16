@@ -240,4 +240,14 @@ interface ApiService {
 
     @GET("api/posts/{id}/comments")
     suspend fun getPostComments(@Path("id") id: Long): Response<List<CommentResponseDto>>
+
+
+    @POST("api/people/blacklist/add/{id}")
+    suspend fun addToBlackList(@Header("Authorization") token: String, @Path("id") id: Long): Response<Unit>
+
+    @DELETE("api/people/blacklist/remove/{id}")
+    suspend fun removeBlackList(@Header("Authorization") token: String, @Path("id") id: Long): Response<Unit>
+
+    @GET("api/people/blacklist/all")
+    suspend fun getBlackList(@Header("Authorization") token: String): Response<List<UserResponseDto>>
 }

@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.SettingsAdapter
 import com.emil.linksy.adapters.model.SettingItem
 import com.emil.linksy.presentation.ui.auth.AuthActivity
+import com.emil.linksy.presentation.ui.navigation.profile.BlackListDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.ProfileFragment
 import com.emil.presentation.R
+import com.emil.presentation.databinding.BlacklistDialogBinding
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 
@@ -71,7 +73,7 @@ private lateinit var settingsRecyclerView: RecyclerView
         when (settingItem.title) {
             getString(R.string.profile_settings) -> {  ProfileSettingsDialogFragment().show(parentFragmentManager, "ProfileSettingsDialog")  }
             getString(R.string.сonfidentiality)  -> { }
-            getString(R.string.blacklist)-> {  }
+            getString(R.string.blacklist)-> { BlackListDialogFragment().show(parentFragmentManager,"BlackListDialogFragment") }
             getString(R.string.app_settings)-> { AppSettingsDialogFragment().show(parentFragmentManager, "AppSettingsDialogFragment") }
 
         }

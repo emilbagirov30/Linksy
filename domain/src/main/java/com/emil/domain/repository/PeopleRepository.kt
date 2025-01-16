@@ -14,4 +14,7 @@ interface PeopleRepository {
     suspend fun getUserSubscriptions (token:String):Response<List<UserResponse>>
     suspend fun getOutsiderUserSubscribers (id:Long):Response<List<UserResponse>>
     suspend fun getOutsiderSubscriptions (id:Long):Response<List<UserResponse>>
+    suspend fun addToBlackList (token:String,userId:Long):Response<Unit>
+    suspend fun removeFromBlackList (token:String,userId:Long):Response<Unit>
+
 }

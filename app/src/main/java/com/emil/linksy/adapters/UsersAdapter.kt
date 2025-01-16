@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.UserResponse
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
+import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.show
@@ -30,7 +31,9 @@ class UsersAdapter(
     private val isChannelAdmin: Boolean = false,
     private val channelId:Long? = null,
     private val channelViewModel: ChannelViewModel? = null,
-    private val tokenManager: TokenManager? = null
+    private val peopleViewModel: PeopleViewModel? = null,
+    private val tokenManager: TokenManager? = null,
+    private val isBlackList:Boolean = false
 ) : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
     private val selectedUserIds = mutableSetOf<Long>()
 
@@ -41,6 +44,7 @@ class UsersAdapter(
         private val userLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_user)
         private val selectorCheckBox = itemView.findViewById<CheckBox>(R.id.сb_selector)
         private val acceptImageButton = itemView.findViewById<ImageButton>(R.id.ib_accept)
+        private val removeBlackListImageButton = itemView.findViewById<ImageButton>(R.id.ib_remove_blacklist)
         private val rejectImageButton = itemView.findViewById<ImageButton>(R.id.ib_reject)
         private val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
         val id = sharedPref.getLong("ID", -1)
@@ -90,7 +94,15 @@ class UsersAdapter(
                     })
                 }
             }
-
+                                       if (isBlackList){
+                                           removeBlackListImageButton.show()
+                                           removeBlackListImageButton.setOnClickListener {
+                                               peopleViewModel?.removeBlackList(tokenManager!!.getAccessToken(),user.id, onSuccess = {
+                                                   userList.removeAt(bindingAdapterPosition)
+                                                   notifyItemRemoved(bindingAdapterPosition)
+                                               })
+                                           }
+                                       }
             if (user.avatarUrl != "null") {
                 Glide.with(context)
                     .load(user.avatarUrl)

@@ -4,11 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,6 +22,7 @@ import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
+import com.emil.linksy.presentation.ui.navigation.chat.CreateGroupActivity
 import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
@@ -65,6 +71,8 @@ class UserPageActivity (): AppCompatActivity() {
         toolBar.setNavigationOnClickListener {
             finish()
         }
+
+
         userId = intent.getLongExtra("USER_ID", -1)
         qrImageButton.setOnClickListener {
             it.anim()
@@ -86,6 +94,47 @@ class UserPageActivity (): AppCompatActivity() {
         loading.show()
 
         peopleViewModel.pageData.observe(this){ pageData ->
+
+            toolBar.addMenuProvider(object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.blacklist_menu, menu)
+                    val actionBlacklist = menu.findItem(R.id.action_blacklist)
+                    actionBlacklist.title = if (pageData.isPageOwnerBlockedByViewer) {
+                        getString(R.string.remove_blacklist)
+                    } else {
+                        getString(R.string.add_to_blacklist)
+                    }
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return when (menuItem.itemId) {
+                        R.id.action_blacklist -> {
+                            if (pageData.isPageOwnerBlockedByViewer) {
+                                peopleViewModel.removeBlackList(
+                                    tokenManager.getAccessToken(),
+                                    userId,
+                                    onSuccess = {
+                                        menuItem.title = getString(R.string.add_to_blacklist)
+                                        pageData.isPageOwnerBlockedByViewer = false
+                                    }
+                                )
+                            } else {
+                                peopleViewModel.addToBlackList(
+                                    tokenManager.getAccessToken(),
+                                    userId,
+                                    onSuccess = {
+                                        menuItem.title = getString(R.string.remove_blacklist)
+                                        pageData.isPageOwnerBlockedByViewer = true
+                                    }
+                                )
+                            }
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }, this, Lifecycle.State.CREATED)
+
             val link = pageData.link
             if (link!=null){
                 linkTextView.show()
@@ -97,7 +146,7 @@ class UserPageActivity (): AppCompatActivity() {
             subscriptionsLinerLayout.setOnClickListener {
                 it.anim()
                 RelationsDialogFragment(RelationType.SUBSCRIPTIONS,userId =userId,username =username).show(
-                    supportFragmentManager, "rRelationsDialogFragment"
+                    supportFragmentManager, "RelationsDialogFragment"
                 )
             }
             subscribersLinerLayout.setOnClickListener {
@@ -140,6 +189,9 @@ class UserPageActivity (): AppCompatActivity() {
         peopleViewModel.getUserPageData(token,userId, onSuccess = { loading.dismiss()
             mainLinearLayout.show()}, onConflict = {
             val errorDialog =  ErrorDialog(this,R.string.user_not_found)
+            errorDialog.close(action = {finish()})
+        }, noAccess = {
+            val errorDialog =  ErrorDialog(this,R.string.blackList_info)
             errorDialog.close(action = {finish()})
         })
 

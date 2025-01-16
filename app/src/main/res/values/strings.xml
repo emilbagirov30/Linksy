@@ -127,4 +127,7 @@
     <string name="light">light</string>
     <string name="dark">dark</string>
     <string name="apply">Apply</string>
+    <string name="add_to_blacklist">Add to blacklist</string>
+    <string name="remove_blacklist">Remove from the blacklist</string>
+    <string name="blackList_info">You have been added to the blacklist!</string>
 </resources>

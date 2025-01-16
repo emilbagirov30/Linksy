@@ -3,6 +3,7 @@ package com.emil.linksy.di
 import com.emil.domain.usecase.AcceptUserToChannelUseCase
 import com.emil.domain.usecase.AddCommentUseCase
 import com.emil.domain.usecase.AddLikeUseCase
+import com.emil.domain.usecase.AddToBlackListUseCase
 import com.emil.domain.usecase.AllUserDataUseCase
 import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.CheckIsGroupUseCase
@@ -31,6 +32,7 @@ import com.emil.domain.usecase.GetChannelSubscriptionsRequestUseCse
 import com.emil.domain.usecase.GetChannelsUseCase
 import com.emil.domain.usecase.GetChatIdUseCase
 import com.emil.domain.usecase.GetCommentsUseCase
+import com.emil.domain.usecase.GetEveryoneOffTheBlacklistUseCase
 import com.emil.domain.usecase.GetGroupMembersUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
@@ -50,6 +52,7 @@ import com.emil.domain.usecase.PublishPostUseCase
 import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.domain.usecase.RegisterUseCase
 import com.emil.domain.usecase.RejectSubscriptionRequestUseCase
+import com.emil.domain.usecase.RemoveFromBlackListUseCase
 import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
 import com.emil.domain.usecase.SendMessageUseCase
@@ -284,11 +287,18 @@ val domainModule = module {
 
 
 
+    factory<AddToBlackListUseCase>{
+        AddToBlackListUseCase(peopleRepository = get())
+    }
 
 
+    factory<RemoveFromBlackListUseCase>{
+        RemoveFromBlackListUseCase(peopleRepository = get())
+    }
 
-
-
+    factory<GetEveryoneOffTheBlacklistUseCase>{
+        GetEveryoneOffTheBlacklistUseCase(userRepository = get())
+    }
 
 }
 

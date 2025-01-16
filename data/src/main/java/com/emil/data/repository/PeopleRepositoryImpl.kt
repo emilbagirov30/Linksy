@@ -80,4 +80,14 @@ class PeopleRepositoryImpl:PeopleRepository {
             Response.error(response.code(), response.errorBody()!!)
         }
     }
+
+    override suspend fun addToBlackList(token: String, userId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.addToBlackList("Bearer $token",userId)
+    }
+
+    override suspend fun removeFromBlackList(token: String, userId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.removeBlackList("Bearer $token",userId)
+    }
+
+
 }
