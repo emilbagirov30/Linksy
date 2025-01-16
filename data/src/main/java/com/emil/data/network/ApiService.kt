@@ -19,6 +19,7 @@ import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserPageDataResponseDto
 import com.emil.data.model.UserProfileDataDto
 import com.emil.data.model.UserResponseDto
+import com.emil.domain.model.ChannelType
 import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.MessageResponse
 import okhttp3.MultipartBody

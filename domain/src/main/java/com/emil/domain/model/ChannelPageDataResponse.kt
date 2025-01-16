@@ -10,7 +10,7 @@ data class ChannelPageDataResponse (
     val isSubscriber: Boolean,
     val isSubmitted: Boolean,
     val rating: Double,
-    val type: String,
+    val type: ChannelType,
     val subscribersCount: Long,
     val requestsCount:Long
 )

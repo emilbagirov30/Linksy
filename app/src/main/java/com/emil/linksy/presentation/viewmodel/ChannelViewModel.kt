@@ -11,6 +11,7 @@ import com.emil.domain.model.ChannelPageDataResponse
 import com.emil.domain.model.ChannelPostData
 import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.ChannelResponse
+import com.emil.domain.model.ChannelType
 import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.GroupData
 import com.emil.domain.model.PostData
@@ -70,10 +71,10 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     private val _pageData = MutableLiveData<ChannelPageDataResponse> ()
     val pageData: LiveData<ChannelPageDataResponse> = _pageData
 
-    fun createChannel(token:String,name:String, link:String, description:String, type:String,avatar: MultipartBody.Part?, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+    fun createChannel(token:String,name:String, link:String, description:String, type:ChannelType,avatar: MultipartBody.Part?, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
-                val response = createChannelUseCase.execute(token, ChannelData(name, link, description, type, avatar))
+                val response = createChannelUseCase.execute(token, ChannelData(name, link, description, type.name, avatar))
                 if(response.isSuccessful){
                     onSuccess()
                 }

@@ -1,6 +1,7 @@
 package com.emil.data.model
 
 import com.emil.domain.model.ChannelData
+import com.emil.domain.model.ChannelType
 import okhttp3.MultipartBody
 
 data class ChannelBody (val name:String="",val link:String="",val description:String="",val type:String="",

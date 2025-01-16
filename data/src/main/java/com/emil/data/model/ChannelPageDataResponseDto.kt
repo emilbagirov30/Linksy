@@ -1,6 +1,7 @@
 package com.emil.data.model
 
 import com.emil.domain.model.ChannelPageDataResponse
+import com.emil.domain.model.ChannelType
 
 data class ChannelPageDataResponseDto (
     val channelId: Long = 0,
@@ -12,7 +13,7 @@ data class ChannelPageDataResponseDto (
     val isSubscriber: Boolean = false,
     val isSubmitted: Boolean = false,
     val rating: Double = 0.0,
-    val type: String="",
+    val type: ChannelType = ChannelType.PRIVATE,
     val subscribersCount: Long=0,
     val requestsCount:Long = 0
 )

@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.emil.domain.model.ChannelType
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
@@ -45,7 +46,7 @@ binding.tb.setNavigationOnClickListener {
             it.anim()
             pickImageLauncher.launch(ContentType.IMAGE.mimeType)
         }
-        var channelType = "PUBLIC"
+        var channelType = ChannelType.PUBLIC
         binding.sType.setSelection(0)
 
             ArrayAdapter.createFromResource(this, R.array.channel_type_array, android.R.layout.simple_spinner_item).also { adapter ->
@@ -54,7 +55,7 @@ binding.tb.setNavigationOnClickListener {
             }
             binding.sType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    channelType = if (position == 0) "PUBLIC" else "PRIVATE"
+                    channelType = if (position == 0) ChannelType.PUBLIC else ChannelType.PRIVATE
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -69,8 +70,7 @@ binding.tb.setNavigationOnClickListener {
                 val avatar = imageUri?.let { createImageFilePart(this, it) }
                 val link = binding.etLink.string()
                 val description = binding.etDescription.string()
-                val type = channelType
-                channelViewModel.createChannel(tokenManager.getAccessToken(),name,link,description,type,avatar, onSuccess = {finish()})
+                channelViewModel.createChannel(tokenManager.getAccessToken(),name,link,description,channelType,avatar, onSuccess = {finish()})
 
             }
         }

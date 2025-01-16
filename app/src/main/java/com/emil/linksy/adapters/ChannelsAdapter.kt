@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChannelResponse
+import com.emil.domain.model.ChannelType
 import com.emil.linksy.presentation.ui.page.ChannelPageActivity
 import com.emil.linksy.util.show
 import com.emil.presentation.R
@@ -46,7 +47,7 @@ class ChannelsAdapter(
                 binding.tvLink.text = "@$link"
             }
 
-            if (type=="PRIVATE") binding.ivClose.show()
+            if (type==ChannelType.PRIVATE) binding.ivClose.show()
 
              if (rating<0) binding.tvRating.text = "-"
              else binding.tvRating.text = rating.toString()

@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.emil.domain.model.ChannelType
 import com.emil.linksy.adapters.ChannelPostsAdapter
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.ErrorDialog
@@ -100,7 +101,7 @@ class ChannelPageActivity : AppCompatActivity() {
                     }
                 }}
 
-                if (pageData.type == "PRIVATE" && pageData.ownerId == userId) {
+                if (pageData.type == ChannelType.PRIVATE && pageData.ownerId == userId) {
                     binding.llRequest.show()
                     binding.tvRequests.text = pageData.requestsCount.toString()
                     binding.llRequest.setOnClickListener {
@@ -110,13 +111,13 @@ class ChannelPageActivity : AppCompatActivity() {
                     }
                 }
 
-                   if(pageData.type == "PUBLIC" && pageData.ownerId!=userId){
+                   if(pageData.type == ChannelType.PUBLIC && pageData.ownerId!=userId){
                        if (pageData.isSubscriber){
                            setUnSubscribeAction()
                        }else setSubscribeAction()
                    }
 
-                           if (pageData.type == "PRIVATE" && !pageData.isSubscriber  && pageData.ownerId!=userId&& !pageData.isSubmitted){
+                           if (pageData.type ==ChannelType.PRIVATE && !pageData.isSubscriber  && pageData.ownerId!=userId&& !pageData.isSubmitted){
                                binding.btSubmit.show()
                                binding.btSub.hide()
                                binding.tvPosts.hide()
@@ -125,7 +126,7 @@ class ChannelPageActivity : AppCompatActivity() {
                                 setSubmitAction()
                                    }
                                }
-            if (pageData.type == "PRIVATE" && pageData.isSubscriber && pageData.ownerId!=userId){
+            if (pageData.type == ChannelType.PRIVATE && pageData.isSubscriber && pageData.ownerId!=userId){
                 binding.btSubmit.hide()
                 binding.btSub.show()
                 binding.btSub.setOnClickListener {
@@ -133,7 +134,7 @@ class ChannelPageActivity : AppCompatActivity() {
                 }
             }
 
-                 if(pageData.type == "PRIVATE" && pageData.isSubmitted){
+                 if(pageData.type == ChannelType.PRIVATE && pageData.isSubmitted){
                      binding.btSubmit.show()
                      binding.btSub.hide()
                      binding.tvPosts.hide()
