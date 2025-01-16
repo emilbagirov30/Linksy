@@ -1,7 +1,6 @@
 package com.emil.linksy.di
 
 import com.emil.domain.usecase.RefreshTokenUseCase
-import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.linksy.app.service.TokenService
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
@@ -15,7 +14,7 @@ import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.presentation.viewmodel.RecoveryPasswordViewModel
 import com.emil.linksy.presentation.viewmodel.RegistrationViewModel
-import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
+import com.emil.linksy.presentation.viewmodel.UserViewModel
 import com.emil.linksy.util.TokenManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
@@ -37,8 +36,8 @@ val appModule = module {
     viewModel <RecoveryPasswordViewModel> {
        RecoveryPasswordViewModel(requestPasswordRecoveryUseCase = get(), confirmPasswordRecoveryUseCase = get ())
     }
-    viewModel <UserProfileDataViewModel> {
-      UserProfileDataViewModel(userProfileDataUseCase = get (), getEveryoneOffTheBlacklistUseCase = get())
+    viewModel <UserViewModel> {
+      UserViewModel(userProfileDataUseCase = get (), getEveryoneOffTheBlacklistUseCase = get(), getMessageModeUseCase = get(), setMessageModeUseCase = get())
     }
     viewModel <PasswordChangeViewModel> {
         PasswordChangeViewModel(changePasswordUseCase = get ())

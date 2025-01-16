@@ -54,7 +54,7 @@
     <string name="moments">Moments</string>
     <string name="profile_settings">Profile</string>
     <string name="app_settings">App</string>
-    <string name="сonfidentiality">Confidentiality</string>
+    <string name="confidentiality">Confidentiality</string>
     <string name="blacklist">Blacklist</string>
     <string name="save">Save</string>
     <string name="exit">Exit</string>
@@ -130,4 +130,11 @@
     <string name="add_to_blacklist">Add to blacklist</string>
     <string name="remove_blacklist">Remove from the blacklist</string>
     <string name="blackList_info">You have been added to the blacklist!</string>
+    <string name="who_can_text_me">Who can text me</string>
+    <string name="the_changes_have_been_applied">The changes have been applied</string>
+    <string-array name="message_mode" translatable="true">
+        <item>All</item>
+        <item>Subscriptions_only</item>
+        <item>Nobody</item>
+    </string-array>
 </resources>

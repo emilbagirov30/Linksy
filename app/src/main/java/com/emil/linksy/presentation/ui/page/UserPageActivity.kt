@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.emil.domain.model.MessageMode
 import com.emil.linksy.adapters.OutsiderProfilePagerAdapter
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.ErrorDialog
@@ -166,6 +167,13 @@ class UserPageActivity (): AppCompatActivity() {
                 avatarImageView.setOnClickListener { BigPictureDialog.newInstance(avatarUrl).show(supportFragmentManager,  "BigPictureDialog") }
 
             }
+
+            if (pageData.messageMode == MessageMode.NOBODY ||
+                (pageData.messageMode == MessageMode.SUBSCRIPTIONS_ONLY && !pageData.isSubscription )){
+                    messageButton.isEnabled = false
+                    messageButton.alpha = 0.5f;
+                }
+
             messageButton.setOnClickListener {
                 val startMessageActivity = Intent(this,MessageActivity::class.java)
                 startMessageActivity.putExtra("USER_ID",userId)

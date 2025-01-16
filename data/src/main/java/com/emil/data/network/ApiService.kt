@@ -21,6 +21,7 @@ import com.emil.data.model.UserProfileDataDto
 import com.emil.data.model.UserResponseDto
 import com.emil.domain.model.ChannelType
 import com.emil.domain.model.ChatResponse
+import com.emil.domain.model.MessageMode
 import com.emil.domain.model.MessageResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -251,4 +252,10 @@ interface ApiService {
 
     @GET("api/people/blacklist/all")
     suspend fun getBlackList(@Header("Authorization") token: String): Response<List<UserResponseDto>>
+
+    @GET("api/users/message_mode")
+    suspend fun getMessageMode(@Header("Authorization") token: String): Response<MessageMode>
+
+    @PUT("api/users/message_mode")
+    suspend fun setMessageMode(@Header("Authorization") token: String,@Body messageMode: MessageMode): Response<Unit>
 }

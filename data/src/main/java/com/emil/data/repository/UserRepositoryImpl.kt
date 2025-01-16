@@ -6,6 +6,7 @@ import com.emil.data.model.toDomainModelList
 import com.emil.data.network.RetrofitCloudInstance
 import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.AllUserData
+import com.emil.domain.model.MessageMode
 import com.emil.domain.model.PasswordChangeData
 import com.emil.domain.model.UserProfileData
 import com.emil.domain.model.UserResponse
@@ -63,5 +64,13 @@ class UserRepositoryImpl: UserRepository {
         } else {
             Response.error(response.code(), response.errorBody()!!)
         }
+    }
+
+    override suspend fun getMessageMode(token: String): Response<MessageMode> {
+        return RetrofitUserInstance.apiService.getMessageMode("Bearer $token")
+    }
+
+    override suspend fun setMessageMode(token: String, messageMode: MessageMode): Response<Unit> {
+        return  RetrofitUserInstance.apiService.setMessageMode("Bearer $token",messageMode)
     }
 }

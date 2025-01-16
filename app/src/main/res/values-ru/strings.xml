@@ -44,7 +44,7 @@
     <string name="posts">Посты</string>
     <string name="moments">Моменты</string>
     <string name="profile_settings">Профиль</string>
-    <string name="сonfidentiality">Конфиденциальность</string>
+    <string name="confidentiality">Конфиденциальность</string>
     <string name="blacklist">Черный список</string>
     <string name="app_settings">Приложение</string>
     <string name="save">Сохранить</string>
@@ -125,4 +125,11 @@
     <string name="add_to_blacklist">Добавить в чёрный список</string>
     <string name="remove_blacklist">Убрать из чёрного списка</string>
     <string name="blackList_info">Вы были добавлены в чёрный список!</string>
+    <string-array name="message_mode" translatable="true">
+        <item>Все</item>
+        <item>Только подписчики</item>
+        <item>Никто</item>
+    </string-array>
+    <string name="who_can_text_me">Кто может писать мне</string>
+    <string name="the_changes_have_been_applied">Изменения применены</string>
 </resources>

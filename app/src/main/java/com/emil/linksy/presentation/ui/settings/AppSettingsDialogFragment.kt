@@ -94,12 +94,7 @@ class AppSettingsDialogFragment (): DialogFragment() {
                     0 -> "en"
                     else -> "en"
                 }
-
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
+            }override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
         return view

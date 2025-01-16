@@ -34,6 +34,7 @@ import com.emil.domain.usecase.GetChatIdUseCase
 import com.emil.domain.usecase.GetCommentsUseCase
 import com.emil.domain.usecase.GetEveryoneOffTheBlacklistUseCase
 import com.emil.domain.usecase.GetGroupMembersUseCase
+import com.emil.domain.usecase.GetMessageModeUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
@@ -56,6 +57,7 @@ import com.emil.domain.usecase.RemoveFromBlackListUseCase
 import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
 import com.emil.domain.usecase.SendMessageUseCase
+import com.emil.domain.usecase.SetMessageModeUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
 import com.emil.domain.usecase.SubscribeUseCase
@@ -299,7 +301,13 @@ val domainModule = module {
     factory<GetEveryoneOffTheBlacklistUseCase>{
         GetEveryoneOffTheBlacklistUseCase(userRepository = get())
     }
+    factory<GetMessageModeUseCase>{
+        GetMessageModeUseCase(userRepository = get())
+    }
 
+    factory<SetMessageModeUseCase>{
+        SetMessageModeUseCase(userRepository = get())
+    }
 }
 
 

@@ -1,6 +1,9 @@
 package com.emil.domain.repository
 
+
+
 import com.emil.domain.model.AllUserData
+import com.emil.domain.model.MessageMode
 import com.emil.domain.model.PasswordChangeData
 import com.emil.domain.model.UserProfileData
 import com.emil.domain.model.UserResponse
@@ -17,5 +20,6 @@ interface UserRepository {
     suspend fun deleteAvatar(token:String):Response<Unit>
     suspend fun changePassword(token:String,passwordChangeData: PasswordChangeData):Response<Unit>
     suspend fun getEveryoneOffTheBlacklist (token:String):Response<List<UserResponse>>
-
+    suspend fun getMessageMode (token:String):Response<MessageMode>
+    suspend fun setMessageMode (token:String,messageMode:MessageMode):Response<Unit>
 }

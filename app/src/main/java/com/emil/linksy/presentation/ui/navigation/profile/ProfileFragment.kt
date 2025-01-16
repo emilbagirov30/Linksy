@@ -18,7 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.adapters.ProfilePagerAdapter
 import com.emil.linksy.presentation.ui.QrBottomSheet
 import com.emil.linksy.presentation.ui.settings.CommonSettingsDialogFragment
-import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
+import com.emil.linksy.presentation.viewmodel.UserViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -44,7 +44,7 @@ class ProfileFragment : Fragment() {
    private lateinit var shimmerUsername: ShimmerFrameLayout
    private lateinit var shimmerAvatar: ShimmerFrameLayout
     private lateinit var shimmerLink: ShimmerFrameLayout
-    private val userProfileDataViewModel: UserProfileDataViewModel by viewModel<UserProfileDataViewModel>()
+    private val userViewModel: UserViewModel by viewModel<UserViewModel>()
     private val tokenManager: TokenManager by inject()
     private var currentTabPosition: Int = 0
     private var id by Delegates.notNull<Long>()
@@ -82,7 +82,7 @@ class ProfileFragment : Fragment() {
             it.anim()
             CommonSettingsDialogFragment().show(parentFragmentManager, "CommonSettingsDialog")
         }
-        userProfileDataViewModel.userData.observe(requireActivity()){ data ->
+        userViewModel.userData.observe(requireActivity()){ data ->
             id = data.id
             editor.putLong("ID", id)
             editor.apply()
@@ -148,7 +148,7 @@ private fun stopShimmer(){
      fun fetchData() {
         startShimmer()
         val token = tokenManager.getAccessToken()
-        userProfileDataViewModel.getData(token,onIncorrect = { showToast(requireContext(),R.string.error_invalid_token) } , onError = {
+        userViewModel.getData(token,onIncorrect = { showToast(requireContext(),R.string.error_invalid_token) } , onError = {
             stopShimmer()
             if (isAdded && view != null) {
                 Snackbar.make(requireView(), getString(R.string.error_loading_data), Snackbar.LENGTH_INDEFINITE).apply {

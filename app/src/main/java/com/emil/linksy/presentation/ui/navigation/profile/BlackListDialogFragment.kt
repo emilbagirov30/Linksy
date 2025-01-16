@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.emil.linksy.adapters.UsersAdapter
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
-import com.emil.linksy.presentation.viewmodel.UserProfileDataViewModel
+import com.emil.linksy.presentation.viewmodel.UserViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.presentation.R
 import com.emil.presentation.databinding.BlacklistDialogBinding
@@ -18,7 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class BlackListDialogFragment:DialogFragment () {
 
 private lateinit var binding:BlacklistDialogBinding
-    private val userProfileDataViewModel: UserProfileDataViewModel by viewModel<UserProfileDataViewModel>()
+    private val userViewModel: UserViewModel by viewModel<UserViewModel>()
     private val peopleViewModel: PeopleViewModel by viewModel<PeopleViewModel>()
     private val tokenManager: TokenManager by inject()
     override fun onCreateView(
@@ -32,8 +32,8 @@ private lateinit var binding:BlacklistDialogBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userProfileDataViewModel.getBlackList(tokenManager.getAccessToken())
-        userProfileDataViewModel.blacklist.observe(requireActivity()){bl ->
+        userViewModel.getBlackList(tokenManager.getAccessToken())
+        userViewModel.blacklist.observe(requireActivity()){ bl ->
             binding.rvBlacklist.layoutManager = LinearLayoutManager(requireContext())
             binding.rvBlacklist.adapter = UsersAdapter(bl.toMutableList(),requireContext(), isBlackList = true,
                 peopleViewModel = peopleViewModel, tokenManager = tokenManager)
