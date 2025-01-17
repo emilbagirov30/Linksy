@@ -171,7 +171,7 @@ class UserPageActivity (): AppCompatActivity() {
             if (pageData.messageMode == MessageMode.NOBODY ||
                 (pageData.messageMode == MessageMode.SUBSCRIPTIONS_ONLY && !pageData.isSubscription )){
                     messageButton.isEnabled = false
-                    messageButton.alpha = 0.5f;
+                    messageButton.alpha = 0.5f
                 }
 
             messageButton.setOnClickListener {

@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="15dp"
     android:paddingBottom="5dp"
-    android:background="@color/post_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,6 +18,7 @@
     android:orientation="vertical"
     >
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +30,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:orientation="vertical">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_edited"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_horizontal"
+                    android:fontFamily="@font/klukva"
+                    android:layout_marginEnd="5dp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp"
+                    android:text="@string/edited" />
                 <ImageView
                     android:id="@+id/iv_author_avatar"
                     android:layout_width="50dp"
@@ -62,7 +75,8 @@
                 android:layout_weight="1"
             android:textColor="@color/gray"
                 android:textSize="10sp"
-            android:text="00.00.00  00:00" />
+            android:text="00.00  00:00" />
+
 
             <ImageButton
                 android:id="@+id/ib_edit_post"
@@ -211,6 +225,7 @@
         android:layout_gravity="end"
         android:background="@drawable/rounded_post_background"
         android:orientation="horizontal">
+
         <LinearLayout
             android:id="@+id/ll_comments"
             android:layout_width="wrap_content"

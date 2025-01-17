@@ -37,6 +37,7 @@ import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -46,7 +47,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
 
-class AddPostDialogFragment (private val postFragment: PostFragment): DialogFragment() {
+class AddPostDialogFragment: DialogFragment() {
 
     private lateinit var toolBar: MaterialToolbar
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
@@ -67,12 +68,12 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
     private lateinit var deleteVoice:ImageButton
     private lateinit var deleteAudio:ImageButton
     private lateinit var mediaLinearLayout: LinearLayout
-    private lateinit var  pictureFrameLayout: FrameLayout
+    private lateinit var pictureFrameLayout: FrameLayout
     private lateinit var videoFrameLayout: FrameLayout
     private lateinit var audioLinearLayout: LinearLayout
     private lateinit var voiceLinearLayout: LinearLayout
-    private lateinit var mediaPlayerAudio: MediaPlayer
-    private lateinit var mediaPlayerVoice: MediaPlayer
+    private var mediaPlayerAudio: MediaPlayer? = null
+    private var mediaPlayerVoice: MediaPlayer? = null
     private var isPlayingAudio = false
     private var isPlayingVoice = false
     private var imageUri:Uri? = null
@@ -80,13 +81,73 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
     private var audioUri:Uri? = null
     private var voiceUri:Uri? = null
     private val tokenManager: TokenManager by inject()
+    private var text:String? = null
+    private var imageUrl:String? = null
+    private var videoUrl:String? = null
+    private var audioUrl:String? = null
+    private var voiceUrl:String? = null
+    private var isEdit:Boolean? = null
+    private var postId:Long? = null
+    companion object {
+        private const val POST_ID = "POST_ID"
+        private const val EDIT = "EDIT"
+        private const val TEXT = "TEXT"
+        private const val URL_IMAGE = "IMAGE"
+        private const val URL_VIDEO = "VIDEO"
+        private const val URL_AUDIO = "AUDIO"
+        private const val URL_VOICE = "VOICE"
+        fun newInstance(postId:Long,isEdit:Boolean,text:String?,imageUrl:String?,videoUrl:String?,audioUrl:String?,voiceUrl:String?):  AddPostDialogFragment {
+            val fragment =  AddPostDialogFragment()
+            val args = Bundle()
+            args.putLong(POST_ID, postId)
+            args.putBoolean(EDIT, isEdit)
+            args.putString(TEXT,text)
+            args.putString(URL_IMAGE,imageUrl)
+            args.putString(URL_VIDEO,videoUrl)
+            args.putString(URL_AUDIO,audioUrl)
+            args.putString(URL_VOICE,voiceUrl)
+            fragment.arguments = args
+            return fragment
+        }
+
+    }
+
+
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setCancelable(false)
+        postId = arguments?.getLong(POST_ID)
+        isEdit = arguments?.getBoolean(EDIT)
+        text = arguments?.getString(TEXT)
+        imageUrl = arguments?.getString(URL_IMAGE)
+        videoUrl = arguments?.getString(URL_VIDEO)
+        audioUrl = arguments?.getString(URL_AUDIO)
+        voiceUrl = arguments?.getString(URL_VOICE)
+
+    }
+
+
+
+
+
+
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.add_post_dialog, container, false)
+        return inflater.inflate(R.layout.add_post_dialog, container, false)
+
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val titleTextView = view.findViewById<MaterialTextView>(R.id.tv_title)
         postEditText = view.findViewById(R.id.et_post)
         publishButton = view.findViewById(R.id.bt_publish)
         addPictureButton = view.findViewById(R.id.bt_add_picture)
@@ -110,6 +171,34 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
         pictureFrameLayout =  view.findViewById(R.id.fl_picture)
         videoFrameLayout =  view.findViewById(R.id.fl_video)
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
+
+
+
+       isEdit?.let {
+           titleTextView.text = getString(R.string.edit)
+
+           text?.let {   postEditText.setText(text)}
+
+           imageUrl?.let {
+              handleSelectedImage(Uri.parse(imageUrl))
+           }
+
+           videoUrl?.let {
+               handleSelectedVideo(Uri.parse(videoUrl))
+           }
+
+           audioUrl?.let {
+               handleSelectedAudio(Uri.parse(audioUrl))
+           }
+
+           voiceUrl?.let {
+               setupVoicePlayback(voice = Uri.parse(voiceUrl))
+           }
+
+
+       }
+
+
 
         addVoiceButton.setOnClickListener {
             it.anim()
@@ -137,20 +226,20 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
 
         addVideoButton.setOnClickListener {
             it.anim()
-        pickVideoLauncher.launch(ContentType.VIDEO.mimeType)
+            pickVideoLauncher.launch(ContentType.VIDEO.mimeType)
         }
 
         addAudioButton.setOnClickListener {
             it.anim()
-         pickAudioLauncher.launch(ContentType.AUDIO.mimeType)
-}
+            pickAudioLauncher.launch(ContentType.AUDIO.mimeType)
+        }
 
         postEditText.addTextChangedListener { updatePublishButtonState() }
 
 
         publishButton.setOnClickListener {
             it.anim()
-           val loading = LoadingDialog(requireContext())
+            val loading = LoadingDialog(requireContext())
             loading.show()
             val text = postEditText.string()
             val token = tokenManager.getAccessToken()
@@ -159,19 +248,20 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
             val audioPart = audioUri?.let { createAudioFilePart(requireContext(), it) }
             val voicePart = voiceUri?.let { createVoiceFilePart(requireContext(), it) }
 
-            postViewModel.publishPost(token,text,
+            postViewModel.publishPost(token,postId,text,
+                oldImageUrl = imageUrl, oldVideoUrl = videoUrl,
+                oldAudioUrl = audioUrl, oldVoiceIrl = voiceUrl,
                 image = imagePart, video = videoPart,
                 audio = audioPart,voice = voicePart,
                 onSuccess = {
-                    postFragment.updatePosts()
                     dialog?.dismiss()
                     loading.dismiss()
                 })
         }
 
-
-        return  view
     }
+
+
     private fun handleSelectedImage(uri: Uri) {
         mediaLinearLayout.show()
         pictureFrameLayout.show()
@@ -181,8 +271,10 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
 
         deletePictureButton.setOnClickListener {
             it.anim()
+
            pictureFrameLayout.hide()
             if (!videoFrameLayout.isVisible) mediaLinearLayout.hide()
+            imageUrl=null
             imageUri = null
             updatePublishButtonState()
         }
@@ -204,6 +296,7 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
             pickedVideoVideoView.stopPlayback()
             videoFrameLayout.hide()
             if (!pictureFrameLayout.isVisible) mediaLinearLayout.hide()
+            videoUrl=null
             videoUri = null
             updatePublishButtonState()
         }
@@ -231,11 +324,11 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
 
         playAudio.setOnClickListener {
             if (isPlayingAudio) {
-                mediaPlayerAudio.pause()
+                mediaPlayerAudio?.pause()
                 playAudio.setImageResource(R.drawable.ic_play)
                 isPlayingAudio = false
             } else {
-                mediaPlayerAudio.start()
+                mediaPlayerAudio?.start()
                 playAudio.setImageResource(R.drawable.ic_pause)
                 isPlayingAudio = true
                 startProgressAudioUpdate()
@@ -245,11 +338,12 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
 
         deleteAudio.setOnClickListener {
             it.anim()
-            mediaPlayerAudio.stop()
-            mediaPlayerAudio.reset()
+            mediaPlayerAudio?.stop()
+            mediaPlayerAudio?.reset()
             isPlayingAudio = false
             audioProgressBar.progress = 0
             audioLinearLayout.hide()
+            audioUrl =null
             audioUri = null
             updatePublishButtonState()
         }
@@ -260,11 +354,11 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
     private fun startProgressAudioUpdate() {
 
         CoroutineScope(Dispatchers.Main).launch {
-            while (mediaPlayerAudio.isPlaying) {
-                val currentPosition = mediaPlayerAudio.currentPosition
-                val totalDuration = mediaPlayerAudio.duration
-                audioProgressBar.max = totalDuration
-                audioProgressBar.progress = currentPosition
+            while (mediaPlayerAudio?.isPlaying!!) {
+                val currentPosition = mediaPlayerAudio?.currentPosition
+                val totalDuration = mediaPlayerAudio?.duration
+                audioProgressBar.max = totalDuration!!
+                audioProgressBar.progress = currentPosition!!
                 delay(5)
             }
         }
@@ -272,22 +366,18 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
 
     private fun startProgressVoiceUpdate() {
         CoroutineScope(Dispatchers.Main).launch {
-            while (mediaPlayerVoice.isPlaying) {
-                val currentPosition = mediaPlayerVoice.currentPosition
-                val totalDuration = mediaPlayerVoice.duration
-                voiceProgressBar.max = totalDuration
-                voiceProgressBar.progress = currentPosition
+            while (mediaPlayerVoice?.isPlaying!!) {
+                val currentPosition = mediaPlayerVoice?.currentPosition
+                val totalDuration = mediaPlayerVoice?.duration
+                voiceProgressBar.max = totalDuration!!
+                voiceProgressBar.progress = currentPosition!!
                 delay(5)
             }
         }
     }
     override fun getTheme() = R.style.FullScreenDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(false)
 
-    }
 
     override fun onStart() {
         super.onStart()
@@ -299,13 +389,13 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
 
     fun handleVoiceRecordingSaved(recordedFile: File?) {
         if (recordedFile != null) {
-            voiceLinearLayout.show()
-            setupVoicePlayback(recordedFile)
+            setupVoicePlayback(file = recordedFile)
             updatePublishButtonState()
         }
     }
-    private fun setupVoicePlayback(file: File) {
-        val uri = Uri.fromFile(file)
+    private fun setupVoicePlayback(file: File? = null, voice:Uri?=null) {
+        val uri = voice ?: Uri.fromFile(file)
+        voiceLinearLayout.show()
         voiceUri = uri
         mediaPlayerVoice = MediaPlayer().apply {
             setDataSource(requireContext(), uri)
@@ -320,10 +410,11 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
             }
             deleteVoice.setOnClickListener {
                 it.anim()
-                mediaPlayerVoice.stop()
-                mediaPlayerVoice.reset()
+                mediaPlayerVoice?.stop()
+                mediaPlayerVoice?.reset()
                 isPlayingVoice = false
                 voiceLinearLayout.hide()
+                voiceUrl = null
                 voiceUri = null
                 updatePublishButtonState()
             }
@@ -331,11 +422,11 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
 
         playVoice.setOnClickListener {
             if (isPlayingVoice) {
-                mediaPlayerVoice.pause()
+                mediaPlayerVoice?.pause()
                 playVoice.setImageResource(R.drawable.ic_play)
                 isPlayingVoice = false
             } else {
-                mediaPlayerVoice.start()
+                mediaPlayerVoice?.start()
                 playVoice.setImageResource(R.drawable.ic_pause)
                 isPlayingVoice = true
 
@@ -348,5 +439,12 @@ class AddPostDialogFragment (private val postFragment: PostFragment): DialogFrag
         val isMediaSelected = imageUri != null || videoUri != null || audioUri != null || voiceUri != null
         val isTextNotEmpty = postEditText.string().isNotEmpty()
         publishButton.isEnabled = isMediaSelected || isTextNotEmpty
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mediaPlayerAudio?.release()
+        mediaPlayerVoice?.release()
     }
 }

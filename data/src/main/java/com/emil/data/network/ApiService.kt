@@ -74,10 +74,15 @@ interface ApiService {
     @PATCH("api/users/change_password")
     suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeBody):Response<Unit>
 
-    @POST("api/posts/create")
+    @POST("api/posts/cu")
     @Multipart
-    suspend fun createPost (@Header("Authorization") token:String,
+    suspend fun createOrUpdatePost (@Header("Authorization") token:String,
+                            @Part("id") postId: Long?,
                             @Part("text") text: String?,
+                                    @Part("imageUrl") imageUrl: String?,
+                                    @Part("videoUrl") videoUrl: String?,
+                                    @Part("audioUrl") audioUrl: String?,
+                                    @Part("voiceUrl") voiceUrl: String?,
                             @Part image: MultipartBody.Part?,
                             @Part video: MultipartBody.Part?,
                             @Part audio: MultipartBody.Part?,

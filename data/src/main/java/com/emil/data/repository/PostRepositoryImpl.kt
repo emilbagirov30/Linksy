@@ -17,8 +17,13 @@ class PostRepositoryImpl:PostRepository {
     private val postBody = PostBody ()
     private val commentBody = CommentBody ()
     override suspend fun createPost(token: String, post: PostData):Response<Unit> {
-        return RetrofitCloudInstance.apiService.createPost("Bearer $token",
+        return RetrofitCloudInstance.apiService.createOrUpdatePost("Bearer $token",
+            postBody.toDomainModel(post).postId,
             postBody.toDomainModel(post).text,
+            postBody.toDomainModel(post).oldImageUrl,
+            postBody.toDomainModel(post).oldVideoUrl,
+            postBody.toDomainModel(post).oldAudioUrl,
+            postBody.toDomainModel(post).oldVoiceIrl,
             postBody.toDomainModel(post).image,
             postBody.toDomainModel(post).video,
             postBody.toDomainModel(post).audio,

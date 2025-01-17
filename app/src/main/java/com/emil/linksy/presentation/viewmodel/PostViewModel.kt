@@ -39,13 +39,18 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
     private val _commentList = MutableLiveData<List<CommentResponse>> ()
     val commentList: LiveData<List<CommentResponse>> = _commentList
 
-    fun publishPost (token:String, postText:String, image: MultipartBody.Part?,
+    fun publishPost (token:String, postId: Long?,postText:String,
+                     oldImageUrl:String?,
+                     oldVideoUrl:String?,
+                     oldAudioUrl:String?,
+                     oldVoiceIrl:String?,
+                     image: MultipartBody.Part?,
                      video: MultipartBody.Part?,
                      audio: MultipartBody.Part?,
                      voice: MultipartBody.Part?,onSuccess: ()->Unit ){
         viewModelScope.launch {
             try{
-               val response =publishPostUseCase.execute(token, PostData(postText,image, video, audio, voice))
+               val response =publishPostUseCase.execute(token, PostData(postId,postText,oldImageUrl, oldVideoUrl, oldAudioUrl, oldVoiceIrl, image, video, audio, voice))
                 if(response.isSuccessful){
                     onSuccess ()
                 }

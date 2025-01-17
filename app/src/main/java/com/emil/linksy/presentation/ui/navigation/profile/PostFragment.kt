@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.PostsAdapter
+import com.emil.linksy.presentation.ui.page.OutsiderMomentFragment
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
@@ -31,6 +32,7 @@ class PostFragment : Fragment() {
     private  lateinit var shimmerPosts:ShimmerFrameLayout
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     private val tokenManager: TokenManager by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,7 +43,13 @@ class PostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       val view = inflater.inflate(R.layout.fragment_post, container, false)
+      return inflater.inflate(R.layout.fragment_post, container, false)
+    }
+
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         newPostEditText = view.findViewById(R.id.et_new_post)
         postsRecyclerView = view.findViewById(R.id.rv_posts)
         emptyMessage = view.findViewById(R.id.ll_empty_message)
@@ -52,13 +60,12 @@ class PostFragment : Fragment() {
         updatePosts()
         newPostEditText.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                AddPostDialogFragment(this).show(parentFragmentManager, "AddPostDialogFragment")
+                AddPostDialogFragment().show(parentFragmentManager, "AddPostDialogFragment")
                 true
             } else {
                 false
             }
         }
-        return view
     }
 
     private fun showContent (){

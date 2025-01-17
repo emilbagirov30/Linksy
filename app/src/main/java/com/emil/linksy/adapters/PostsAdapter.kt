@@ -29,6 +29,7 @@ import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.auth.ConfirmCodeBottomSheet
+import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
@@ -69,6 +70,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val playVoiceButton = itemView.findViewById<ImageView>(R.id.iv_play_voice)
         private val audioProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_audio)
         private val voiceProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_voice)
+        private val editedTextView = itemView.findViewById<MaterialTextView>(R.id.tv_edited)
         val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
         @SuppressLint("SetTextI18n", "SuspiciousIndentation")
@@ -242,7 +244,19 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             commentCount.text = post.commentsCount.toString()
             editPostButton.setOnClickListener {
                 if (!isOutsider) {
-                    it.showMenu(context, editAction = {}, deleteAction = {
+                    it.showMenu(context, editAction = {
+
+                           AddPostDialogFragment
+                               .newInstance(postId = post.postId, isEdit = true,text = post.text,post.imageUrl,post.videoUrl,post.audioUrl,post.voiceUrl)
+                               .show ((context as FragmentActivity).supportFragmentManager,"AddPostDialogFragment")
+
+
+
+
+
+
+
+                    }, deleteAction = {
                         val dialog = ActionDialog(context)
                         dialog.setTitle(context.getString(R.string.delete_post_title))
                         dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
@@ -254,6 +268,8 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     })
                 }
             }
+
+            if (post.edited) editedTextView.show()
         }
     }
 
