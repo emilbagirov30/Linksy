@@ -29,4 +29,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center">
     </ProgressBar>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_empty_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_content"
+        android:fontFamily="@font/klukva"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:textColor="@color/gray"
+        android:layout_gravity="center"
+        android:textSize="20sp">
+
+    </com.google.android.material.textview.MaterialTextView>
 </FrameLayout>

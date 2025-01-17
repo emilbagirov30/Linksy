@@ -133,4 +133,5 @@
     <string name="who_can_text_me">Кто может писать мне</string>
     <string name="the_changes_have_been_applied">Изменения применены</string>
     <string name="edited">ред.</string>
+    <string name="empty_content">У пользователя пока нет публикаций</string>
 </resources>

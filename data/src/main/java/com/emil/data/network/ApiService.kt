@@ -142,9 +142,12 @@ interface ApiService {
     suspend fun getOutsiderUserSubscribers(@Path("id") id:Long): Response<List<UserResponseDto>>
     @GET("api/people/outsider/user_subscriptions/{id}")
     suspend fun getOutsiderUserSubscriptions(@Path("id") id:Long): Response<List<UserResponseDto>>
-    @POST("api/message/send/{id}")
+
+    @POST("api/message/send")
     @Multipart
-    suspend fun sendMessage (@Header("Authorization") token:String, @Path("id") id:Long,
+    suspend fun sendMessage (@Header("Authorization") token:String,
+                             @Part("recipientId") recipientId:Long?,
+                             @Part("chatId") chatId:Long?,
                             @Part("text") text: String?,
                             @Part image: MultipartBody.Part?,
                             @Part video: MultipartBody.Part?,

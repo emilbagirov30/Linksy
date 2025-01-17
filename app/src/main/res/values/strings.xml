@@ -138,4 +138,5 @@
         <item>Nobody</item>
     </string-array>
     <string name="edited">edited</string>
+    <string name="empty_content">The user has no publications yet</string>
 </resources>

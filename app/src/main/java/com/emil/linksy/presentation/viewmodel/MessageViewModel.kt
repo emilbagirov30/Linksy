@@ -26,14 +26,14 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
     private val _messageList = MutableLiveData<List<MessageResponse>> ()
     val messageList: LiveData<List<MessageResponse>> = _messageList
 
-    fun sendMessage (token:String, recipientId:Long,text:String, image: MultipartBody.Part?,
+    fun sendMessage (token:String, recipientId:Long?,chatId: Long?,text:String, image: MultipartBody.Part?,
                      video: MultipartBody.Part?,
                      audio: MultipartBody.Part?,
                      voice: MultipartBody.Part?, onSuccess: ()->Unit){
         viewModelScope.launch {
             try{
                 val response =sendMessageUseCase.execute(token,
-                    MessageData(recipientId,text,image, video, audio, voice)
+                    MessageData(recipientId,chatId,text,image, video, audio, voice)
                 )
                 if(response.isSuccessful){
                     onSuccess ()

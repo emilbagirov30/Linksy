@@ -11,14 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.UsersAdapter
 import com.emil.linksy.presentation.ui.CameraXActivity
-import com.emil.linksy.presentation.ui.auth.LanguageSelectionActivity
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
+import com.emil.linksy.util.hide
+import com.emil.linksy.util.show
 import com.emil.linksy.util.showHint
 import com.emil.presentation.R
 import org.koin.android.ext.android.inject
@@ -47,7 +49,7 @@ class SearchPeopleFragment : Fragment() {
         searchEditText = view.findViewById(R.id.et_search)
         userRecyclerView = view.findViewById(R.id.rv_users)
         userRecyclerView.layoutManager = LinearLayoutManager(context)
-
+        val loading = view.findViewById<ProgressBar>(R.id.pb_loading)
         peopleViewModel.userList.observe(requireActivity()){ userlist ->
             userRecyclerView.adapter =
                 UsersAdapter(userList = userlist.toMutableList(),context = requireContext())
@@ -56,10 +58,16 @@ class SearchPeopleFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 s?.let {
                     val currentText = it.toString()
+                    loading.show()
+                    userRecyclerView.hide()
                     if (currentText.startsWith("@")) {
-                       peopleViewModel.findByLink(tokenManager.getAccessToken(),currentText)
+                       peopleViewModel.findByLink(tokenManager.getAccessToken(),currentText, onSuccess = {
+                           userRecyclerView.show()
+                           loading.hide()})
                     }else{
-                        peopleViewModel.findByUsername(tokenManager.getAccessToken(),currentText)
+                        peopleViewModel.findByUsername(tokenManager.getAccessToken(),currentText, onSuccess = {
+                            userRecyclerView.show()
+                            loading.hide()})
                     }
                 }
             }

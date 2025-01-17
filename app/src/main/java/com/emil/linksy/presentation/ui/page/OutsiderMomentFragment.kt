@@ -15,6 +15,7 @@ import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.textview.MaterialTextView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -38,6 +39,7 @@ class OutsiderMomentFragment() : Fragment() {
     private  lateinit var contentFlexboxLayout: FlexboxLayout
     private lateinit var loading: ProgressBar
     private lateinit var momentsRecyclerView: RecyclerView
+    private lateinit var emptyTextView: MaterialTextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -55,6 +57,7 @@ class OutsiderMomentFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loading = view.findViewById(R.id.pb_loading)
+        emptyTextView = view.findViewById(R.id.tv_empty_content)
         momentsRecyclerView = view.findViewById(R.id.rv_moments)
         val layoutManager = GridLayoutManager(context, 4)
         momentsRecyclerView.layoutManager = layoutManager
@@ -65,12 +68,15 @@ class OutsiderMomentFragment() : Fragment() {
 
     private fun updateMoments (){
         momentViewModel.getOutsiderUserMoments(userId, onSuccess = {loading.hide()
-        contentFlexboxLayout.show()
+
         })
         momentViewModel.momentList.observe(requireActivity()){ momentlist ->
-            momentsRecyclerView.adapter =
-                MomentsAdapter(momentlist,momentViewModel, context = requireContext())
-
+            if (momentlist.isEmpty()) emptyTextView.show()
+            else {
+                contentFlexboxLayout.show()
+                momentsRecyclerView.adapter =
+                    MomentsAdapter(momentlist, momentViewModel, context = requireContext())
+            }
         }
     }
 }

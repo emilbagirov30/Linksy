@@ -137,18 +137,26 @@ class MessageActivity : AppCompatActivity() {
         toolBar.setNavigationOnClickListener {
             finish()
         }
-        val recipientId = intent.getLongExtra("USER_ID", -1)
+        val recipientId: Long? = if (intent.hasExtra("USER_ID")) {
+            intent.getLongExtra("USER_ID", -1L)
+        } else {
+            null
+        }
         val avatarUrl = intent.getStringExtra("AVATAR_URL")
         val title = intent.getStringExtra("NAME")
-        val chatId = intent.getLongExtra("CHAT_ID", -1)
+        val chatId: Long? = if (intent.hasExtra("CHAT_ID")) {
+            intent.getLongExtra("CHAT_ID", -1L)
+        } else {
+            null
+        }
         val isGroup = intent.getBooleanExtra("ISGROUP",false)
 
         if(isGroup) {
+            if (avatarUrl == "null" && isGroup) avatarImageView.setImageResource(R.drawable.default_group_avatar)
             memberCountTextView.show()
-            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId)
+            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId!!)
             chatViewModel.memberList.observe(this) { ml ->
-                memberCountTextView.text = "${ml.size.toString()} ${getString(R.string.members)}"
-
+                memberCountTextView.text = "${ml.size} ${getString(R.string.members)}"
                 messageViewModel.getUserMessagesByChat(chatId)
                 messageViewModel.messageList.observe(this) { messageList ->
                     messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId,ml)
@@ -157,7 +165,7 @@ class MessageActivity : AppCompatActivity() {
             }
         }else{
 
-            if(chatId == -1L) chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId)
+            if(chatId == null) chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId!!)
             else messageViewModel.getUserMessagesByChat(chatId)
 
             chatViewModel.chatId.observe(this){id ->
@@ -224,7 +232,7 @@ avatarImageView.setOnClickListener {
                 val videoPart = videoUri?.let { createVideoFilePart(this, it) }
                 val audioPart = audioUri?.let { createAudioFilePart(this, it) }
                 val voicePart = voiceUri?.let { createVoiceFilePart(this, it) }
-                messageViewModel.sendMessage(tokenManager.getAccessToken(),recipientId,text,imagePart,videoPart,audioPart,voicePart,
+                messageViewModel.sendMessage(tokenManager.getAccessToken(),recipientId,chatId,text,imagePart,videoPart,audioPart,voicePart,
                     onSuccess = {clear()})
 
             }

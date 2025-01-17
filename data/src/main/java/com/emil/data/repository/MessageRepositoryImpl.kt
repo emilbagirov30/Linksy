@@ -19,6 +19,7 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
     override suspend fun sendMessage(token: String, message: MessageData): Response<Unit> {
         return RetrofitCloudInstance.apiService.sendMessage("Bearer $token",
             messageBody.toDomainModel(message).recipientId,
+            messageBody.toDomainModel(message).chatId,
             messageBody.toDomainModel(message).text,
             messageBody.toDomainModel(message).image,
             messageBody.toDomainModel(message).video,

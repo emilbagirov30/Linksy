@@ -2,7 +2,8 @@ package com.emil.domain.model
 
 import okhttp3.MultipartBody
 
-data class MessageData (val recipientId:Long,
+data class MessageData (val recipientId:Long?,
+                        val chatId:Long?,
                         val text:String?,
                         val image: MultipartBody.Part?,
                         val video: MultipartBody.Part?,

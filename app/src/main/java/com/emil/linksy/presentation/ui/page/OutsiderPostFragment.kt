@@ -1,5 +1,6 @@
 package com.emil.linksy.presentation.ui.page
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,12 +10,12 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.PostsAdapter
-import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,6 +42,7 @@ class OutsiderPostFragment: Fragment() {
     private lateinit var postsRecyclerView:RecyclerView
     private lateinit var loading:ProgressBar
     private val tokenManager:TokenManager by inject<TokenManager>()
+    private lateinit var emptyTextView: MaterialTextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -48,6 +50,7 @@ class OutsiderPostFragment: Fragment() {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +58,7 @@ class OutsiderPostFragment: Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_outsider_post, container, false)
         postsRecyclerView = view.findViewById(R.id.rv_posts)
+        emptyTextView = view.findViewById(R.id.tv_empty_content)
         loading = view.findViewById(R.id.pb_loading)
         postsRecyclerView.layoutManager = LinearLayoutManager(context)
         updatePosts()
@@ -66,10 +70,15 @@ class OutsiderPostFragment: Fragment() {
     private fun updatePosts (){
         postViewModel.getOutsiderUserPosts(tokenManager.getAccessToken(),userId, onSuccess = {
             loading.hide()
-            postsRecyclerView.show()
+
         })
         postViewModel.postList.observe(requireActivity()){ postlist ->
-            postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel, context = requireContext(),tokenManager,isOutsider = true)
+            if (postlist.isEmpty()) emptyTextView.show()
+            else{
+                postsRecyclerView.show()
+                postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel, context = requireContext(),tokenManager,isOutsider = true)
+            }
+
 
         }
     }
