@@ -50,7 +50,7 @@ class MomentsAdapter(private val momentsList: List<MomentResponse>, private val 
             }
             momentImageView.setOnLongClickListener {
                 if(tokenManager!=null) {
-                    it.showMenu(context, editAction = {},
+                    it.showMenu(context,
                         deleteAction = {
                             val dialog = ActionDialog(context)
                             dialog.setTitle(context.getString(R.string.delete_moment_title))

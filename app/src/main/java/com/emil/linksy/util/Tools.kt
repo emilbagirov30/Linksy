@@ -263,30 +263,35 @@ fun View.showHint (context: Context, text:Int){
 
 
 
-fun View.showMenu(context: Context,editAction:()->Unit,deleteAction:()->Unit){
+fun View.showMenu(context: Context, editAction: (() -> Unit)? = null, deleteAction: (() -> Unit)? = null) {
     val popupMenu = PopupMenu(context, this)
     val menu = popupMenu.menu
-    menu.add(0, 1, 0, context.getString(R.string.edit))
-    menu.add(0, 2, 1, context.getString(R.string.delete))
-    val menuItem = menu.findItem(2)
-    val spannableTitle = SpannableString(menuItem.title)
-    spannableTitle.setSpan(
-        ForegroundColorSpan(Color.RED),
-        0,
-        spannableTitle.length,
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-    )
-    menuItem.title = spannableTitle
+
+    if (editAction != null) {
+        menu.add(0, 1, 0, context.getString(R.string.edit))
+    }
+
+    if (deleteAction != null) {
+        val deleteMenuItem = menu.add(0, 2, 1, context.getString(R.string.delete))
+        val spannableTitle = SpannableString(deleteMenuItem.title)
+        spannableTitle.setSpan(
+            ForegroundColorSpan(Color.RED),
+            0,
+            spannableTitle.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        deleteMenuItem.title = spannableTitle
+    }
 
     popupMenu.setOnMenuItemClickListener { menuItem ->
         when (menuItem.itemId) {
             1 -> {
-                   editAction()
+                editAction?.invoke()
                 true
             }
 
             2 -> {
-                deleteAction()
+                deleteAction?.invoke()
                 true
             }
 
@@ -294,7 +299,6 @@ fun View.showMenu(context: Context,editAction:()->Unit,deleteAction:()->Unit){
         }
     }
     popupMenu.show()
-
 }
 
 fun generateQRCode(data: String, imageView: ImageView) {
