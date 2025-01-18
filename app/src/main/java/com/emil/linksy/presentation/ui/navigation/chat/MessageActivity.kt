@@ -34,6 +34,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.linksy.adapters.MessagesAdapter
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
+import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
@@ -48,6 +49,7 @@ import com.emil.linksy.util.createVideoFilePart
 import com.emil.linksy.util.createVoiceFilePart
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showToast
 import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
@@ -102,7 +104,9 @@ class MessageActivity : AppCompatActivity() {
     private val messageViewModel: MessageViewModel by viewModel<MessageViewModel>()
     private val chatViewModel:ChatViewModel by viewModel<ChatViewModel>()
     private val tokenManager: TokenManager by inject()
-    @SuppressLint("MissingInflatedId", "SuspiciousIndentation", "SetTextI18n")
+    @SuppressLint("MissingInflatedId", "SuspiciousIndentation", "SetTextI18n",
+        "NotifyDataSetChanged"
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
@@ -154,31 +158,46 @@ class MessageActivity : AppCompatActivity() {
         if(isGroup) {
             if (avatarUrl == "null" && isGroup) avatarImageView.setImageResource(R.drawable.default_group_avatar)
             memberCountTextView.show()
-            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId!!)
+            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId!!, onError = {
+                showToast(this,R.string.error_loading_data)
+            })
             chatViewModel.memberList.observe(this) { ml ->
                 memberCountTextView.text = "${ml.size} ${getString(R.string.members)}"
-                messageViewModel.getUserMessagesByChat(chatId)
+                messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {
+                    messageViewModel.subscribeToUser(tokenManager.getAccessToken(),chatId)}, onError = {
+                    messageViewModel.getUserMessagesByChatFromLocalDb(chatId)
+                    showToast(this,R.string.loaded_from_cache)
+                })
                 messageViewModel.messageList.observe(this) { messageList ->
                     messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId,ml)
+                    messageRecyclerView.scrollToPosition(messageList.size - 1)
                 }
 
             }
         }else{
 
             if(chatId == null) chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId!!)
-            else messageViewModel.getUserMessagesByChat(chatId)
-
+            else {
+                messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {messageViewModel.subscribeToUser(tokenManager.getAccessToken(),chatId)}, onError = {
+                    messageViewModel.getUserMessagesByChatFromLocalDb(chatId)
+                    showToast(this,R.string.loaded_from_cache)
+                })
+            }
             chatViewModel.chatId.observe(this){id ->
                 if(id!=-100L){
-                    messageViewModel.getUserMessagesByChat(id)
+                    messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),id, onSuccess = {messageViewModel.subscribeToUser(tokenManager.getAccessToken(),id)}, onError = {
+                        messageViewModel.getUserMessagesByChatFromLocalDb(id)
+                        showToast(this,R.string.loaded_from_cache)
+                    })
                 }
             }
-
-            messageViewModel.messageList.observe(this){messageList ->
+                messageViewModel.messageList.observe(this){messageList ->
                 messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId)
+                    messageRecyclerView.scrollToPosition(messageList.size - 1)
             }
 
         }
+
 
         if (avatarUrl!="null"){
             Glide.with(this)
@@ -187,7 +206,7 @@ class MessageActivity : AppCompatActivity() {
                 .into(avatarImageView)
         }
         titleTextView.text = title
-avatarImageView.setOnClickListener {
+        avatarImageView.setOnClickListener {
     if(!isGroup) {
         val switchingToUserPageActivity =
             Intent(this, UserPageActivity()::class.java)
@@ -200,9 +219,6 @@ avatarImageView.setOnClickListener {
         startActivity(switchingToGroupMemberActivity)
     }
 }
-
-
-
 
 
         val textWatcher = object : TextWatcher {
@@ -289,7 +305,6 @@ avatarImageView.setOnClickListener {
             imageUri = null
         }
     }
-
 
     private fun handleSelectedVideo(uri: Uri) {
         mediaLinearLayout.show()
@@ -430,7 +445,6 @@ avatarImageView.setOnClickListener {
         }
     }
 
-
     private fun checkAudioPermission(): Boolean {
         val readPermission = ContextCompat.checkSelfPermission(this,
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -495,6 +509,15 @@ avatarImageView.setOnClickListener {
         videoUri = null
         audioUri = null
         voiceUri = null
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //mediaPlayerAudio.stop()
+       // mediaPlayerAudio.reset()
+      messageViewModel.disconnectFromWebSocket()
+
     }
 
 }

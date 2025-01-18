@@ -61,9 +61,20 @@ val appModule = module {
             getOutsiderUserSubscribersUseCase = get(), getOutsiderUserSubscriptionsUseCase = get(), addToBlackListUseCase = get(), removeFromBlackListUseCase = get())
     }
 
-    viewModel <MessageViewModel> {
-       MessageViewModel(sendMessageUseCase = get(), getUserMessagesUseCase = get(), insertMessageInLocalDbUseCase = get(), getUserMessagesFromLocalDb = get())
-    }
+
+       viewModel<MessageViewModel> {
+           MessageViewModel(
+               sendMessageUseCase = get(),
+               getUserMessagesUseCase = get(),
+               insertMessageInLocalDbUseCase = get(),
+               getUserMessagesByChatFromLocalDb = get(),
+               connectToWebSocketUseCase = get(),
+               subscribeToUserMessagesUseCase = get(),
+               disconnectFromWebSocketUseCase = get (),
+               getUserMessagesByChat = get()
+           )
+       }
+
     viewModel <ChatViewModel> {
       ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get())
     }

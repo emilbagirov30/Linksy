@@ -9,7 +9,7 @@ import com.emil.data.model.ChatLocalDb
 @Dao
 interface ChatDao {
     @Query("SELECT * FROM chats")
-    suspend fun getAllChats(): List<ChatLocalDb>
+    suspend fun getAllChats(): MutableList<ChatLocalDb>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChat(chat: ChatLocalDb)

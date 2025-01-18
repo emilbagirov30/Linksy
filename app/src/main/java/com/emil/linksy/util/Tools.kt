@@ -1,9 +1,7 @@
 package com.emil.linksy.util
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
@@ -30,7 +28,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.arthenica.ffmpegkit.FFmpegKit
@@ -138,6 +135,7 @@ private fun createFilePart(uri: Uri, context: Context, fieldName: String, mimeTy
     val fileName = "${fieldName}_${System.currentTimeMillis()}.${mimeType.substringAfter("/")}"
 
     val fileBody = object : RequestBody() {
+        @SuppressLint("Recycle")
         override fun contentLength(): Long {
             return contentResolver.openAssetFileDescriptor(uri, "r")?.length ?: 0
         }
@@ -244,7 +242,7 @@ object LinksyFileUtils {
     }
 }
 
-@SuppressLint("ClickableViewAccessibility")
+@SuppressLint("ClickableViewAccessibility", "InflateParams")
 fun View.showHint (context: Context, text:Int){
     val popupView = LayoutInflater.from(context).inflate(R.layout.popup_hint_moment, null)
     val popupWindow = PopupWindow(popupView,
@@ -255,7 +253,7 @@ fun View.showHint (context: Context, text:Int){
     popupWindow.isOutsideTouchable = true
     popupWindow.isFocusable = true
     popupWindow.showAsDropDown(this)
-    popupView.setOnTouchListener { v, event ->
+    popupView.setOnTouchListener { _, _ ->
         popupWindow.dismiss()
         true
     }

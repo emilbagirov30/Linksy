@@ -156,7 +156,7 @@ interface ApiService {
 
 
     @GET("api/messages/user_messages")
-    suspend fun getUserMessages(@Header("Authorization") token:String): Response<List<MessageResponseDto>>
+    suspend fun getUserMessages(@Header("Authorization") token:String): Response<MutableList<MessageResponseDto>>
     @GET("api/chats/user_chats")
     suspend fun getUserChats(@Header("Authorization") token:String): Response<List<ChatResponseDto>>
     @GET("api/chats/users_chat_id")
@@ -266,4 +266,7 @@ interface ApiService {
 
     @PUT("api/users/message_mode")
     suspend fun setMessageMode(@Header("Authorization") token: String,@Body messageMode: MessageMode): Response<Unit>
+
+    @GET("api/messages/by/chat/{chatId}")
+    suspend fun getUserMessagesByChat(@Header("Authorization") token:String, @Path("chatId") chatId: Long): Response<MutableList<MessageResponseDto>>
 }

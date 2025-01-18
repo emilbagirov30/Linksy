@@ -12,12 +12,10 @@ data class MessageLocal(
     val date: String
 )
 
-
-
 fun MessageLocal.toResponseModel():MessageResponse{
     return MessageResponse(id,senderId, chatId, text, imageUrl, videoUrl, audioUrl, voiceUrl, date)
 }
 
-fun List<MessageLocal>.toResponseModelList():List<MessageResponse>{
-    return this.map { it.toResponseModel() }
+fun List<MessageLocal>.toResponseModelList():MutableList<MessageResponse>{
+    return this.map { it.toResponseModel() }.toMutableList()
 }

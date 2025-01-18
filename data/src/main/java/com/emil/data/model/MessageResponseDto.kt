@@ -10,6 +10,6 @@ data class MessageResponseDto(val messageId:Long=0,val senderId: Long=0,val chat
 fun MessageResponseDto.toDomainModel():MessageResponse{
    return MessageResponse(messageId,senderId, chatId, text, imageUrl, videoUrl, audioUrl, voiceUrl, date)
 }
-fun List<MessageResponseDto>.toDomainModelList(): List<MessageResponse> {
-    return this.map { it.toDomainModel() }
+fun MutableList<MessageResponseDto>.toDomainModelList(): MutableList<MessageResponse> {
+    return this.map { it.toDomainModel() }.toMutableList()
 }

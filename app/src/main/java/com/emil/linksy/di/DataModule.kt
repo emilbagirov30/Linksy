@@ -13,6 +13,7 @@ import com.emil.data.repository.PeopleRepositoryImpl
 import com.emil.data.repository.PostRepositoryImpl
 import com.emil.data.repository.TokenRepositoryImpl
 import com.emil.data.repository.UserRepositoryImpl
+import com.emil.data.repository.WebSocketRepositoryImpl
 import com.emil.domain.repository.AuthRepository
 import com.emil.domain.repository.ChannelRepository
 import com.emil.domain.repository.ChatRepository
@@ -22,6 +23,7 @@ import com.emil.domain.repository.PeopleRepository
 import com.emil.domain.repository.PostRepository
 import com.emil.domain.repository.TokenRepository
 import com.emil.domain.repository.UserRepository
+import com.emil.domain.repository.WebSocketRepository
 import com.emil.linksy.app.service.TokenService
 import org.koin.dsl.module
 
@@ -61,11 +63,16 @@ val dataModule = module {
     single<ChatDao> {
         get<AppDatabase>().chatDao()
     }
+
     single {
         Room.databaseBuilder(
             get(),
             AppDatabase::class.java,
             "appLocalDb"
         ).build()
+    }
+
+    single<WebSocketRepository>{
+       WebSocketRepositoryImpl()
     }
 }

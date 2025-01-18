@@ -10,7 +10,7 @@ import com.emil.domain.model.MessageData
 @Dao
 interface MessageDao {
     @Query("SELECT * FROM messages WHERE chatId = :chatId")
-    suspend fun getMessagesByChat(chatId: Long): List<MessageLocalDb>
+    suspend fun getMessagesByChat(chatId: Long): MutableList<MessageLocalDb>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMessage(message: MessageLocalDb)

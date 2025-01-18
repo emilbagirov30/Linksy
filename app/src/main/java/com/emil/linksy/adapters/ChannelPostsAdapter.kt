@@ -26,6 +26,7 @@ import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showMenu
 import com.emil.presentation.R
@@ -71,7 +72,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
             if (post.text!=null) {
                 postTextView.show()
                 postTextView.text = post.text
-            }
+            } else postTextView.hide()
             val imageUrl = post.imageUrl
             if (imageUrl !=null){
                 mediaLinearLayout.show()
@@ -83,7 +84,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                 postPictureImageView.setOnClickListener {
                     BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
                 }
-            }
+            }else    postPictureImageView.hide()
             val videoUrl = post.videoUrl
             if (videoUrl!=null){
                 mediaLinearLayout.show()
@@ -96,7 +97,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                     VideoPlayerDialog(context,videoUrl)
                 }
 
-            }
+            } else  videoRelativeLayout.hide()
             var isPlayingAudio = false
             var mediaPlayerAudio: MediaPlayer? = null
             fun startProgressAudioUpdate() {
@@ -141,7 +142,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                     }
 
                 }
-            }
+            } else   audioLinearLayout.hide()
 
                    var rating = post.averageRating
                 ratingTextView.text = rating.toString()
@@ -160,7 +161,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                       pollTitleTextView.text = post.pollTitle
                       optionRecyclerView.layoutManager = LinearLayoutManager(context)
                       optionRecyclerView.adapter = OptionsAdapter(post.isVoted,post.options!!,channelViewModel,tokenManager)
-                  }
+                  } else  pollLinearLayout.hide()
             editPostButton.setOnClickListener {
                     it.showMenu(context, editAction = {}, deleteAction = {
                         val dialog = ActionDialog(context)

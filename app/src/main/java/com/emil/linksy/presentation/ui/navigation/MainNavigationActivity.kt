@@ -12,7 +12,6 @@ import com.emil.linksy.presentation.ui.navigation.feed.FeedFragment
 import com.emil.linksy.presentation.ui.navigation.people.PeopleFragment
 import com.emil.linksy.presentation.ui.navigation.profile.ProfileFragment
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
-import com.emil.linksy.util.LocaleManager
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.replaceFragment
 import com.emil.presentation.R
@@ -45,7 +44,8 @@ class MainNavigationActivity : AppCompatActivity() {
         }
         val containerId = R.id.fl_fragment_container_user
         bottomNavigationView = findViewById(R.id.bn_main)
-        replaceFragment(containerId, FeedFragment(), TAG_FEED)
+        replaceFragment(containerId, ProfileFragment(), TAG_PROFILE)
+        bottomNavigationView.selectedItemId = R.id.page_profile
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.page_feed -> {
@@ -90,11 +90,12 @@ class MainNavigationActivity : AppCompatActivity() {
         startService(tokenServiceIntent)
 
 messageViewModel.messageList.observe(this){messagelist ->
+    //bottomNavigationView.getOrCreateBadge(R.id.page_chats).text = messagelist.size.toString()
     messagelist.map { m->
         messageViewModel.insertMessage(m)
     }
 }
-        messageViewModel.getUserMessages(tokenManager.getAccessToken())
+        messageViewModel.getAllUserMessages(tokenManager.getAccessToken())
     }
     override fun onDestroy() {
         super.onDestroy()

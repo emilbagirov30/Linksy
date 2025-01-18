@@ -28,7 +28,7 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
         )
     }
 
-    override suspend fun getUserMessages(token: String): Response<List<MessageResponse>> {
+    override suspend fun getUserMessages(token: String): Response<MutableList<MessageResponse>> {
         val response = RetrofitUserInstance.apiService.getUserMessages("Bearer $token")
         return if (response.isSuccessful) {
             Response.success(response.body()?.toDomainModelList())
@@ -37,12 +37,21 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
         }
     }
 
-    override suspend fun getMessagesByChat(chatId: Long): List<MessageLocal> {
+    override suspend fun getMessagesByChatFromLocalDb(chatId: Long): MutableList<MessageLocal> {
        return messageDao.getMessagesByChat(chatId).toDomainModelList()
     }
 
     override suspend fun insertMessage(message: MessageLocal) {
        return messageDao.insertMessage(messageLocalDb.toDomainModel(message))
+    }
+
+    override suspend fun getMessagesByChat(token: String, chatId: Long): Response<MutableList<MessageResponse>> {
+        val response = RetrofitUserInstance.apiService.getUserMessagesByChat("Bearer $token",chatId)
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModelList())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
     }
 
 

@@ -5,7 +5,7 @@ import com.emil.domain.repository.MessageRepository
 import retrofit2.Response
 
 class GetUserMessagesUseCase (private val messageRepository: MessageRepository) {
-    suspend fun execute (token:String):Response<List<MessageResponse>>{
+    suspend fun execute (token:String):Response<MutableList<MessageResponse>>{
         return messageRepository.getUserMessages(token)
     }
 }

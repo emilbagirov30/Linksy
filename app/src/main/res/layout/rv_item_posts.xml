@@ -132,8 +132,8 @@
             android:scaleType="centerCrop" />
         <ImageButton
             android:id="@+id/ib_play"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@drawable/ic_play"
             android:backgroundTint="@color/soft_gray"
             android:layout_centerInParent="true" />

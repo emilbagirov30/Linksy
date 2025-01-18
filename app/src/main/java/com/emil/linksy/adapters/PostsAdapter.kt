@@ -34,6 +34,7 @@ import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showMenu
 import com.emil.presentation.R
@@ -86,7 +87,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             if (post.text!=null) {
                 postTextView.show()
                 postTextView.text = post.text
-            }
+            } else   postTextView.hide()
             val imageUrl = post.imageUrl
             if (imageUrl !=null){
                 mediaLinearLayout.show()
@@ -98,7 +99,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                 postPictureImageView.setOnClickListener {
                     BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
                 }
-            }
+            } else  postPictureImageView.hide()
             val videoUrl = post.videoUrl
             if (videoUrl!=null){
                 mediaLinearLayout.show()
@@ -111,7 +112,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     VideoPlayerDialog(context,videoUrl)
                 }
 
-            }
+            } else    videoRelativeLayout.hide()
             var isPlayingAudio = false
             var mediaPlayerAudio:MediaPlayer? = null
             fun startProgressAudioUpdate() {
@@ -156,7 +157,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     }
 
                 }
-            }
+            } else   audioLinearLayout.hide()
 
 
 
@@ -203,8 +204,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     }
 
                 }
-            }
-
+            } else  voiceLinearLayout.hide()
             likeCount.text = post.likesCount.toString()
 
               commentImageView.setOnClickListener {
@@ -245,17 +245,9 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             editPostButton.setOnClickListener {
                 if (!isOutsider) {
                     it.showMenu(context, editAction = {
-
                            AddPostDialogFragment
                                .newInstance(postId = post.postId, isEdit = true,text = post.text,post.imageUrl,post.videoUrl,post.audioUrl,post.voiceUrl)
                                .show ((context as FragmentActivity).supportFragmentManager,"AddPostDialogFragment")
-
-
-
-
-
-
-
                     }, deleteAction = {
                         val dialog = ActionDialog(context)
                         dialog.setTitle(context.getString(R.string.delete_post_title))

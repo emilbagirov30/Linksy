@@ -24,6 +24,7 @@ import com.emil.domain.model.MessageResponse
 import com.emil.domain.model.UserResponse
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 import kotlinx.coroutines.CoroutineScope
@@ -79,22 +80,24 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
             val audioUrl = message.audioUrl
             val voiceUrl = message.voiceUrl
             val date = message.date
-            text?.let {
+            if (text !=null) {
                 messageTextView.show()
-                messageTextView.text = it
-            }
-            imageUrl?.let {
+                messageTextView.text = message.text
+            } else   messageTextView.hide()
+
+           if (imageUrl!=null) {
                 pictureImageView.show()
-                Glide.with(context).load(Uri.parse(it)).into(pictureImageView)
+                Glide.with(context).load(Uri.parse(imageUrl)).into(pictureImageView)
                pictureImageView.setOnClickListener {
                    BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager, "BigPictureDialog")
                }
-            }
-            videoUrl?.let {
+            }else  pictureImageView.hide()
+
+          if (videoUrl!=null) {
                 videoRelativeLayout.show()
-                Glide.with(context).load(Uri.parse(it)).frame(0).into(frameImageView)
+                Glide.with(context).load(Uri.parse(videoUrl)).frame(0).into(frameImageView)
                 playVideoButton.setOnClickListener { VideoPlayerDialog(context, videoUrl) }
-            }
+            } else  videoRelativeLayout.hide()
             timeTextView.text = date
 
 
@@ -112,11 +115,11 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                 }
             }
 
-            audioUrl?.let {
+            if (audioUrl!=null){
                 audioLayout.show()
                 playAudioButton.setImageResource(R.drawable.ic_play)
                 mediaPlayerAudio = MediaPlayer().apply {
-                    setDataSource(context, Uri.parse(it))
+                    setDataSource(context, Uri.parse(audioUrl))
                     prepareAsync()
                     setOnPreparedListener {
                         audioProgressBar.progress = 0
@@ -143,7 +146,7 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                     }
 
                 }
-            }
+            } else   audioLayout.hide()
 
             var isPlayingVoice = false
             var mediaPlayerVoice: MediaPlayer? = null
@@ -158,11 +161,11 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                     }
                 }
             }
-            voiceUrl?.let {
+          if (voiceUrl!=null) {
                 voiceLayout.show()
                 playVoiceButton.setImageResource(R.drawable.ic_play)
                 mediaPlayerVoice = MediaPlayer().apply {
-                    setDataSource(context, Uri.parse(it))
+                    setDataSource(context, Uri.parse(voiceUrl))
                     prepareAsync()
                     setOnPreparedListener {
                         voiceProgressBar.progress = 0
@@ -188,7 +191,11 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                     }
 
                 }
-            }
+
+            } else voiceLayout.hide()
+
+
+
 
 if (chatMemberList.isNotEmpty()){
     senderAvatarImageView.show()

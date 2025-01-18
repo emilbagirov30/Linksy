@@ -28,6 +28,6 @@ fun MessageLocalDb.toDomainModel (domainModel: MessageLocal):MessageLocalDb{
     return MessageLocalDb(domainModel.id, domainModel.senderId, domainModel.chatId, domainModel.text, domainModel.imageUrl, domainModel.videoUrl, domainModel.audioUrl, domainModel.voiceUrl, domainModel.date)
 }
 
-fun List<MessageLocalDb>.toDomainModelList(): List<MessageLocal> {
-    return this.map { it.toDomainModel() }
+fun MutableList<MessageLocalDb>.toDomainModelList(): MutableList<MessageLocal> {
+    return this.map { it.toDomainModel() }.toMutableList()
 }

@@ -9,6 +9,7 @@ import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
+import com.emil.domain.usecase.ConnectToWebSocketUseCase
 import com.emil.domain.usecase.CreateChannelPostUseCase
 import com.emil.domain.usecase.CreateChannelUseCase
 import com.emil.domain.usecase.CreateGroupUseCase
@@ -19,6 +20,7 @@ import com.emil.domain.usecase.DeleteLikeUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
+import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
 import com.emil.domain.usecase.FindChannelByLinkUseCase
 import com.emil.domain.usecase.FindChannelByNameUseCase
 import com.emil.domain.usecase.GetUserMomentsUseCase
@@ -41,7 +43,8 @@ import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscriptionsUseCase
 import com.emil.domain.usecase.GetUserChatsFromLocalDb
 import com.emil.domain.usecase.GetUserChatsUseCase
-import com.emil.domain.usecase.GetUserMessagesFromLocalDb
+import com.emil.domain.usecase.GetUserMessagesByChat
+import com.emil.domain.usecase.GetUserMessagesByChatFromLocalDb
 import com.emil.domain.usecase.GetUserMessagesUseCase
 import com.emil.domain.usecase.GetUserPageDataUseCase
 import com.emil.domain.usecase.GetUserSubscribersUseCase
@@ -60,6 +63,7 @@ import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.domain.usecase.SetMessageModeUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
+import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
 import com.emil.domain.usecase.SubscribeUseCase
 import com.emil.domain.usecase.UnsubscribeChannelUseCase
 import com.emil.domain.usecase.UnsubscribeUseCase
@@ -181,8 +185,8 @@ val domainModule = module {
     factory<GetUserChatsUseCase>{
        GetUserChatsUseCase(chatRepository = get())
     }
-    factory<GetUserMessagesFromLocalDb>{
-        GetUserMessagesFromLocalDb(messageRepository = get())
+    factory<GetUserMessagesByChatFromLocalDb>{
+        GetUserMessagesByChatFromLocalDb(messageRepository = get())
     }
     factory<InsertMessageInLocalDbUseCase>{
         InsertMessageInLocalDbUseCase(messageRepository = get())
@@ -307,6 +311,20 @@ val domainModule = module {
 
     factory<SetMessageModeUseCase>{
         SetMessageModeUseCase(userRepository = get())
+    }
+
+
+    factory<ConnectToWebSocketUseCase>{
+        ConnectToWebSocketUseCase(repository = get())
+    }
+    factory<DisconnectFromWebSocketUseCase>{
+        DisconnectFromWebSocketUseCase(repository = get())
+    }
+    factory<SubscribeToUserMessagesUseCase>{
+        SubscribeToUserMessagesUseCase(repository = get())
+    }
+    factory<GetUserMessagesByChat>{
+        GetUserMessagesByChat(messageRepository = get())
     }
 }
 
