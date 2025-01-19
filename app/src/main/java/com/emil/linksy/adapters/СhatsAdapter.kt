@@ -47,10 +47,8 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
 
           }
 
-
-
           nameTextView.text = name
-          dateTextView.text = date
+          dateTextView.text = date.ifEmpty { context.getString(R.string.new_) }
           lastMessageTextView.text = lastMessage
 
           chatLayout.setOnClickListener {

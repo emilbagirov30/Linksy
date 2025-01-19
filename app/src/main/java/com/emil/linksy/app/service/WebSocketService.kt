@@ -9,6 +9,7 @@ import com.emil.domain.model.toLocalModel
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
 import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
 import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
+import com.emil.domain.usecase.SubscribeToUserChatsUseCase
 import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
 import com.emil.linksy.util.TokenManager
@@ -21,14 +22,18 @@ class WebSocketService : LifecycleService() {
 
     private val connectToWebSocketUseCase: ConnectToWebSocketUseCase by inject()
     private  val disconnectFromWebSocketUseCase: DisconnectFromWebSocketUseCase by inject()
-    private val subscribeToUserMessagesUseCase: SubscribeToUserMessagesUseCase by inject()
-    private val insertMessage:InsertMessageInLocalDbUseCase by inject ()
+    private val subscribeToUserChatsUseCaseUseCase:SubscribeToUserChatsUseCase by inject()
     val tokenManager:TokenManager by inject<TokenManager> ()
 
     override fun onCreate() {
         super.onCreate()
         CoroutineScope(Dispatchers.IO).launch {
             connectToWebSocketUseCase.invoke()
+            subscribeToUserChatsUseCaseUseCase.invoke(tokenManager.getAccessToken()).collect {chat ->
+
+            }
+
+
         //   subscribeToUserMessagesUseCase.invoke(tokenManager.getAccessToken()).collect { message ->
           //      saveMessage(message)
          //   }
@@ -38,7 +43,7 @@ class WebSocketService : LifecycleService() {
     private fun saveMessage(message: MessageResponse) {
         message.run {
             CoroutineScope(Dispatchers.IO).launch {
-            insertMessage.execute(message.toLocalModel())
+            //insertMessage.execute(message.toLocalModel())
 
         }
         }
@@ -46,6 +51,6 @@ class WebSocketService : LifecycleService() {
 
     override fun onDestroy() {
         super.onDestroy()
-     //  disconnectFromWebSocketUseCase.invoke()
+          disconnectFromWebSocketUseCase.invoke()
     }
 }

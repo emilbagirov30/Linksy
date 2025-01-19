@@ -9,19 +9,40 @@
     android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal">
 
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_user_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/default_avatar" />
 
+        <ImageView
+            android:id="@+id/iv_online"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="2dp"
+            android:visibility="gone"
+            android:background="@drawable/ic_online">
+
+        </ImageView>
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_weight="1"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_username"
@@ -31,19 +52,29 @@
             android:textSize="15sp"
             android:textColor="@color/dark_gray"
             android:text="username" />
+            <ImageView
+                android:id="@+id/iv_confirmed"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|bottom"
+                android:visibility="gone"
+                android:background="@drawable/ic_confirmed">
 
+            </ImageView>
+
+        </LinearLayout>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="аааааааа"
+            android:text=""
             android:visibility="gone"
             android:textColor="@color/link"
             android:fontFamily="@font/klukva"
             android:textSize="15sp"
             android:textStyle="bold" />
     </LinearLayout>
-
+    >
 
     <ImageButton
         android:id="@+id/ib_reject"

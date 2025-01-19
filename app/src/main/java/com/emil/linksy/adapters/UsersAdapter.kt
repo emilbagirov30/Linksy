@@ -20,6 +20,7 @@ import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.google.android.material.textview.MaterialTextView
@@ -39,6 +40,8 @@ class UsersAdapter(
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val avatarImageView = itemView.findViewById<ImageView>(R.id.iv_user_avatar)
+        private val onlineImageView = itemView.findViewById<ImageView>(R.id.iv_online)
+        private val confirmedImageView = itemView.findViewById<ImageView>(R.id.iv_confirmed)
         private val usernameTextView = itemView.findViewById<MaterialTextView>(R.id.tv_username)
         private val linkTextView = itemView.findViewById<MaterialTextView>(R.id.tv_link)
         private val userLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_user)
@@ -51,6 +54,10 @@ class UsersAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(user: UserResponse) {
+
+            if (user.online) onlineImageView.show() else onlineImageView.hide()
+            if (user.confirmed) confirmedImageView.show() else confirmedImageView.hide()
+
             if (isNeedChoice) {
                 selectorCheckBox.show()
                 selectorCheckBox.isChecked = selectedUserIds.contains(user.id)
@@ -59,20 +66,16 @@ class UsersAdapter(
                     toggleSelection(user.id)
                 }
 
-                userLinearLayout.setOnClickListener {
-                    selectorCheckBox.isChecked = !selectorCheckBox.isChecked
-                    toggleSelection(user.id)
-                }
-            } else {
-                userLinearLayout.setOnClickListener {
-                    if (id != user.id) {
-                        val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
-                        switchingToUserPageActivity.putExtra("USER_ID", user.id)
-                        context.startActivity(switchingToUserPageActivity)
-                    }
+            } else selectorCheckBox.hide()
+
+
+            userLinearLayout.setOnClickListener {
+                if (id != user.id) {
+                    val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
+                    switchingToUserPageActivity.putExtra("USER_ID", user.id)
+                    context.startActivity(switchingToUserPageActivity)
                 }
             }
-
 
             if (isChannelAdmin){
                 rejectImageButton.show()
@@ -93,6 +96,9 @@ class UsersAdapter(
                         notifyItemRemoved(bindingAdapterPosition)
                     })
                 }
+            } else{
+                rejectImageButton.hide()
+                acceptImageButton.hide()
             }
                                        if (isBlackList){
                                            removeBlackListImageButton.show()
@@ -102,7 +108,7 @@ class UsersAdapter(
                                                    notifyItemRemoved(bindingAdapterPosition)
                                                })
                                            }
-                                       }
+                                       } else  removeBlackListImageButton.hide()
             if (user.avatarUrl != "null") {
                 Glide.with(context)
                     .load(user.avatarUrl)
@@ -114,7 +120,7 @@ class UsersAdapter(
             if (user.link != null) {
                 linkTextView.show()
                 linkTextView.text = "@${user.link}"
-            }
+            }else   linkTextView.hide()
         }
 
         private fun toggleSelection(userId: Long) {

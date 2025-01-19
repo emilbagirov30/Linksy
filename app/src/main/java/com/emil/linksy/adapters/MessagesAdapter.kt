@@ -49,6 +49,7 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
         private val senderUsernameTextView = itemView.findViewById<TextView>(R.id.tv_sender_username)
         private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_video)
         private val frameImageView = itemView.findViewById<ImageView>(R.id.iv_frame)
+        private val markImageView = itemView.findViewById<ImageView>(R.id.iv_viewed_mark)
         private val playVideoButton = itemView.findViewById<ImageButton>(R.id.ib_play)
         private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
         private val playVoiceButton = itemView.findViewById<ImageView>(R.id.iv_play_voice)
@@ -59,7 +60,7 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
         private val messageTextView = itemView.findViewById<TextView>(R.id.tv_message)
         private val timeTextView = itemView.findViewById<TextView>(R.id.tv_time)
 
-        @SuppressLint("RtlHardcoded")
+        @SuppressLint("RtlHardcoded", "SuspiciousIndentation")
         fun bind(message: MessageResponse) {
             if (userId == message.senderId) {
                 mainLayout.layoutDirection = LinearLayout.LAYOUT_DIRECTION_RTL
@@ -67,7 +68,11 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                 val params = container.layoutParams as FrameLayout.LayoutParams
                 params.gravity = Gravity.RIGHT
                 cardView.layoutParams = params
+                markImageView.show()
+                if (message.viewed) markImageView.setBackgroundResource(R.drawable.ic_viewed)
+                else markImageView.setBackgroundResource(R.drawable.ic_not_read)
             } else {
+                markImageView.hide()
                 mainLayout.layoutDirection = LinearLayout.LAYOUT_DIRECTION_LTR
                 messageLayout.setBackgroundResource(R.drawable.stranger_message)
                 val params = container.layoutParams as FrameLayout.LayoutParams
@@ -219,7 +224,6 @@ if (chatMemberList.isNotEmpty()){
         return MessageViewHolder(view)
 
     }
-
     override fun getItemCount(): Int = messageList.size
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {

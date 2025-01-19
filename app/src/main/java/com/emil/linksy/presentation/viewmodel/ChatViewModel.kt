@@ -1,5 +1,6 @@
 package com.emil.linksy.presentation.viewmodel
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.emil.domain.model.GroupData
 import com.emil.domain.model.UserResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
+import com.emil.domain.usecase.ConnectToWebSocketUseCase
 import com.emil.domain.usecase.CreateGroupUseCase
 import com.emil.domain.usecase.GetChatIdUseCase
 import com.emil.domain.usecase.GetGroupMembersUseCase
@@ -16,18 +18,21 @@ import com.emil.domain.usecase.GetUserChatsFromLocalDb
 import com.emil.domain.usecase.GetUserChatsUseCase
 
 import com.emil.domain.usecase.InsertChatInLocalDbUseCase
+import com.emil.domain.usecase.SubscribeToUserChatsUseCase
 
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
 class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
                     private val insertChatInLocalDbUseCase: InsertChatInLocalDbUseCase,
-                    private val  getUserChatsFromLocalDb: GetUserChatsFromLocalDb,
+                    private val getUserChatsFromLocalDb: GetUserChatsFromLocalDb,
+                    private val subscribeToUserChatsUseCase: SubscribeToUserChatsUseCase,
+                    private val connectToWebSocketUseCase: ConnectToWebSocketUseCase,
     private val getChatIdUseCase: GetChatIdUseCase, private val createGroupUseCase: CreateGroupUseCase,
     private val getGroupMembersUseCase: GetGroupMembersUseCase
 ) : ViewModel(){
-    private val _chatList = MutableLiveData<List<ChatResponse>> ()
-    val chatList: LiveData<List<ChatResponse>> = _chatList
+    private val _chatList = MutableLiveData<MutableList<ChatResponse>> ()
+    val chatList: LiveData<MutableList<ChatResponse>> = _chatList
     private var _chatId = MutableLiveData<Long> ()
     val chatId: LiveData<Long> = _chatId
 
@@ -41,7 +46,7 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
             try {
                 val response = getUserChatsUseCase.execute(token)
                 if (response.isSuccessful) {
-                    _chatList.value = response.body()
+                    _chatList.value = response.body()?.toMutableList()
                     onSuccess()
                 }
             } catch (e: Exception) {
@@ -62,7 +67,7 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
         fun getUserChatsFromLocalDb(onSuccess: ()->Unit = {},onError: ()->Unit = {}){
             viewModelScope.launch {
                     val chats = getUserChatsFromLocalDb.execute()
-                    _chatList.value = chats.toResponseModelList()
+                    _chatList.value = chats.toResponseModelList().toMutableList()
 
             }
         }
@@ -98,6 +103,33 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
                 }
             }catch (e:Exception){
                 onError()
+            }
+        }
+    }
+
+
+
+
+    @SuppressLint("SuspiciousIndentation")
+    fun subscribeToChat(token: String, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                connectToWebSocketUseCase.invoke()
+                val chats = subscribeToUserChatsUseCase.invoke(token)
+               chats.collect { chat ->
+                    insertChatInLocalDbUseCase.execute(chat.toLocalModel())
+                    val updatedList = _chatList.value ?: mutableListOf()
+                   val existingIndex = updatedList.indexOfFirst { it.chatId == chat.chatId }
+
+                   if (existingIndex != -1)
+                       updatedList[existingIndex] = chat
+                    else
+                       updatedList.add(chat)
+
+                   _chatList.value = updatedList
+                }
+            }catch (e:Exception){
+                onError ()
             }
         }
     }

@@ -10,11 +10,13 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cw_main"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
 
 
@@ -201,6 +203,14 @@
                     </TextView>
                 </LinearLayout>
 
+
+                <ImageView
+                    android:id="@+id/iv_viewed_mark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_not_read">
+
+                </ImageView>
             </LinearLayout>
 
 

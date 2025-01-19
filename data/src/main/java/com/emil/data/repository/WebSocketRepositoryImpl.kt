@@ -1,7 +1,7 @@
 package com.emil.data.repository
 
-import android.util.Log
 import com.emil.data.TemporaryKeyStore
+import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.MessageResponse
 import com.emil.domain.repository.WebSocketRepository
 import com.squareup.moshi.Moshi
@@ -16,10 +16,11 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
 
     private val stompClient: StompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, TemporaryKeyStore.BASE_WS)
     private val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-    private val jsonAdapter = moshi.adapter(MessageResponse::class.java)
-
+    private val jsonAdapterMessage = moshi.adapter(MessageResponse::class.java)
+    private val jsonAdapterChats = moshi.adapter(ChatResponse::class.java)
+    private val jsonAdapterMessageId = moshi.adapter(Long::class.java)
     override fun connect() {
-        stompClient.connect()
+            stompClient.connect()
 
     }
 
@@ -28,12 +29,26 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
     }
 
     override fun subscribeToUserMessages(token: String,chatId:Long): Flow<MessageResponse> = callbackFlow {
-        val topic = stompClient.topic("/user/$token/queue/messages/${chatId}/").subscribe({ stompMessage ->
-            val message = stompMessage.payload
-            val messageResponse = jsonAdapter.fromJson(message)
-            messageResponse?.let { trySend(it).isSuccess
+            val topic = stompClient.topic("/user/$token/queue/messages/${chatId}/")
+                .subscribe({ stompMessage ->
+                    val message = stompMessage.payload
+                    val messageResponse = jsonAdapterMessage.fromJson(message)
+                    messageResponse?.let { trySend(it).isSuccess }
+                }, { error ->
 
+                })
+
+            awaitClose {
+                topic.dispose()
             }
+
+    }
+
+    override fun subscribeToUserChats(token: String): Flow<ChatResponse> = callbackFlow {
+        val topic = stompClient.topic("/user/$token/queue/chats/").subscribe({ stompMessage ->
+            val message = stompMessage.payload
+            val messageResponse = jsonAdapterChats.fromJson(message)
+            messageResponse?.let { trySend(it).isSuccess }
         }, { error ->
 
         })
@@ -41,5 +56,21 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
         awaitClose {
             topic.dispose()
         }
+    }
+
+    override fun subscribeToUserChatViewed(token: String, chatId: Long): Flow<Long> = callbackFlow {
+            val topic = stompClient.topic("/user/$token/queue/messages/viewed/$chatId/")
+                .subscribe({ stompMessage ->
+                    val message = stompMessage.payload
+                    val messageResponse = jsonAdapterMessageId.fromJson(message)
+                    messageResponse?.let { trySend(it).isSuccess }
+                }, { error ->
+
+                })
+
+            awaitClose {
+                topic.dispose()
+            }
+
     }
 }

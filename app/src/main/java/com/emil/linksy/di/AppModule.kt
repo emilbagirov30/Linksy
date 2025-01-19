@@ -71,12 +71,15 @@ val appModule = module {
                connectToWebSocketUseCase = get(),
                subscribeToUserMessagesUseCase = get(),
                disconnectFromWebSocketUseCase = get (),
-               getUserMessagesByChat = get()
+               getUserMessagesByChat = get(),
+               viewedUseCase = get(),
+               subscribeToUserChatViewedUseCase = get()
            )
        }
 
     viewModel <ChatViewModel> {
-      ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get())
+      ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get(),
+          subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get())
     }
 
 

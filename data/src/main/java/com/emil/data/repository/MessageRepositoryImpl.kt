@@ -54,5 +54,10 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
         }
     }
 
+    override suspend fun viewed(token: String, chatId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.viewed("Bearer $token",chatId)
+
+    }
+
 
 }

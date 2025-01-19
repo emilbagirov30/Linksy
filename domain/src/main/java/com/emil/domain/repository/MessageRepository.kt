@@ -11,4 +11,5 @@ interface MessageRepository {
     suspend fun getMessagesByChatFromLocalDb(chatId: Long): MutableList<MessageLocal>
     suspend fun insertMessage(message:MessageLocal)
     suspend fun getMessagesByChat (token:String,chatId:Long):Response<MutableList<MessageResponse>>
+    suspend fun viewed (token:String,chatId:Long):Response<Unit>
 }

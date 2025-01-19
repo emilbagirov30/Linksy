@@ -269,4 +269,8 @@ interface ApiService {
 
     @GET("api/messages/by/chat/{chatId}")
     suspend fun getUserMessagesByChat(@Header("Authorization") token:String, @Path("chatId") chatId: Long): Response<MutableList<MessageResponseDto>>
+
+    @PUT("api/messages/viewed/chat/{chatId}")
+    suspend fun viewed(@Header("Authorization") token: String,@Path("chatId") chatId: Long): Response<Unit>
+
 }

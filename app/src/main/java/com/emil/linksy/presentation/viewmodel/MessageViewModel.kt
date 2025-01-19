@@ -17,7 +17,9 @@ import com.emil.domain.usecase.GetUserMessagesByChatFromLocalDb
 import com.emil.domain.usecase.GetUserMessagesUseCase
 import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
 import com.emil.domain.usecase.SendMessageUseCase
+import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
 import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
+import com.emil.domain.usecase.ViewedUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
@@ -28,7 +30,9 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                        private val subscribeToUserMessagesUseCase: SubscribeToUserMessagesUseCase,
                        private val connectToWebSocketUseCase: ConnectToWebSocketUseCase,
                        private val disconnectFromWebSocketUseCase: DisconnectFromWebSocketUseCase,
-                       private val getUserMessagesByChat: GetUserMessagesByChat
+                       private val getUserMessagesByChat: GetUserMessagesByChat,
+                       private val viewedUseCase: ViewedUseCase,
+                       private val subscribeToUserChatViewedUseCase: SubscribeToUserChatViewedUseCase
 ) :ViewModel(){
 
     private val _messageList = MutableLiveData<MutableList<MessageResponse>> ()
@@ -83,7 +87,7 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
     }
 
     @SuppressLint("SuspiciousIndentation")
-    fun subscribeToUser(token: String,chatId: Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+    fun subscribeToUserMessages(token: String, chatId: Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 connectToWebSocketUseCase.invoke()
@@ -93,6 +97,28 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                     val updatedList = _messageList.value ?: mutableListOf()
                     updatedList.add(message)
                     _messageList.postValue(updatedList)
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+
+    @SuppressLint("SuspiciousIndentation")
+    fun subscribeToViewed(token: String,chatId: Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                connectToWebSocketUseCase.invoke()
+                val messageId= subscribeToUserChatViewedUseCase.invoke(token,chatId)
+                messageId.collect { id ->
+                    val updatedList = _messageList.value?.toMutableList() ?: mutableListOf()
+                    val index = updatedList.indexOfFirst { it.messageId == id }
+                    if (index != -1) {
+                        val updatedMessage = updatedList[index].copy(viewed = true)
+                        updatedList[index] = updatedMessage
+                        _messageList.value = updatedList
+                    }
                 }
             }catch (e:Exception){
                 onError ()
@@ -124,6 +150,20 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
         }
     }
 
+
+
+    @SuppressLint("SuspiciousIndentation")
+    fun viewed(token: String, chatId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                val response = viewedUseCase.execute(token, chatId)
+                if (response.isSuccessful)
+                onSuccess()
+            }catch (e:Exception){
+                onError()
+            }
+        }
+    }
 
 
     fun disconnectFromWebSocket() {

@@ -3,17 +3,10 @@ package com.emil.linksy.presentation.ui.navigation.chat
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,11 +18,9 @@ import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.createContentPickerForActivity
-import com.emil.linksy.util.createContentPickerForFragment
 import com.emil.linksy.util.createImageFilePart
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
-import com.emil.linksy.util.showHint
 import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
@@ -73,7 +64,7 @@ class CreateGroupActivity : AppCompatActivity() {
             )
             userRecyclerView.adapter = userAdapter
         }
-        peopleViewModel.getUserSubscriptions(tokenManager.getAccessToken())
+        peopleViewModel.getUserSubscribers(tokenManager.getAccessToken())
 
         val pickImageLauncher = createContentPickerForActivity(this) { uri ->
             handleSelectedImage(uri)

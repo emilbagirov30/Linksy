@@ -34,7 +34,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.linksy.adapters.MessagesAdapter
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
-import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
@@ -143,18 +142,14 @@ class MessageActivity : AppCompatActivity() {
         }
         val recipientId: Long? = if (intent.hasExtra("USER_ID")) {
             intent.getLongExtra("USER_ID", -1L)
-        } else {
-            null
-        }
+        } else null
+
         val avatarUrl = intent.getStringExtra("AVATAR_URL")
         val title = intent.getStringExtra("NAME")
-        val chatId: Long? = if (intent.hasExtra("CHAT_ID")) {
+        var chatId: Long? = if (intent.hasExtra("CHAT_ID")) {
             intent.getLongExtra("CHAT_ID", -1L)
-        } else {
-            null
-        }
+        } else null
         val isGroup = intent.getBooleanExtra("ISGROUP",false)
-
         if(isGroup) {
             if (avatarUrl == "null" && isGroup) avatarImageView.setImageResource(R.drawable.default_group_avatar)
             memberCountTextView.show()
@@ -164,36 +159,41 @@ class MessageActivity : AppCompatActivity() {
             chatViewModel.memberList.observe(this) { ml ->
                 memberCountTextView.text = "${ml.size} ${getString(R.string.members)}"
                 messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {
-                    messageViewModel.subscribeToUser(tokenManager.getAccessToken(),chatId)}, onError = {
-                    messageViewModel.getUserMessagesByChatFromLocalDb(chatId)
-                    showToast(this,R.string.loaded_from_cache)
-                })
+                    subscribeToUpdates(chatId) })
+
                 messageViewModel.messageList.observe(this) { messageList ->
                     messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId,ml)
                     messageRecyclerView.scrollToPosition(messageList.size - 1)
+                    viewMessage(chatId)
                 }
 
             }
-        }else{
+        }   else  {
+
+
 
             if(chatId == null) chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId!!)
             else {
-                messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {messageViewModel.subscribeToUser(tokenManager.getAccessToken(),chatId)}, onError = {
-                    messageViewModel.getUserMessagesByChatFromLocalDb(chatId)
-                    showToast(this,R.string.loaded_from_cache)
+                messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {
+                    subscribeToUpdates(chatId) }, onError = {
+                   getMessagesFromLocalDatabase(chatId)
                 })
             }
+
             chatViewModel.chatId.observe(this){id ->
-                if(id!=-100L){
-                    messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),id, onSuccess = {messageViewModel.subscribeToUser(tokenManager.getAccessToken(),id)}, onError = {
-                        messageViewModel.getUserMessagesByChatFromLocalDb(id)
-                        showToast(this,R.string.loaded_from_cache)
+                    messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),id, onSuccess = {
+                       subscribeToUpdates(id)}, onError = {
+                        getMessagesFromLocalDatabase(id)
                     })
-                }
+
+
             }
+
+
                 messageViewModel.messageList.observe(this){messageList ->
                 messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId)
                     messageRecyclerView.scrollToPosition(messageList.size - 1)
+                    viewMessage(messageList[0].chatId)
             }
 
         }
@@ -284,6 +284,28 @@ class MessageActivity : AppCompatActivity() {
 
         }
         attachImageButton.setOnClickListener { showPopup(it)}
+    }
+
+
+
+
+
+
+
+
+
+    private fun getMessagesFromLocalDatabase (chatId:Long){
+        messageViewModel.getUserMessagesByChatFromLocalDb(chatId)
+        showToast(this,R.string.loaded_from_cache)
+    }
+
+    private fun subscribeToUpdates (chatId:Long){
+        messageViewModel.subscribeToUserMessages(tokenManager.getAccessToken(),chatId)
+        messageViewModel.subscribeToViewed(tokenManager.getAccessToken(),chatId)
+    }
+
+    private fun viewMessage (chatId: Long){
+        messageViewModel.viewed(tokenManager.getAccessToken(),chatId)
     }
 
 

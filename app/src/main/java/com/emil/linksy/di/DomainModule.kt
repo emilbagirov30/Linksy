@@ -63,6 +63,8 @@ import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.domain.usecase.SetMessageModeUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
+import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
+import com.emil.domain.usecase.SubscribeToUserChatsUseCase
 import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
 import com.emil.domain.usecase.SubscribeUseCase
 import com.emil.domain.usecase.UnsubscribeChannelUseCase
@@ -72,6 +74,7 @@ import com.emil.domain.usecase.UpdateLinkUseCase
 import com.emil.domain.usecase.UpdateUsernameUseCase
 import com.emil.domain.usecase.UploadAvatarUseCase
 import com.emil.domain.usecase.UserProfileDataUseCase
+import com.emil.domain.usecase.ViewedUseCase
 import com.emil.domain.usecase.VoteUseCase
 import org.koin.dsl.module
 
@@ -325,6 +328,15 @@ val domainModule = module {
     }
     factory<GetUserMessagesByChat>{
         GetUserMessagesByChat(messageRepository = get())
+    }
+    factory<SubscribeToUserChatsUseCase>{
+        SubscribeToUserChatsUseCase(repository = get())
+    }
+    factory<ViewedUseCase>{
+        ViewedUseCase(messageRepository = get())
+    }
+    factory<SubscribeToUserChatViewedUseCase>{
+        SubscribeToUserChatViewedUseCase(repository = get())
     }
 }
 

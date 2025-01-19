@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.ChatsAdapter
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import org.koin.android.ext.android.inject
@@ -69,8 +70,13 @@ class ChatFragment : Fragment() {
                 chatViewModel.insertChat(c)
             }
         }
-        chatViewModel.getUserChats(tokenManager.getAccessToken(), onError = {
+
+
+        chatViewModel.getUserChats(tokenManager.getAccessToken(), onSuccess = {
+            chatViewModel.subscribeToChat(tokenManager.getAccessToken())
+        }, onError = {
             chatViewModel.getUserChatsFromLocalDb()
+            showToast(requireContext(),R.string.loaded_from_cache)
         })
 
         return view

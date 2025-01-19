@@ -135,4 +135,5 @@
     <string name="edited">ред.</string>
     <string name="empty_content">У пользователя пока нет публикаций</string>
     <string name="loaded_from_cache">Загружено из кэша</string>
+    <string name="new_">новый</string>
 </resources>

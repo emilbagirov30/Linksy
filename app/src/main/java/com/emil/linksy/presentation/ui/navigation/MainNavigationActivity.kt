@@ -89,6 +89,9 @@ class MainNavigationActivity : AppCompatActivity() {
         val tokenServiceIntent = Intent(this, TokenService::class.java)
         startService(tokenServiceIntent)
 
+
+
+
 messageViewModel.messageList.observe(this){messagelist ->
     //bottomNavigationView.getOrCreateBadge(R.id.page_chats).text = messagelist.size.toString()
     messagelist.map { m->
