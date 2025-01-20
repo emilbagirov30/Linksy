@@ -7,12 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.GroupData
+import com.emil.domain.model.GroupEditData
+import com.emil.domain.model.GroupResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
 import com.emil.domain.usecase.CreateGroupUseCase
+import com.emil.domain.usecase.EditGroupUseCase
 import com.emil.domain.usecase.GetChatIdUseCase
+import com.emil.domain.usecase.GetGroupDataUseCase
 import com.emil.domain.usecase.GetGroupMembersUseCase
 import com.emil.domain.usecase.GetUserChatsFromLocalDb
 import com.emil.domain.usecase.GetUserChatsUseCase
@@ -29,13 +33,18 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
                     private val subscribeToUserChatsUseCase: SubscribeToUserChatsUseCase,
                     private val connectToWebSocketUseCase: ConnectToWebSocketUseCase,
     private val getChatIdUseCase: GetChatIdUseCase, private val createGroupUseCase: CreateGroupUseCase,
-    private val getGroupMembersUseCase: GetGroupMembersUseCase
+    private val getGroupMembersUseCase: GetGroupMembersUseCase,
+    private val getGroupDataUseCase: GetGroupDataUseCase,
+    private val editGroupUseCase: EditGroupUseCase
 ) : ViewModel(){
+
     private val _chatList = MutableLiveData<MutableList<ChatResponse>> ()
     val chatList: LiveData<MutableList<ChatResponse>> = _chatList
     private var _chatId = MutableLiveData<Long> ()
     val chatId: LiveData<Long> = _chatId
 
+    private var _groupData = MutableLiveData<GroupResponse> ()
+    val groupData: LiveData<GroupResponse> = _groupData
 
     private val _memberList = MutableLiveData<List<UserResponse>> ()
     val memberList: LiveData<List<UserResponse>> = _memberList
@@ -130,6 +139,36 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
                 }
             }catch (e:Exception){
                 onError ()
+            }
+        }
+    }
+
+
+
+    fun getGroupData (token:String,groupId:Long,onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try {
+               val response =  getGroupDataUseCase.execute(token, groupId)
+                if (response.isSuccessful){
+                    _groupData.value = response.body()
+                    println (response.body())
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+
+    fun editGroup(token:String, groupId:Long, name:String,oldAvatarUrl:String?, avatar: MultipartBody.Part?, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try {
+                val response = editGroupUseCase.execute(token, GroupEditData(groupId, name, oldAvatarUrl, avatar))
+                if(response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
             }
         }
     }

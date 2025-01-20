@@ -76,7 +76,7 @@ class ChatFragment : Fragment() {
             chatViewModel.subscribeToChat(tokenManager.getAccessToken())
         }, onError = {
             chatViewModel.getUserChatsFromLocalDb()
-            showToast(requireContext(),R.string.loaded_from_cache)
+            showToast(requireActivity(),R.string.loaded_from_cache)
         })
 
         return view

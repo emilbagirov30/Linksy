@@ -214,7 +214,7 @@ class MessageActivity : AppCompatActivity() {
         startActivity(switchingToUserPageActivity)
     }else{
         val switchingToGroupMemberActivity =
-            Intent(this, ChatMemberActivity::class.java)
+            Intent(this, GroupActivity::class.java)
         switchingToGroupMemberActivity.putExtra("GROUP_ID", chatId)
         startActivity(switchingToGroupMemberActivity)
     }

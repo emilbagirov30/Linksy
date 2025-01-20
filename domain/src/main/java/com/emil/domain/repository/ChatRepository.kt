@@ -3,6 +3,8 @@ package com.emil.domain.repository
 import com.emil.domain.model.ChatLocal
 import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.GroupData
+import com.emil.domain.model.GroupEditData
+import com.emil.domain.model.GroupResponse
 import com.emil.domain.model.UserResponse
 import retrofit2.Response
 
@@ -14,4 +16,6 @@ interface ChatRepository {
     suspend fun isGroup(chatId: Long):Boolean
     suspend fun createGroup(token:String,groupData: GroupData):Response<Unit>
     suspend fun getGroupMembers(token:String,groupId: Long):Response<List<UserResponse>>
+    suspend fun getGroupData(token:String,groupId: Long):Response<GroupResponse>
+    suspend fun editGroup(token:String, editData: GroupEditData):Response<Unit>
 }

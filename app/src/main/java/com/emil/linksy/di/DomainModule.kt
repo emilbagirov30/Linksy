@@ -21,6 +21,7 @@ import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
 import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
+import com.emil.domain.usecase.EditGroupUseCase
 import com.emil.domain.usecase.FindChannelByLinkUseCase
 import com.emil.domain.usecase.FindChannelByNameUseCase
 import com.emil.domain.usecase.GetUserMomentsUseCase
@@ -35,6 +36,7 @@ import com.emil.domain.usecase.GetChannelsUseCase
 import com.emil.domain.usecase.GetChatIdUseCase
 import com.emil.domain.usecase.GetCommentsUseCase
 import com.emil.domain.usecase.GetEveryoneOffTheBlacklistUseCase
+import com.emil.domain.usecase.GetGroupDataUseCase
 import com.emil.domain.usecase.GetGroupMembersUseCase
 import com.emil.domain.usecase.GetMessageModeUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
@@ -341,6 +343,12 @@ val domainModule = module {
     }
     factory<SubscribeToUserChatsCountUseCase>{
         SubscribeToUserChatsCountUseCase(repository = get())
+    }
+    factory<EditGroupUseCase>{
+        EditGroupUseCase(chatRepository = get())
+    }
+    factory<GetGroupDataUseCase>{
+        GetGroupDataUseCase(chatRepository = get())
     }
 
 }

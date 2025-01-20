@@ -103,7 +103,7 @@
     <string name="create">Create</string>
     <string name="add_participants">Add participants</string>
     <string name="empty_field">The field cannot be empty</string>
-    <string name="chat_members">Chat members</string>
+    <string name="group_members">Group members</string>
     <string name="members">members</string>
     <string name="create_channel">Create channel</string>
     <string name="description">Description</string>
@@ -141,5 +141,6 @@
     <string name="empty_content">The user has no publications yet</string>
     <string name="loaded_from_cache"> loaded from cache</string>
     <string name="new_"> new</string>
+    <string name="group">Group</string>
 
 </resources>

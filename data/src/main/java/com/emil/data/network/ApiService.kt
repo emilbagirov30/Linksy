@@ -7,6 +7,7 @@ import com.emil.data.model.ChannelResponseDto
 import com.emil.data.model.ChatResponseDto
 import com.emil.data.model.CommentBody
 import com.emil.data.model.CommentResponseDto
+import com.emil.data.model.GroupResponseDto
 import com.emil.data.model.MessageResponseDto
 import com.emil.data.model.MomentResponseDto
 import com.emil.data.model.PasswordChangeBody
@@ -272,5 +273,21 @@ interface ApiService {
 
     @PUT("api/messages/viewed/chat/{chatId}")
     suspend fun viewed(@Header("Authorization") token: String,@Path("chatId") chatId: Long): Response<Unit>
+
+
+    @GET("api/chats/group/data/{id}")
+    suspend fun getGroupData(@Header("Authorization") token: String,@Path("id") chatId: Long): Response<GroupResponseDto>
+
+
+
+
+    @PUT("api/chats/edit/group")
+    @Multipart
+    suspend fun editGroup (@Header("Authorization") token:String,
+                           @Part("id") groupId: Long,
+                             @Part("name") text: String?,
+                             @Part("oldAvatarUrl") oldAvatarUrl: String?,
+                             @Part image: MultipartBody.Part?,
+    ):Response<Unit>
 
 }
