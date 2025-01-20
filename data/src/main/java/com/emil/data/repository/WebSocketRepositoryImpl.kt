@@ -58,6 +58,20 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
         }
     }
 
+    override fun subscribeToUserChatsCount(token: String): Flow<ChatResponse>  = callbackFlow {
+        val topic = stompClient.topic("/user/$token/queue/count/").subscribe({ stompMessage ->
+            val message = stompMessage.payload
+            val messageResponse = jsonAdapterChats.fromJson(message)
+            messageResponse?.let { trySend(it).isSuccess }
+        }, { error ->
+
+        })
+
+        awaitClose {
+            topic.dispose()
+        }
+    }
+
     override fun subscribeToUserChatViewed(token: String, chatId: Long): Flow<Long> = callbackFlow {
             val topic = stompClient.topic("/user/$token/queue/messages/viewed/$chatId/")
                 .subscribe({ stompMessage ->

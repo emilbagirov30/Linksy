@@ -73,7 +73,7 @@ class ProfileFragment : Fragment() {
         val qrImageButton = view.findViewById<ImageButton>(R.id.ib_qr)
         val viewPager = view.findViewById<ViewPager2>(R.id.vp_profile_pager)
         val pagerAdapter = ProfilePagerAdapter(this)
-        val sharedPref: SharedPreferences = requireContext().getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = requireContext().getSharedPreferences("appData", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPref.edit()
 
         viewPager.adapter = pagerAdapter

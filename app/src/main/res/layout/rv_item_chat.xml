@@ -46,6 +46,29 @@
         </com.google.android.material.textview.MaterialTextView>
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_count"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/count_background">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/klukva"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="15sp">
+
+        </com.google.android.material.textview.MaterialTextView>
+    </FrameLayout>
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
@@ -58,4 +81,5 @@
         android:maxLength="20"
         android:textSize="20sp">
     </com.google.android.material.textview.MaterialTextView>
+
 </LinearLayout>

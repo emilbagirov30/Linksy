@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -14,6 +15,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChatResponse
 import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
+import com.emil.linksy.util.hide
+import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.google.android.material.textview.MaterialTextView
 
@@ -23,6 +26,8 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val chatLayout = itemView.findViewById<LinearLayout>(R.id.ll_chat)
+        private val countLayout = itemView.findViewById<FrameLayout>(R.id.fl_count)
+        private val countTextView = itemView.findViewById<MaterialTextView>(R.id.tv_count)
         private val avatarImageView = itemView.findViewById<ImageView>(R.id.iv_avatar)
         private val nameTextView = itemView.findViewById<MaterialTextView>(R.id.tv_name)
         private val dateTextView = itemView.findViewById<TextView>(R.id.tv_date)
@@ -46,6 +51,11 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
                   avatarImageView.setBackgroundResource(R.drawable.default_group_avatar)
 
           }
+
+          if (chat.unreadMessagesCount!=null && chat.unreadMessagesCount!!>0){
+              countLayout.show()
+              countTextView.text = chat.unreadMessagesCount.toString()
+          }else    countLayout.hide()
 
           nameTextView.text = name
           dateTextView.text = date.ifEmpty { context.getString(R.string.new_) }

@@ -9,20 +9,22 @@ import com.emil.domain.model.MessageLocal
 data class ChatLocalDb(
     @PrimaryKey(autoGenerate = false) val id: Long=0,
     val companionId:Long? = null,
+    val senderId:Long? = null,
     val isGroup: Boolean=false,
     val avatarUrl: String="",
     val displayName: String="",
     val lastMessage: String?="",
-    val dateLast: String=""
+    val dateLast: String="",
+    val unreadMessagesCount:Long? = null
 )
 
 
 
 fun ChatLocalDb.toDomainModel (): ChatLocal {
-    return ChatLocal(id,companionId, isGroup, avatarUrl, displayName, lastMessage, dateLast)
+    return ChatLocal(id,companionId, senderId,isGroup, avatarUrl, displayName, lastMessage, dateLast,unreadMessagesCount)
 }
 fun ChatLocalDb.toDomainModel (domainModel: ChatLocal): ChatLocalDb {
-    return ChatLocalDb(domainModel.id,domainModel.companionId, domainModel.isGroup, domainModel.avatarUrl, domainModel.displayName, domainModel.lastMessage, domainModel.dateLast)
+    return ChatLocalDb(domainModel.id,domainModel.companionId, domainModel.senderId,domainModel.isGroup, domainModel.avatarUrl, domainModel.displayName, domainModel.lastMessage, domainModel.dateLast)
 }
 
 fun List<ChatLocalDb>.toDomainModelList(): List<ChatLocal> {

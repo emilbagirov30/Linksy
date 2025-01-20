@@ -64,6 +64,7 @@ import com.emil.domain.usecase.SetMessageModeUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
 import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
+import com.emil.domain.usecase.SubscribeToUserChatsCountUseCase
 import com.emil.domain.usecase.SubscribeToUserChatsUseCase
 import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
 import com.emil.domain.usecase.SubscribeUseCase
@@ -338,6 +339,10 @@ val domainModule = module {
     factory<SubscribeToUserChatViewedUseCase>{
         SubscribeToUserChatViewedUseCase(repository = get())
     }
+    factory<SubscribeToUserChatsCountUseCase>{
+        SubscribeToUserChatsCountUseCase(repository = get())
+    }
+
 }
 
 
