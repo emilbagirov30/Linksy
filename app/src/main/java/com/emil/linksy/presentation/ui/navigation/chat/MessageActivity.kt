@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.emil.domain.model.MessageResponse
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.linksy.adapters.MessagesAdapter
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
@@ -133,6 +134,7 @@ class MessageActivity : AppCompatActivity() {
         voiceLinearLayout = findViewById(R.id.ll_voice)
         stopWatchTextView = findViewById(R.id.tv_stopwatch)
         deleteVoice = findViewById(R.id.ib_delete_voice)
+        val downButton = findViewById<ImageButton>(R.id.ib_down)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
         val sharedPref: SharedPreferences = getSharedPreferences("AppData", Context.MODE_PRIVATE)
@@ -284,6 +286,25 @@ class MessageActivity : AppCompatActivity() {
 
         }
         attachImageButton.setOnClickListener { showPopup(it)}
+
+
+        messageRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled( chatList: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled( chatList, dx, dy)
+                val layoutManager =  chatList.layoutManager as LinearLayoutManager
+                val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                val totalItemCount = layoutManager.itemCount
+                if (lastVisibleItemPosition == totalItemCount - 1) downButton.visibility = View.GONE
+                else  downButton.visibility = View.VISIBLE
+            }
+        })
+        downButton.setOnClickListener {
+            it.anim()
+            val adapter = messageRecyclerView.adapter as MessagesAdapter
+            val layoutManager = messageRecyclerView.layoutManager as LinearLayoutManager
+            layoutManager.scrollToPositionWithOffset(adapter.itemCount - 1, 0)
+        }
+
     }
 
 
