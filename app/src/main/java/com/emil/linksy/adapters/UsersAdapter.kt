@@ -49,7 +49,7 @@ class UsersAdapter(
         private val acceptImageButton = itemView.findViewById<ImageButton>(R.id.ib_accept)
         private val removeBlackListImageButton = itemView.findViewById<ImageButton>(R.id.ib_remove_blacklist)
         private val rejectImageButton = itemView.findViewById<ImageButton>(R.id.ib_reject)
-        private val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        private val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val id = sharedPref.getLong("ID", -1)
 
         @SuppressLint("SetTextI18n")

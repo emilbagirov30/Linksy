@@ -78,7 +78,7 @@ class CameraXActivity : AppCompatActivity() {
     private fun startCamera() {
         var isActivityStarted = false
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        val sharedPref: SharedPreferences = getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
         var id:Long?
         cameraProviderFuture.addListener({

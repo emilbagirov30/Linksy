@@ -1,7 +1,6 @@
 package com.emil.linksy.presentation.ui.navigation.channel
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -32,17 +31,42 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.ArrayList
 
 class AddChannelPostDialogFragment: DialogFragment() {
     private  var channelId: Long = -1
-
+    private  var postId: Long? = null
+    private var text:String? = null
+    private var imageUrl:String? = null
+    private var videoUrl:String? = null
+    private var audioUrl:String? = null
+    private var isEdit:Boolean? = null
+    private var title:String? = null
     companion object {
         private const val CHANNEL_ID = "CHANNEL_ID"
-
-        fun newInstance(channelId: Long): AddChannelPostDialogFragment {
+        private const val EDIT = "EDIT"
+        private const val TEXT = "TEXT"
+        private const val URL_IMAGE = "IMAGE"
+        private const val URL_VIDEO = "VIDEO"
+        private const val URL_AUDIO = "AUDIO"
+        private const val POLL_TITLE = "POLL_TITLE"
+        private const val POST_ID = "POST_ID"
+        private const val OPTIONS = "OPTIONS"
+        fun newInstance(channelId: Long,postId:Long=-1,isEdit:Boolean = false,text:String?=null,imageUrl:String?=null,
+                        videoUrl:String?=null,audioUrl:String?=null,title:String?=null,options:List<String>? = emptyList()
+        ): AddChannelPostDialogFragment {
             val fragment = AddChannelPostDialogFragment()
             val args = Bundle()
             args.putLong(CHANNEL_ID, channelId)
+            args.putLong(POST_ID, postId)
+            args.putBoolean(EDIT, isEdit)
+            args.putString(TEXT,text)
+            args.putString(URL_IMAGE,imageUrl)
+            args.putString(URL_VIDEO,videoUrl)
+            args.putString(URL_AUDIO,audioUrl)
+            args.putString(POLL_TITLE, title)
+            if (options!=null)
+            args.putStringArrayList(OPTIONS,  ArrayList(options))
             fragment.arguments = args
             return fragment
         }
@@ -60,6 +84,23 @@ class AddChannelPostDialogFragment: DialogFragment() {
     private val tokenManager: TokenManager by inject()
     private val channelViewModel:ChannelViewModel by viewModel<ChannelViewModel>()
 
+    @SuppressLint("SuspiciousIndentation")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setCancelable(false)
+        arguments?.let {
+            channelId = it.getLong(CHANNEL_ID)
+            isEdit = arguments?.getBoolean(EDIT)
+            text = arguments?.getString(TEXT)
+            imageUrl = arguments?.getString(URL_IMAGE)
+            videoUrl = arguments?.getString(URL_VIDEO)
+            audioUrl = arguments?.getString(URL_AUDIO)
+            title = arguments?.getString(POLL_TITLE)
+            if (arguments?.getStringArrayList(OPTIONS)!=null)
+            optionlist = arguments?.getStringArrayList(OPTIONS)!!.toMutableList()
+            postId = arguments?.getLong(POST_ID)  }
+
+    }
 
 
     @SuppressLint("SuspiciousIndentation")
@@ -76,6 +117,29 @@ class AddChannelPostDialogFragment: DialogFragment() {
         }
         binding.etPost.addTextChangedListener { updatePublishButtonState() }
 
+       if (isEdit==true) {
+            binding.tvResetPollInfo.show()
+            binding.tvTitle.text = getString(R.string.edit)
+
+            text?.let {   binding.etPost.setText(it)}
+
+            imageUrl?.let {
+                handleSelectedImage(Uri.parse(it))
+            }
+
+            videoUrl?.let {
+                handleSelectedVideo(Uri.parse(it))
+            }
+
+            audioUrl?.let {
+                handleSelectedAudio(Uri.parse(it))
+            }
+
+           title?.let {
+                addPollInPost(it,optionlist)
+            }
+
+        }
         val pickImageLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedImage(uri)
             imageUri = uri
@@ -119,7 +183,7 @@ class AddChannelPostDialogFragment: DialogFragment() {
             val imagePart = imageUri?.let { createImageFilePart(requireContext(), it) }
             val videoPart = videoUri?.let { createVideoFilePart(requireContext(), it) }
             val audioPart = audioUri?.let { createAudioFilePart(requireContext(), it) }
-            channelViewModel.publishPost(token,channelId,text,imagePart,videoPart,audioPart,pollTitle,optionlist.toList(),
+            channelViewModel.publishPost(token,channelId,text,postId,imageUrl,videoUrl,audioUrl,imagePart,videoPart,audioPart,pollTitle,optionlist.toList(),
                 onSuccess = {
                     loading.dismiss()
                     dismiss()})
@@ -138,6 +202,7 @@ class AddChannelPostDialogFragment: DialogFragment() {
             binding.flPicture.hide()
             if (!binding.flPicture.isVisible||!binding.flPoll.isVisible)  binding.llPickedContent.hide()
             imageUri = null
+             imageUrl = null
             updatePublishButtonState()
         }
     }
@@ -159,6 +224,7 @@ class AddChannelPostDialogFragment: DialogFragment() {
             binding.flVideo.hide()
             if (!binding.flPicture.isVisible||!binding.flPoll.isVisible)  binding.llPickedContent.hide()
             videoUri = null
+             videoUrl = null
             updatePublishButtonState()
         }
     }
@@ -202,6 +268,7 @@ class AddChannelPostDialogFragment: DialogFragment() {
                 binding.pbPickedAudio.progress = 0
                 binding.llPickedAudio.hide()
                 audioUri = null
+                audioUrl = null
                 updatePublishButtonState()
             }
         }
@@ -241,14 +308,6 @@ class AddChannelPostDialogFragment: DialogFragment() {
 
     override fun getTheme() = R.style.FullScreenDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(false)
-        arguments?.let {
-            channelId = it.getLong(CHANNEL_ID)
-        }
-
-    }
 
     override fun onStart() {
         super.onStart()

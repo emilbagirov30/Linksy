@@ -25,7 +25,9 @@ class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChanne
         binding.rvOptions.layoutManager = LinearLayoutManager (requireContext())
         val adapter = OptionsCreatingAdapter()
         binding.rvOptions.adapter = adapter
-
+binding.tb.setNavigationOnClickListener {
+    dismiss()
+}
         binding.btAdd.setOnClickListener {
             adapter.addOption()
         }

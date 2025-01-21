@@ -70,7 +70,7 @@ binding.tb.setNavigationOnClickListener {
                 val avatar = imageUri?.let { createImageFilePart(this, it) }
                 val link = binding.etLink.string()
                 val description = binding.etDescription.string()
-                channelViewModel.createChannel(tokenManager.getAccessToken(),name,link,description,channelType,avatar, onSuccess = {finish()})
+                channelViewModel.createOrUpdateChannel(tokenManager.getAccessToken(),name,null,link,description,channelType,null,avatar, onSuccess = {finish()})
 
             }
         }

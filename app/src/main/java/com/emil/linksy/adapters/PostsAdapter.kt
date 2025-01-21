@@ -261,7 +261,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                 }
             }
 
-            if (post.edited) editedTextView.show()
+            if (post.edited) editedTextView.show() else editedTextView.hide()
         }
     }
 

@@ -7,15 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.ChannelData
+import com.emil.domain.model.ChannelManagementResponse
 import com.emil.domain.model.ChannelPageDataResponse
 import com.emil.domain.model.ChannelPostData
 import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.ChannelResponse
 import com.emil.domain.model.ChannelType
-import com.emil.domain.model.ChatResponse
-import com.emil.domain.model.GroupData
-import com.emil.domain.model.PostData
-import com.emil.domain.model.UserPageDataResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.usecase.AcceptUserToChannelUseCase
 import com.emil.domain.usecase.CreateChannelPostUseCase
@@ -24,6 +21,7 @@ import com.emil.domain.usecase.DeleteChannelPostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
 import com.emil.domain.usecase.FindChannelByLinkUseCase
 import com.emil.domain.usecase.FindChannelByNameUseCase
+import com.emil.domain.usecase.GetChannelManagementDataUseCase
 import com.emil.domain.usecase.GetChannelMembersUseCase
 import com.emil.domain.usecase.GetChannelPageDataUseCase
 import com.emil.domain.usecase.GetChannelPostsUseCase
@@ -53,7 +51,8 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     private val unsubscribeChannelUseCase: UnsubscribeChannelUseCase,
     private val voteUseCase: VoteUseCase,
     private val findChannelByNameUseCase: FindChannelByNameUseCase,
-    private val findChannelByLinkUseCase: FindChannelByLinkUseCase
+    private val findChannelByLinkUseCase: FindChannelByLinkUseCase,
+                       private val getChannelManagementDataUseCase: GetChannelManagementDataUseCase
     ):ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelResponse>> ()
@@ -71,10 +70,15 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     private val _pageData = MutableLiveData<ChannelPageDataResponse> ()
     val pageData: LiveData<ChannelPageDataResponse> = _pageData
 
-    fun createChannel(token:String,name:String, link:String, description:String, type:ChannelType,avatar: MultipartBody.Part?, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+    private val _managementData = MutableLiveData<ChannelManagementResponse> ()
+    val managementData: LiveData<ChannelManagementResponse> = _managementData
+
+
+
+    fun createOrUpdateChannel(token:String, name:String, channelId: Long? = null, link:String, description:String, type:ChannelType, oldAvatarUrl:String?, avatar: MultipartBody.Part?, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
-                val response = createChannelUseCase.execute(token, ChannelData(name, link, description, type.name, avatar))
+                val response = createChannelUseCase.execute(token, ChannelData(name,channelId, link, description, type.name, oldAvatarUrl,avatar))
                 if(response.isSuccessful){
                     onSuccess()
                 }
@@ -115,13 +119,15 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     }
 
 
-    fun publishPost (token:String,channelId:Long, postText:String, image: MultipartBody.Part?,
+    fun publishPost (token:String,channelId:Long, postText:String,postId:Long?,
+                     imageUrl:String?,videoUrl:String?,audioUrl:String?,
+                     image: MultipartBody.Part?,
                      video: MultipartBody.Part?,
                      audio: MultipartBody.Part?,
                      pollTitle:String,options:List<String>,onSuccess: ()->Unit ){
         viewModelScope.launch {
             try{
-                val response = createChannelPostUseCase.execute(token, ChannelPostData(channelId,postText,image, video, audio, pollTitle, options))
+                val response = createChannelPostUseCase.execute(token, ChannelPostData(channelId,postText,postId,imageUrl,videoUrl,audioUrl,image, video, audio, pollTitle, options))
                 if(response.isSuccessful){
                     onSuccess ()
                 }
@@ -310,6 +316,23 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
                 onError()
             }
         }
+    }
+
+
+    fun getChannelManagementData(token:String,channelId:Long,onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try{
+                val response = getChannelManagementDataUseCase.execute(token, channelId)
+                if (response.isSuccessful){
+                    _managementData.value = response.body()
+                    onSuccess()
+
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+
     }
 
 

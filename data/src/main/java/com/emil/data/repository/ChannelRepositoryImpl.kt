@@ -9,6 +9,7 @@ import com.emil.data.model.toDomainModelList
 import com.emil.data.network.RetrofitCloudInstance
 import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.ChannelData
+import com.emil.domain.model.ChannelManagementResponse
 import com.emil.domain.model.ChannelPageDataResponse
 import com.emil.domain.model.ChannelPostData
 import com.emil.domain.model.ChannelPostResponse
@@ -21,11 +22,13 @@ class ChannelRepositoryImpl : ChannelRepository{
     private val channelBody = ChannelBody ()
     private val postBody = ChannelPostBody ()
     override suspend fun createChannel(token: String, channelData: ChannelData): Response<Unit> {
-        return RetrofitCloudInstance.apiService.createChannel("Bearer $token",
+        return RetrofitCloudInstance.apiService.createOrUpdateChannel("Bearer $token",
             channelBody.toDomainModel(channelData).name,
+            channelBody.toDomainModel(channelData).channelId,
             channelBody.toDomainModel(channelData).link,
             channelBody.toDomainModel(channelData).description,
             channelBody.toDomainModel(channelData).type,
+            channelBody.toDomainModel(channelData).oldAvatarUrl,
             channelBody.toDomainModel(channelData).avatar
             )
     }
@@ -45,9 +48,13 @@ class ChannelRepositoryImpl : ChannelRepository{
     }
 
     override suspend fun createPost(token: String, postData: ChannelPostData): Response<Unit> {
-        return RetrofitCloudInstance.apiService.createChannelPost("Bearer $token",
+        return RetrofitCloudInstance.apiService.createOrUpdateChannelPost("Bearer $token",
             postBody.toDomainModel(postData).channelId,
             postBody.toDomainModel(postData).text,
+            postBody.toDomainModel(postData).postId,
+            postBody.toDomainModel(postData).imageUrl,
+            postBody.toDomainModel(postData).videoUrl,
+            postBody.toDomainModel(postData).audioUrl,
             postBody.toDomainModel(postData).image,
             postBody.toDomainModel(postData).video,
             postBody.toDomainModel(postData).audio,
@@ -121,6 +128,13 @@ class ChannelRepositoryImpl : ChannelRepository{
         val response =  RetrofitUserInstance.apiService.findChannelByLink(prefix);
         return if (response.isSuccessful)
             Response.success(response.body()?.toDomainModelList())
+        else Response.error(response.code(), response.errorBody()!!)
+    }
+
+    override suspend fun getChannelManagementData(token: String, channelId: Long, ): Response<ChannelManagementResponse> {
+        val response =  RetrofitUserInstance.apiService.getChannelManagementData("Bearer $token",channelId)
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModel())
         else Response.error(response.code(), response.errorBody()!!)
     }
 }

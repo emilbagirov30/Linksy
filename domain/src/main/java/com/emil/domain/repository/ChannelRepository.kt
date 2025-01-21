@@ -1,6 +1,7 @@
 package com.emil.domain.repository
 
 import com.emil.domain.model.ChannelData
+import com.emil.domain.model.ChannelManagementResponse
 import com.emil.domain.model.ChannelPageDataResponse
 import com.emil.domain.model.ChannelPostData
 import com.emil.domain.model.ChannelPostResponse
@@ -29,4 +30,5 @@ interface ChannelRepository {
     suspend fun vote(token: String, optionId: Long): Response<Unit>
     suspend fun findChannelByName (prefix:String): Response<List<ChannelResponse>>
     suspend fun findChannelByLink (prefix:String): Response<List<ChannelResponse>>
+    suspend fun getChannelManagementData(token: String, channelId: Long): Response<ChannelManagementResponse>
 }

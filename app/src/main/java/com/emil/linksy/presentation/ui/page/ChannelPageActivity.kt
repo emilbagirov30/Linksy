@@ -2,6 +2,7 @@ package com.emil.linksy.presentation.ui.page
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
+import com.emil.linksy.presentation.ui.navigation.channel.EditChannelActivity
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.RelationType
@@ -46,7 +48,7 @@ class ChannelPageActivity : AppCompatActivity() {
         binding = ActivityChannelPageBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        val sharedPref: SharedPreferences = getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
         val groupId = intent.getLongExtra("GROUP_ID",-1)
         val loading = LoadingDialog(this)
@@ -92,9 +94,19 @@ class ChannelPageActivity : AppCompatActivity() {
                 binding.btSubmit.hide()
                 binding.btSub.hide()
                 binding.ivEditChannel.show()
+
+                binding.ivEditChannel.setOnClickListener {
+                    it.anim()
+                    val channelEditIntent = Intent(this,EditChannelActivity::class.java)
+                    channelEditIntent.putExtra("CHANNEL_ID",channelId)
+                    startActivity(channelEditIntent)
+                }
+
+
+
                 binding.etNewPost.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                       AddChannelPostDialogFragment.newInstance(pageData.channelId).show(supportFragmentManager, "AddPostDialogFragment")
+                       AddChannelPostDialogFragment.newInstance(channelId = pageData.channelId).show(supportFragmentManager, "AddPostDialogFragment")
                         true
                     } else {
                         false
@@ -168,7 +180,7 @@ class ChannelPageActivity : AppCompatActivity() {
 
         channelViewModel.postList.observe(this){postlist ->
             binding.rvPosts.layoutManager = LinearLayoutManager(this)
-            binding.rvPosts.adapter = ChannelPostsAdapter(postlist,this,tokenManager,channelViewModel)
+            binding.rvPosts.adapter = ChannelPostsAdapter(postlist,this,tokenManager,channelViewModel,userId,channelId)
         }
         binding.ibQr.setOnClickListener {
             it.anim()

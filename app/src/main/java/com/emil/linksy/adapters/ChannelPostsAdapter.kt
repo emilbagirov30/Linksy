@@ -16,6 +16,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,6 +25,8 @@ import com.emil.domain.model.ChannelPostResponse
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
+import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
+import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
@@ -36,7 +39,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,private val context: Context,private val tokenManager: TokenManager,private val channelViewModel: ChannelViewModel
+class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,private val context: Context,private val tokenManager: TokenManager,private val channelViewModel: ChannelViewModel,
+    val userId:Long,private val channelId:Long
 ): RecyclerView.Adapter<ChannelPostsAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -59,6 +63,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
         private val pollLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_poll)
         private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
         private val optionRecyclerView = itemView.findViewById<RecyclerView>(R.id.rv_options)
+        private val editedTextView = itemView.findViewById<MaterialTextView>(R.id.tv_edited)
         @SuppressLint("SuspiciousIndentation", "SetTextI18n")
         fun bind(post:ChannelPostResponse){
             if (post.channelAvatarUrl !="null"){
@@ -162,21 +167,33 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                       optionRecyclerView.layoutManager = LinearLayoutManager(context)
                       optionRecyclerView.adapter = OptionsAdapter(post.isVoted,post.options!!,channelViewModel,tokenManager)
                   } else  pollLinearLayout.hide()
-            editPostButton.setOnClickListener {
-                    it.showMenu(context, editAction = {}, deleteAction = {
-                        val dialog = ActionDialog(context)
-                        dialog.setTitle(context.getString(R.string.delete_post_title))
-                        dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
-                        dialog.setAction {
-                            val token = tokenManager.getAccessToken()
-                            channelViewModel.deleteChannelPost(token, post.postId, onSuccess = { dialog.dismiss()}, onConflict = {})
-                        }
 
-                    })
+if (userId == post.authorId) {
+    editPostButton.setOnClickListener {
+        it.showMenu(context, editAction = {
+            AddChannelPostDialogFragment
+                .newInstance(channelId = channelId, postId = post.postId, isEdit = true,text = post.text,post.imageUrl,post.videoUrl,post.audioUrl,post.pollTitle,
+                    post.options?.map { o -> o.optionText })
+                .show ((context as FragmentActivity).supportFragmentManager,"AddPostDialogFragment")
 
+        }, deleteAction = {
+            val dialog = ActionDialog(context)
+            dialog.setTitle(context.getString(R.string.delete_post_title))
+            dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
+            dialog.setAction {
+                val token = tokenManager.getAccessToken()
+                channelViewModel.deleteChannelPost(
+                    token,
+                    post.postId,
+                    onSuccess = { dialog.dismiss() },
+                    onConflict = {})
             }
 
+        })
 
+    }
+}
+            if (post.edited) editedTextView.show() else editedTextView.hide()
 
 
         }

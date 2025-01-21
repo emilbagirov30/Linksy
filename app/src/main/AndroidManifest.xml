@@ -23,6 +23,9 @@
         android:theme="@style/Theme.Linksy"
         tools:ignore="Instantiatable">
         <activity
+            android:name="com.emil.linksy.presentation.ui.navigation.channel.EditChannelActivity"
+            android:exported="false" />
+        <activity
             android:name="com.emil.linksy.presentation.ui.page.ChannelPageActivity"
             android:exported="false" />
         <activity
@@ -57,6 +60,7 @@
             android:name="com.emil.linksy.app.service.WebSocketService"
             android:enabled="true"
             android:exported="false" />
+
         <activity
             android:name="com.emil.linksy.presentation.ui.navigation.MainNavigationActivity"
             android:exported="false" />

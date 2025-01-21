@@ -142,5 +142,6 @@
     <string name="loaded_from_cache"> loaded from cache</string>
     <string name="new_"> new</string>
     <string name="group">Group</string>
-
+    <string name="channel_management">Channel management</string>
+    <string name="reset_poll_info">After editing the post, the poll results will be reset!</string>
 </resources>

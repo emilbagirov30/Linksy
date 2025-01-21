@@ -42,7 +42,7 @@ class GroupActivity : AppCompatActivity() {
     private var imageUri: Uri? = null
     private lateinit var errorTextView: MaterialTextView
     private  var oldAvatarUrl:String? = null
-    var oldName:String=""
+    private var oldName:String=""
     @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,17 +65,13 @@ class GroupActivity : AppCompatActivity() {
 
 
         val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
               updateButtonState()
             }
 
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
+            override fun afterTextChanged(p0: Editable?) {}
 
         }
         nameEditText.addTextChangedListener(textWatcher)
@@ -116,7 +112,7 @@ class GroupActivity : AppCompatActivity() {
 
         }
 
-          chatViewModel.memberList.observe(this){ memberList ->
+        chatViewModel.memberList.observe(this){ memberList ->
             userRecyclerView.adapter =
                 UsersAdapter(userList = memberList.toMutableList(),context = this)
         }

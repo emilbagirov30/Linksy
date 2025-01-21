@@ -1,6 +1,7 @@
 package com.emil.data.network
 
 import com.emil.data.model.AllUserDataDto
+import com.emil.data.model.ChannelManagementResponseDto
 import com.emil.data.model.ChannelPageDataResponseDto
 import com.emil.data.model.ChannelPostResponseDto
 import com.emil.data.model.ChannelResponseDto
@@ -20,6 +21,7 @@ import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserPageDataResponseDto
 import com.emil.data.model.UserProfileDataDto
 import com.emil.data.model.UserResponseDto
+import com.emil.domain.model.ChannelManagementResponse
 import com.emil.domain.model.ChannelType
 import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.MessageMode
@@ -179,10 +181,10 @@ interface ApiService {
 
 
 
-    @POST("api/channels/create")
+    @POST("api/channels/cu")
     @Multipart
-    suspend fun createChannel (@Header("Authorization") token:String, @Part("name") name: String?,
-                             @Part("link") link: String?, @Part("description") description: String, @Part("type") type: String,
+    suspend fun createOrUpdateChannel (@Header("Authorization") token:String, @Part("name") name: String?,@Part("channelId") channelId: Long?,
+                             @Part("link") link: String?, @Part("description") description: String, @Part("type") type: String, @Part("oldAvatarUrl") oldAvatarUrl: String?,
                              @Part image: MultipartBody.Part?
     ):Response<Unit>
 
@@ -194,10 +196,14 @@ interface ApiService {
     suspend fun getChannelPageData(@Header("Authorization") token:String,@Path("id") id:Long): Response<ChannelPageDataResponseDto>
 
 
-    @POST("api/channels/create_post")
+    @POST("api/channels/cu/post")
     @Multipart
-    suspend fun createChannelPost(@Header("Authorization") token:String, @Part("id") channelId:Long, @Part("text") text:String?,
-                           @Part image: MultipartBody.Part?, @Part video: MultipartBody.Part?, @Part audio: MultipartBody.Part?,
+    suspend fun createOrUpdateChannelPost(@Header("Authorization") token:String, @Part("channelId") channelId:Long, @Part("text") text:String?,
+                                  @Part("postId") postId: Long?,
+                                  @Part("imageUrl") imageUrl: String?,
+                                  @Part("videoUrl") videoUrl: String?,
+                                  @Part("audioUrl") audioUrl: String?,
+                                  @Part image: MultipartBody.Part?, @Part video: MultipartBody.Part?, @Part audio: MultipartBody.Part?,
                                   @Part("title") pollTitle:String?, @Part("options") options:List<String>):Response<Unit>
 
 
@@ -279,7 +285,8 @@ interface ApiService {
     suspend fun getGroupData(@Header("Authorization") token: String,@Path("id") chatId: Long): Response<GroupResponseDto>
 
 
-
+    @GET("api/channels/management")
+    suspend fun getChannelManagementData(@Header("Authorization") token: String,@Query("id") channelId: Long): Response<ChannelManagementResponseDto>
 
     @PUT("api/chats/edit/group")
     @Multipart

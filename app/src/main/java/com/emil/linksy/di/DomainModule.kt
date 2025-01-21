@@ -28,6 +28,7 @@ import com.emil.domain.usecase.GetUserMomentsUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.FindUsersByLinkUseCase
 import com.emil.domain.usecase.FindUsersByUsernameUseCase
+import com.emil.domain.usecase.GetChannelManagementDataUseCase
 import com.emil.domain.usecase.GetChannelMembersUseCase
 import com.emil.domain.usecase.GetChannelPageDataUseCase
 import com.emil.domain.usecase.GetChannelPostsUseCase
@@ -349,6 +350,9 @@ val domainModule = module {
     }
     factory<GetGroupDataUseCase>{
         GetGroupDataUseCase(chatRepository = get())
+    }
+    factory<GetChannelManagementDataUseCase>{
+        GetChannelManagementDataUseCase(channelRepository = get())
     }
 
 }
