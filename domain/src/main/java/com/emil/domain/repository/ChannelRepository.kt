@@ -6,6 +6,8 @@ import com.emil.domain.model.ChannelPageDataResponse
 import com.emil.domain.model.ChannelPostData
 import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.ChannelResponse
+import com.emil.domain.model.CommentData
+import com.emil.domain.model.CommentResponse
 
 import com.emil.domain.model.UserResponse
 import retrofit2.Response
@@ -31,4 +33,8 @@ interface ChannelRepository {
     suspend fun findChannelByName (prefix:String): Response<List<ChannelResponse>>
     suspend fun findChannelByLink (prefix:String): Response<List<ChannelResponse>>
     suspend fun getChannelManagementData(token: String, channelId: Long): Response<ChannelManagementResponse>
+    suspend fun addScore(token: String, postId: Long,score:Int): Response<Unit>
+    suspend fun deleteScore(token: String, postId: Long): Response<Unit>
+    suspend fun addComment (token:String, commentData: CommentData):Response<Unit>
+    suspend fun getComments (postId: Long):Response<List<CommentResponse>>
 }

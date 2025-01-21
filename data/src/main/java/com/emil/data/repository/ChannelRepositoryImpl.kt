@@ -2,6 +2,7 @@ package com.emil.data.repository;
 
 import com.emil.data.model.ChannelBody
 import com.emil.data.model.ChannelPostBody
+import com.emil.data.model.CommentBody
 import com.emil.data.model.GroupBody
 import com.emil.data.model.PostBody
 import com.emil.data.model.toDomainModel
@@ -14,6 +15,8 @@ import com.emil.domain.model.ChannelPageDataResponse
 import com.emil.domain.model.ChannelPostData
 import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.ChannelResponse
+import com.emil.domain.model.CommentData
+import com.emil.domain.model.CommentResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.repository.ChannelRepository
 import retrofit2.Response
@@ -21,6 +24,7 @@ import retrofit2.Response
 class ChannelRepositoryImpl : ChannelRepository{
     private val channelBody = ChannelBody ()
     private val postBody = ChannelPostBody ()
+    private val commentBody = CommentBody ()
     override suspend fun createChannel(token: String, channelData: ChannelData): Response<Unit> {
         return RetrofitCloudInstance.apiService.createOrUpdateChannel("Bearer $token",
             channelBody.toDomainModel(channelData).name,
@@ -136,5 +140,26 @@ class ChannelRepositoryImpl : ChannelRepository{
         return if (response.isSuccessful)
             Response.success(response.body()?.toDomainModel())
         else Response.error(response.code(), response.errorBody()!!)
+    }
+
+    override suspend fun addScore(token: String, postId: Long, score: Int): Response<Unit> {
+        return RetrofitUserInstance.apiService.addScore("Bearer $token",postId,score)
+    }
+
+    override suspend fun deleteScore(token: String, postId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.deleteScore("Bearer $token",postId)
+    }
+
+    override suspend fun addComment(token: String, commentData: CommentData): Response<Unit> {
+        return RetrofitUserInstance.apiService.addChannelPostComment("Bearer $token", commentBody.toDomainModel(commentData))
+    }
+
+    override suspend fun getComments(postId: Long): Response<List<CommentResponse>> {
+            val response = RetrofitUserInstance.apiService.getChannelPostComments(postId)
+            return if (response.isSuccessful) {
+                Response.success(response.body()?.toDomainModelList())
+            } else {
+                Response.error(response.code(), response.errorBody()!!)
+            }
     }
 }

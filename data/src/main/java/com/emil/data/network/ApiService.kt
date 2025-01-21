@@ -297,4 +297,14 @@ interface ApiService {
                              @Part image: MultipartBody.Part?,
     ):Response<Unit>
 
+
+
+    @POST("api/channels/post/add/score")
+    suspend fun addScore(@Header("Authorization") token: String, @Query("id") id: Long, @Query("score") score: Int): Response<Unit>
+    @DELETE("api/channels/post/delete/score")
+    suspend fun deleteScore(@Header("Authorization") token: String, @Query("id") id: Long): Response<Unit>
+    @POST("api/channels/post/add/comment")
+    suspend fun addChannelPostComment(@Header("Authorization") token: String, @Body commentRequest: CommentBody): Response<Unit>
+    @GET("api/channels/post/{id}/comments")
+    suspend fun getChannelPostComments(@Path("id") id: Long): Response<List<CommentResponseDto>>
 }

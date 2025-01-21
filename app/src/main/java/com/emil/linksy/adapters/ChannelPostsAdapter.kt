@@ -2,6 +2,7 @@ package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.media.MediaPlayer
 import android.net.Uri
@@ -11,8 +12,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -22,13 +25,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChannelPostResponse
+import com.emil.domain.usecase.AddScoreUseCase
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
+import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
+import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.anim
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showMenu
@@ -38,6 +45,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 
 class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,private val context: Context,private val tokenManager: TokenManager,private val channelViewModel: ChannelViewModel,
     val userId:Long,private val channelId:Long
@@ -60,10 +68,17 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
         private val audioProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_audio)
         private val audioLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_audio)
         private val pollTitleTextView = itemView.findViewById<MaterialTextView>(R.id.tv_title)
+        private val commentImageView = itemView.findViewById<ImageView>(R.id.iv_comment)
+        private val commentTextView = itemView.findViewById<MaterialTextView>(R.id.tv_comment_count)
         private val pollLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_poll)
         private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
         private val optionRecyclerView = itemView.findViewById<RecyclerView>(R.id.rv_options)
         private val editedTextView = itemView.findViewById<MaterialTextView>(R.id.tv_edited)
+        private val scoreLayout = itemView.findViewById<LinearLayout>(R.id.ll_score)
+        private val scoreTextView = itemView.findViewById<MaterialTextView>(R.id.tv_score)
+        private val deleteScoreButton = itemView.findViewById<ImageButton>(R.id.ib_delete_score)
+        val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong("ID",-1)
         @SuppressLint("SuspiciousIndentation", "SetTextI18n")
         fun bind(post:ChannelPostResponse){
             if (post.channelAvatarUrl !="null"){
@@ -193,10 +208,76 @@ if (userId == post.authorId) {
 
     }
 }
+            commentTextView.text = post.commentsCount.toString()
+            commentImageView.setOnClickListener {
+                it.anim()
+                val fragmentActivity = context as? FragmentActivity
+                val bsComment = CommentsBottomSheet.newInstance( channelPostId = post.postId, userId = userId)
+                fragmentActivity?.supportFragmentManager?.let { it1 -> bsComment.show(it1," CommentsBottomSheet") }
+            }
+
             if (post.edited) editedTextView.show() else editedTextView.hide()
 
-
+            if (post.userScore!=null) {
+                scoreLayout.show()
+                scoreTextView.text = post.userScore.toString()
+                deleteScoreButton.setOnClickListener {
+                    it.anim()
+                    channelViewModel.deleteScore(tokenManager.getAccessToken(),post.postId, onSuccess = {scoreLayout.hide()})
+                }
+            }else {
+                   scoreLayout.hide()
+                ratingImageView.setOnClickListener {
+                    it.anim()
+                    showPopup(it, post.postId)
+                }
+            }
         }
+    }
+    @SuppressLint("InflateParams")
+    private fun showPopup(anchor: View,postId:Long) {
+        val inflater = LayoutInflater.from(context)
+        val popupView = inflater.inflate(R.layout.popup_score, null)
+
+        val popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+
+        popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val popupHeight = popupView.measuredHeight
+
+
+        val xOffset = 0
+        val yOffset = -popupHeight - anchor.height - 10
+        popupWindow.showAsDropDown(anchor, xOffset, yOffset)
+
+        val score1 = popupView.findViewById<TextView>(R.id.tv_1)
+        val score2 = popupView.findViewById<TextView>(R.id.tv_2)
+        val score3 = popupView.findViewById<TextView>(R.id.tv_3)
+        val score4 = popupView.findViewById<TextView>(R.id.tv_4)
+        val score5 = popupView.findViewById<TextView>(R.id.tv_5)
+
+        score1.setOnClickListener {
+            addScore(postId,1)
+        }
+        score2.setOnClickListener {
+            addScore(postId,2)
+        }
+        score3.setOnClickListener {
+            addScore(postId,3)
+        }
+        score4.setOnClickListener {
+            addScore(postId,4)
+        }
+        score5.setOnClickListener {
+            addScore(postId,5)
+        }
+
+
+    }
+
+
+
+    private fun addScore (postId: Long,score:Int){
+        channelViewModel.addScore(tokenManager.getAccessToken(),postId, score)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {

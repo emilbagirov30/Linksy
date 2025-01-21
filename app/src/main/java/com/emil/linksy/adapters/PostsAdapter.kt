@@ -210,7 +210,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
               commentImageView.setOnClickListener {
                   it.anim()
                   val fragmentActivity = context as? FragmentActivity
-                  val bsComment = CommentsBottomSheet.newInstance(post.postId, userId = userId)
+                  val bsComment = CommentsBottomSheet.newInstance( postId = post.postId, userId = userId)
                   fragmentActivity?.supportFragmentManager?.let { it1 -> bsComment.show(it1," CommentsBottomSheet") }
               }
             if (post.isLikedIt){

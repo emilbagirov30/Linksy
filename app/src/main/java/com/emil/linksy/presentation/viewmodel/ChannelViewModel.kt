@@ -13,17 +13,23 @@ import com.emil.domain.model.ChannelPostData
 import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.ChannelResponse
 import com.emil.domain.model.ChannelType
+import com.emil.domain.model.CommentData
+import com.emil.domain.model.CommentResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.usecase.AcceptUserToChannelUseCase
+import com.emil.domain.usecase.AddChannelPostCommentUseCase
+import com.emil.domain.usecase.AddScoreUseCase
 import com.emil.domain.usecase.CreateChannelPostUseCase
 import com.emil.domain.usecase.CreateChannelUseCase
 import com.emil.domain.usecase.DeleteChannelPostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
+import com.emil.domain.usecase.DeleteScoreUseCase
 import com.emil.domain.usecase.FindChannelByLinkUseCase
 import com.emil.domain.usecase.FindChannelByNameUseCase
 import com.emil.domain.usecase.GetChannelManagementDataUseCase
 import com.emil.domain.usecase.GetChannelMembersUseCase
 import com.emil.domain.usecase.GetChannelPageDataUseCase
+import com.emil.domain.usecase.GetChannelPostCommentsUseCase
 import com.emil.domain.usecase.GetChannelPostsUseCase
 import com.emil.domain.usecase.GetChannelSubscriptionsRequestUseCse
 import com.emil.domain.usecase.GetChannelsUseCase
@@ -51,8 +57,10 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     private val unsubscribeChannelUseCase: UnsubscribeChannelUseCase,
     private val voteUseCase: VoteUseCase,
     private val findChannelByNameUseCase: FindChannelByNameUseCase,
-    private val findChannelByLinkUseCase: FindChannelByLinkUseCase,
-                       private val getChannelManagementDataUseCase: GetChannelManagementDataUseCase
+    private val findChannelByLinkUseCase: FindChannelByLinkUseCase, private val getChannelManagementDataUseCase: GetChannelManagementDataUseCase,
+    private val addScoreUseCase: AddScoreUseCase,private val deleteScoreUseCase: DeleteScoreUseCase,
+                       private val addChannelPostCommentUseCase: AddChannelPostCommentUseCase,
+    private val getChannelPostCommentsUseCase: GetChannelPostCommentsUseCase
     ):ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelResponse>> ()
@@ -72,6 +80,8 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
     private val _managementData = MutableLiveData<ChannelManagementResponse> ()
     val managementData: LiveData<ChannelManagementResponse> = _managementData
+    private val _commentList = MutableLiveData<List<CommentResponse>> ()
+    val commentList: LiveData<List<CommentResponse>> = _commentList
 
 
 
@@ -127,7 +137,8 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
                      pollTitle:String,options:List<String>,onSuccess: ()->Unit ){
         viewModelScope.launch {
             try{
-                val response = createChannelPostUseCase.execute(token, ChannelPostData(channelId,postText,postId,imageUrl,videoUrl,audioUrl,image, video, audio, pollTitle, options))
+                val response = createChannelPostUseCase.execute(token,
+                    ChannelPostData(channelId,postText,postId,imageUrl,videoUrl,audioUrl,image, video, audio, pollTitle, options))
                 if(response.isSuccessful){
                     onSuccess ()
                 }
@@ -337,4 +348,58 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
 
 
+    fun addScore(token:String,postId:Long,score:Int,onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try{
+                val response = addScoreUseCase.execute(token, postId, score)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+    }
+    fun deleteScore(token:String,postId:Long,onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try{
+                val response = deleteScoreUseCase.execute(token, postId)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+
+    }
+
+
+    fun addComment(token:String, commentData: CommentData, onSuccess: ()->Unit, onError: ()->Unit){
+        viewModelScope.launch {
+            try {
+                val response = addChannelPostCommentUseCase.execute(token, commentData)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+
+    fun getComments(postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+        viewModelScope.launch {
+            try {
+                val response = getChannelPostCommentsUseCase.execute(postId)
+                if (response.isSuccessful){
+                    _commentList.value = response.body()
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
     }

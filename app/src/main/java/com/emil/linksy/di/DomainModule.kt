@@ -1,8 +1,10 @@
 package com.emil.linksy.di
 
 import com.emil.domain.usecase.AcceptUserToChannelUseCase
+import com.emil.domain.usecase.AddChannelPostCommentUseCase
 import com.emil.domain.usecase.AddCommentUseCase
 import com.emil.domain.usecase.AddLikeUseCase
+import com.emil.domain.usecase.AddScoreUseCase
 import com.emil.domain.usecase.AddToBlackListUseCase
 import com.emil.domain.usecase.AllUserDataUseCase
 import com.emil.domain.usecase.ChangePasswordUseCase
@@ -20,6 +22,7 @@ import com.emil.domain.usecase.DeleteLikeUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
+import com.emil.domain.usecase.DeleteScoreUseCase
 import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
 import com.emil.domain.usecase.EditGroupUseCase
 import com.emil.domain.usecase.FindChannelByLinkUseCase
@@ -31,6 +34,7 @@ import com.emil.domain.usecase.FindUsersByUsernameUseCase
 import com.emil.domain.usecase.GetChannelManagementDataUseCase
 import com.emil.domain.usecase.GetChannelMembersUseCase
 import com.emil.domain.usecase.GetChannelPageDataUseCase
+import com.emil.domain.usecase.GetChannelPostCommentsUseCase
 import com.emil.domain.usecase.GetChannelPostsUseCase
 import com.emil.domain.usecase.GetChannelSubscriptionsRequestUseCse
 import com.emil.domain.usecase.GetChannelsUseCase
@@ -354,7 +358,18 @@ val domainModule = module {
     factory<GetChannelManagementDataUseCase>{
         GetChannelManagementDataUseCase(channelRepository = get())
     }
-
+    factory<AddScoreUseCase>{
+        AddScoreUseCase(channelRepository = get())
+    }
+    factory<DeleteScoreUseCase>{
+        DeleteScoreUseCase(channelRepository = get())
+    }
+    factory<AddChannelPostCommentUseCase>{
+        AddChannelPostCommentUseCase(channelRepository = get())
+    }
+    factory<GetChannelPostCommentsUseCase>{
+        GetChannelPostCommentsUseCase(channelRepository = get())
+    }
 }
 
 

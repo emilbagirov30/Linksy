@@ -139,4 +139,5 @@
     <string name="group">Группа</string>
     <string name="channel_management">Управление каналом</string>
     <string name="reset_poll_info">После редактирования поста результаты опроса будут сброшены!</string>
+    <string name="your_evaluation">Ваша оценка:</string>
 </resources>

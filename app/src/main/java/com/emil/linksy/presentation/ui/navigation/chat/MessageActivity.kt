@@ -441,12 +441,12 @@ class MessageActivity : AppCompatActivity() {
         val addAudioButton = popupView.findViewById<ImageButton>(R.id.ib_add_audio)
 
         addImageButton.setOnClickListener {
-           it.anim()
+            it.anim()
             pickImageLauncher.launch(ContentType.IMAGE.mimeType)
         }
 
         addVideoButton.setOnClickListener {
-           it.anim()
+            it.anim()
             pickVideoLauncher.launch(ContentType.VIDEO.mimeType)
         }
 
