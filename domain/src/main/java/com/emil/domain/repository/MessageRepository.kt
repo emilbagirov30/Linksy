@@ -13,4 +13,5 @@ interface MessageRepository {
     suspend fun getMessagesByChat (token:String,chatId:Long):Response<MutableList<MessageResponse>>
     suspend fun viewed (token:String,chatId:Long):Response<Unit>
     suspend fun deleteMessage (token:String,messageId:Long):Response<Unit>
+    suspend fun editMessage (token:String,messageId:Long,text:String):Response<Unit>
 }

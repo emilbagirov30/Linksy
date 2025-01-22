@@ -16,17 +16,19 @@ data class MessageLocalDb(
     val audioUrl: String?="",
     val voiceUrl: String?="",
     val date: String="",
-    val viewed:Boolean = false
+    val viewed:Boolean = false,
+    val edited:Boolean = false
 )
 
 
 
 fun MessageLocalDb.toDomainModel ():MessageLocal{
-  return MessageLocal(id, senderId, chatId, text, imageUrl, videoUrl, audioUrl, voiceUrl, date,viewed)
+  return MessageLocal(id, senderId, chatId, text, imageUrl, videoUrl, audioUrl, voiceUrl, date,viewed,edited)
 }
 
 fun MessageLocalDb.toDomainModel (domainModel: MessageLocal):MessageLocalDb{
-    return MessageLocalDb(domainModel.id, domainModel.senderId, domainModel.chatId, domainModel.text, domainModel.imageUrl, domainModel.videoUrl, domainModel.audioUrl, domainModel.voiceUrl, domainModel.date,domainModel.viewed)
+    return MessageLocalDb(domainModel.id, domainModel.senderId, domainModel.chatId, domainModel.text, domainModel.imageUrl,
+        domainModel.videoUrl, domainModel.audioUrl, domainModel.voiceUrl, domainModel.date,domainModel.viewed,domainModel.edited)
 }
 
 fun MutableList<MessageLocalDb>.toDomainModelList(): MutableList<MessageLocal> {

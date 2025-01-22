@@ -2,6 +2,7 @@ package com.emil.data.repository
 
 import com.emil.data.TemporaryKeyStore
 import com.emil.domain.model.ChatResponse
+import com.emil.domain.model.EditMessageResponse
 import com.emil.domain.model.MessageResponse
 import com.emil.domain.repository.WebSocketRepository
 import com.squareup.moshi.Moshi
@@ -19,6 +20,7 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
     private val jsonAdapterMessage = moshi.adapter(MessageResponse::class.java)
     private val jsonAdapterChats = moshi.adapter(ChatResponse::class.java)
     private val jsonAdapterMessageId = moshi.adapter(Long::class.java)
+    private val jsonAdapterEditMessage = moshi.adapter(EditMessageResponse::class.java)
     override fun connect() {
         if (!stompClient.isConnected)
             stompClient.connect()
@@ -102,4 +104,22 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
             topic.dispose()
         }
 
-    }}
+    }
+
+    override fun subscribeToEditMessages(token: String, chatId: Long): Flow<EditMessageResponse> = callbackFlow {
+        val topic = stompClient.topic("/user/$token/queue/messages/edited/${chatId}/")
+            .subscribe({ stompMessage ->
+                val message = stompMessage.payload
+                val messageResponse = jsonAdapterEditMessage.fromJson(message)
+                messageResponse?.let { trySend(it).isSuccess }
+            }, { error ->
+
+            })
+
+        awaitClose {
+            topic.dispose()
+        }
+
+    }
+
+}

@@ -75,7 +75,9 @@ val appModule = module {
                viewedUseCase = get(),
                subscribeToUserChatViewedUseCase = get(),
                deleteMessageUseCase = get(),
-               subscribeToDeleteMessageUseCase = get()
+               subscribeToDeleteMessageUseCase = get(),
+               editMessageUseCase = get(),
+               subscribeToEditMessagesUseCase = get()
            )
        }
 

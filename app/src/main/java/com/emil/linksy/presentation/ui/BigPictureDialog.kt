@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
-import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import io.getstream.photoview.PhotoView

@@ -27,6 +27,7 @@ import com.emil.domain.model.UserResponse
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
+import com.emil.linksy.presentation.ui.navigation.chat.EditMessageDialog
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
 import com.emil.linksy.util.TokenManager
@@ -67,6 +68,7 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
         private val voiceLayout = itemView.findViewById<LinearLayout>(R.id.ll_voice)
         private val messageTextView = itemView.findViewById<TextView>(R.id.tv_message)
         private val timeTextView = itemView.findViewById<TextView>(R.id.tv_time)
+        private val editedTextView = itemView.findViewById<TextView>(R.id.tv_edited)
 
         @SuppressLint("RtlHardcoded", "SuspiciousIndentation")
         fun bind(message: MessageResponse) {
@@ -207,9 +209,11 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
 
             } else voiceLayout.hide()
 
+            if (message.edited) editedTextView.show() else editedTextView.hide()
+
 mainLayout.setOnClickListener {
     if(message.senderId==userId)
-    showPopup(it,message.messageId)
+    showPopup(it,message.messageId,if (message.text==null) "" else message.text!!)
 }
 
 
@@ -248,7 +252,7 @@ if (chatMemberList.isNotEmpty()){
 
 
     @SuppressLint("InflateParams")
-    private fun showPopup(anchor: View,messageId:Long) {
+    private fun showPopup(anchor: View,messageId:Long,text:String) {
         val inflater = LayoutInflater.from(context)
         val popupView = inflater.inflate(R.layout.popup_message, null)
 
@@ -273,7 +277,7 @@ if (chatMemberList.isNotEmpty()){
         }
 
         edit.setOnClickListener {
-
+                  EditMessageDialog.newInstance(context,messageId,text,tokenManager, messageViewModel)
         }
 
 

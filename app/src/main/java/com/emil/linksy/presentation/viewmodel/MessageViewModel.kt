@@ -13,11 +13,13 @@ import com.emil.domain.model.toResponseModelList
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
 import com.emil.domain.usecase.DeleteMessageUseCase
 import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
+import com.emil.domain.usecase.EditMessageUseCase
 import com.emil.domain.usecase.GetUserMessagesByChat
 import com.emil.domain.usecase.GetUserMessagesByChatFromLocalDb
 import com.emil.domain.usecase.GetUserMessagesUseCase
 import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
 import com.emil.domain.usecase.SendMessageUseCase
+import com.emil.domain.usecase.SubscribeToEditMessagesUseCase
 import com.emil.domain.usecase.SubscribeToMessagesDeleteUseCase
 import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
 import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
@@ -36,7 +38,9 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                        private val viewedUseCase: ViewedUseCase,
                        private val subscribeToUserChatViewedUseCase: SubscribeToUserChatViewedUseCase,
                         private val subscribeToDeleteMessageUseCase: SubscribeToMessagesDeleteUseCase,
-                         private val deleteMessageUseCase: DeleteMessageUseCase
+                         private val deleteMessageUseCase: DeleteMessageUseCase,
+                         private val editMessageUseCase: EditMessageUseCase,
+                          private val subscribeToEditMessagesUseCase: SubscribeToEditMessagesUseCase
 ) :ViewModel(){
 
     private val _messageList = MutableLiveData<MutableList<MessageResponse>> ()
@@ -210,5 +214,41 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
             }
         }
     }
+    fun editMessage(token: String, messageId:Long,text:String, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+
+        viewModelScope.launch {
+            try {
+                val response = editMessageUseCase.execute(token, messageId, text)
+                if (response.isSuccessful){
+                    onSuccess ()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+
+    @SuppressLint("SuspiciousIndentation")
+    fun subscribeToEdited(token: String,chatId: Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                connectToWebSocketUseCase.invoke()
+                val messageId= subscribeToEditMessagesUseCase.invoke(token, chatId)
+                messageId.collect { response ->
+                    val updatedList = _messageList.value?.toMutableList() ?: mutableListOf()
+                    val index = updatedList.indexOfFirst { it.messageId == response.id }
+                    if (index != -1) {
+                        updatedList[index].text = response.text
+                        updatedList[index].edited = true
+                        _messageList.value = updatedList
+                    }
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
 
 }

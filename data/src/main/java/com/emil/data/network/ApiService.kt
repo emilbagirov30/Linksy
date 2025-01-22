@@ -310,4 +310,7 @@ interface ApiService {
 
     @DELETE("api/messages/delete")
     suspend fun deleteMessage(@Header("Authorization") token:String, @Query("id") messageId: Long): Response<Unit>
+
+    @PUT("api/messages/edit")
+    suspend fun editMessage(@Header("Authorization") token:String, @Query("id") messageId: Long,@Query("text") text:String): Response<Unit>
 }

@@ -26,6 +26,7 @@ import com.emil.domain.usecase.DeleteRequestUseCase
 import com.emil.domain.usecase.DeleteScoreUseCase
 import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
 import com.emil.domain.usecase.EditGroupUseCase
+import com.emil.domain.usecase.EditMessageUseCase
 import com.emil.domain.usecase.FindChannelByLinkUseCase
 import com.emil.domain.usecase.FindChannelByNameUseCase
 import com.emil.domain.usecase.GetUserMomentsUseCase
@@ -71,6 +72,7 @@ import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.domain.usecase.SetMessageModeUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
+import com.emil.domain.usecase.SubscribeToEditMessagesUseCase
 import com.emil.domain.usecase.SubscribeToMessagesDeleteUseCase
 import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
 import com.emil.domain.usecase.SubscribeToUserChatsCountUseCase
@@ -373,7 +375,6 @@ val domainModule = module {
         GetChannelPostCommentsUseCase(channelRepository = get())
     }
 
-
     factory<SubscribeToMessagesDeleteUseCase>{
        SubscribeToMessagesDeleteUseCase(repository = get())
     }
@@ -381,7 +382,12 @@ val domainModule = module {
     factory<DeleteMessageUseCase>{
        DeleteMessageUseCase(messageRepository = get())
     }
-
+    factory<SubscribeToEditMessagesUseCase>{
+       SubscribeToEditMessagesUseCase(repository = get())
+    }
+    factory<EditMessageUseCase>{
+        EditMessageUseCase(messageRepository = get())
+    }
 }
 
 

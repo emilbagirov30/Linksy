@@ -10,11 +10,12 @@ data class MessageLocal(
     val audioUrl: String?,
     val voiceUrl: String?,
     val date: String,
-    val viewed:Boolean
+    val viewed:Boolean,
+    val edited:Boolean
 )
 
 fun MessageLocal.toResponseModel():MessageResponse{
-    return MessageResponse(id,senderId, chatId, text, imageUrl, videoUrl, audioUrl, voiceUrl, date,viewed)
+    return MessageResponse(id,senderId, chatId, text, imageUrl, videoUrl, audioUrl, voiceUrl, date,viewed,edited)
 }
 
 fun List<MessageLocal>.toResponseModelList():MutableList<MessageResponse>{

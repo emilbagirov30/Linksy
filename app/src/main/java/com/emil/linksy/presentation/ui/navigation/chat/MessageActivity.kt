@@ -31,7 +31,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.emil.domain.model.MessageResponse
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.linksy.adapters.MessagesAdapter
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
@@ -137,7 +136,7 @@ class MessageActivity : AppCompatActivity() {
         val downButton = findViewById<ImageButton>(R.id.ib_down)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
-        val sharedPref: SharedPreferences = getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
         toolBar.setNavigationOnClickListener {
             finish()
@@ -195,6 +194,7 @@ class MessageActivity : AppCompatActivity() {
                 messageViewModel.messageList.observe(this){messageList ->
                 messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, messageViewModel = messageViewModel, tokenManager = tokenManager)
                     messageRecyclerView.scrollToPosition(messageList.size - 1)
+                    if(messageList.isNotEmpty())
                     viewMessage(messageList[0].chatId)
             }
 
@@ -308,13 +308,6 @@ class MessageActivity : AppCompatActivity() {
     }
 
 
-
-
-
-
-
-
-
     private fun getMessagesFromLocalDatabase (chatId:Long){
         messageViewModel.getUserMessagesByChatFromLocalDb(chatId)
         showToast(this,R.string.loaded_from_cache)
@@ -324,6 +317,7 @@ class MessageActivity : AppCompatActivity() {
         messageViewModel.subscribeToUserMessages(tokenManager.getAccessToken(),chatId)
         messageViewModel.subscribeToViewed(tokenManager.getAccessToken(),chatId)
         messageViewModel.subscribeToDeleted(tokenManager.getAccessToken(),chatId)
+        messageViewModel.subscribeToEdited(tokenManager.getAccessToken(),chatId)
     }
 
     private fun viewMessage (chatId: Long){

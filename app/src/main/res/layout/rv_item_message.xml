@@ -202,6 +202,22 @@
                         android:text="00:00">
 
                     </TextView>
+
+                    <TextView
+                        android:id="@+id/tv_edited"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:padding="5dp"
+                        android:visibility="gone"
+                        android:layout_gravity="bottom|end"
+                        android:fontFamily="@font/klukva"
+                        android:textColor="@color/gray"
+                        android:text="@string/edited">
+
+                    </TextView>
+
                 </LinearLayout>
 
 
