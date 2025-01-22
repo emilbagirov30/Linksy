@@ -15,4 +15,5 @@ interface PostRepository {
     suspend fun deleteLike (token: String,postId: Long):Response<Unit>
     suspend fun addComment (token:String, commentData: CommentData):Response<Unit>
     suspend fun getComments (postId: Long):Response<List<CommentResponse>>
+    suspend fun deleteComment (token: String,commentId: Long):Response<Unit>
 }

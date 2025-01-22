@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.CommentResponse
+import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.ui.page.UserPageActivity
+import com.emil.linksy.presentation.viewmodel.ChannelViewModel
+import com.emil.linksy.presentation.viewmodel.PostViewModel
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
@@ -21,7 +25,11 @@ import com.emil.presentation.databinding.RvItemCommentsBinding
 class CommentsAdapter (private val userId:Long, private val independentCommentList:List<CommentResponse>,
                        private val allCommentList:List<CommentResponse> = emptyList(),
                        private val context: Context,
-                       private val commentsBottomSheet: CommentsBottomSheet? = null):
+                       private val commentsBottomSheet: CommentsBottomSheet? = null,
+                      private val postViewModel: PostViewModel?=null,
+                       private val channelViewModel: ChannelViewModel? = null,
+                         private val tokenManager: TokenManager
+                                                      ):
     RecyclerView.Adapter<CommentsAdapter.CommentViewHolder>(){
 
 
@@ -59,13 +67,29 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
                     it.anim()
                     binding.rvResponses.show()
                     binding.rvResponses.layoutManager = LinearLayoutManager(context)
-                    binding.rvResponses.adapter = CommentsAdapter(userId,independentCommentList =childComments, context = context)
+                    binding.rvResponses.adapter = CommentsAdapter(userId,independentCommentList =childComments,
+                        context = context, tokenManager = tokenManager, channelViewModel = channelViewModel, postViewModel = postViewModel)
                     it.hide()
                 }
             }else{
                 binding.tvReply.hide()
             }
 
+            if (comment.authorId == userId){
+                binding.tvDelete.show()
+                binding.tvDelete.setOnClickListener {
+
+                    val dialog = ActionDialog(context)
+                    dialog.setTitle(context.getString(R.string.delete_comment_title))
+                    dialog.setConfirmText(context.getString(R.string.delete_comment_confirm_text))
+                    dialog.setAction {
+                        channelViewModel?.deleteComment(tokenManager.getAccessToken(),comment.commentId, onSuccess = {dialog.dismiss()}, onError = {})
+                        postViewModel?.deleteComment(tokenManager.getAccessToken(),comment.commentId, onSuccess = {dialog.dismiss()}, onError = {})
+                    }
+
+
+                }
+            }else  binding.tvDelete.hide()
 
         }
     }

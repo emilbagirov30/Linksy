@@ -83,7 +83,9 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
                     independentCommentList,
                     allCommentList = commentlist,
                     context = requireActivity(),
-                    commentsBottomSheet = this
+                    commentsBottomSheet = this,
+                    postViewModel = postViewModel,
+                    tokenManager = tokenManager
                 )
             }
             val textWatcher = object : TextWatcher {
@@ -124,7 +126,9 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
                     independentCommentList,
                     allCommentList = commentlist,
                     context = requireActivity(),
-                    commentsBottomSheet = this
+                    commentsBottomSheet = this,
+                    channelViewModel = channelViewModel,
+                    tokenManager = tokenManager
                 )
             }
             val textWatcher = object : TextWatcher {

@@ -72,7 +72,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val audioProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_audio)
         private val voiceProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_voice)
         private val editedTextView = itemView.findViewById<MaterialTextView>(R.id.tv_edited)
-        val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
         @SuppressLint("SetTextI18n", "SuspiciousIndentation")
         fun bind(post: PostResponse) {

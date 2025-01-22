@@ -323,4 +323,9 @@ interface ApiService {
     suspend fun  getAllSubscriptionsPosts (@Header("Authorization") token:String): Response<List<PostResponseDto>>
 
 
+    @DELETE("api/posts/comment/delete")
+    suspend fun deleteComment(@Header("Authorization") token:String, @Query("id") commentId: Long): Response<Unit>
+
+    @DELETE("api/channels/post/comment/delete")
+    suspend fun deleteChannelComment(@Header("Authorization") token:String, @Query("id") commentId: Long): Response<Unit>
 }

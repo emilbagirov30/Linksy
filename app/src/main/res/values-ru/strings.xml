@@ -144,4 +144,6 @@
     <string name="delete_message_confirm_text">Вы уверены, что хотите удалить сообщение?</string>
     <string name="share">Поделиться</string>
     <string name="users">Пользователи</string>
+    <string name="delete_comment_title">Удаление комментария</string>
+    <string name="delete_comment_confirm_text">Вы уверены, что хотите удалить комментарий?</string>
 </resources>

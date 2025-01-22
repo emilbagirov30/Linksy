@@ -18,6 +18,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
        />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:fontFamily="@font/klukva"
+        android:layout_marginEnd="5dp"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:foreground="?attr/selectableItemBackground"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_date"
+        />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_name"

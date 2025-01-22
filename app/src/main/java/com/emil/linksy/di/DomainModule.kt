@@ -17,7 +17,9 @@ import com.emil.domain.usecase.CreateChannelUseCase
 import com.emil.domain.usecase.CreateGroupUseCase
 import com.emil.domain.usecase.CreateMomentUseCase
 import com.emil.domain.usecase.DeleteAvatarUseCase
+import com.emil.domain.usecase.DeleteChannelCommentUseCase
 import com.emil.domain.usecase.DeleteChannelPostUseCase
+import com.emil.domain.usecase.DeleteCommentUseCase
 import com.emil.domain.usecase.DeleteLikeUseCase
 import com.emil.domain.usecase.DeleteMessageUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
@@ -397,6 +399,14 @@ val domainModule = module {
     factory<GetAllChannelsPostsUseCase>{
         GetAllChannelsPostsUseCase(feedRepository = get())
     }
+
+    factory<DeleteCommentUseCase>{
+        DeleteCommentUseCase(postRepository = get())
+    }
+    factory<DeleteChannelCommentUseCase>{
+        DeleteChannelCommentUseCase(channelRepository = get())
+    }
+
 }
 
 

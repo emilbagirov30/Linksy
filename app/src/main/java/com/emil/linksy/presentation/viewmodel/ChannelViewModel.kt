@@ -21,6 +21,7 @@ import com.emil.domain.usecase.AddChannelPostCommentUseCase
 import com.emil.domain.usecase.AddScoreUseCase
 import com.emil.domain.usecase.CreateChannelPostUseCase
 import com.emil.domain.usecase.CreateChannelUseCase
+import com.emil.domain.usecase.DeleteChannelCommentUseCase
 import com.emil.domain.usecase.DeleteChannelPostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
 import com.emil.domain.usecase.DeleteScoreUseCase
@@ -60,7 +61,8 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     private val findChannelByLinkUseCase: FindChannelByLinkUseCase, private val getChannelManagementDataUseCase: GetChannelManagementDataUseCase,
     private val addScoreUseCase: AddScoreUseCase,private val deleteScoreUseCase: DeleteScoreUseCase,
                        private val addChannelPostCommentUseCase: AddChannelPostCommentUseCase,
-    private val getChannelPostCommentsUseCase: GetChannelPostCommentsUseCase
+    private val getChannelPostCommentsUseCase: GetChannelPostCommentsUseCase,
+    private val deleteChannelCommentUseCase: DeleteChannelCommentUseCase
     ):ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelResponse>> ()
@@ -402,4 +404,22 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
             }
         }
     }
+
+
+
+    fun deleteComment(token:String,commentId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+        viewModelScope.launch {
+            try {
+                val response = deleteChannelCommentUseCase.execute(token, commentId)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+
+
     }

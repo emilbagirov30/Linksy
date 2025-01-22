@@ -12,6 +12,7 @@ import com.emil.domain.model.PostResponse
 import com.emil.domain.model.UserProfileData
 import com.emil.domain.usecase.AddCommentUseCase
 import com.emil.domain.usecase.AddLikeUseCase
+import com.emil.domain.usecase.DeleteCommentUseCase
 import com.emil.domain.usecase.DeleteLikeUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.GetCommentsUseCase
@@ -29,7 +30,8 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
                      private val addLikeUseCase: AddLikeUseCase,
     private  val addCommentUseCase: AddCommentUseCase,
     private val deleteLikeUseCase: DeleteLikeUseCase,
-    private val getCommentsUseCase: GetCommentsUseCase
+    private val getCommentsUseCase: GetCommentsUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase
 
 ):ViewModel() {
 
@@ -151,6 +153,20 @@ fun deletePost(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
                 val response = getCommentsUseCase.execute(postId)
                 if (response.isSuccessful){
                      _commentList.value = response.body()
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+
+    fun deleteComment(token:String,commentId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+        viewModelScope.launch {
+            try {
+                val response = deleteCommentUseCase.execute(token, commentId)
+                if (response.isSuccessful){
                     onSuccess()
                 }
             }catch (e:Exception){

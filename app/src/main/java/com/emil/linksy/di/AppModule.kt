@@ -45,7 +45,7 @@ val appModule = module {
     }
     viewModel <PostViewModel> {
         PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get(), getOutsiderUserPostsUseCase = get(), deletePostUseCase = get(),
-            getCommentsUseCase = get(), addLikeUseCase = get(), addCommentUseCase = get(), deleteLikeUseCase = get())
+            getCommentsUseCase = get(), addLikeUseCase = get(), addCommentUseCase = get(), deleteLikeUseCase = get(), deleteCommentUseCase = get())
     }
 
     viewModel <MomentViewModel> {
@@ -89,7 +89,7 @@ val appModule = module {
 
     viewModel <ChannelViewModel>{
        ChannelViewModel(createChannelUseCase = get(), getChannelsUseCase = get(), getChannelPageDataUseCase = get(),
-           get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get())
+           get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get())
     }
 
 

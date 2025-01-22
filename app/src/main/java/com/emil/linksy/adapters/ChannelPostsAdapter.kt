@@ -77,7 +77,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
         private val scoreLayout = itemView.findViewById<LinearLayout>(R.id.ll_score)
         private val scoreTextView = itemView.findViewById<MaterialTextView>(R.id.tv_score)
         private val deleteScoreButton = itemView.findViewById<ImageButton>(R.id.ib_delete_score)
-        val sharedPref: SharedPreferences = context.getSharedPreferences("AppData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
         @SuppressLint("SuspiciousIndentation", "SetTextI18n")
         fun bind(post:ChannelPostResponse){

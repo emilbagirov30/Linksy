@@ -73,4 +73,8 @@ class PostRepositoryImpl:PostRepository {
             Response.error(response.code(), response.errorBody()!!)
         }
     }
+
+    override suspend fun deleteComment(token: String, commentId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.deleteComment("Bearer $token",commentId)
+    }
 }
