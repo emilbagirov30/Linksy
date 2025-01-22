@@ -58,7 +58,6 @@ class AppSettingsDialogFragment (): DialogFragment() {
             currentTheme = "dark"
 
         }
-
         applyButton.setOnClickListener {
             sharedPref.edit().putString("theme", currentTheme).apply()
             when (currentTheme){

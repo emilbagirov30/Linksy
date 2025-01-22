@@ -6,6 +6,7 @@ import com.emil.data.repository.AuthRepositoryImpl
 import com.emil.data.repository.ChannelRepositoryImpl
 import com.emil.data.repository.ChatDao
 import com.emil.data.repository.ChatRepositoryImpl
+import com.emil.data.repository.FeedRepositoryImpl
 import com.emil.data.repository.MessageDao
 import com.emil.data.repository.MessageRepositoryImpl
 import com.emil.data.repository.MomentRepositoryImpl
@@ -17,6 +18,7 @@ import com.emil.data.repository.WebSocketRepositoryImpl
 import com.emil.domain.repository.AuthRepository
 import com.emil.domain.repository.ChannelRepository
 import com.emil.domain.repository.ChatRepository
+import com.emil.domain.repository.FeedRepository
 import com.emil.domain.repository.MessageRepository
 import com.emil.domain.repository.MomentRepository
 import com.emil.domain.repository.PeopleRepository
@@ -74,5 +76,9 @@ val dataModule = module {
 
     single<WebSocketRepository>{
        WebSocketRepositoryImpl()
+    }
+
+    single<FeedRepository>{
+     FeedRepositoryImpl()
     }
 }

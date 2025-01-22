@@ -33,6 +33,8 @@ import com.emil.domain.usecase.GetUserMomentsUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.FindUsersByLinkUseCase
 import com.emil.domain.usecase.FindUsersByUsernameUseCase
+import com.emil.domain.usecase.GetAllChannelsPostsUseCase
+import com.emil.domain.usecase.GetAllSubscriptionsPostsUseCase
 import com.emil.domain.usecase.GetChannelManagementDataUseCase
 import com.emil.domain.usecase.GetChannelMembersUseCase
 import com.emil.domain.usecase.GetChannelPageDataUseCase
@@ -387,6 +389,13 @@ val domainModule = module {
     }
     factory<EditMessageUseCase>{
         EditMessageUseCase(messageRepository = get())
+    }
+
+    factory<GetAllSubscriptionsPostsUseCase>{
+        GetAllSubscriptionsPostsUseCase(feedRepository = get())
+    }
+    factory<GetAllChannelsPostsUseCase>{
+        GetAllChannelsPostsUseCase(feedRepository = get())
     }
 }
 

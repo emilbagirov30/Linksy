@@ -107,7 +107,6 @@ class MainNavigationActivity : AppCompatActivity() {
         )
 
 messageViewModel.messageList.observe(this){messagelist ->
-    //bottomNavigationView.getOrCreateBadge(R.id.page_chats).text = messagelist.size.toString()
     messagelist.map { m->
         messageViewModel.insertMessage(m)
     }

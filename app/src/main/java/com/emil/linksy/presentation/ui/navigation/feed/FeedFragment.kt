@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.emil.presentation.R
+import com.emil.linksy.util.replaceFragment
+
+import com.emil.presentation.databinding.FragmentFeedBinding
 
 
 class FeedFragment : Fragment() {
-
+    private lateinit var binding: FragmentFeedBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -18,9 +20,24 @@ class FeedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_feed, container, false)
+    ): View {
+        binding = FragmentFeedBinding.inflate(layoutInflater)
+        return  binding.root
+
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+         val containerId = binding.flContainer.id
+        replaceFragment(containerId,ChannelPostsFeedFragment())
+       binding.chipChannel.isChecked = true
+        binding.chipUser.setOnClickListener {
+            replaceFragment(containerId,SubscriptionsPostsFeedFragment())
+        }
 
+        binding.chipChannel.setOnClickListener {
+            replaceFragment(containerId,ChannelPostsFeedFragment())
+        }
+
+    }
 }

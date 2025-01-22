@@ -26,6 +26,7 @@ import com.emil.domain.model.ChannelType
 import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.MessageMode
 import com.emil.domain.model.MessageResponse
+import com.emil.domain.model.PostResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -313,4 +314,13 @@ interface ApiService {
 
     @PUT("api/messages/edit")
     suspend fun editMessage(@Header("Authorization") token:String, @Query("id") messageId: Long,@Query("text") text:String): Response<Unit>
+
+
+
+    @GET ("api/feed/channels")
+    suspend fun  getAllChannelsPost (@Header("Authorization") token:String): Response<List<ChannelPostResponseDto>>
+    @GET ("api/feed/users")
+    suspend fun  getAllSubscriptionsPosts (@Header("Authorization") token:String): Response<List<PostResponseDto>>
+
+
 }

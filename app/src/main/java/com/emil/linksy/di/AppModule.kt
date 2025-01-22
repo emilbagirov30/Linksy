@@ -6,6 +6,7 @@ import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.ProfileManagementViewModel
 import com.emil.linksy.presentation.viewmodel.ConfirmCodeViewModel
+import com.emil.linksy.presentation.viewmodel.FeedViewModel
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
@@ -86,10 +87,21 @@ val appModule = module {
           subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get(), getGroupDataUseCase = get(), editGroupUseCase = get())
     }
 
-
     viewModel <ChannelViewModel>{
        ChannelViewModel(createChannelUseCase = get(), getChannelsUseCase = get(), getChannelPageDataUseCase = get(),
            get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get())
     }
+
+
+
+    viewModel <FeedViewModel> {
+       FeedViewModel(getAllSubscriptionsPostsUseCase = get(), getAllChannelsPostsUseCase = get())
+    }
+
+
+
+
+
+
     single { TokenService() }
 }
