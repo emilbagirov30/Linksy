@@ -19,6 +19,7 @@ import com.emil.domain.usecase.CreateMomentUseCase
 import com.emil.domain.usecase.DeleteAvatarUseCase
 import com.emil.domain.usecase.DeleteChannelPostUseCase
 import com.emil.domain.usecase.DeleteLikeUseCase
+import com.emil.domain.usecase.DeleteMessageUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.DeleteRequestUseCase
@@ -70,6 +71,7 @@ import com.emil.domain.usecase.SendMessageUseCase
 import com.emil.domain.usecase.SetMessageModeUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
+import com.emil.domain.usecase.SubscribeToMessagesDeleteUseCase
 import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
 import com.emil.domain.usecase.SubscribeToUserChatsCountUseCase
 import com.emil.domain.usecase.SubscribeToUserChatsUseCase
@@ -370,6 +372,16 @@ val domainModule = module {
     factory<GetChannelPostCommentsUseCase>{
         GetChannelPostCommentsUseCase(channelRepository = get())
     }
+
+
+    factory<SubscribeToMessagesDeleteUseCase>{
+       SubscribeToMessagesDeleteUseCase(repository = get())
+    }
+
+    factory<DeleteMessageUseCase>{
+       DeleteMessageUseCase(messageRepository = get())
+    }
+
 }
 
 

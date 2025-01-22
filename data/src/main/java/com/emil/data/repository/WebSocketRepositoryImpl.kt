@@ -20,8 +20,8 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
     private val jsonAdapterChats = moshi.adapter(ChatResponse::class.java)
     private val jsonAdapterMessageId = moshi.adapter(Long::class.java)
     override fun connect() {
+        if (!stompClient.isConnected)
             stompClient.connect()
-
     }
 
     override fun disconnect() {
@@ -87,4 +87,19 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
             }
 
     }
-}
+
+    override fun subscribeToDeletedMessages(token: String, chatId: Long): Flow<Long> = callbackFlow {
+        val topic = stompClient.topic("/user/$token/queue/messages/deleted/$chatId/")
+            .subscribe({ stompMessage ->
+                val message = stompMessage.payload
+                val messageResponse = jsonAdapterMessageId.fromJson(message)
+                messageResponse?.let { trySend(it).isSuccess }
+            }, { error ->
+
+            })
+
+        awaitClose {
+            topic.dispose()
+        }
+
+    }}

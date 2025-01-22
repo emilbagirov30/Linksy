@@ -140,4 +140,7 @@
     <string name="channel_management">Управление каналом</string>
     <string name="reset_poll_info">После редактирования поста результаты опроса будут сброшены!</string>
     <string name="your_evaluation">Ваша оценка:</string>
+    <string name="delete_message_title">Удаление сообщения</string>
+    <string name="delete_message_confirm_text">Вы уверены, что хотите удалить сообщение?</string>
+    <string name="share">Поделиться</string>
 </resources>

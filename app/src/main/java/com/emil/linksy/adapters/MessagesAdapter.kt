@@ -2,6 +2,7 @@ package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.Gravity
@@ -12,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -22,8 +24,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.MessageResponse
 import com.emil.domain.model.UserResponse
+import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
+import com.emil.linksy.presentation.ui.page.UserPageActivity
+import com.emil.linksy.presentation.viewmodel.MessageViewModel
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
@@ -36,7 +42,9 @@ import kotlinx.coroutines.launch
 class MessagesAdapter(private val messageList: List<MessageResponse>,
                       private val context: Context,
                       private val userId: Long,
-                      private val chatMemberList:List<UserResponse> = emptyList()
+                      private val chatMemberList:List<UserResponse> = emptyList(),
+                      private val messageViewModel: MessageViewModel,
+                       private val tokenManager: TokenManager
 ):RecyclerView.Adapter<MessagesAdapter.MessageViewHolder>(){
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -199,14 +207,17 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
 
             } else voiceLayout.hide()
 
-
+mainLayout.setOnClickListener {
+    if(message.senderId==userId)
+    showPopup(it,message.messageId)
+}
 
 
 if (chatMemberList.isNotEmpty()){
     senderAvatarImageView.show()
     senderUsernameTextView.show()
-   val senderId = message.senderId
-   val sender = chatMemberList.find { it.id == senderId }
+    val senderId = message.senderId
+    val sender = chatMemberList.find { it.id == senderId }
     val senderAvatarUrl =sender?.avatarUrl
     val senderUsername = sender?.username
     senderUsernameTextView.text = senderUsername
@@ -216,9 +227,69 @@ if (chatMemberList.isNotEmpty()){
             .apply(RequestOptions.circleCropTransform())
             .into(senderAvatarImageView)
     }
-}
+    senderAvatarImageView.setOnClickListener {
+        if (senderId != userId) {
+            val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
+            switchingToUserPageActivity.putExtra("USER_ID", senderId)
+            context.startActivity(switchingToUserPageActivity)
         }
     }
+}
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+    @SuppressLint("InflateParams")
+    private fun showPopup(anchor: View,messageId:Long) {
+        val inflater = LayoutInflater.from(context)
+        val popupView = inflater.inflate(R.layout.popup_message, null)
+
+        val popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+
+        popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val popupHeight = popupView.measuredHeight
+
+
+        val xOffset = 0
+        val yOffset = -popupHeight - anchor.height - 10
+        popupWindow.showAsDropDown(anchor, xOffset, yOffset)
+
+        val share = popupView.findViewById<TextView>(R.id.tv_share)
+        val edit = popupView.findViewById<TextView>(R.id.tv_edit)
+        val delete = popupView.findViewById<TextView>(R.id.tv_delete)
+
+
+
+        share.setOnClickListener {
+
+        }
+
+        edit.setOnClickListener {
+
+        }
+
+
+        delete.setOnClickListener {
+            val dialog = ActionDialog(context)
+            dialog.setTitle(context.getString(R.string.delete_message_title))
+            dialog.setConfirmText(context.getString(R.string.delete_message_confirm_text))
+            dialog.setAction {
+                messageViewModel.deleteMessage(tokenManager.getAccessToken(), messageId =messageId, onSuccess = {dialog.dismiss()} )
+            }
+        }
+
+
+
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_message, parent, false)
         return MessageViewHolder(view)

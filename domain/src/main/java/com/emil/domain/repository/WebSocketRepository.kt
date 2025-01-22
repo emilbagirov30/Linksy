@@ -11,4 +11,5 @@ interface WebSocketRepository {
     fun subscribeToUserChats(token: String): Flow<ChatResponse>
     fun subscribeToUserChatsCount(token: String): Flow<ChatResponse>
     fun subscribeToUserChatViewed(token: String,chatId: Long): Flow<Long>
+    fun subscribeToDeletedMessages(token: String,chatId: Long): Flow<Long>
 }

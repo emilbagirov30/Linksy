@@ -307,4 +307,7 @@ interface ApiService {
     suspend fun addChannelPostComment(@Header("Authorization") token: String, @Body commentRequest: CommentBody): Response<Unit>
     @GET("api/channels/post/{id}/comments")
     suspend fun getChannelPostComments(@Path("id") id: Long): Response<List<CommentResponseDto>>
+
+    @DELETE("api/messages/delete")
+    suspend fun deleteMessage(@Header("Authorization") token:String, @Query("id") messageId: Long): Response<Unit>
 }

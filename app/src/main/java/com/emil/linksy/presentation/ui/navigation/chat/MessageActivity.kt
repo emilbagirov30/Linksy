@@ -164,7 +164,7 @@ class MessageActivity : AppCompatActivity() {
                     subscribeToUpdates(chatId) })
 
                 messageViewModel.messageList.observe(this) { messageList ->
-                    messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId,ml)
+                    messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId,ml,messageViewModel,tokenManager)
                     messageRecyclerView.scrollToPosition(messageList.size - 1)
                     viewMessage(chatId)
                 }
@@ -193,7 +193,7 @@ class MessageActivity : AppCompatActivity() {
 
 
                 messageViewModel.messageList.observe(this){messageList ->
-                messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId)
+                messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, messageViewModel = messageViewModel, tokenManager = tokenManager)
                     messageRecyclerView.scrollToPosition(messageList.size - 1)
                     viewMessage(messageList[0].chatId)
             }
@@ -323,6 +323,7 @@ class MessageActivity : AppCompatActivity() {
     private fun subscribeToUpdates (chatId:Long){
         messageViewModel.subscribeToUserMessages(tokenManager.getAccessToken(),chatId)
         messageViewModel.subscribeToViewed(tokenManager.getAccessToken(),chatId)
+        messageViewModel.subscribeToDeleted(tokenManager.getAccessToken(),chatId)
     }
 
     private fun viewMessage (chatId: Long){

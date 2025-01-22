@@ -145,4 +145,7 @@
     <string name="channel_management">Channel management</string>
     <string name="reset_poll_info">After editing the post, the poll results will be reset!</string>
     <string name="your_evaluation">Your evaluation:</string>
+    <string name="delete_message_title">Deleting a message</string>
+    <string name="delete_message_confirm_text">Are you sure you want to delete the message?</string>
+    <string name="share">Share</string>
 </resources>

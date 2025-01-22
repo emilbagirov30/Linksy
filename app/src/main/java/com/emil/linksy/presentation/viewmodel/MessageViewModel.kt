@@ -11,12 +11,14 @@ import com.emil.domain.model.MessageResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
+import com.emil.domain.usecase.DeleteMessageUseCase
 import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
 import com.emil.domain.usecase.GetUserMessagesByChat
 import com.emil.domain.usecase.GetUserMessagesByChatFromLocalDb
 import com.emil.domain.usecase.GetUserMessagesUseCase
 import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
 import com.emil.domain.usecase.SendMessageUseCase
+import com.emil.domain.usecase.SubscribeToMessagesDeleteUseCase
 import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
 import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
 import com.emil.domain.usecase.ViewedUseCase
@@ -32,7 +34,9 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                        private val disconnectFromWebSocketUseCase: DisconnectFromWebSocketUseCase,
                        private val getUserMessagesByChat: GetUserMessagesByChat,
                        private val viewedUseCase: ViewedUseCase,
-                       private val subscribeToUserChatViewedUseCase: SubscribeToUserChatViewedUseCase
+                       private val subscribeToUserChatViewedUseCase: SubscribeToUserChatViewedUseCase,
+                        private val subscribeToDeleteMessageUseCase: SubscribeToMessagesDeleteUseCase,
+                         private val deleteMessageUseCase: DeleteMessageUseCase
 ) :ViewModel(){
 
     private val _messageList = MutableLiveData<MutableList<MessageResponse>> ()
@@ -173,11 +177,38 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
     }
 
 
-    fun incrementMessageCount() {
-        _newMessageCount.postValue((_newMessageCount.value ?: 0) + 1)
+    fun deleteMessage(token: String, messageId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+
+        viewModelScope.launch {
+            try {
+                val response = deleteMessageUseCase.execute(token, messageId)
+                if (response.isSuccessful){
+                    onSuccess ()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
     }
 
-    fun resetMessageCount() {
-        _newMessageCount.value = 0
+    @SuppressLint("SuspiciousIndentation")
+    fun subscribeToDeleted(token: String,chatId: Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                connectToWebSocketUseCase.invoke()
+                val messageId= subscribeToDeleteMessageUseCase.invoke(token, chatId)
+                messageId.collect { id ->
+                    val updatedList = _messageList.value?.toMutableList() ?: mutableListOf()
+                    val index = updatedList.indexOfFirst { it.messageId == id }
+                    if (index != -1) {
+                        updatedList.removeAt(index)
+                        _messageList.value = updatedList
+                    }
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
     }
+
 }

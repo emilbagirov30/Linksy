@@ -59,5 +59,9 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
 
     }
 
+    override suspend fun deleteMessage(token: String, messageId: Long): Response<Unit> {
+        return RetrofitUserInstance.apiService.deleteMessage("Bearer $token",messageId)
+    }
+
 
 }

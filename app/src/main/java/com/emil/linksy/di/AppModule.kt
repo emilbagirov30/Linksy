@@ -73,7 +73,9 @@ val appModule = module {
                disconnectFromWebSocketUseCase = get (),
                getUserMessagesByChat = get(),
                viewedUseCase = get(),
-               subscribeToUserChatViewedUseCase = get()
+               subscribeToUserChatViewedUseCase = get(),
+               deleteMessageUseCase = get(),
+               subscribeToDeleteMessageUseCase = get()
            )
        }
 
