@@ -226,6 +226,7 @@
                     android:id="@+id/iv_viewed_mark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:background="@drawable/ic_not_read">
 
                 </ImageView>

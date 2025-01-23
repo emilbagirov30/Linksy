@@ -12,28 +12,58 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/dialog_stick">
     </ImageView>
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:textStyle="bold"
         android:text="@string/comments">
 
     </com.google.android.material.textview.MaterialTextView>
+    <ImageButton
+        android:id="@+id/ib_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/gray"
+        android:background="@drawable/ic_close_2">
+    </ImageButton>
+        </FrameLayout>
+    </LinearLayout>
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/rv_comments"
-       android:layout_width="match_parent"
-       android:layout_weight="1"
-       android:layout_height="0dp">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_comments"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
 
-   </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 
 

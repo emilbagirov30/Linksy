@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -35,7 +37,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListener {
     private lateinit var usernameTextView:TextView
     private lateinit var linkTextView:TextView
     private lateinit var avatarImageView:ImageView
@@ -48,6 +50,7 @@ class ProfileFragment : Fragment() {
     private val tokenManager: TokenManager by inject()
     private var currentTabPosition: Int = 0
     private var id by Delegates.notNull<Long>()
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -70,6 +73,7 @@ class ProfileFragment : Fragment() {
         avatarImageView = view.findViewById(R.id.iv_user_avatar)
         editUserDataImageView = view.findViewById(R.id.iv_edit_user_data)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         val qrImageButton = view.findViewById<ImageButton>(R.id.ib_qr)
         val viewPager = view.findViewById<ViewPager2>(R.id.vp_profile_pager)
         val pagerAdapter = ProfilePagerAdapter(this)
@@ -78,11 +82,17 @@ class ProfileFragment : Fragment() {
 
         viewPager.adapter = pagerAdapter
         fetchData()
+        swipeRefreshLayout.setOnRefreshListener {
+            fetchData()
+        }
         editUserDataImageView.setOnClickListener {
             it.anim()
-            CommonSettingsDialogFragment().show(parentFragmentManager, "CommonSettingsDialog")
+            val dialog = CommonSettingsDialogFragment()
+            dialog.setUpdateListener(this)
+            dialog.show(parentFragmentManager, "CommonSettingsDialog")
         }
         userViewModel.userData.observe(requireActivity()){ data ->
+            swipeRefreshLayout.isRefreshing=false
             id = data.id
             editor.putLong("ID", id)
             editor.apply()
@@ -118,6 +128,7 @@ class ProfileFragment : Fragment() {
       return view
   }
 
+
     private fun startShimmer(){
         shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)
         shimmerAvatar.setShimmer(Linksy.CUSTOM_SHIMMER)
@@ -145,7 +156,7 @@ private fun stopShimmer(){
     shimmerUsername.stopShimmer()
     shimmerLink.stopShimmer()
 }
-     fun fetchData() {
+    private fun fetchData() {
         startShimmer()
         val token = tokenManager.getAccessToken()
         userViewModel.getData(token,onIncorrect = { showToast(requireContext(),R.string.error_invalid_token) } , onError = {
@@ -162,6 +173,10 @@ private fun stopShimmer(){
                 }
             }
         })
+    }
+
+    override fun update() {
+        fetchData()
     }
 
 }

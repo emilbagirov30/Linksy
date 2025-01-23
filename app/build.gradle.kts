@@ -79,6 +79,7 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.9.0")
     implementation ("io.reactivex.rxjava2:rxjava:2.2.20")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

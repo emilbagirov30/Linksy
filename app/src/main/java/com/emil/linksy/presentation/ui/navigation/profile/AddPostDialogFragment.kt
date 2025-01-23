@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -88,6 +89,7 @@ class AddPostDialogFragment: DialogFragment() {
     private var voiceUrl:String? = null
     private var isEdit:Boolean? = null
     private var postId:Long? = null
+    private var listener: AddPostDialogListener? = null
     companion object {
         private const val POST_ID = "POST_ID"
         private const val EDIT = "EDIT"
@@ -143,8 +145,6 @@ class AddPostDialogFragment: DialogFragment() {
         return inflater.inflate(R.layout.add_post_dialog, container, false)
 
     }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val titleTextView = view.findViewById<MaterialTextView>(R.id.tv_title)
@@ -202,7 +202,7 @@ class AddPostDialogFragment: DialogFragment() {
 
         addVoiceButton.setOnClickListener {
             it.anim()
-            val dialog = VoiceRecordDialog(this)
+           VoiceRecordDialog(this)
         }
         val pickImageLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedImage(uri)
@@ -446,5 +446,16 @@ class AddPostDialogFragment: DialogFragment() {
         super.onDestroyView()
         mediaPlayerAudio?.release()
         mediaPlayerVoice?.release()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onPostAdded()
+    }
+    fun setAddPostDialogListener(listener: AddPostDialogListener) {
+        this.listener = listener
+    }
+    interface AddPostDialogListener {
+        fun onPostAdded()
     }
 }

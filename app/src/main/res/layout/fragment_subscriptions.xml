@@ -4,13 +4,17 @@
     android:layout_height="match_parent"
     tools:context="com.emil.linksy.presentation.ui.navigation.people.SubscriptionsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_users"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_users"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     <ProgressBar

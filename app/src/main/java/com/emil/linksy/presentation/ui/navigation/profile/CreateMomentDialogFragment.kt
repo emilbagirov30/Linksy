@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
@@ -18,6 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.emil.linksy.presentation.ui.LoadingDialog
+import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment.AddPostDialogListener
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.Linksy
@@ -64,6 +66,7 @@ class CreateMomentDialogFragment: DialogFragment()  {
     private var audioUri: Uri? = null
     private val momentViewModel: MomentViewModel by viewModel<MomentViewModel>()
     private val tokenManager: TokenManager by inject()
+    private var listener: AddMomentDialogListener? = null
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -273,4 +276,15 @@ class CreateMomentDialogFragment: DialogFragment()  {
         }
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onMomentAdded()
+    }
+    fun setAddMomentDialogListener(listener: AddMomentDialogListener) {
+        this.listener = listener
+    }
+
+    interface AddMomentDialogListener {
+        fun onMomentAdded()
+    }
 }

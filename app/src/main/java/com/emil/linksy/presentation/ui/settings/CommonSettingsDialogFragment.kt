@@ -2,6 +2,7 @@ package com.emil.linksy.presentation.ui.settings
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -14,14 +15,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.SettingsAdapter
 import com.emil.linksy.adapters.model.SettingItem
 import com.emil.linksy.presentation.ui.auth.AuthActivity
+import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment.AddPostDialogListener
 import com.emil.linksy.presentation.ui.navigation.profile.BlackListDialogFragment
+import com.emil.linksy.util.TokenManager
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
+import org.koin.android.ext.android.inject
 
 class CommonSettingsDialogFragment: DialogFragment() {
 private lateinit var toolBar: MaterialToolbar
 private lateinit var settingsRecyclerView: RecyclerView
+    private var listener: UpdateDataListener? = null
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,8 +85,20 @@ private lateinit var settingsRecyclerView: RecyclerView
         val editor = sharedPref.edit()
         editor.putBoolean("remember", false)
         editor.apply()
+
         val authIntent = Intent(requireContext(), AuthActivity::class.java)
         authIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(authIntent)
+    }
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.update()
+    }
+    fun setUpdateListener(listener: UpdateDataListener) {
+        this.listener = listener
+    }
+
+    interface UpdateDataListener {
+        fun update()
     }
 }

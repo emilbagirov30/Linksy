@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.emil.linksy.adapters.UsersAdapter
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.TokenManager
@@ -23,6 +24,7 @@ class SubscriptionsFragment : Fragment() {
     private val peopleViewModel: PeopleViewModel by viewModel<PeopleViewModel>()
     private val tokenManager: TokenManager by inject()
     private lateinit var userRecyclerView: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,7 +36,7 @@ class SubscriptionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        val view = inflater.inflate(R.layout.fragment_subscriptions, container, false)
-
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         userRecyclerView = view.findViewById(R.id.rv_users)
         userRecyclerView.layoutManager = LinearLayoutManager(context)
         val loading = view.findViewById<ProgressBar>(R.id.pb_loading)
@@ -47,7 +49,17 @@ class SubscriptionsFragment : Fragment() {
             loading.hide()
             userRecyclerView.show()
         })
+        swipeRefreshLayout.setOnRefreshListener {
+            getUserSubscriptions()
+        }
         return view
+    }
+
+
+    private fun getUserSubscriptions(){
+        peopleViewModel.getUserSubscriptions(tokenManager.getAccessToken(), onSuccess = {
+            swipeRefreshLayout.isRefreshing = false
+        })
     }
 
 

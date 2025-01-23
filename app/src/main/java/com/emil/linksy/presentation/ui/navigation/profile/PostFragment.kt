@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,7 +25,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PostFragment : Fragment() {
+class PostFragment : Fragment(), AddPostDialogFragment.AddPostDialogListener {
 
     private lateinit var newPostEditText:EditText
     private lateinit var postsRecyclerView:RecyclerView
@@ -58,15 +59,20 @@ class PostFragment : Fragment() {
         shimmerPosts.startShimmer()
         postsRecyclerView.layoutManager = LinearLayoutManager(context)
         updatePosts()
+
         newPostEditText.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                AddPostDialogFragment().show(parentFragmentManager, "AddPostDialogFragment")
+                val dialog = AddPostDialogFragment()
+                dialog.setAddPostDialogListener(this)
+                dialog.show(parentFragmentManager, "AddPostDialogFragment")
                 true
             } else {
                 false
             }
         }
     }
+
+
 
     private fun showContent (){
         shimmerPosts.hide()
@@ -81,18 +87,22 @@ class PostFragment : Fragment() {
         postsRecyclerView.hide()
         emptyMessage.show()
     }
-       fun updatePosts (){
+       private fun updatePosts (){
        val token = tokenManager.getAccessToken()
        postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
        postViewModel.postList.observe(requireActivity()){ postlist ->
            postsRecyclerView.adapter = context?.let {
                PostsAdapter(postlist,postViewModel,
                    context = it,
-                   tokenManager = tokenManager)
+                   tokenManager = tokenManager, postFragment = this)
            }
            if (postlist.isEmpty()) showEmptyMessage()
            else showContent()
        }
    }
+
+    override fun onPostAdded() {
+        updatePosts()
+    }
 
 }

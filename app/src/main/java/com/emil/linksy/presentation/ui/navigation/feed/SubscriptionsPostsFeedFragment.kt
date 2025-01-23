@@ -10,12 +10,13 @@ import com.emil.linksy.adapters.PostsAdapter
 import com.emil.linksy.presentation.viewmodel.FeedViewModel
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
-import com.emil.presentation.databinding.FragmentSubscriptionsPostsBinding
+
+import com.emil.presentation.databinding.FragmentSubscriptionsPostsFeedBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SubscriptionsPostsFeedFragment : Fragment() {
-    private lateinit var binding: FragmentSubscriptionsPostsBinding
+    private lateinit var binding:FragmentSubscriptionsPostsFeedBinding
     private val feedViewModel: FeedViewModel by viewModel<FeedViewModel>()
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     private val tokenManager: TokenManager by inject()
@@ -28,7 +29,7 @@ class SubscriptionsPostsFeedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentSubscriptionsPostsBinding.inflate(layoutInflater)
+        binding = FragmentSubscriptionsPostsFeedBinding.inflate(layoutInflater)
         val view = binding.root
         return view
     }
@@ -37,11 +38,17 @@ class SubscriptionsPostsFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPosts.layoutManager = LinearLayoutManager(requireActivity())
-        feedViewModel.getAllSubscriptionsPosts(tokenManager.getAccessToken())
+     getPosts()
         feedViewModel.subscriptionPostList.observe(requireActivity()){postList ->
             binding.rvPosts.adapter =
                 context?.let { PostsAdapter(postList,postViewModel, it,tokenManager, isOutsider = true) }
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            getPosts()
+        }
     }
 
+    private fun getPosts(){
+        feedViewModel.getAllSubscriptionsPosts(tokenManager.getAccessToken(), onSuccess = {binding.swipeRefreshLayout.isRefreshing=false})
+    }
 }

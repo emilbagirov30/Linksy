@@ -24,12 +24,12 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MomentFragment : Fragment() {
-private lateinit var momentsRecyclerView:RecyclerView
-private  lateinit var emptyMessage: LinearLayout
+class MomentFragment : Fragment(),CreateMomentDialogFragment.AddMomentDialogListener {
+    private lateinit var momentsRecyclerView:RecyclerView
+    private  lateinit var emptyMessage: LinearLayout
     private  lateinit var contentFlexboxLayout:FlexboxLayout
     private  lateinit var shimmerMoments: ShimmerFrameLayout
-private val tokenManager: TokenManager by inject()
+    private val tokenManager: TokenManager by inject()
     private val momentViewModel: MomentViewModel by viewModel<MomentViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +53,9 @@ private val tokenManager: TokenManager by inject()
 
         updateMoments()
         addMoment.setOnClickListener {
-            CreateMomentDialogFragment().show(parentFragmentManager, "CreateMomentDialogFragment")
+            val dialog =   CreateMomentDialogFragment()
+                dialog.setAddMomentDialogListener(this)
+                dialog.show(parentFragmentManager, "CreateMomentDialogFragment")
         }
         return view
     }
@@ -80,5 +82,10 @@ private val tokenManager: TokenManager by inject()
                 else showContent()
         }
     }
+
+    override fun onMomentAdded() {
+        updateMoments()
+    }
+
 
 }

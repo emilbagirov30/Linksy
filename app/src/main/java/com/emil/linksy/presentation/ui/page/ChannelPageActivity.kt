@@ -171,9 +171,10 @@ class ChannelPageActivity : AppCompatActivity() {
         }
         channelViewModel.getChannelPageData(tokenManager.getAccessToken(),groupId,
          onSuccess = {loading.dismiss()
-              view.show()},
+              view.show() },
 
             onConflict = {
+                view.hide()
                 val errorDialog =  ErrorDialog(this,R.string.channel_not_found)
                 errorDialog.close(action = {finish()})
         })

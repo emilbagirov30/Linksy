@@ -13,6 +13,7 @@ import com.emil.linksy.adapters.CommentsAdapter
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.anim
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.string
@@ -54,6 +55,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
         channelPostId = arguments?.getLong(ARG_CHANNEL_POST_ID)!!
         postId = arguments?.getLong(ARG_POST_ID)!!
         userId = arguments?.getLong(ARG_USER_ID)!!
+        isCancelable = false
 
     }
 
@@ -71,8 +73,15 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
                 it.layoutParams = layoutParams
             }
         }
+        binding.ibClose.setOnClickListener {
+            it.anim()
+            dismiss()
+        }
         if (postId!=-100L) {
-            postViewModel.getComments(postId!!, onSuccess = {}, onError = {})
+          getUserPostComments()
+            binding.swipeRefreshLayout.setOnRefreshListener {
+                getUserPostComments()
+            }
             postViewModel.commentList.observe(requireActivity()) { commentlist ->
                 binding.tvTitle.text = "${getString(R.string.comments)}: ${commentlist.size}"
                 binding.rvComments.layoutManager = LinearLayoutManager(requireContext())
@@ -105,17 +114,22 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
 
             binding.ibSend.setOnClickListener {
                 val text = binding.etComment.string()
-                postViewModel.addComment(tokenManager.getAccessToken(), CommentData(postId!!, text, parentCommentId),
+                postViewModel.addComment(tokenManager.getAccessToken(), CommentData(postId, text, parentCommentId),
                     onSuccess = {
                         binding.etComment.setText("")
                         binding.llReplyInfo.hide()
                         parentCommentId = null
+                        getUserPostComments()
                     },
                     onError = {})
             }
         }
         if (channelPostId!=-100L) {
-           channelViewModel.getComments(channelPostId, onSuccess = {}, onError = {})
+             getChannelsPostComments()
+
+            binding.swipeRefreshLayout.setOnRefreshListener {
+                getChannelsPostComments()
+            }
             channelViewModel.commentList.observe(requireActivity()) { commentlist ->
                 binding.tvTitle.text = "${getString(R.string.comments)}: ${commentlist.size}"
                 binding.rvComments.layoutManager = LinearLayoutManager(requireContext())
@@ -153,6 +167,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
                         binding.etComment.setText("")
                         binding.llReplyInfo.hide()
                         parentCommentId = null
+                        getChannelsPostComments()
                     },
                     onError = {})
             }
@@ -173,5 +188,14 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
             binding.llReplyInfo.hide()
             parentCommentId = null
         }
+    }
+
+
+    private fun getChannelsPostComments(){
+        channelViewModel.getComments(channelPostId, onSuccess = {binding.swipeRefreshLayout.isRefreshing=false}, onError = {})
+    }
+
+    private fun getUserPostComments(){
+        postViewModel.getComments(postId, onSuccess = {binding.swipeRefreshLayout.isRefreshing=false}, onError = {})
     }
 }

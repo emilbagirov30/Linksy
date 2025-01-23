@@ -48,7 +48,7 @@ class TokenService: LifecycleService() {
             while (true) {
                 try {
                     val currentRefreshToken = tokenManager.getRefreshToken()
-                    if (currentRefreshToken.isNotEmpty()) {
+                    if (currentRefreshToken!="null") {
                         val response = refreshTokenUseCase.execute(currentRefreshToken)
                         if (response.isSuccessful) {
                             response.body()?.let { body ->
@@ -60,7 +60,7 @@ class TokenService: LifecycleService() {
                             onIncorrect()
                             cancel()
                         }
-                    }
+                    }else retryAfterError()
                 } catch (e: Exception) {
                     stopRefreshing()
                     onError()
@@ -80,6 +80,7 @@ class TokenService: LifecycleService() {
         val editor = sharedPref.edit()
         editor.putBoolean("remember", false)
         editor.apply()
+        tokenManager.clearTokens()
         val authIntent = Intent(this, AuthActivity::class.java)
         authIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(authIntent)

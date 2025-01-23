@@ -30,15 +30,15 @@ class TokenManager(context: Context) {
     }
 
     fun getAccessToken(): String {
-        return sharedPreferences.getString("ACCESS_TOKEN", null).toString()
+        return sharedPreferences.getString("ACCESS_TOKEN", "null").toString()
     }
 
     fun getRefreshToken(): String {
-        return sharedPreferences.getString("REFRESH_TOKEN", null).toString()
+        return sharedPreferences.getString("REFRESH_TOKEN", "null").toString()
     }
 
     fun getWsToken(): String {
-        return sharedPreferences.getString("WS_TOKEN", null).toString()
+        return sharedPreferences.getString("WS_TOKEN", "null").toString()
     }
 
     fun clearTokens() {

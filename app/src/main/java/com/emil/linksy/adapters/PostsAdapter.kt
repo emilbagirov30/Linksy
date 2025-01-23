@@ -31,6 +31,7 @@ import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.auth.ConfirmCodeBottomSheet
 import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
+import com.emil.linksy.presentation.ui.navigation.profile.PostFragment
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -46,7 +47,7 @@ import kotlinx.coroutines.launch
 
 class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
                    private val context:Context, private val tokenManager: TokenManager,
-                   private val isOutsider:Boolean = false
+                   private val isOutsider:Boolean = false,private val postFragment: PostFragment?=null
     ): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -245,9 +246,10 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             editPostButton.setOnClickListener {
                 if (!isOutsider) {
                     it.showMenu(context, editAction = {
-                           AddPostDialogFragment
-                               .newInstance(postId = post.postId, isEdit = true,text = post.text,post.imageUrl,post.videoUrl,post.audioUrl,post.voiceUrl)
-                               .show ((context as FragmentActivity).supportFragmentManager,"AddPostDialogFragment")
+                        val dialog =  AddPostDialogFragment.newInstance(postId = post.postId, isEdit = true,text = post.text,post.imageUrl,post.videoUrl,post.audioUrl,post.voiceUrl)
+                        if(postFragment!=null)
+                        dialog.setAddPostDialogListener(postFragment)
+                        dialog.show ((context as FragmentActivity).supportFragmentManager,"AddPostDialogFragment")
                     }, deleteAction = {
                         val dialog = ActionDialog(context)
                         dialog.setTitle(context.getString(R.string.delete_post_title))
@@ -276,5 +278,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
         holder.bind (postList[position])
     }
+
+
 
 }

@@ -42,11 +42,19 @@ class ChannelPostsFeedFragment : Fragment() {
        binding.rvPosts.layoutManager = LinearLayoutManager(requireActivity())
         val sharedPref: SharedPreferences = requireActivity().getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
-        feedViewModel.getAllChannelPosts(tokenManager.getAccessToken())
+          getPosts()
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            getPosts()
+        }
         feedViewModel.channelPostList.observe(requireActivity()){postList ->
             binding.rvPosts.adapter =
                 context?.let { ChannelPostsAdapter(postList, it,tokenManager,channelViewModel,userId) }
         }
+    }
+
+
+    private fun getPosts(){
+        feedViewModel.getAllChannelPosts(tokenManager.getAccessToken(), onSuccess = {binding.swipeRefreshLayout.isRefreshing=false})
     }
 
 }

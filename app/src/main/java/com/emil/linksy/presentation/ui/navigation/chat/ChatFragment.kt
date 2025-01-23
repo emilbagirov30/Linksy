@@ -15,6 +15,7 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.emil.linksy.adapters.ChatsAdapter
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.util.TokenManager
@@ -29,7 +30,7 @@ class ChatFragment : Fragment() {
     private lateinit var chatRecyclerView: RecyclerView
     private val chatViewModel: ChatViewModel by viewModel<ChatViewModel>()
     private val tokenManager: TokenManager by inject()
-
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -42,6 +43,7 @@ class ChatFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
         val toolbar = view.findViewById<MaterialToolbar>(R.id.tb)
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         toolbar.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.chat_menu, menu)
@@ -78,11 +80,23 @@ class ChatFragment : Fragment() {
             chatViewModel.getUserChatsFromLocalDb()
             showToast(requireActivity(),R.string.loaded_from_cache)
         })
+        getUserChats()
+        swipeRefreshLayout.setOnRefreshListener {
+            getUserChats()
+        }
 
         return view
     }
 
-
+        private fun getUserChats(){
+            chatViewModel.getUserChats(tokenManager.getAccessToken(), onSuccess = {
+                chatViewModel.subscribeToChat(tokenManager.getWsToken())
+                swipeRefreshLayout.isRefreshing=false
+            }, onError = {
+                chatViewModel.getUserChatsFromLocalDb()
+                showToast(requireActivity(),R.string.loaded_from_cache)
+            })
+        }
 
 }
 

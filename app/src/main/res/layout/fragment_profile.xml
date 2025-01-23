@@ -7,7 +7,14 @@
     android:orientation="vertical"
     tools:context="com.emil.linksy.presentation.ui.navigation.profile.ProfileFragment">
 
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -173,5 +180,6 @@ android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"/>
-
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

@@ -34,6 +34,7 @@ class ChannelFragment : Fragment() {
     private lateinit var binding: FragmentChannelBinding
     private val channelViewModel: ChannelViewModel by viewModel<ChannelViewModel>()
     private val tokenManager: TokenManager by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -99,11 +100,7 @@ class ChannelFragment : Fragment() {
         }
 
 
-        channelViewModel.getChannels(token = tokenManager.getAccessToken(), onSuccess = {
-            binding.tvSearchTitle.show()
-            binding.tvSearchTitle.text = getString(R.string.your_subscriptions)
-        })
-
+       getChannels()
         binding.ibScan.setOnClickListener {
             it.anim()
             val switchingToCameraXActivity= Intent(requireContext(), CameraXActivity::class.java)
@@ -111,10 +108,20 @@ class ChannelFragment : Fragment() {
             startActivity(switchingToCameraXActivity)
         }
 
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            getChannels()
+        }
         return view
 
 
     }
-
+private fun getChannels(){
+    channelViewModel.getChannels(token = tokenManager.getAccessToken(), onSuccess = {
+        binding.tvSearchTitle.show()
+        binding.tvSearchTitle.text = getString(R.string.your_subscriptions)
+        binding.swipeRefreshLayout.isRefreshing = false
+    })
+}
 
 }
