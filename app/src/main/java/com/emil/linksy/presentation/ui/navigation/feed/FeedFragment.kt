@@ -28,16 +28,20 @@ class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         val containerId = binding.flContainer.id
-        replaceFragment(containerId,ChannelPostsFeedFragment())
-       binding.chipChannel.isChecked = true
-        binding.chipUser.setOnClickListener {
-            replaceFragment(containerId,SubscriptionsPostsFeedFragment())
-        }
 
-        binding.chipChannel.setOnClickListener {
-            replaceFragment(containerId,ChannelPostsFeedFragment())
-        }
+        val containerId = binding.flContainer.id
+        if (containerId != View.NO_ID) {
+            replaceFragment(containerId, ChannelPostsFeedFragment())
+            binding.chipChannel.isChecked = true
+            binding.chipUser.setOnClickListener {
+                replaceFragment(containerId, SubscriptionsPostsFeedFragment())
+            }
 
+            binding.chipChannel.setOnClickListener {
+                replaceFragment(containerId, ChannelPostsFeedFragment())
+            }
+
+
+        }
     }
 }

@@ -40,7 +40,6 @@ class TokenService: LifecycleService() {
         super.onDestroy()
         stopRefreshing()
         handler.removeCallbacks(retryRunnable)
-        println ("уничтожен")
     }
 
     private fun startRefreshing(onIncorrect: () -> Unit, onError: () -> Unit) {
@@ -53,7 +52,7 @@ class TokenService: LifecycleService() {
                         val response = refreshTokenUseCase.execute(currentRefreshToken)
                         if (response.isSuccessful) {
                             response.body()?.let { body ->
-                                tokenManager.saveTokens(body.accessToken, body.refreshToken)
+                                tokenManager.saveTokens(body.accessToken, body.refreshToken,body.wsToken)
                                 val wsServiceIntent = Intent(applicationContext, WebSocketService::class.java)
                                 startService(wsServiceIntent)
                             }

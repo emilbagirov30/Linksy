@@ -24,27 +24,35 @@
         tools:ignore="Instantiatable">
         <activity
             android:name="com.emil.linksy.presentation.ui.navigation.channel.EditChannelActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.page.ChannelPageActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.navigation.channel.CreateChannelActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.navigation.chat.GroupActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.navigation.chat.CreateGroupActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.navigation.chat.MessageActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.CameraXActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.page.UserPageActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.FullScreenVideoActivity"
@@ -63,15 +71,19 @@
 
         <activity
             android:name="com.emil.linksy.presentation.ui.navigation.MainNavigationActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.auth.LanguageSelectionActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.auth.AuthActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.SplashScreenActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>

@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.MessageData
 import com.emil.domain.model.MessageResponse
+import com.emil.domain.model.MessageStatus
+import com.emil.domain.model.Status
+import com.emil.domain.model.StatusResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
@@ -19,6 +22,8 @@ import com.emil.domain.usecase.GetUserMessagesByChatFromLocalDb
 import com.emil.domain.usecase.GetUserMessagesUseCase
 import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
 import com.emil.domain.usecase.SendMessageUseCase
+import com.emil.domain.usecase.SendStatusUseCase
+import com.emil.domain.usecase.SubscribeToChatStatusUseCase
 import com.emil.domain.usecase.SubscribeToEditMessagesUseCase
 import com.emil.domain.usecase.SubscribeToMessagesDeleteUseCase
 import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
@@ -40,13 +45,20 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                         private val subscribeToDeleteMessageUseCase: SubscribeToMessagesDeleteUseCase,
                          private val deleteMessageUseCase: DeleteMessageUseCase,
                          private val editMessageUseCase: EditMessageUseCase,
-                          private val subscribeToEditMessagesUseCase: SubscribeToEditMessagesUseCase
+                          private val subscribeToEditMessagesUseCase: SubscribeToEditMessagesUseCase,
+    private val sendStatusUseCase: SendStatusUseCase,
+    private val subscribeToChatStatusUseCase: SubscribeToChatStatusUseCase
 ) :ViewModel(){
 
     private val _messageList = MutableLiveData<MutableList<MessageResponse>> ()
     val messageList: LiveData<MutableList<MessageResponse>> = _messageList
-    private val _newMessageCount = MutableLiveData<Int>(0)
-    val newMessageCount: LiveData<Int> = _newMessageCount
+
+    private val _status = MutableLiveData<StatusResponse> ()
+    val status: LiveData<StatusResponse> = _status
+
+
+
+
     fun sendMessage (token:String, recipientId:Long?,chatId: Long?,text:String, image: MultipartBody.Part?,
                      video: MultipartBody.Part?,
                      audio: MultipartBody.Part?,
@@ -244,6 +256,35 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                         _messageList.value = updatedList
                     }
                 }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+    @SuppressLint("SuspiciousIndentation")
+    fun subscribeToStatus(token: String,chatId: Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                connectToWebSocketUseCase.invoke()
+                val response= subscribeToChatStatusUseCase.invoke(token, chatId)
+                response.collect { status ->
+                   _status.value = status
+
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+
+    @SuppressLint("SuspiciousIndentation")
+    fun sendStatus( chatId: Long, userId:Long,status: MessageStatus, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                connectToWebSocketUseCase.invoke()
+               sendStatusUseCase.invoke(Status(chatId,userId,status))
             }catch (e:Exception){
                 onError ()
             }

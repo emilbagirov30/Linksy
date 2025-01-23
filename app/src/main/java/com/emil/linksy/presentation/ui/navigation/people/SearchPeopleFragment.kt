@@ -52,7 +52,7 @@ class SearchPeopleFragment : Fragment() {
         val loading = view.findViewById<ProgressBar>(R.id.pb_loading)
         peopleViewModel.userList.observe(requireActivity()){ userlist ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = userlist.toMutableList(),context = requireContext())
+                context?.let { UsersAdapter(userList = userlist.toMutableList(),context = it) }
         }
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

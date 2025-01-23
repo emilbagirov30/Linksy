@@ -43,7 +43,7 @@ class SubscribersFragment : Fragment() {
 
         peopleViewModel.userList.observe(requireActivity()){ userlist ->
             userRecyclerView.adapter =
-                UsersAdapter(userList = userlist.toMutableList(),context = requireContext())
+                context?.let { UsersAdapter(userList = userlist.toMutableList(),context = it) }
         }
         peopleViewModel.getUserSubscribers(tokenManager.getAccessToken(), onSuccess = {
             loading.hide()

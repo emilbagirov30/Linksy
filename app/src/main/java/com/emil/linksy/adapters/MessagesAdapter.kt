@@ -50,6 +50,7 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val container = itemView.findViewById<FrameLayout>(R.id.container)
+        private val mainHorizontalLayout = itemView.findViewById<FrameLayout>(R.id.fl_main)
         private val mainLayout = itemView.findViewById<LinearLayout>(R.id.ll_main)
         private val messageLayout = itemView.findViewById<LinearLayout>(R.id.ll_message)
         private val cardView = itemView.findViewById<CardView>(R.id.cw_main)
@@ -211,7 +212,7 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
 
             if (message.edited) editedTextView.show() else editedTextView.hide()
 
-mainLayout.setOnClickListener {
+mainHorizontalLayout.setOnClickListener {
     if(message.senderId==userId)
     showPopup(it,message.messageId,if (message.text==null) "" else message.text!!)
 }
@@ -260,10 +261,10 @@ if (chatMemberList.isNotEmpty()){
 
         popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         val popupHeight = popupView.measuredHeight
-
+        val popupWidth = popupView.measuredWidth
 
         val xOffset = 0
-        val yOffset = -popupHeight - anchor.height - 10
+        val yOffset = 0
         popupWindow.showAsDropDown(anchor, xOffset, yOffset)
 
         val share = popupView.findViewById<TextView>(R.id.tv_share)

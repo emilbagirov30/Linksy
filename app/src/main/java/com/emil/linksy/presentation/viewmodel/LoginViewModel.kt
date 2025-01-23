@@ -23,8 +23,9 @@ class LoginViewModel(private val loginUseCase: LoginUseCase, private val tokenMa
                         onSuccess ()
                         val accessToken = response.body()?.accessToken
                         val refreshToken = response.body()?.refreshToken
-                        if (accessToken != null && refreshToken != null) {
-                            tokenManager.saveTokens(accessToken, refreshToken)
+                        val wsToken = response.body()?.wsToken
+                        if (accessToken != null && refreshToken != null && wsToken != null) {
+                            tokenManager.saveTokens(accessToken, refreshToken, wsToken)
                         }
                     }
                     404 -> withContext(Dispatchers.Main) {onIncorrect ()}

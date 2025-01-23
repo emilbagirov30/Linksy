@@ -95,7 +95,7 @@ class ChannelFragment : Fragment() {
 
 
         channelViewModel.channelList.observe(requireActivity()){channelList ->
-            binding.rvChannels.adapter = ChannelsAdapter(channelList,requireContext(),userId)
+            binding.rvChannels.adapter = context?.let { ChannelsAdapter(channelList, it,userId) }
         }
 
 

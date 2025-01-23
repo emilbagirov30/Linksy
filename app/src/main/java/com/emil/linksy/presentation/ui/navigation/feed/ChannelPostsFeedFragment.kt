@@ -44,7 +44,8 @@ class ChannelPostsFeedFragment : Fragment() {
         val userId = sharedPref.getLong("ID",-1)
         feedViewModel.getAllChannelPosts(tokenManager.getAccessToken())
         feedViewModel.channelPostList.observe(requireActivity()){postList ->
-            binding.rvPosts.adapter = ChannelPostsAdapter(postList,requireActivity(),tokenManager,channelViewModel,userId)
+            binding.rvPosts.adapter =
+                context?.let { ChannelPostsAdapter(postList, it,tokenManager,channelViewModel,userId) }
         }
     }
 

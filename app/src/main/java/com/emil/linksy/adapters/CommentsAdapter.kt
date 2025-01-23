@@ -21,15 +21,13 @@ import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.emil.presentation.databinding.RvItemCommentsBinding
-
 class CommentsAdapter (private val userId:Long, private val independentCommentList:List<CommentResponse>,
                        private val allCommentList:List<CommentResponse> = emptyList(),
                        private val context: Context,
                        private val commentsBottomSheet: CommentsBottomSheet? = null,
                       private val postViewModel: PostViewModel?=null,
                        private val channelViewModel: ChannelViewModel? = null,
-                         private val tokenManager: TokenManager
-                                                      ):
+                         private val tokenManager: TokenManager):
     RecyclerView.Adapter<CommentsAdapter.CommentViewHolder>(){
 
 

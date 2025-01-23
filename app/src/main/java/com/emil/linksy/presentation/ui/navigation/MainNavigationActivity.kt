@@ -114,11 +114,14 @@ messageViewModel.messageList.observe(this){messagelist ->
         chatViewModel.getUserChats(tokenManager.getAccessToken())
 
         chatViewModel.chatList.observe(this){chatList ->
+
             if(chatList.isNotEmpty()) {
                 chatList.map { chat ->
-                    if (chat.senderId == null || chat.senderId != userId) {
-                        chatBadgeCount++
-                        updateChatBadge()
+                    if(chat.unreadMessagesCount!=null) {
+                        if (chat.senderId == null || (chat.senderId != userId && chat.unreadMessagesCount!! > 0)) {
+                            chatBadgeCount++
+                            updateChatBadge()
+                        }
                     }
                 }
             }
@@ -148,10 +151,6 @@ messageViewModel.messageList.observe(this){messagelist ->
         chatBadgeCount = 0
         badge.number = 0
         badge.isVisible = false
-        val intent = Intent(this, WebSocketService::class.java).apply {
-            action = "CLEAR_CHAT_ID_LIST"
-        }
-        startService(intent)
     }
 
 }

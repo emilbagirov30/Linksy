@@ -146,4 +146,7 @@
     <string name="users">Пользователи</string>
     <string name="delete_comment_title">Удаление комментария</string>
     <string name="delete_comment_confirm_text">Вы уверены, что хотите удалить комментарий?</string>
+    <string name="writes">печатает</string>
+    <string name="recording_voice">записывает голосовое сообщение</string>
+    <string name="select_image">выбирает изображение</string>
 </resources>

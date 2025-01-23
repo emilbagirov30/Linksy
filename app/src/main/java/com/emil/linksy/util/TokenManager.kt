@@ -21,10 +21,11 @@ class TokenManager(context: Context) {
     )
 
 
-    fun saveTokens(accessToken: String, refreshToken: String) {
+    fun saveTokens(accessToken: String, refreshToken: String,wsToken:String) {
         val editor = sharedPreferences.edit()
         editor.putString("ACCESS_TOKEN", accessToken)
         editor.putString("REFRESH_TOKEN", refreshToken)
+        editor.putString("WS_TOKEN", wsToken)
         editor.apply()
     }
 
@@ -36,10 +37,15 @@ class TokenManager(context: Context) {
         return sharedPreferences.getString("REFRESH_TOKEN", null).toString()
     }
 
+    fun getWsToken(): String {
+        return sharedPreferences.getString("WS_TOKEN", null).toString()
+    }
+
     fun clearTokens() {
         val editor = sharedPreferences.edit()
         editor.remove("ACCESS_TOKEN")
         editor.remove("REFRESH_TOKEN")
+        editor.remove("WS_TOKEN")
         editor.apply()
     }
 }

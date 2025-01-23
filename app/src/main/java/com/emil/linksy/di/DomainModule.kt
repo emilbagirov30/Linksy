@@ -73,9 +73,11 @@ import com.emil.domain.usecase.RemoveFromBlackListUseCase
 import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
 import com.emil.domain.usecase.SendMessageUseCase
+import com.emil.domain.usecase.SendStatusUseCase
 import com.emil.domain.usecase.SetMessageModeUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
+import com.emil.domain.usecase.SubscribeToChatStatusUseCase
 import com.emil.domain.usecase.SubscribeToEditMessagesUseCase
 import com.emil.domain.usecase.SubscribeToMessagesDeleteUseCase
 import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
@@ -405,6 +407,14 @@ val domainModule = module {
     }
     factory<DeleteChannelCommentUseCase>{
         DeleteChannelCommentUseCase(channelRepository = get())
+    }
+
+    factory<SendStatusUseCase>{
+        SendStatusUseCase(repository = get())
+    }
+
+    factory<SubscribeToChatStatusUseCase>{
+        SubscribeToChatStatusUseCase(repository = get())
     }
 
 }

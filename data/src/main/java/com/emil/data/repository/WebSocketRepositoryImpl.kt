@@ -1,9 +1,12 @@
 package com.emil.data.repository
 
+import android.annotation.SuppressLint
 import com.emil.data.TemporaryKeyStore
 import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.EditMessageResponse
 import com.emil.domain.model.MessageResponse
+import com.emil.domain.model.Status
+import com.emil.domain.model.StatusResponse
 import com.emil.domain.repository.WebSocketRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -21,6 +24,7 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
     private val jsonAdapterChats = moshi.adapter(ChatResponse::class.java)
     private val jsonAdapterMessageId = moshi.adapter(Long::class.java)
     private val jsonAdapterEditMessage = moshi.adapter(EditMessageResponse::class.java)
+    private val jsonAdapterStatus = moshi.adapter(StatusResponse::class.java)
     override fun connect() {
         if (!stompClient.isConnected)
             stompClient.connect()
@@ -122,4 +126,32 @@ class WebSocketRepositoryImpl() : WebSocketRepository {
 
     }
 
+    @SuppressLint("CheckResult")
+    override fun sendStatus(status: Status) {
+        val destination = "/app/chat/status"
+        val jsonAdapterStatus = moshi.adapter(Status::class.java)
+        val payload = jsonAdapterStatus.toJson(status)
+        stompClient.send(destination, payload)
+            .subscribe({
+
+            }, { _ ->
+
+            })
+    }
+
+    override fun subscribeToStatusMessages(token: String, chatId: Long): Flow<StatusResponse> = callbackFlow {
+        val topic = stompClient.topic("/user/$token/queue/messages/status/${chatId}/")
+            .subscribe({ stompMessage ->
+                val message = stompMessage.payload
+                val messageResponse = jsonAdapterStatus.fromJson(message)
+                messageResponse?.let { trySend(it).isSuccess }
+            }, { error ->
+
+            })
+
+        awaitClose {
+            topic.dispose()
+        }
+
+    }
 }

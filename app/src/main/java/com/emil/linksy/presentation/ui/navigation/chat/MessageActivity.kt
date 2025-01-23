@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.emil.domain.model.MessageStatus
 import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.linksy.adapters.MessagesAdapter
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
@@ -103,6 +104,8 @@ class MessageActivity : AppCompatActivity() {
     private val messageViewModel: MessageViewModel by viewModel<MessageViewModel>()
     private val chatViewModel:ChatViewModel by viewModel<ChatViewModel>()
     private val tokenManager: TokenManager by inject()
+    private var userId:Long = -1
+    private var chatId:Long = -100
     @SuppressLint("MissingInflatedId", "SuspiciousIndentation", "SetTextI18n",
         "NotifyDataSetChanged"
     )
@@ -133,11 +136,12 @@ class MessageActivity : AppCompatActivity() {
         voiceLinearLayout = findViewById(R.id.ll_voice)
         stopWatchTextView = findViewById(R.id.tv_stopwatch)
         deleteVoice = findViewById(R.id.ib_delete_voice)
+        val statusTextView = findViewById<MaterialTextView>(R.id.tv_status)
         val downButton = findViewById<ImageButton>(R.id.ib_down)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
         val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("ID",-1)
+        userId = sharedPref.getLong("ID",-1)
         toolBar.setNavigationOnClickListener {
             finish()
         }
@@ -147,9 +151,9 @@ class MessageActivity : AppCompatActivity() {
 
         val avatarUrl = intent.getStringExtra("AVATAR_URL")
         val title = intent.getStringExtra("NAME")
-        var chatId: Long? = if (intent.hasExtra("CHAT_ID")) {
+         chatId = if (intent.hasExtra("CHAT_ID")) {
             intent.getLongExtra("CHAT_ID", -1L)
-        } else null
+        } else -100
         val isGroup = intent.getBooleanExtra("ISGROUP",false)
         if(isGroup) {
             if (avatarUrl == "null" && isGroup) avatarImageView.setImageResource(R.drawable.default_group_avatar)
@@ -173,7 +177,7 @@ class MessageActivity : AppCompatActivity() {
 
 
 
-            if(chatId == null) chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId!!)
+            if(chatId == -100L) chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId!!)
             else {
                 messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {
                     subscribeToUpdates(chatId) }, onError = {
@@ -200,7 +204,14 @@ class MessageActivity : AppCompatActivity() {
 
         }
 
+                messageViewModel.status.observe(this){status ->
+                    when(status.status){
+                        MessageStatus.TEXT -> statusTextView.text = "${status.name} ${getString(R.string.writes)}.."
+                        MessageStatus.VOICE -> statusTextView.text = "${status.name} ${getString(R.string.recording_voice)}.."
+                        MessageStatus.IMAGE -> statusTextView.text = "${status.name} ${getString(R.string.select_image)}.."
+                        MessageStatus.NOTHING -> statusTextView.text = ""
 
+                }}
         if (avatarUrl!="null"){
             Glide.with(this)
                 .load(avatarUrl)
@@ -230,9 +241,11 @@ class MessageActivity : AppCompatActivity() {
                 if (currentText.isNotEmpty()) {
                     sendButton.show()
                     recordButton.hide()
+                    messageViewModel.sendStatus(chatId,userId,MessageStatus.TEXT)
                 } else {
                     sendButton.hide()
                     recordButton.show()
+                    messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
                 }
             }
             override fun afterTextChanged(p0: Editable?) {} }
@@ -259,6 +272,7 @@ class MessageActivity : AppCompatActivity() {
                 it.anim()
                 audioWaveView.show()
                 if (checkAudioPermission()) startRecording()
+
             }
 
 
@@ -314,10 +328,11 @@ class MessageActivity : AppCompatActivity() {
     }
 
     private fun subscribeToUpdates (chatId:Long){
-        messageViewModel.subscribeToUserMessages(tokenManager.getAccessToken(),chatId)
-        messageViewModel.subscribeToViewed(tokenManager.getAccessToken(),chatId)
-        messageViewModel.subscribeToDeleted(tokenManager.getAccessToken(),chatId)
-        messageViewModel.subscribeToEdited(tokenManager.getAccessToken(),chatId)
+        messageViewModel.subscribeToUserMessages(tokenManager.getWsToken(),chatId)
+        messageViewModel.subscribeToViewed(tokenManager.getWsToken(),chatId)
+        messageViewModel.subscribeToDeleted(tokenManager.getWsToken(),chatId)
+        messageViewModel.subscribeToEdited(tokenManager.getWsToken(),chatId)
+        messageViewModel.subscribeToStatus(tokenManager.getWsToken(),chatId)
     }
 
     private fun viewMessage (chatId: Long){
@@ -333,6 +348,7 @@ class MessageActivity : AppCompatActivity() {
             .into(pickedPictureImageView)
 
         deletePictureButton.setOnClickListener {
+            messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
             it.anim()
             pictureFrameLayout.hide()
             if (!videoFrameLayout.isVisible) {
@@ -342,6 +358,7 @@ class MessageActivity : AppCompatActivity() {
             }
             imageUri = null
         }
+
     }
 
     private fun handleSelectedVideo(uri: Uri) {
@@ -370,7 +387,7 @@ class MessageActivity : AppCompatActivity() {
 
 
     private fun handleSelectedAudio(uri: Uri) {
-
+        messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
         audioLinearLayout.show()
         playAudio.setImageResource(R.drawable.ic_play)
         mediaPlayerAudio = MediaPlayer().apply {
@@ -458,6 +475,7 @@ class MessageActivity : AppCompatActivity() {
 
         addImageButton.setOnClickListener {
             it.anim()
+            messageViewModel.sendStatus(chatId,userId,MessageStatus.IMAGE)
             pickImageLauncher.launch(ContentType.IMAGE.mimeType)
         }
 
@@ -522,6 +540,7 @@ class MessageActivity : AppCompatActivity() {
                 audioWaveView.addAmplitude(amplitude)
             }
         }
+        messageViewModel.sendStatus(chatId,userId,MessageStatus.VOICE)
     }
 
 
@@ -534,6 +553,7 @@ class MessageActivity : AppCompatActivity() {
         audioRecorderManager.stopRecording()
         job?.cancel()
         isRecording = false
+        messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
     }
     private fun clear() {
         sendButton.hide()
@@ -547,6 +567,7 @@ class MessageActivity : AppCompatActivity() {
         videoUri = null
         audioUri = null
         voiceUri = null
+        messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
     }
 
 

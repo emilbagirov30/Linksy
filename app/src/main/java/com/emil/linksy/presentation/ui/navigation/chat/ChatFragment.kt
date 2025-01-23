@@ -65,7 +65,7 @@ class ChatFragment : Fragment() {
 
         chatViewModel.chatList.observe(requireActivity()) { chatlist ->
             chatRecyclerView.adapter =
-                ChatsAdapter(chatlist, requireContext())
+                context?.let { ChatsAdapter(chatlist, it) }
             chatlist.map { c ->
                 chatViewModel.insertChat(c)
             }
@@ -73,7 +73,7 @@ class ChatFragment : Fragment() {
 
 
         chatViewModel.getUserChats(tokenManager.getAccessToken(), onSuccess = {
-            chatViewModel.subscribeToChat(tokenManager.getAccessToken())
+            chatViewModel.subscribeToChat(tokenManager.getWsToken())
         }, onError = {
             chatViewModel.getUserChatsFromLocalDb()
             showToast(requireActivity(),R.string.loaded_from_cache)
