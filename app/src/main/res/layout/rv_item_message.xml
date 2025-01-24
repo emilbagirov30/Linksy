@@ -38,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="gone"
             android:layout_gravity="bottom"
             >
                 <ImageView
@@ -45,7 +46,6 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:visibility="gone"
                     android:background="@drawable/default_avatar"
                     >
                 </ImageView>
@@ -55,7 +55,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
-                    android:visibility="gone"
                     android:textColor="@color/gray"
                     android:fontFamily="@font/klukva"
                     android:layout_gravity="center"
@@ -68,14 +67,16 @@
 
                 <LinearLayout
                     android:id="@+id/ll_message"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@drawable/stranger_message"
                     android:layout_margin="3dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:orientation="vertical">
@@ -87,7 +88,6 @@
                             <ImageView
                                 android:id="@+id/iv_picture"
                                 android:layout_width="100dp"
-                                android:visibility="gone"
                                 android:layout_height="100dp"
                                 android:padding="2dp"
                                 >
@@ -96,7 +96,7 @@
                                 android:id="@+id/rl_video"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:visibility="gone"
+
                                 android:layout_marginStart="5dp"
                                 >
                                 <ImageView
@@ -121,7 +121,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginBottom="10dp"
-                            android:visibility="gone"
                             android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
@@ -152,7 +151,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginBottom="10dp"
-                            android:visibility="gone"
+
                             android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
@@ -179,22 +178,23 @@
                             </ProgressBar>
 
                         </LinearLayout>
+
                         <TextView
                             android:id="@+id/tv_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="2dp"
                             android:textSize="20sp"
-                            android:maxEms="15"
+
                             android:textIsSelectable="true"
                             android:text=""
                             android:fontFamily="@font/klukva">
                         </TextView>
-
                     </LinearLayout>
+
                     <TextView
                         android:id="@+id/tv_time"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -206,12 +206,11 @@
 
                     <TextView
                         android:id="@+id/tv_edited"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:padding="5dp"
-                        android:visibility="gone"
                         android:layout_gravity="bottom|end"
                         android:fontFamily="@font/klukva"
                         android:textColor="@color/gray"
@@ -226,7 +225,7 @@
                     android:id="@+id/iv_viewed_mark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_gravity="center"
                     android:background="@drawable/ic_not_read">
 
                 </ImageView>

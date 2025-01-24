@@ -63,7 +63,6 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
         private val postTextView = itemView.findViewById<MaterialTextView>(R.id.tv_text_post_content)
         private val ratingTextView = itemView.findViewById<MaterialTextView>(R.id.tv_rating_average)
         private val ratingImageView = itemView.findViewById<ImageView>(R.id.iv_rating)
-        private val repostsCount = itemView.findViewById<MaterialTextView>(R.id.tv_reposts_count)
         private val editPostButton = itemView.findViewById<ImageButton>(R.id.ib_edit_post)
         private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_post_video)
         private val mediaLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_media)
@@ -186,9 +185,6 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                 ContextCompat.getColor(context, R.color.yellow)))
             if(rating >=4)  ViewCompat.setBackgroundTintList(ratingImageView, ColorStateList.valueOf(
                 ContextCompat.getColor(context, R.color.green)))
-
-            repostsCount.text = post.repostsCount.toString()
-
                   if (post.options!=null){
                       pollLinearLayout.show()
                       pollTitleTextView.text = post.pollTitle

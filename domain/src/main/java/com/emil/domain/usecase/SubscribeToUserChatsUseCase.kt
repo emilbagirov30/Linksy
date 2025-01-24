@@ -6,7 +6,7 @@ import com.emil.domain.repository.WebSocketRepository
 import kotlinx.coroutines.flow.Flow
 
 class SubscribeToUserChatsUseCase (private val repository: WebSocketRepository) {
-    operator fun invoke(token: String): Flow<ChatResponse> {
+     fun invoke(token: String): Flow<ChatResponse> {
         return repository.subscribeToUserChats(token)
     }
 }

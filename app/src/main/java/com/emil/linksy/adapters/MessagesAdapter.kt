@@ -267,15 +267,10 @@ if (chatMemberList.isNotEmpty()){
         val yOffset = 0
         popupWindow.showAsDropDown(anchor, xOffset, yOffset)
 
-        val share = popupView.findViewById<TextView>(R.id.tv_share)
+
         val edit = popupView.findViewById<TextView>(R.id.tv_edit)
         val delete = popupView.findViewById<TextView>(R.id.tv_delete)
 
-
-
-        share.setOnClickListener {
-
-        }
 
         edit.setOnClickListener {
                   EditMessageDialog.newInstance(context,messageId,text,tokenManager, messageViewModel)

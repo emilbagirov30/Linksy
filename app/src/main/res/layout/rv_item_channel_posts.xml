@@ -267,35 +267,6 @@
                 />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_reposts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_repost">
-
-            </ImageView>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_reposts_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="2dp"
-                android:text="0"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@color/gray"
-                android:textSize="10sp"
-                />
-        </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/ll_rating"

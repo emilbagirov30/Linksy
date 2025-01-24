@@ -62,7 +62,6 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val likeImageView = itemView.findViewById<ImageView>(R.id.iv_like)
         private val commentImageView = itemView.findViewById<ImageView>(R.id.iv_comment)
         private val commentCount = itemView.findViewById<MaterialTextView>(R.id.tv_comment_count)
-        private val repostsCount = itemView.findViewById<MaterialTextView>(R.id.tv_reposts_count)
         private val editPostButton = itemView.findViewById<ImageButton>(R.id.ib_edit_post)
         private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_post_video)
         private val mediaLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_media)
@@ -254,7 +253,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                 }
 
             }
-            repostsCount.text = post.repostsCount.toString()
+
             commentCount.text = post.commentsCount.toString()
             editPostButton.setOnClickListener {
                 if (!isOutsider) {
