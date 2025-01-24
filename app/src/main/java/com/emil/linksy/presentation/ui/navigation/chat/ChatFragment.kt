@@ -66,7 +66,7 @@ class ChatFragment : Fragment() {
 
         chatViewModel.chatList.observe(requireActivity()) { chatlist ->
             chatRecyclerView.adapter =
-                context?.let { ChatsAdapter(chatlist, it) }
+                context?.let { ChatsAdapter(chatlist, it,chatViewModel,tokenManager,this) }
             chatlist.map { c ->
                 chatViewModel.insertChat(c)
             }
@@ -93,7 +93,7 @@ class ChatFragment : Fragment() {
         getUserChats()
     }
 
-        private fun getUserChats(){
+         fun getUserChats(){
             chatViewModel.getUserChats(tokenManager.getAccessToken(), onSuccess = {
                 chatViewModel.subscribeToChat(tokenManager.getWsToken())
                 swipeRefreshLayout.isRefreshing=false

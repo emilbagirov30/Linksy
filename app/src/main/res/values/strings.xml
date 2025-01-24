@@ -109,7 +109,7 @@
     <string name="description">Description</string>
     <string name="type">Type</string>
     <string name="channel_not_found">The channel was not found</string>
-    <string name="titile">Titile</string>
+    <string name="title">Title</string>
     <string name="submit_request">Submit request</string>
     <string name="rating">Rating</string>
     <string name="subscription_request">subscription \nrequest</string>
@@ -157,4 +157,6 @@
     <string name="blocked_info">You are blocked</string>
     <string name="outsider_blocked_info">The user was blocked for violating the rules</string>
     <string name="channel_blocked">The channel was blocked for violating the rules</string>
+    <string name="delete_chat_title">Deleting a chat</string>
+    <string name="delete_chat_confirm_text">Do you really want to delete the message history for this chat?</string>
 </resources>

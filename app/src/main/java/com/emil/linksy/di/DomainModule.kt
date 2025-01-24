@@ -9,6 +9,8 @@ import com.emil.domain.usecase.AddToBlackListUseCase
 import com.emil.domain.usecase.AllUserDataUseCase
 import com.emil.domain.usecase.ChangePasswordUseCase
 import com.emil.domain.usecase.CheckIsGroupUseCase
+import com.emil.domain.usecase.ClearAllMessagesUseCase
+import com.emil.domain.usecase.ClearChatsUseCase
 import com.emil.domain.usecase.ConfirmCodeUseCase
 import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
@@ -19,8 +21,10 @@ import com.emil.domain.usecase.CreateMomentUseCase
 import com.emil.domain.usecase.DeleteAvatarUseCase
 import com.emil.domain.usecase.DeleteChannelCommentUseCase
 import com.emil.domain.usecase.DeleteChannelPostUseCase
+import com.emil.domain.usecase.DeleteChatUseCase
 import com.emil.domain.usecase.DeleteCommentUseCase
 import com.emil.domain.usecase.DeleteLikeUseCase
+import com.emil.domain.usecase.DeleteMessageFromLocalDbUseCase
 import com.emil.domain.usecase.DeleteMessageUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.DeletePostUseCase
@@ -415,6 +419,24 @@ val domainModule = module {
 
     factory<SubscribeToChatStatusUseCase>{
         SubscribeToChatStatusUseCase(repository = get())
+    }
+
+
+    factory<DeleteMessageFromLocalDbUseCase>{
+       DeleteMessageFromLocalDbUseCase(messageRepository = get())
+    }
+
+
+    factory<ClearAllMessagesUseCase>{
+       ClearAllMessagesUseCase(messageRepository = get())
+    }
+
+    factory<DeleteChatUseCase>{
+       DeleteChatUseCase(chatRepository = get())
+    }
+
+    factory<ClearChatsUseCase>{
+       ClearChatsUseCase(chatRepository = get())
     }
 
 }

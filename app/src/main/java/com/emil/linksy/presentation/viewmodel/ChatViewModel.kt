@@ -12,8 +12,10 @@ import com.emil.domain.model.GroupResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
+import com.emil.domain.usecase.ClearChatsUseCase
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
 import com.emil.domain.usecase.CreateGroupUseCase
+import com.emil.domain.usecase.DeleteChatUseCase
 import com.emil.domain.usecase.EditGroupUseCase
 import com.emil.domain.usecase.GetChatIdUseCase
 import com.emil.domain.usecase.GetGroupDataUseCase
@@ -35,7 +37,9 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
     private val getChatIdUseCase: GetChatIdUseCase, private val createGroupUseCase: CreateGroupUseCase,
     private val getGroupMembersUseCase: GetGroupMembersUseCase,
     private val getGroupDataUseCase: GetGroupDataUseCase,
-    private val editGroupUseCase: EditGroupUseCase
+    private val editGroupUseCase: EditGroupUseCase,
+   private val deleteChatUseCase: DeleteChatUseCase,
+    private val clearChatsUseCase: ClearChatsUseCase
 ) : ViewModel(){
 
     private val _chatList = MutableLiveData<MutableList<ChatResponse>> ()
@@ -55,6 +59,7 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
             try {
                 val response = getUserChatsUseCase.execute(token)
                 if (response.isSuccessful) {
+                     clearChats()
                     _chatList.value = response.body()?.toMutableList()
                     onSuccess()
                 }
@@ -151,13 +156,33 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
                val response =  getGroupDataUseCase.execute(token, groupId)
                 if (response.isSuccessful){
                     _groupData.value = response.body()
-                    println (response.body())
                 }
             }catch (e:Exception){
                 onError ()
             }
         }
     }
+
+
+    fun deleteChat (token:String,chatId:Long,onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try {
+                val response =  deleteChatUseCase.execute(token, chatId)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+    fun clearChats(){
+        viewModelScope.launch {
+clearChatsUseCase.execute()
+        }
+    }
+
 
 
     fun editGroup(token:String, groupId:Long, name:String,oldAvatarUrl:String?, avatar: MultipartBody.Part?, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){

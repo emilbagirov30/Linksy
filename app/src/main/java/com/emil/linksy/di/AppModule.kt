@@ -80,13 +80,15 @@ val appModule = module {
                editMessageUseCase = get(),
                subscribeToEditMessagesUseCase = get(),
                sendStatusUseCase = get(),
-               subscribeToChatStatusUseCase = get()
+               subscribeToChatStatusUseCase = get(),
+               deleteMessageFromLocalDbUseCase = get(),
+               clearAllMessagesUseCase = get()
            )
        }
 
     viewModel <ChatViewModel> {
       ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get(),
-          subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get(), getGroupDataUseCase = get(), editGroupUseCase = get())
+          subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get(), getGroupDataUseCase = get(), editGroupUseCase = get(), deleteChatUseCase = get(), clearChatsUseCase = get())
     }
 
     viewModel <ChannelViewModel>{

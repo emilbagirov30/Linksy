@@ -16,4 +16,8 @@ interface ChatDao {
 
     @Query("SELECT isGroup FROM chats WHERE id = :chatId LIMIT 1")
     suspend fun isGroup(chatId: Long): Boolean
+
+
+    @Query("DELETE FROM chats")
+    suspend fun deleteChats()
 }

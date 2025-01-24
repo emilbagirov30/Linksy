@@ -77,4 +77,12 @@ class ChatRepositoryImpl(private val chatDao: ChatDao):ChatRepository {
             groupEditBody.toDomainModel(editData).avatar
         )
     }
+
+    override suspend fun deleteChat(token: String, chatId: Long): Response<Unit> {
+        return  RetrofitUserInstance.apiService.deleteChat("Bearer $token",chatId)
+    }
+
+    override suspend fun clearChats() {
+        return chatDao.deleteChats()
+    }
 }

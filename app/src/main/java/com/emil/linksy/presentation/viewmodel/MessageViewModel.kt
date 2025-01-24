@@ -13,7 +13,9 @@ import com.emil.domain.model.Status
 import com.emil.domain.model.StatusResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
+import com.emil.domain.usecase.ClearAllMessagesUseCase
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
+import com.emil.domain.usecase.DeleteMessageFromLocalDbUseCase
 import com.emil.domain.usecase.DeleteMessageUseCase
 import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
 import com.emil.domain.usecase.EditMessageUseCase
@@ -47,7 +49,9 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                          private val editMessageUseCase: EditMessageUseCase,
                           private val subscribeToEditMessagesUseCase: SubscribeToEditMessagesUseCase,
     private val sendStatusUseCase: SendStatusUseCase,
-    private val subscribeToChatStatusUseCase: SubscribeToChatStatusUseCase
+    private val subscribeToChatStatusUseCase: SubscribeToChatStatusUseCase,
+    private val deleteMessageFromLocalDbUseCase: DeleteMessageFromLocalDbUseCase,
+    private val clearAllMessagesUseCase: ClearAllMessagesUseCase
 ) :ViewModel(){
 
     private val _messageList = MutableLiveData<MutableList<MessageResponse>> ()
@@ -83,6 +87,7 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
             try {
                 val response = getUserMessagesUseCase.execute(token)
                 if (response.isSuccessful){
+                     clearAllMessages()
                     _messageList.value = response.body()
                     onSuccess ()
                 }
@@ -214,6 +219,7 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                 connectToWebSocketUseCase.invoke()
                 val messageId= subscribeToDeleteMessageUseCase.invoke(token, chatId)
                 messageId.collect { id ->
+                    deleteMessageFromLocalDb(id)
                     val updatedList = _messageList.value?.toMutableList() ?: mutableListOf()
                     val index = updatedList.indexOfFirst { it.messageId == id }
                     if (index != -1) {
@@ -279,7 +285,7 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
     }
 
 
-    @SuppressLint("SuspiciousIndentation")
+
     fun sendStatus( chatId: Long, userId:Long,status: MessageStatus, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
@@ -291,5 +297,17 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
         }
     }
 
+
+    fun deleteMessageFromLocalDb( messageId: Long) {
+        viewModelScope.launch {
+              deleteMessageFromLocalDbUseCase.execute(messageId)
+        }
+    }
+
+    fun clearAllMessages() {
+        viewModelScope.launch {
+         clearAllMessagesUseCase.execute()
+        }
+    }
 
 }

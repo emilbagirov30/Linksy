@@ -104,7 +104,7 @@
         <item>Закрытый</item>
     </string-array>
     <string name="channel_not_found">Канал не найден</string>
-    <string name="titile">Заголовок</string>
+    <string name="title">Заголовок</string>
     <string name="submit_request">Подать заявку</string>
     <string name="rating">Рейтинг</string>
     <string name="subscription_request">Заявки на подписку</string>
@@ -152,4 +152,6 @@
     <string name="blocked_info">Вы заблокированы</string>
     <string name="outsider_blocked_info">Пользователь был заблокирован за нарушение правил</string>
     <string name="channel_blocked">Канал был заблокирован за нарушение правил</string>
+    <string name="delete_chat_title">Удаление чата</string>
+    <string name="delete_chat_confirm_text">Вы действительно хотите удалить историю сообщений для этого чата?</string>
 </resources>

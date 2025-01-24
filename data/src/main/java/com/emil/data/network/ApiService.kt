@@ -328,4 +328,8 @@ interface ApiService {
 
     @DELETE("api/channels/post/comment/delete")
     suspend fun deleteChannelComment(@Header("Authorization") token:String, @Query("id") commentId: Long): Response<Unit>
+
+
+    @DELETE("api/chats/delete")
+    suspend fun deleteChat(@Header("Authorization") token:String, @Query("id") chatId: Long): Response<Unit>
 }

@@ -14,14 +14,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChatResponse
+import com.emil.linksy.presentation.ui.ActionDialog
+import com.emil.linksy.presentation.ui.navigation.chat.ChatFragment
 import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
+import com.emil.linksy.presentation.viewmodel.ChatViewModel
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showMenu
 import com.emil.presentation.R
 import com.google.android.material.textview.MaterialTextView
 
 class ChatsAdapter(private val chatList: List<ChatResponse>,
-                   private val context: Context
+                   private val context: Context,
+                   private val chatViewModel: ChatViewModel,
+                   private val tokenManager: TokenManager,
+                   private val chatFragment: ChatFragment
 ): RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -70,6 +78,26 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
               startMessageActivity.putExtra("NAME",name)
               context.startActivity(startMessageActivity)
           }
+
+          chatLayout.setOnLongClickListener {
+              it.showMenu(context,
+                  deleteAction = {
+                      val dialog = ActionDialog(context)
+                      dialog.setTitle(context.getString(R.string.delete_chat_title))
+                      dialog.setConfirmText(context.getString(R.string.delete_chat_confirm_text))
+                      dialog.setAction {
+                          chatViewModel.deleteChat(tokenManager.getAccessToken(),chat.chatId, onSuccess = {
+                              chatFragment.getUserChats()
+                              dialog.dismiss()
+                          })
+                      }
+                  }
+              )
+
+
+              true
+          }
+
         }
     }
 
