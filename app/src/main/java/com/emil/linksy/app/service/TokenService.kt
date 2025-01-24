@@ -7,8 +7,10 @@ import android.os.Handler
 import androidx.lifecycle.LifecycleService
 import com.emil.data.TemporaryKeyStore
 import com.emil.domain.usecase.RefreshTokenUseCase
+import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.auth.AuthActivity
 import com.emil.linksy.util.TokenManager
+import com.emil.presentation.R
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
@@ -23,7 +25,8 @@ class TokenService: LifecycleService() {
     private val retryRunnable = Runnable {
         startRefreshing(
             onIncorrect = { logoutUser() },
-            onError = { retryAfterError() }
+            onError = { retryAfterError() },
+            onBlocked = { logoutUser() }
         )
     }
 
@@ -32,7 +35,8 @@ class TokenService: LifecycleService() {
         handler = Handler(mainLooper)
         startRefreshing(
             onIncorrect = { logoutUser() },
-            onError = { retryAfterError() }
+            onError = { retryAfterError() },
+            onBlocked = { logoutUser() }
         )
     }
 
@@ -42,7 +46,7 @@ class TokenService: LifecycleService() {
         handler.removeCallbacks(retryRunnable)
     }
 
-    private fun startRefreshing(onIncorrect: () -> Unit, onError: () -> Unit) {
+    private fun startRefreshing(onIncorrect: () -> Unit,onBlocked: () -> Unit, onError: () -> Unit) {
         if (refreshJob?.isActive == true) return
         refreshJob = scope.launch {
             while (true) {
@@ -50,15 +54,23 @@ class TokenService: LifecycleService() {
                     val currentRefreshToken = tokenManager.getRefreshToken()
                     if (currentRefreshToken!="null") {
                         val response = refreshTokenUseCase.execute(currentRefreshToken)
-                        if (response.isSuccessful) {
-                            response.body()?.let { body ->
+                        val code = response.code()
+                             println(code)
+                        when(code){
+                            200 ->  {
+                                response.body()?.let { body ->
                                 tokenManager.saveTokens(body.accessToken, body.refreshToken,body.wsToken)
                                 val wsServiceIntent = Intent(applicationContext, WebSocketService::class.java)
                                 startService(wsServiceIntent)
+                            }}
+                            401 -> {
+                                onIncorrect()
+                                cancel()
                             }
-                        } else if (response.code() == 401) {
-                            onIncorrect()
-                            cancel()
+                            403 -> {
+                                onBlocked()
+                                cancel()
+                            }
                         }
                     }else retryAfterError()
                 } catch (e: Exception) {
@@ -75,6 +87,7 @@ class TokenService: LifecycleService() {
         refreshJob = null
     }
     private fun logoutUser() {
+        println("вызван")
         val sharedPref: SharedPreferences =
             getSharedPreferences("appData", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
@@ -85,6 +98,7 @@ class TokenService: LifecycleService() {
         authIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(authIntent)
     }
+
     private fun retryAfterError() {
         handler.removeCallbacks(retryRunnable)
         handler.postDelayed(retryRunnable, TimeUnit.SECONDS.toMillis(30))

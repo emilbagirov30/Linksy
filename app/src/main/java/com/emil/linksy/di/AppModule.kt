@@ -41,7 +41,7 @@ val appModule = module {
       UserViewModel(userProfileDataUseCase = get (), getEveryoneOffTheBlacklistUseCase = get(), getMessageModeUseCase = get(), setMessageModeUseCase = get())
     }
     viewModel <PasswordChangeViewModel> {
-        PasswordChangeViewModel(changePasswordUseCase = get ())
+        PasswordChangeViewModel(changePasswordUseCase = get (), tokenManager = get())
     }
     viewModel <PostViewModel> {
         PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get(), getOutsiderUserPostsUseCase = get(), deletePostUseCase = get(),

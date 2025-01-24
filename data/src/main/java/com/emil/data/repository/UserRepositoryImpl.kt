@@ -8,6 +8,7 @@ import com.emil.data.network.RetrofitUserInstance
 import com.emil.domain.model.AllUserData
 import com.emil.domain.model.MessageMode
 import com.emil.domain.model.PasswordChangeData
+import com.emil.domain.model.Token
 import com.emil.domain.model.UserProfileData
 import com.emil.domain.model.UserResponse
 import com.emil.domain.repository.UserRepository
@@ -53,8 +54,13 @@ class UserRepositoryImpl: UserRepository {
     override suspend fun changePassword(
         token: String,
         passwordChangeData: PasswordChangeData
-    ): Response<Unit> {
-        return RetrofitUserInstance.apiService.changePassword("Bearer $token",passwordChangeRequest.toDomainModel(passwordChangeData))
+    ): Response<Token> {
+       val response = RetrofitUserInstance.apiService.changePassword("Bearer $token",passwordChangeRequest.toDomainModel(passwordChangeData))
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModel())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
     }
 
     override suspend fun getEveryoneOffTheBlacklist(token: String): Response<List<UserResponse>> {

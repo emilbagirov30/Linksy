@@ -76,7 +76,7 @@ interface ApiService {
     @PATCH("api/users/update_link")
     suspend fun updateLink (@Header("Authorization") token:String, @Query("link") link:String):Response<Unit>
     @PATCH("api/users/change_password")
-    suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeBody):Response<Unit>
+    suspend fun changePassword (@Header("Authorization") token:String, @Body passwordChangeBody: PasswordChangeBody):Response<TokenDto>
 
     @POST("api/posts/cu")
     @Multipart

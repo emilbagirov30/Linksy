@@ -115,15 +115,15 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
 
     @SuppressLint("SuspiciousIndentation")
-    fun getChannelPageData (token: String,id:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}){
+    fun getChannelPageData (token: String,id:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onBlocked: ()->Unit,onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response = getChannelPageDataUseCase.execute(token,id)
                 if (response.isSuccessful){
                     _pageData.value = response.body()
                     onSuccess()
-                }else onConflict()
-
+                }else if (response.code()==404) onConflict()
+                    else if (response.code()==403) onBlocked()
             }catch (e:Exception){
                 onError()
             }

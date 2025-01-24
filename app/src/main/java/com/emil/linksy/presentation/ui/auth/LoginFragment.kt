@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.navigation.MainNavigationActivity
 import com.emil.linksy.presentation.viewmodel.LoginViewModel
@@ -91,7 +92,12 @@ class LoginFragment : Fragment() {
                     },
                 onIncorrect = {showToast(requireContext(), R.string.user_not_found)},
                 onError =  { showToast(requireContext(), R.string.failed_connection) },
-                onEnd = { loading.dismiss() })
+                onEnd = { loading.dismiss() }, onBlock = {
+                 val dialog = ErrorDialog(requireActivity(),R.string.blocked_info)
+                           dialog.close {
+                               dialog.dismiss()
+                           }
+                })
         }
         createAccountButton.setOnClickListener { replaceFragment(containerId,
             RegistrationFragment()

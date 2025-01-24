@@ -13,7 +13,8 @@ import kotlinx.coroutines.withContext
 
 
 class LoginViewModel(private val loginUseCase: LoginUseCase, private val tokenManager: TokenManager):ViewModel () {
-     fun login (email:String, password:String,onSuccess: () -> Unit,onIncorrect: () -> Unit, onError: () -> Unit, onEnd: () -> Unit){
+     fun login (email:String, password:String,onSuccess: () -> Unit,onIncorrect: () -> Unit,
+                onError: () -> Unit, onEnd: () -> Unit, onBlock: () -> Unit){
         viewModelScope.launch {
             try {
                 val response = loginUseCase.execute(UserLoginData(email, password))
@@ -29,6 +30,7 @@ class LoginViewModel(private val loginUseCase: LoginUseCase, private val tokenMa
                         }
                     }
                     404 -> withContext(Dispatchers.Main) {onIncorrect ()}
+                    403 -> onBlock()
                 }
             }catch (e:Exception){
                 onError()

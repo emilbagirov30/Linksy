@@ -154,4 +154,7 @@
     <string name="writes">writes</string>
     <string name="recording_voice">recording a voice message</string>
     <string name="select_image">selects an image</string>
+    <string name="blocked_info">You are blocked</string>
+    <string name="outsider_blocked_info">The user was blocked for violating the rules</string>
+    <string name="channel_blocked">The channel was blocked for violating the rules</string>
 </resources>

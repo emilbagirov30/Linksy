@@ -5,6 +5,7 @@ package com.emil.domain.repository
 import com.emil.domain.model.AllUserData
 import com.emil.domain.model.MessageMode
 import com.emil.domain.model.PasswordChangeData
+import com.emil.domain.model.Token
 import com.emil.domain.model.UserProfileData
 import com.emil.domain.model.UserResponse
 import okhttp3.MultipartBody
@@ -18,7 +19,7 @@ interface UserRepository {
     suspend fun updateUsername (token:String,username:String):Response<Unit>
     suspend fun updateLink (token:String,link:String):Response<Unit>
     suspend fun deleteAvatar(token:String):Response<Unit>
-    suspend fun changePassword(token:String,passwordChangeData: PasswordChangeData):Response<Unit>
+    suspend fun changePassword(token:String,passwordChangeData: PasswordChangeData):Response<Token>
     suspend fun getEveryoneOffTheBlacklist (token:String):Response<List<UserResponse>>
     suspend fun getMessageMode (token:String):Response<MessageMode>
     suspend fun setMessageMode (token:String,messageMode:MessageMode):Response<Unit>

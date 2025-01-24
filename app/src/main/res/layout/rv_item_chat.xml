@@ -41,7 +41,8 @@
             android:text=""
             android:textColor="@color/gray"
             android:fontFamily="@font/klukva"
-            android:maxLength="20"
+            android:maxLength="25"
+            android:maxLines="1"
             android:textSize="20sp">
         </com.google.android.material.textview.MaterialTextView>
 

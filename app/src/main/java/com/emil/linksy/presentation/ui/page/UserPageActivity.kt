@@ -201,6 +201,9 @@ class UserPageActivity (): AppCompatActivity() {
         }, noAccess = {
             val errorDialog =  ErrorDialog(this,R.string.blackList_info)
             errorDialog.close(action = {finish()})
+        }, onBlocked = {
+            val errorDialog =  ErrorDialog(this,R.string.outsider_blocked_info)
+            errorDialog.close(action = {finish()})
         })
 
     }

@@ -149,4 +149,7 @@
     <string name="writes">печатает</string>
     <string name="recording_voice">записывает голосовое сообщение</string>
     <string name="select_image">выбирает изображение</string>
+    <string name="blocked_info">Вы заблокированы</string>
+    <string name="outsider_blocked_info">Пользователь был заблокирован за нарушение правил</string>
+    <string name="channel_blocked">Канал был заблокирован за нарушение правил</string>
 </resources>

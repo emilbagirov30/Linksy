@@ -71,7 +71,8 @@ class PeopleViewModel(private val findUsersByUsernameUseCase: FindUsersByUsernam
 
     }
     @SuppressLint("SuspiciousIndentation")
-    fun getUserPageData (token: String,id:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit,  noAccess: ()->Unit, onError: ()->Unit = {}){
+    fun getUserPageData (token: String,id:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit,  noAccess: ()->Unit,
+                         onError: ()->Unit = {},onBlocked: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response = getUserPageDataUseCase.execute(token,id)
@@ -80,6 +81,7 @@ class PeopleViewModel(private val findUsersByUsernameUseCase: FindUsersByUsernam
                     onSuccess()
                 }else if (response.code() == 404) onConflict()
                      else if (response.code()==403) noAccess ()
+                else if (response.code() == 409) onBlocked()
             }catch (e:Exception){
                 onError()
             }
