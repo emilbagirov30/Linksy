@@ -81,8 +81,11 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
                     dialog.setTitle(context.getString(R.string.delete_comment_title))
                     dialog.setConfirmText(context.getString(R.string.delete_comment_confirm_text))
                     dialog.setAction {
-                        channelViewModel?.deleteComment(tokenManager.getAccessToken(),comment.commentId, onSuccess = {dialog.dismiss()}, onError = {})
-                        postViewModel?.deleteComment(tokenManager.getAccessToken(),comment.commentId, onSuccess = {dialog.dismiss()}, onError = {})
+                        channelViewModel?.deleteComment(tokenManager.getAccessToken(),comment.commentId, onSuccess = {commentsBottomSheet?.getChannelsPostComments()
+                            dialog.dismiss() }, onError = {})
+                        postViewModel?.deleteComment(tokenManager.getAccessToken(),comment.commentId, onSuccess = {
+                            commentsBottomSheet?.getUserPostComments()
+                            dialog.dismiss()}, onError = {})
                     }
 
 

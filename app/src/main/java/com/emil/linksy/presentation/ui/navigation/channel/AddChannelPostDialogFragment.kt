@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.navigation.channel
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -42,6 +43,7 @@ class AddChannelPostDialogFragment: DialogFragment() {
     private var audioUrl:String? = null
     private var isEdit:Boolean? = null
     private var title:String? = null
+    private var listener: AddChannelPostDialogListener? = null
     companion object {
         private const val CHANNEL_ID = "CHANNEL_ID"
         private const val EDIT = "EDIT"
@@ -316,5 +318,14 @@ class AddChannelPostDialogFragment: DialogFragment() {
             setWindowAnimations(android.R.style.Animation_Dialog)
         }
     }
-
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onPostAdded()
+    }
+    fun setAddPostDialogListener(listener: AddChannelPostDialogListener) {
+        this.listener = listener
+    }
+    interface AddChannelPostDialogListener {
+        fun onPostAdded()
+    }
 }

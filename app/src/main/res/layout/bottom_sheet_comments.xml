@@ -39,13 +39,13 @@
     </com.google.android.material.textview.MaterialTextView>
     <ImageButton
         android:id="@+id/ib_close"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_marginTop="5dp"
         android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/gray"
-        android:background="@drawable/ic_close_2">
+        android:background="@drawable/ic_close_3">
     </ImageButton>
         </FrameLayout>
     </LinearLayout>

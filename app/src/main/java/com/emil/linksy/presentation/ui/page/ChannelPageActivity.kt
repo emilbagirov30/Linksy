@@ -36,12 +36,13 @@ import com.emil.presentation.databinding.ActivityChannelPageBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ChannelPageActivity : AppCompatActivity() {
+class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.AddChannelPostDialogListener {
     private lateinit var binding :ActivityChannelPageBinding
     private val channelViewModel: ChannelViewModel by viewModel<ChannelViewModel>()
     private val tokenManager: TokenManager by inject()
     val userId:Long = -1
-    var channelId:Long = -1
+    private var channelId = -1L
+    private lateinit var loading:LoadingDialog
     @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,13 +51,12 @@ class ChannelPageActivity : AppCompatActivity() {
         setContentView(view)
         val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
-        val groupId = intent.getLongExtra("GROUP_ID",-1)
-        val loading = LoadingDialog(this)
+         channelId = intent.getLongExtra("CHANNEL_ID",-1)
+        loading = LoadingDialog(this)
         loading.show()
 
 
         channelViewModel.pageData.observe(this){pageData ->
-            channelId = pageData.channelId
             binding.tvName.text = pageData.name
             val avatarUrl = pageData.avatarUrl
             if (avatarUrl!="null"){
@@ -106,7 +106,9 @@ class ChannelPageActivity : AppCompatActivity() {
 
                 binding.etNewPost.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                       AddChannelPostDialogFragment.newInstance(channelId = pageData.channelId).show(supportFragmentManager, "AddPostDialogFragment")
+                        val dialog =   AddChannelPostDialogFragment.newInstance(channelId = pageData.channelId)
+                        dialog.setAddPostDialogListener(this)
+                        dialog.show(supportFragmentManager, "AddPostDialogFragment")
                         true
                     } else {
                         false
@@ -165,33 +167,49 @@ class ChannelPageActivity : AppCompatActivity() {
                     }
                 }
 
-            channelViewModel.getChannelPosts(tokenManager.getAccessToken(),pageData.channelId, onConflict = {})
+
 
 
         }
-        channelViewModel.getChannelPageData(tokenManager.getAccessToken(),groupId,
-         onSuccess = {loading.dismiss()
-              view.show() },
 
-            onConflict = {
-                view.hide()
-                val errorDialog =  ErrorDialog(this,R.string.channel_not_found)
-                errorDialog.close(action = {finish()})
-        })
+           getData()
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            getData()
+        }
 
         channelViewModel.postList.observe(this){postlist ->
             binding.rvPosts.layoutManager = LinearLayoutManager(this)
-            binding.rvPosts.adapter = ChannelPostsAdapter(postlist,this,tokenManager,channelViewModel,userId,channelId)
+            binding.rvPosts.adapter = ChannelPostsAdapter(postlist,this,tokenManager,channelViewModel,userId,channelId,this)
         }
         binding.ibQr.setOnClickListener {
             it.anim()
-            val bsDialog = QrBottomSheet.newInstance(groupId)
+            val bsDialog = QrBottomSheet.newInstance(channelId)
             bsDialog.show(supportFragmentManager,bsDialog.tag)
         }
 
         binding.tb.setNavigationOnClickListener {
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getData()
+    }
+
+    fun getData(){
+        channelViewModel.getChannelPageData(tokenManager.getAccessToken(),channelId,
+            onSuccess = {
+                binding.swipeRefreshLayout.isRefreshing = false
+                loading.dismiss()
+                binding.root.show() },
+            onConflict = {
+                binding.root.hide()
+                val errorDialog =  ErrorDialog(this,R.string.channel_not_found)
+                errorDialog.close(action = {finish()})
+            })
+
+        channelViewModel.getChannelPosts(tokenManager.getAccessToken(), channelId = channelId, onConflict = {})
     }
 
 
@@ -239,4 +257,8 @@ class ChannelPageActivity : AppCompatActivity() {
                        setSubmitAction()
                     }
             })}
+
+    override fun onPostAdded() {
+        getData()
+    }
 }

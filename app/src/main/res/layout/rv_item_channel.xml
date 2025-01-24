@@ -28,7 +28,16 @@
         android:text="name"
         app:layout_constraintStart_toEndOf="@id/iv_avatar"
         app:layout_constraintTop_toTopOf="@id/iv_avatar" />
+    <ImageView
+        android:id="@+id/iv_confirmed"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end|bottom"
+        app:layout_constraintStart_toEndOf="@id/tv_name"
+        app:layout_constraintTop_toTopOf="@id/tv_name"
+        android:background="@drawable/ic_confirmed">
 
+    </ImageView>
     <ImageView
         android:id="@+id/iv_close"
         android:layout_width="10dp"

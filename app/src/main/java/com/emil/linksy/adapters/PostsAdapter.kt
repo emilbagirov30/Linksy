@@ -2,6 +2,7 @@ package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.media.MediaPlayer
@@ -32,6 +33,7 @@ import com.emil.linksy.presentation.ui.auth.ConfirmCodeBottomSheet
 import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.ui.navigation.profile.PostFragment
+import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -83,6 +85,15 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                       .apply(RequestOptions.circleCropTransform())
                       .into(authorAvatarImageView)
               }
+
+            authorAvatarImageView.setOnClickListener {
+                it.anim()
+                if (isOutsider) {
+                    val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
+                    switchingToUserPageActivity.putExtra("USER_ID", post.authorId)
+                    context.startActivity(switchingToUserPageActivity)
+                }
+            }
             authorUsername.text = post.authorUsername
             publicationDate.text = post.publishDate
             if (post.text!=null) {
@@ -224,11 +235,13 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                         post.isLikedIt = false
                         ViewCompat.setBackgroundTintList(likeImageView, ColorStateList.valueOf(
                             ContextCompat.getColor(context, R.color.gray)))
-                        likeCount.text = post.likesCount--.toString()
+                           likeCount.text = post.likesCount--.toString()
                         notifyItemChanged(bindingAdapterPosition)
                     }, onError = {})
                 }
             }else{
+                ViewCompat.setBackgroundTintList(likeImageView, ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.gray)))
                 likeImageView.setOnClickListener {
                     it.anim()
                     postViewModel.addLike(tokenManager.getAccessToken(),post.postId, onSuccess = {

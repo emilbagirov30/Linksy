@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChannelResponse
 import com.emil.domain.model.ChannelType
 import com.emil.linksy.presentation.ui.page.ChannelPageActivity
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 
@@ -60,9 +61,12 @@ class ChannelsAdapter(
             binding.root.setOnClickListener {
                 val switchingToChannelPageActivity =
                     Intent(context, ChannelPageActivity()::class.java)
-                switchingToChannelPageActivity.putExtra("GROUP_ID", channel.channelId)
+                switchingToChannelPageActivity.putExtra("CHANNEL_ID", channel.channelId)
                 context.startActivity(switchingToChannelPageActivity)
             }
+
+
+            if (channel.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.hide()
         }
     }
 

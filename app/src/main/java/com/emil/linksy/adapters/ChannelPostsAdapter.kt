@@ -2,6 +2,7 @@ package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.media.MediaPlayer
@@ -30,8 +31,11 @@ import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
+import com.emil.linksy.presentation.ui.navigation.feed.ChannelPostsFeedFragment
 import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
+import com.emil.linksy.presentation.ui.page.ChannelPageActivity
+import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
@@ -48,7 +52,7 @@ import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,private val context: Context,private val tokenManager: TokenManager,private val channelViewModel: ChannelViewModel,
-    val userId:Long,private val channelId:Long = -100
+    val userId:Long,private val channelId:Long = -100,private val channelPageActivity: ChannelPageActivity?=null,private val channelPostsFeedFragment:ChannelPostsFeedFragment? = null
 ): RecyclerView.Adapter<ChannelPostsAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -87,6 +91,15 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                     .apply(RequestOptions.circleCropTransform())
                     .into(channelAvatarImageView)
             }
+
+
+          channelAvatarImageView.setOnClickListener {
+              it.anim()
+              val switchingToChannelPageActivity =
+                  Intent(context, ChannelPageActivity()::class.java)
+              switchingToChannelPageActivity.putExtra("CHANNEL_ID", post.channelId)
+              context.startActivity(switchingToChannelPageActivity)
+          }
            channelName.text = post.channelName
             publicationDate.text = post.publishDate
             if (post.text!=null) {
@@ -200,9 +213,14 @@ if (userId == post.authorId) {
                 channelViewModel.deleteChannelPost(
                     token,
                     post.postId,
-                    onSuccess = { dialog.dismiss() },
+                    onSuccess = { dialog.dismiss()
+                        channelPageActivity?.getData()
+                        channelPostsFeedFragment?.getPosts()
+
+                                },
                     onConflict = {})
             }
+
 
         })
 
@@ -223,7 +241,11 @@ if (userId == post.authorId) {
                 scoreTextView.text = post.userScore.toString()
                 deleteScoreButton.setOnClickListener {
                     it.anim()
-                    channelViewModel.deleteScore(tokenManager.getAccessToken(),post.postId, onSuccess = {scoreLayout.hide()})
+                    channelViewModel.deleteScore(tokenManager.getAccessToken(),post.postId, onSuccess = {
+                        channelPageActivity?.getData()
+                        channelPostsFeedFragment?.getPosts()
+                        scoreLayout.hide()})
+
                 }
             }else {
                    scoreLayout.hide()
@@ -277,7 +299,10 @@ if (userId == post.authorId) {
 
 
     private fun addScore (postId: Long,score:Int){
-        channelViewModel.addScore(tokenManager.getAccessToken(),postId, score)
+        channelViewModel.addScore(tokenManager.getAccessToken(),postId, score, onSuccess = {  channelPageActivity?.getData()
+        channelPostsFeedFragment?.getPosts()
+
+        })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {

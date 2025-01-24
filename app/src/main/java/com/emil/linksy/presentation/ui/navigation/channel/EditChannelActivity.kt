@@ -118,7 +118,7 @@ class EditChannelActivity : AppCompatActivity() {
                 val link = binding.etLink.string()
                 val description = binding.etDescription.string()
                 channelViewModel.createOrUpdateChannel(tokenManager.getAccessToken(),name,channelId,link,description,channelType,oldAvatarUrl,avatar, onSuccess = {
-
+                        finish()
                 })
             }
         }

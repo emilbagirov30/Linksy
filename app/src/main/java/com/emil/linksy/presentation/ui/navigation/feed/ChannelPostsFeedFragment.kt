@@ -48,12 +48,12 @@ class ChannelPostsFeedFragment : Fragment() {
         }
         feedViewModel.channelPostList.observe(requireActivity()){postList ->
             binding.rvPosts.adapter =
-                context?.let { ChannelPostsAdapter(postList, it,tokenManager,channelViewModel,userId) }
+                context?.let { ChannelPostsAdapter(postList, it,tokenManager,channelViewModel,userId, channelPostsFeedFragment = this) }
         }
     }
 
 
-    private fun getPosts(){
+    fun getPosts(){
         feedViewModel.getAllChannelPosts(tokenManager.getAccessToken(), onSuccess = {binding.swipeRefreshLayout.isRefreshing=false})
     }
 

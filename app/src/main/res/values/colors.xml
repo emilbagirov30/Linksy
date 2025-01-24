@@ -52,7 +52,7 @@
     <color name="user_message">#A7CFEF</color>
     <color name="yellow">#FFC107</color>
     <color name="option_background">#4D96D7D1</color>
-    <color name="chip_background_pressed">#C53F1A</color>
+    <color name="chip_background_pressed">#009688</color>
     <color name="chip_background_default">#E7E7E7</color>
     <color name="chip_text_pressed">#FFFFFF</color>
     <color name="chip_text_default">#4D161616</color>

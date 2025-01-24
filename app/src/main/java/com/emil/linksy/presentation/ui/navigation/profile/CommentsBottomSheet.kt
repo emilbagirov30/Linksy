@@ -191,11 +191,11 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
     }
 
 
-    private fun getChannelsPostComments(){
+  fun getChannelsPostComments(){
         channelViewModel.getComments(channelPostId, onSuccess = {binding.swipeRefreshLayout.isRefreshing=false}, onError = {})
     }
 
-    private fun getUserPostComments(){
+   fun getUserPostComments(){
         postViewModel.getComments(postId, onSuccess = {binding.swipeRefreshLayout.isRefreshing=false}, onError = {})
     }
 }

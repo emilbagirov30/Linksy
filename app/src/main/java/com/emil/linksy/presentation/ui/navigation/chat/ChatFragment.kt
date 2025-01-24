@@ -10,7 +10,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,6 +85,12 @@ class ChatFragment : Fragment() {
         }
 
         return view
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        getUserChats()
     }
 
         private fun getUserChats(){

@@ -116,6 +116,11 @@ class ChannelFragment : Fragment() {
 
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        getChannels()
+    }
 private fun getChannels(){
     channelViewModel.getChannels(token = tokenManager.getAccessToken(), onSuccess = {
         binding.tvSearchTitle.show()

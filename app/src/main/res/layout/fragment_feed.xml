@@ -38,7 +38,7 @@
                 app:chipBackgroundColor="@color/chip_background"
                 android:textColor="@color/chip_text"
                 android:text="@string/channels"
-                android:textSize="15sp" />
+                android:textSize="10sp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_user"
@@ -48,7 +48,7 @@
                 app:chipBackgroundColor="@color/chip_background"
                 android:textColor="@color/chip_text"
                 android:text="@string/users"
-                android:textSize="15sp" />
+                android:textSize="10sp" />
 
         </com.google.android.material.chip.ChipGroup>
 
