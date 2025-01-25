@@ -30,7 +30,9 @@ import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
+import com.emil.linksy.presentation.ui.navigation.channel.AppreciatedDialogFragment
 import com.emil.linksy.presentation.ui.navigation.feed.ChannelPostsFeedFragment
+import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.ui.page.ChannelPageActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
@@ -247,7 +249,15 @@ if (userId == post.authorId) {
                     showPopup(it, post.postId)
                 }
             }
+
+            ratingImageView.setOnLongClickListener {
+                val dialog =  AppreciatedDialogFragment.newInstance(post.postId)
+                dialog.show ((context as FragmentActivity).supportFragmentManager,"AppreciatedDialogFragment")
+                true
+            }
         }
+
+
     }
     @SuppressLint("InflateParams")
     private fun showPopup(anchor: View,postId:Long) {

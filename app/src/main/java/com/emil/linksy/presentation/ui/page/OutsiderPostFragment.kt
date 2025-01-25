@@ -76,7 +76,7 @@ class OutsiderPostFragment: Fragment() {
             if (postlist.isEmpty()) emptyTextView.show()
             else{
                 postsRecyclerView.show()
-                postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel, context = requireContext(),tokenManager)
+                postsRecyclerView.adapter = PostsAdapter(postlist,postViewModel, context = requireContext(),tokenManager, outsiderPostFragment = this)
             }
 
 

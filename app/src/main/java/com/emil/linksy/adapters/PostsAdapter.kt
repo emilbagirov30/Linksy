@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
@@ -30,11 +31,14 @@ import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.auth.ConfirmCodeBottomSheet
+import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.ui.navigation.profile.PostFragment
+import com.emil.linksy.presentation.ui.page.OutsiderPostFragment
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.PostViewModel
+import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.hide
@@ -48,7 +52,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
-                   private val context:Context, private val tokenManager: TokenManager, private val postFragment: PostFragment?=null
+                   private val context:Context, private val tokenManager: TokenManager, private val postFragment: PostFragment?=null,private val outsiderPostFragment: OutsiderPostFragment?=null
     ): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -252,6 +256,23 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                 }
 
             }
+
+
+
+            likeImageView.setOnLongClickListener {
+                postFragment?.parentFragmentManager?.let { it1 ->
+                    RelationsDialogFragment(RelationType.LIKES, postId = post.postId).show(
+                        it1, "RelationsDialogFragment"
+                    )
+                }
+                    outsiderPostFragment?.parentFragmentManager?.let { it2 ->
+                        RelationsDialogFragment(RelationType.LIKES, postId = post.postId).show(
+                            it2, "RelationsDialogFragment"
+                        )
+                    }
+
+                    true
+                }
 
             commentCount.text = post.commentsCount.toString()
 

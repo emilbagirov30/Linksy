@@ -54,8 +54,8 @@ class UsersAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(user: UserResponse) {
-
             if (user.online) onlineImageView.show() else onlineImageView.hide()
+
             if (user.confirmed) confirmedImageView.show() else confirmedImageView.hide()
 
             if (isNeedChoice) {
@@ -109,6 +109,7 @@ class UsersAdapter(
                                                })
                                            }
                                        } else  removeBlackListImageButton.hide()
+
             if (user.avatarUrl != "null") {
                 Glide.with(context)
                     .load(user.avatarUrl)
@@ -120,7 +121,7 @@ class UsersAdapter(
             if (user.link != null) {
                 linkTextView.show()
                 linkTextView.text = "@${user.link}"
-            }else   linkTextView.hide()
+            }else linkTextView.hide()
         }
 
         private fun toggleSelection(userId: Long) {

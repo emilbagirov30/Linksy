@@ -154,4 +154,9 @@
     <string name="channel_blocked">Канал был заблокирован за нарушение правил</string>
     <string name="delete_chat_title">Удаление чата</string>
     <string name="delete_chat_confirm_text">Вы действительно хотите удалить историю сообщений для этого чата?</string>
+    <string name="likes">Лайки</string>
+    <string name="leave">Покинуть</string>
+    <string name="addMembers">Добавить участников</string>
+    <string name="invite">Пригласить</string>
+    <string name="evalutions">Оценки</string>
 </resources>

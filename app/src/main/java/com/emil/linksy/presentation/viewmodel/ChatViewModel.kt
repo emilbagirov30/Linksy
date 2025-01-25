@@ -217,7 +217,7 @@ clearChatsUseCase.execute()
     }
 
 
-    fun addMembers(token:String, groupId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+    fun leave(token:String, groupId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response = leaveTheGroupUseCase.execute(token, groupId)

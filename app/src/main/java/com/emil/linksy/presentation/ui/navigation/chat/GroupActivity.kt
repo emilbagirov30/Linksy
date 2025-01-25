@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.navigation.chat
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -15,8 +16,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.adapters.UsersAdapter
 import com.emil.linksy.presentation.ui.BigPictureDialog
+import com.emil.linksy.presentation.ui.navigation.MainNavigationActivity
+import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.util.ContentType
+import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.createContentPickerForActivity
@@ -31,6 +35,7 @@ import com.google.android.material.textview.MaterialTextView
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class GroupActivity : AppCompatActivity() {
     private val chatViewModel: ChatViewModel by viewModel<ChatViewModel>()
     private val tokenManager: TokenManager by inject()
@@ -43,6 +48,8 @@ class GroupActivity : AppCompatActivity() {
     private lateinit var errorTextView: MaterialTextView
     private  var oldAvatarUrl:String? = null
     private var oldName:String=""
+    private var groupId:Long = -100L
+    private var membersIdList: List<Long> = emptyList()
     @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +59,12 @@ class GroupActivity : AppCompatActivity() {
         loadAvatarButton = findViewById(R.id.iv_load_avatar)
         nameEditText = findViewById(R.id.et_name)
         applyButton = findViewById(R.id.bt_apply)
+        val leaveButton = findViewById<MaterialButton>(R.id.bt_leave)
+        val addMembersButton = findViewById<MaterialButton>(R.id.bt_add_members)
         userRecyclerView = findViewById(R.id.rv_users)
         errorTextView = findViewById(R.id.tv_error_name_short)
         userRecyclerView.layoutManager = LinearLayoutManager(this)
-        val groupId = intent.getLongExtra("GROUP_ID", -1)
+        groupId = intent.getLongExtra("GROUP_ID", -1)
 
         val pickImageLauncher = createContentPickerForActivity(this) { uri ->
             handleSelectedImage(uri)
@@ -64,6 +73,19 @@ class GroupActivity : AppCompatActivity() {
         }
 
 
+        addMembersButton.setOnClickListener {
+            RelationsDialogFragment(RelationType.ADD_MEMBERS,groupId = groupId, memberIdList = membersIdList).show(
+                supportFragmentManager, "RelationsDialogFragment"
+            )
+        }
+
+         leaveButton.setOnClickListener {
+             chatViewModel.leave(tokenManager.getAccessToken(),groupId, onSuccess = {
+                 val intent = Intent(this, MainNavigationActivity::class.java)
+                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                 startActivity(intent)
+             })
+         }
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -107,12 +129,15 @@ class GroupActivity : AppCompatActivity() {
             }else{
                 errorTextView.hide()
                 val avatar = imageUri?.let { createImageFilePart(this, it) }
-                chatViewModel.editGroup(tokenManager.getAccessToken(),groupId, name, oldAvatarUrl, avatar, onSuccess = {recreate()})
+                chatViewModel.editGroup(tokenManager.getAccessToken(),groupId, name, oldAvatarUrl, avatar, onSuccess = {
+                    finish()
+                })
             }
 
         }
 
         chatViewModel.memberList.observe(this){ memberList ->
+            membersIdList = memberList.map { it.id }
             userRecyclerView.adapter =
                 UsersAdapter(userList = memberList.toMutableList(),context = this)
         }
@@ -130,6 +155,13 @@ class GroupActivity : AppCompatActivity() {
             .apply(RequestOptions.circleCropTransform())
             .into(groupAvatarImageView)
         updateButtonState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        chatViewModel.getGroupData(tokenManager.getAccessToken(),groupId)
+        chatViewModel.getGroupMembers(tokenManager.getAccessToken(),groupId)
+
     }
 
     private fun updateButtonState (){

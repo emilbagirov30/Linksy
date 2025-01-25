@@ -159,4 +159,9 @@
     <string name="channel_blocked">The channel was blocked for violating the rules</string>
     <string name="delete_chat_title">Deleting a chat</string>
     <string name="delete_chat_confirm_text">Do you really want to delete the message history for this chat?</string>
+    <string name="likes">Likes</string>
+    <string name="leave">Leave</string>
+    <string name="addMembers">Add members</string>
+    <string name="invite">Invite</string>
+    <string name="evalutions">Evalutions</string>
 </resources>

@@ -108,7 +108,9 @@ enum class RelationType() {
     SUBSCRIBERS,
     SUBSCRIPTIONS,
     REQUESTS,
-    CHANNEL_MEMBERS
+    CHANNEL_MEMBERS,
+    LIKES,
+    ADD_MEMBERS
 }
 
 

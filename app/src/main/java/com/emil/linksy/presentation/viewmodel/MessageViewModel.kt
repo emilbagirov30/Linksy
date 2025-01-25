@@ -298,13 +298,13 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
     }
 
 
-    fun deleteMessageFromLocalDb( messageId: Long) {
+    private fun deleteMessageFromLocalDb(messageId: Long) {
         viewModelScope.launch {
               deleteMessageFromLocalDbUseCase.execute(messageId)
         }
     }
 
-    fun clearAllMessages() {
+    private fun clearAllMessages() {
         viewModelScope.launch {
          clearAllMessagesUseCase.execute()
         }
