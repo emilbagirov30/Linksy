@@ -48,8 +48,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
-                   private val context:Context, private val tokenManager: TokenManager,
-                   private val isOutsider:Boolean = false,private val postFragment: PostFragment?=null
+                   private val context:Context, private val tokenManager: TokenManager, private val postFragment: PostFragment?=null
     ): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -87,7 +86,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
 
             authorAvatarImageView.setOnClickListener {
                 it.anim()
-                if (isOutsider) {
+                if (post.authorId!=userId) {
                     val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
                     switchingToUserPageActivity.putExtra("USER_ID", post.authorId)
                     context.startActivity(switchingToUserPageActivity)
@@ -255,25 +254,32 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             }
 
             commentCount.text = post.commentsCount.toString()
-            editPostButton.setOnClickListener {
-                if (!isOutsider) {
-                    it.showMenu(context, editAction = {
-                        val dialog =  AddPostDialogFragment.newInstance(postId = post.postId, isEdit = true,text = post.text,post.imageUrl,post.videoUrl,post.audioUrl,post.voiceUrl)
-                        if(postFragment!=null)
-                        dialog.setAddPostDialogListener(postFragment)
-                        dialog.show ((context as FragmentActivity).supportFragmentManager,"AddPostDialogFragment")
-                    }, deleteAction = {
-                        val dialog = ActionDialog(context)
-                        dialog.setTitle(context.getString(R.string.delete_post_title))
-                        dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
-                        dialog.setAction {
-                            val token = tokenManager.getAccessToken()
-                            postViewModel.deletePost(token, post.postId, onSuccess = { dialog.dismiss() }, onError = {})
-                        }
 
-                    })
+            if(post.authorId ==userId){
+                editPostButton.show()
+                editPostButton.setOnClickListener {
+                        it.showMenu(context, editAction = {
+                            val dialog =  AddPostDialogFragment.newInstance(postId = post.postId, isEdit = true,text = post.text,post.imageUrl,post.videoUrl,post.audioUrl,post.voiceUrl)
+                            if(postFragment!=null)
+                                dialog.setAddPostDialogListener(postFragment)
+                            dialog.show ((context as FragmentActivity).supportFragmentManager,"AddPostDialogFragment")
+                        }, deleteAction = {
+                            val dialog = ActionDialog(context)
+                            dialog.setTitle(context.getString(R.string.delete_post_title))
+                            dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
+                            dialog.setAction {
+                                val token = tokenManager.getAccessToken()
+                                postViewModel.deletePost(token, post.postId, onSuccess = { dialog.dismiss() }, onError = {})
+                            }
+
+                        })
+
                 }
-            }
+
+
+            } else editPostButton.hide()
+
+
 
             if (post.edited) editedTextView.show() else editedTextView.hide()
         }

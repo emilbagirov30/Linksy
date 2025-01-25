@@ -26,18 +26,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChannelPostResponse
-import com.emil.domain.usecase.AddScoreUseCase
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.feed.ChannelPostsFeedFragment
-import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.ui.page.ChannelPageActivity
-import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
-import com.emil.linksy.util.ContentType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.hide
@@ -193,6 +189,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                   } else  pollLinearLayout.hide()
 
 if (userId == post.authorId) {
+    editPostButton.show()
     editPostButton.setOnClickListener {
         it.showMenu(context, editAction = {
             AddChannelPostDialogFragment
@@ -221,7 +218,7 @@ if (userId == post.authorId) {
         })
 
     }
-}
+} else editPostButton.hide()
             commentTextView.text = post.commentsCount.toString()
             commentImageView.setOnClickListener {
                 it.anim()

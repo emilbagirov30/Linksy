@@ -186,6 +186,7 @@ class MessageActivity : AppCompatActivity() {
             }
 
             chatViewModel.chatId.observe(this){id ->
+                chatId=id
                     messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),id, onSuccess = {
                        subscribeToUpdates(id)}, onError = {
                         getMessagesFromLocalDatabase(id)

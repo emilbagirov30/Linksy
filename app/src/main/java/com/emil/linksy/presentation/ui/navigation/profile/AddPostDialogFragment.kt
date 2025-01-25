@@ -2,6 +2,7 @@ package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -113,8 +114,6 @@ class AddPostDialogFragment: DialogFragment() {
         }
 
     }
-
-
 
 
 

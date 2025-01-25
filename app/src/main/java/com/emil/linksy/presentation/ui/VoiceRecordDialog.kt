@@ -14,13 +14,13 @@ import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.util.AudioRecorderManager
 import com.emil.presentation.R
 
-@SuppressLint("MissingInflatedId")
-class VoiceRecordDialog (private val dialog: Fragment): Dialog(dialog.requireContext(), R.style.TransparentDialog){
+class VoiceRecordDialog(private val dialog: Fragment) : Dialog(dialog.requireContext(), R.style.TransparentDialog) {
+
     private val RECORD_AUDIO_PERMISSION_CODE = 100
     private var audioRecorderManager: AudioRecorderManager
     private var audioWaveView: CustomAudioWave
-    private var cancelButton:ImageButton
-    private var saveButton:ImageButton
+    private var cancelButton: ImageButton
+    private var saveButton: ImageButton
 
     init {
         setContentView(R.layout.record_voice_dialog)
@@ -30,48 +30,55 @@ class VoiceRecordDialog (private val dialog: Fragment): Dialog(dialog.requireCon
         audioWaveView = findViewById(R.id.caw_voice)
         cancelButton = findViewById(R.id.ib_cancel)
         saveButton = findViewById(R.id.ib_save)
+
         saveButton.setOnClickListener {
             audioRecorderManager.stopRecording()
             val recordedFile = audioRecorderManager.getRecordedFile()
             (dialog as? AddPostDialogFragment)?.handleVoiceRecordingSaved(recordedFile)
             dismiss()
         }
+
         cancelButton.setOnClickListener {
             audioRecorderManager.stopRecording()
             dismiss()
         }
+
         checkAudioPermissionAndStartRecording()
     }
-    private fun checkAudioPermissionAndStartRecording(): Boolean {
 
-        val readPermission = ContextCompat.checkSelfPermission(context,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
-
-        val writePermission = ContextCompat.checkSelfPermission(context,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
-
-        val recordAudioPermission = ContextCompat.checkSelfPermission(context,
-            Manifest.permission.RECORD_AUDIO
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (readPermission && writePermission && recordAudioPermission) {
+    private fun checkAudioPermissionAndStartRecording() {
+        val permissionsGranted = hasAllPermissions()
+        if (permissionsGranted) {
             startRecording()
-            return true
+        } else {
+            ActivityCompat.requestPermissions(
+                dialog.requireActivity(),
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO
+                ),
+                RECORD_AUDIO_PERMISSION_CODE
+            )
         }
-        ActivityCompat.requestPermissions(
-            dialog.requireActivity(),
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.RECORD_AUDIO
-            ),
-            RECORD_AUDIO_PERMISSION_CODE
-        )
-
-        return false
     }
+
+    private fun hasAllPermissions(): Boolean {
+        val readPermission = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+
+        val writePermission = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+
+        val recordAudioPermission = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+
+        return readPermission && writePermission && recordAudioPermission
+    }
+
 
     private fun startRecording() {
         audioRecorderManager.startRecording { amplitude ->
@@ -80,4 +87,6 @@ class VoiceRecordDialog (private val dialog: Fragment): Dialog(dialog.requireCon
             }
         }
     }
+
+
 }

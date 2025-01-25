@@ -41,7 +41,7 @@ class SubscriptionsPostsFeedFragment : Fragment() {
      getPosts()
         feedViewModel.subscriptionPostList.observe(requireActivity()){postList ->
             binding.rvPosts.adapter =
-                context?.let { PostsAdapter(postList,postViewModel, it,tokenManager, isOutsider = true) }
+                context?.let { PostsAdapter(postList,postViewModel, it,tokenManager)}
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
             getPosts()
