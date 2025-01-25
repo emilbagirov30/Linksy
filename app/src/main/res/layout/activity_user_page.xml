@@ -45,6 +45,18 @@ android:visibility="gone"
         </com.google.android.material.textview.MaterialTextView>
 
 
+        <ImageView
+            android:id="@+id/iv_confirmed"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_confirmed">
+
+        </ImageView>
+
+
     </com.google.android.material.appbar.MaterialToolbar>
 
     <ImageButton
@@ -72,15 +84,28 @@ android:visibility="gone"
     </com.google.android.material.textview.MaterialTextView>
 
 
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/default_avatar"
+            >
+        </ImageView>
 
-    <ImageView
-        android:id="@+id/iv_user_avatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/default_avatar"
-       >
-    </ImageView>
+    android:fontFamily="@font/klukva"
+        android:textColor="@color/dark_gray"
+        android:textSize="20sp"
+
+        android:text="online">
+
+    </com.google.android.material.textview.MaterialTextView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_message"

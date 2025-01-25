@@ -61,8 +61,10 @@ class UserPageActivity (): AppCompatActivity() {
         val usernameTextView = findViewById<MaterialTextView>(R.id.tv_username)
         val birthdayTextView = findViewById<MaterialTextView>(R.id.tv_birthday)
         val subscriptionsTextView = findViewById<MaterialTextView>(R.id.tv_subscriptions)
+        val onlineTextView = findViewById<MaterialTextView>(R.id.tv_status)
          subscriberTextView = findViewById(R.id.tv_subscriber)
         val avatarImageView = findViewById<ImageView>(R.id.iv_user_avatar)
+        val confirmedImageView = findViewById<ImageView>(R.id.iv_confirmed)
         val subscriptionsLinerLayout = findViewById<LinearLayout>(R.id.ll_subscriptions)
         val subscribersLinerLayout = findViewById<LinearLayout>(R.id.ll_subscribers)
         val messageButton = findViewById<MaterialButton>(R.id.bt_message)
@@ -95,6 +97,12 @@ class UserPageActivity (): AppCompatActivity() {
         loading.show()
 
         peopleViewModel.pageData.observe(this){ pageData ->
+               if(pageData.confirmed) confirmedImageView.show()
+                  if(pageData.online) {
+                      onlineTextView.text = getString(R.string.online)
+                  }else onlineTextView.text = "${getString(R.string.was_online)}: ${pageData.lastActive}"
+
+
 
             toolBar.addMenuProvider(object : MenuProvider {
                 override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

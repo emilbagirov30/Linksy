@@ -12,5 +12,6 @@ data class ChannelPageDataResponse (
     val rating: Double,
     val type: ChannelType,
     val subscribersCount: Long,
-    val requestsCount:Long
+    val requestsCount:Long,
+    val confirmed:Boolean
 )

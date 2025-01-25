@@ -159,4 +159,6 @@
     <string name="addMembers">Добавить участников</string>
     <string name="invite">Пригласить</string>
     <string name="evalutions">Оценки</string>
+    <string name="online">онлайн</string>
+    <string name="was_online">был в сети</string>
 </resources>

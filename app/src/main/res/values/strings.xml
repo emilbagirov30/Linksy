@@ -164,4 +164,6 @@
     <string name="addMembers">Add members</string>
     <string name="invite">Invite</string>
     <string name="evalutions">Evalutions</string>
+    <string name="online">online</string>
+    <string name="was_online">was online</string>
 </resources>

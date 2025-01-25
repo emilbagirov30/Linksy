@@ -15,10 +15,11 @@ data class ChannelPageDataResponseDto (
     val rating: Double = 0.0,
     val type: ChannelType = ChannelType.PRIVATE,
     val subscribersCount: Long=0,
-    val requestsCount:Long = 0
+    val requestsCount:Long = 0,
+    val confirmed:Boolean = false
 )
 
 
 fun ChannelPageDataResponseDto.toDomainModel ():ChannelPageDataResponse {
-    return ChannelPageDataResponse(channelId, ownerId, name, link, avatarUrl, description, isSubscriber,isSubmitted, rating, type, subscribersCount,requestsCount)
+    return ChannelPageDataResponse(channelId, ownerId, name, link, avatarUrl, description, isSubscriber,isSubmitted, rating, type, subscribersCount,requestsCount,confirmed)
 }

@@ -57,6 +57,11 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
 
 
         channelViewModel.pageData.observe(this){pageData ->
+            println(pageData.confirmed)
+            if (pageData.confirmed)
+                binding.ivConfirmed.show()
+
+
             binding.tvName.text = pageData.name
             val avatarUrl = pageData.avatarUrl
             if (avatarUrl!="null"){
