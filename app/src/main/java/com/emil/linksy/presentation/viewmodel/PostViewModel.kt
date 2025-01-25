@@ -10,6 +10,7 @@ import com.emil.domain.model.CommentResponse
 import com.emil.domain.model.PostData
 import com.emil.domain.model.PostResponse
 import com.emil.domain.model.UserProfileData
+import com.emil.domain.model.UserResponse
 import com.emil.domain.usecase.AddCommentUseCase
 import com.emil.domain.usecase.AddLikeUseCase
 import com.emil.domain.usecase.DeleteCommentUseCase
@@ -17,6 +18,7 @@ import com.emil.domain.usecase.DeleteLikeUseCase
 import com.emil.domain.usecase.DeletePostUseCase
 import com.emil.domain.usecase.GetCommentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
+import com.emil.domain.usecase.GetPostLikesUseCase
 import com.emil.domain.usecase.GetUserPostsUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import kotlinx.coroutines.launch
@@ -31,8 +33,8 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
     private  val addCommentUseCase: AddCommentUseCase,
     private val deleteLikeUseCase: DeleteLikeUseCase,
     private val getCommentsUseCase: GetCommentsUseCase,
-    private val deleteCommentUseCase: DeleteCommentUseCase
-
+    private val deleteCommentUseCase: DeleteCommentUseCase,
+    private val getPostLikesUseCase: GetPostLikesUseCase
 ):ViewModel() {
 
     private val _postList = MutableLiveData<List<PostResponse>> ()
@@ -40,6 +42,15 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
 
     private val _commentList = MutableLiveData<List<CommentResponse>> ()
     val commentList: LiveData<List<CommentResponse>> = _commentList
+
+
+    private val _likesList = MutableLiveData<List<UserResponse>> ()
+    val likesList: LiveData<List<UserResponse>> = _likesList
+
+
+
+
+
 
     fun publishPost (token:String, postId: Long?,postText:String,
                      oldImageUrl:String?,
@@ -174,5 +185,17 @@ fun deletePost(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
             }
         }
     }
-
+    fun getLikes(token: String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+        viewModelScope.launch {
+            try {
+                val response = getPostLikesUseCase.execute(token, postId)
+                if (response.isSuccessful){
+                    _likesList.value = response.body()
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
 }

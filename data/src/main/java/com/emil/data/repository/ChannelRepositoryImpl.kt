@@ -17,6 +17,7 @@ import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.ChannelResponse
 import com.emil.domain.model.CommentData
 import com.emil.domain.model.CommentResponse
+import com.emil.domain.model.PostAppreciatedResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.repository.ChannelRepository
 import retrofit2.Response
@@ -165,5 +166,14 @@ class ChannelRepositoryImpl : ChannelRepository{
 
     override suspend fun deleteComment(token: String, commentId: Long): Response<Unit> {
         return RetrofitUserInstance.apiService.deleteChannelComment("Bearer $token",commentId)
+    }
+
+    override suspend fun getPostAppreciated(token: String, postId: Long): Response<List<PostAppreciatedResponse>> {
+      val response =  RetrofitUserInstance.apiService.getPostAppreciated("Bearer $token",postId)
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModelList())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
     }
 }

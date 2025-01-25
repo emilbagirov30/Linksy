@@ -12,6 +12,7 @@ import com.emil.domain.model.GroupResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
+import com.emil.domain.usecase.AddMembersUseCase
 import com.emil.domain.usecase.ClearChatsUseCase
 import com.emil.domain.usecase.ConnectToWebSocketUseCase
 import com.emil.domain.usecase.CreateGroupUseCase
@@ -24,6 +25,7 @@ import com.emil.domain.usecase.GetUserChatsFromLocalDb
 import com.emil.domain.usecase.GetUserChatsUseCase
 
 import com.emil.domain.usecase.InsertChatInLocalDbUseCase
+import com.emil.domain.usecase.LeaveTheGroupUseCase
 import com.emil.domain.usecase.SubscribeToUserChatsUseCase
 
 import kotlinx.coroutines.launch
@@ -39,7 +41,9 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
     private val getGroupDataUseCase: GetGroupDataUseCase,
     private val editGroupUseCase: EditGroupUseCase,
    private val deleteChatUseCase: DeleteChatUseCase,
-    private val clearChatsUseCase: ClearChatsUseCase
+    private val clearChatsUseCase: ClearChatsUseCase,
+    private val addMembersUseCase: AddMembersUseCase,
+    private val leaveTheGroupUseCase: LeaveTheGroupUseCase
 ) : ViewModel(){
 
     private val _chatList = MutableLiveData<MutableList<ChatResponse>> ()
@@ -177,7 +181,7 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
         }
     }
 
-    fun clearChats(){
+    private fun clearChats(){
         viewModelScope.launch {
 clearChatsUseCase.execute()
         }
@@ -197,4 +201,33 @@ clearChatsUseCase.execute()
             }
         }
     }
+
+
+    fun addMembers(token:String, groupId:Long,newMembers:List<Long>, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try {
+                val response = addMembersUseCase.execute(token, groupId, newMembers)
+                if(response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+    }
+
+
+    fun addMembers(token:String, groupId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try {
+                val response = leaveTheGroupUseCase.execute(token, groupId)
+                if(response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+    }
+
 }

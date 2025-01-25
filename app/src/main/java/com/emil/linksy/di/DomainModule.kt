@@ -4,6 +4,7 @@ import com.emil.domain.usecase.AcceptUserToChannelUseCase
 import com.emil.domain.usecase.AddChannelPostCommentUseCase
 import com.emil.domain.usecase.AddCommentUseCase
 import com.emil.domain.usecase.AddLikeUseCase
+import com.emil.domain.usecase.AddMembersUseCase
 import com.emil.domain.usecase.AddScoreUseCase
 import com.emil.domain.usecase.AddToBlackListUseCase
 import com.emil.domain.usecase.AllUserDataUseCase
@@ -58,6 +59,8 @@ import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscriptionsUseCase
+import com.emil.domain.usecase.GetPostAppreciatedUseCase
+import com.emil.domain.usecase.GetPostLikesUseCase
 import com.emil.domain.usecase.GetUserChatsFromLocalDb
 import com.emil.domain.usecase.GetUserChatsUseCase
 import com.emil.domain.usecase.GetUserMessagesByChat
@@ -68,6 +71,7 @@ import com.emil.domain.usecase.GetUserSubscribersUseCase
 import com.emil.domain.usecase.GetUserSubscriptionsUseCase
 import com.emil.domain.usecase.InsertChatInLocalDbUseCase
 import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
+import com.emil.domain.usecase.LeaveTheGroupUseCase
 import com.emil.domain.usecase.LoginUseCase
 import com.emil.domain.usecase.PublishPostUseCase
 import com.emil.domain.usecase.RefreshTokenUseCase
@@ -437,6 +441,22 @@ val domainModule = module {
 
     factory<ClearChatsUseCase>{
        ClearChatsUseCase(chatRepository = get())
+    }
+
+
+    factory<AddMembersUseCase>{
+        AddMembersUseCase(chatRepository = get())
+    }
+    factory<LeaveTheGroupUseCase>{
+       LeaveTheGroupUseCase(chatRepository = get())
+    }
+
+
+    factory<GetPostAppreciatedUseCase>{
+       GetPostAppreciatedUseCase(channelRepository = get())
+    }
+    factory<GetPostLikesUseCase>{
+        GetPostLikesUseCase(postRepository = get())
     }
 
 }

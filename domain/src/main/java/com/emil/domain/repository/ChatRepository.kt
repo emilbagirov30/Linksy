@@ -19,5 +19,7 @@ interface ChatRepository {
     suspend fun getGroupData(token:String,groupId: Long):Response<GroupResponse>
     suspend fun editGroup(token:String, editData: GroupEditData):Response<Unit>
     suspend fun deleteChat(token:String, chatId:Long):Response<Unit>
+    suspend fun leaveTheGroup(token:String, groupId:Long):Response<Unit>
+    suspend fun addMembers(token:String,groupId: Long, newMembers:List<Long>):Response<Unit>
     suspend fun clearChats ()
 }

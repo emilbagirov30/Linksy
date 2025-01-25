@@ -10,6 +10,7 @@ import com.emil.domain.model.CommentData
 import com.emil.domain.model.CommentResponse
 import com.emil.domain.model.PostData
 import com.emil.domain.model.PostResponse
+import com.emil.domain.model.UserResponse
 import com.emil.domain.repository.PostRepository
 import retrofit2.Response
 
@@ -76,5 +77,14 @@ class PostRepositoryImpl:PostRepository {
 
     override suspend fun deleteComment(token: String, commentId: Long): Response<Unit> {
         return RetrofitUserInstance.apiService.deleteComment("Bearer $token",commentId)
+    }
+
+    override suspend fun getPostLikes(token: String, postId: Long): Response<List<UserResponse>> {
+        val response = RetrofitUserInstance.apiService.getPostLikes("Bearer $token",postId)
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModelList())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
     }
 }

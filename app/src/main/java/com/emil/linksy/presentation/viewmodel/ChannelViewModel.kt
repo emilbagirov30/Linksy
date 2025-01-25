@@ -15,6 +15,7 @@ import com.emil.domain.model.ChannelResponse
 import com.emil.domain.model.ChannelType
 import com.emil.domain.model.CommentData
 import com.emil.domain.model.CommentResponse
+import com.emil.domain.model.PostAppreciatedResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.usecase.AcceptUserToChannelUseCase
 import com.emil.domain.usecase.AddChannelPostCommentUseCase
@@ -34,6 +35,7 @@ import com.emil.domain.usecase.GetChannelPostCommentsUseCase
 import com.emil.domain.usecase.GetChannelPostsUseCase
 import com.emil.domain.usecase.GetChannelSubscriptionsRequestUseCse
 import com.emil.domain.usecase.GetChannelsUseCase
+import com.emil.domain.usecase.GetPostAppreciatedUseCase
 import com.emil.domain.usecase.RejectSubscriptionRequestUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
 import com.emil.domain.usecase.SubscribeChannelUseCase
@@ -62,11 +64,17 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     private val addScoreUseCase: AddScoreUseCase,private val deleteScoreUseCase: DeleteScoreUseCase,
                        private val addChannelPostCommentUseCase: AddChannelPostCommentUseCase,
     private val getChannelPostCommentsUseCase: GetChannelPostCommentsUseCase,
-    private val deleteChannelCommentUseCase: DeleteChannelCommentUseCase
+    private val deleteChannelCommentUseCase: DeleteChannelCommentUseCase,
+    private val getPostAppreciatedUseCase: GetPostAppreciatedUseCase
     ):ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelResponse>> ()
     val channelList: LiveData<List<ChannelResponse>> = _channelList
+
+    private val _appreciatedList = MutableLiveData<List<PostAppreciatedResponse>> ()
+    val appreciatedList: LiveData<List<PostAppreciatedResponse>> = _appreciatedList
+
+
 
     private val _memberList = MutableLiveData<List<UserResponse>> ()
     val memberList: LiveData<List<UserResponse>> = _memberList
@@ -82,6 +90,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
     private val _managementData = MutableLiveData<ChannelManagementResponse> ()
     val managementData: LiveData<ChannelManagementResponse> = _managementData
+
     private val _commentList = MutableLiveData<List<CommentResponse>> ()
     val commentList: LiveData<List<CommentResponse>> = _commentList
 
@@ -419,7 +428,19 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
             }
         }
     }
-
+    fun getPostAppreciated(token: String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+        viewModelScope.launch {
+            try {
+                val response = getPostAppreciatedUseCase.execute(token, postId)
+                if (response.isSuccessful){
+                    _appreciatedList.value = response.body()
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
 
 
     }

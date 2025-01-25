@@ -13,6 +13,7 @@ import com.emil.data.model.MessageResponseDto
 import com.emil.data.model.MomentResponseDto
 import com.emil.data.model.PasswordChangeBody
 import com.emil.data.model.PasswordRecoveryBody
+import com.emil.data.model.PostAppreciatedResponseDto
 import com.emil.data.model.PostBody
 import com.emil.data.model.PostResponseDto
 import com.emil.data.model.RegistrationBody
@@ -27,6 +28,7 @@ import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.MessageMode
 import com.emil.domain.model.MessageResponse
 import com.emil.domain.model.PostResponse
+import com.emil.domain.model.UserResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -332,4 +334,20 @@ interface ApiService {
 
     @DELETE("api/chats/delete")
     suspend fun deleteChat(@Header("Authorization") token:String, @Query("id") chatId: Long): Response<Unit>
+
+    @PUT("api/chats/group/add/members")
+    suspend fun addMembersToGroup(@Header("Authorization") token:String,  @Query("id")groupId: Long,@Query("newMembers") newMembers: List<Long>): Response<Unit>
+
+    @DELETE("api/chats/group/leave")
+    suspend fun leaveTheGroup(@Header("Authorization") token:String, @Query("id") groupId: Long): Response<Unit>
+
+    @GET ("api/channels/post/{id}/appreciated")
+    suspend fun  getPostAppreciated (@Header("Authorization") token:String,@Path("id") postId: Long): Response<List<PostAppreciatedResponseDto>>
+
+
+    @GET ("api/posts/{id}/likes")
+    suspend fun  getPostLikes (@Header("Authorization") token:String,@Path("id") postId: Long): Response<List<UserResponseDto>>
+
+
+
 }

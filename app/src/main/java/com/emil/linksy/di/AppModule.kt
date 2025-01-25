@@ -45,7 +45,7 @@ val appModule = module {
     }
     viewModel <PostViewModel> {
         PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get(), getOutsiderUserPostsUseCase = get(), deletePostUseCase = get(),
-            getCommentsUseCase = get(), addLikeUseCase = get(), addCommentUseCase = get(), deleteLikeUseCase = get(), deleteCommentUseCase = get())
+            getCommentsUseCase = get(), addLikeUseCase = get(), addCommentUseCase = get(), deleteLikeUseCase = get(), deleteCommentUseCase = get(), getPostLikesUseCase = get())
     }
 
     viewModel <MomentViewModel> {
@@ -88,12 +88,13 @@ val appModule = module {
 
     viewModel <ChatViewModel> {
       ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get(),
-          subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get(), getGroupDataUseCase = get(), editGroupUseCase = get(), deleteChatUseCase = get(), clearChatsUseCase = get())
+          subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get(), getGroupDataUseCase = get(), editGroupUseCase = get(), deleteChatUseCase = get(), clearChatsUseCase = get(),
+          addMembersUseCase = get(), leaveTheGroupUseCase = get())
     }
 
     viewModel <ChannelViewModel>{
        ChannelViewModel(createChannelUseCase = get(), getChannelsUseCase = get(), getChannelPageDataUseCase = get(),
-           get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get())
+           get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get())
     }
 
 

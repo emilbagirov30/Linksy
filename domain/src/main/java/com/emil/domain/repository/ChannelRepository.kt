@@ -8,6 +8,7 @@ import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.ChannelResponse
 import com.emil.domain.model.CommentData
 import com.emil.domain.model.CommentResponse
+import com.emil.domain.model.PostAppreciatedResponse
 
 import com.emil.domain.model.UserResponse
 import retrofit2.Response
@@ -38,4 +39,6 @@ interface ChannelRepository {
     suspend fun addComment (token:String, commentData: CommentData):Response<Unit>
     suspend fun getComments (postId: Long):Response<List<CommentResponse>>
     suspend fun deleteComment (token: String,commentId: Long):Response<Unit>
+
+    suspend fun getPostAppreciated (token: String,postId: Long):Response<List<PostAppreciatedResponse>>
 }

@@ -82,6 +82,14 @@ class ChatRepositoryImpl(private val chatDao: ChatDao):ChatRepository {
         return  RetrofitUserInstance.apiService.deleteChat("Bearer $token",chatId)
     }
 
+    override suspend fun leaveTheGroup(token: String, groupId: Long): Response<Unit> {
+       return  RetrofitUserInstance.apiService.leaveTheGroup("Bearer $token",groupId)
+    }
+
+    override suspend fun addMembers(token: String, groupId: Long, newMembers: List<Long>, ): Response<Unit> {
+        return  RetrofitUserInstance.apiService.addMembersToGroup("Bearer $token",groupId,newMembers)
+    }
+
     override suspend fun clearChats() {
         return chatDao.deleteChats()
     }

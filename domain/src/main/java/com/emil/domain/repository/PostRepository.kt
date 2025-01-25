@@ -4,6 +4,7 @@ import com.emil.domain.model.CommentData
 import com.emil.domain.model.CommentResponse
 import com.emil.domain.model.PostData
 import com.emil.domain.model.PostResponse
+import com.emil.domain.model.UserResponse
 import retrofit2.Response
 
 interface PostRepository {
@@ -16,4 +17,5 @@ interface PostRepository {
     suspend fun addComment (token:String, commentData: CommentData):Response<Unit>
     suspend fun getComments (postId: Long):Response<List<CommentResponse>>
     suspend fun deleteComment (token: String,commentId: Long):Response<Unit>
+    suspend fun getPostLikes (token: String,postId: Long):Response<List<UserResponse>>
 }
