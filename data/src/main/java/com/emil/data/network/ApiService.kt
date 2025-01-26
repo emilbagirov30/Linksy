@@ -16,6 +16,7 @@ import com.emil.data.model.PasswordRecoveryBody
 import com.emil.data.model.PostAppreciatedResponseDto
 import com.emil.data.model.PostBody
 import com.emil.data.model.PostResponseDto
+import com.emil.data.model.RecommendationResponseDto
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
 import com.emil.data.model.UserLoginBody
@@ -348,6 +349,6 @@ interface ApiService {
     @GET ("api/posts/{id}/likes")
     suspend fun  getPostLikes (@Header("Authorization") token:String,@Path("id") postId: Long): Response<List<UserResponseDto>>
 
-
-
+    @GET ("api/feed/recommendation")
+    suspend fun  getRecommendation (@Header("Authorization") token:String): Response<List<RecommendationResponseDto>>
 }

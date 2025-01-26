@@ -61,6 +61,7 @@ import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
 import com.emil.domain.usecase.GetOutsiderUserSubscriptionsUseCase
 import com.emil.domain.usecase.GetPostAppreciatedUseCase
 import com.emil.domain.usecase.GetPostLikesUseCase
+import com.emil.domain.usecase.GetRecommendationsUseCase
 import com.emil.domain.usecase.GetUserChatsFromLocalDb
 import com.emil.domain.usecase.GetUserChatsUseCase
 import com.emil.domain.usecase.GetUserMessagesByChat
@@ -457,6 +458,10 @@ val domainModule = module {
     }
     factory<GetPostLikesUseCase>{
         GetPostLikesUseCase(postRepository = get())
+    }
+
+    factory<GetRecommendationsUseCase>{
+       GetRecommendationsUseCase(feedRepository = get())
     }
 
 }

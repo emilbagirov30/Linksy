@@ -12,6 +12,10 @@
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -22,39 +26,45 @@
 
             </TextView>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+        </androidx.recyclerview.widget.RecyclerView>
+      </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_channel"
+            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/chip_background"
+            android:textColor="@color/chip_text"
+            android:text="@string/channels"
+            android:textSize="10sp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
-            app:singleSelection="true">
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:chipBackgroundColor="@color/chip_background"
+            android:textColor="@color/chip_text"
+            android:text="@string/users"
+            android:textSize="10sp" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_channel"
-                android:layout_width="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_height="wrap_content"
-                app:chipBackgroundColor="@color/chip_background"
-                android:textColor="@color/chip_text"
-                android:text="@string/channels"
-                android:textSize="10sp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                app:chipBackgroundColor="@color/chip_background"
-                android:textColor="@color/chip_text"
-                android:text="@string/users"
-                android:textSize="10sp" />
-
-        </com.google.android.material.chip.ChipGroup>
-
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
+    </com.google.android.material.chip.ChipGroup>
 
     <FrameLayout
         android:id="@+id/fl_container"

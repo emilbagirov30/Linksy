@@ -106,11 +106,15 @@ class MainNavigationActivity : AppCompatActivity() {
             IntentFilter("NEW_CHAT_RECEIVED")
         )
 
-messageViewModel.messageList.observe(this){messagelist ->
-    messagelist.map { m->
+messageViewModel.messageList.observe(this) { messagelist ->
+    messagelist.map { m ->
         messageViewModel.insertMessage(m)
     }
 }
+
+
+
+
         chatViewModel.getUserChats(tokenManager.getAccessToken())
 
         chatViewModel.chatList.observe(this){chatList ->

@@ -5,13 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.emil.linksy.adapters.RecommendationsAdapter
+import com.emil.linksy.presentation.viewmodel.FeedViewModel
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.replaceFragment
 
 import com.emil.presentation.databinding.FragmentFeedBinding
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FeedFragment : Fragment() {
     private lateinit var binding: FragmentFeedBinding
+    private val feedViewModel: FeedViewModel by viewModel<FeedViewModel>()
+    private val tokenManager: TokenManager by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,6 +48,21 @@ class FeedFragment : Fragment() {
             binding.chipChannel.setOnClickListener {
                 replaceFragment(containerId, ChannelPostsFeedFragment())
             }
+
+           feedViewModel.getRecommendation(tokenManager.getAccessToken())
+           feedViewModel.recommendationList.observe(requireActivity()){list->
+               binding.rvRecommendations.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+               binding.rvRecommendations.adapter = RecommendationsAdapter(list,requireActivity())
+           }
+
+
+
+
+
+
+
+
+
 
 
         }

@@ -100,7 +100,7 @@ val appModule = module {
 
 
     viewModel <FeedViewModel> {
-       FeedViewModel(getAllSubscriptionsPostsUseCase = get(), getAllChannelsPostsUseCase = get())
+       FeedViewModel(getAllSubscriptionsPostsUseCase = get(), getAllChannelsPostsUseCase = get(), getRecommendationsUseCase = get())
     }
 
 
