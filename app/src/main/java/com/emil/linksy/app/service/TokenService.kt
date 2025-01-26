@@ -5,10 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Handler
 import androidx.lifecycle.LifecycleService
-import com.emil.data.TemporaryKeyStore
 import com.emil.domain.usecase.RefreshTokenUseCase
 import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.auth.AuthActivity
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.presentation.R
 import kotlinx.coroutines.*
@@ -77,7 +77,7 @@ class TokenService: LifecycleService() {
                     stopRefreshing()
                     onError()
                 }
-                delay(TimeUnit.MINUTES.toMillis(TemporaryKeyStore.REFRESH_DELAY))
+                delay(TimeUnit.MINUTES.toMillis(Linksy.REFRESH_DELAY))
             }
         }
     }

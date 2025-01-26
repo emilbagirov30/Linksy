@@ -1,7 +1,6 @@
 package com.emil.data.repository
 
 import android.annotation.SuppressLint
-import com.emil.data.TemporaryKeyStore
 import com.emil.domain.model.ChatResponse
 import com.emil.domain.model.EditMessageResponse
 import com.emil.domain.model.MessageResponse
@@ -17,8 +16,8 @@ import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 
 class WebSocketRepositoryImpl() : WebSocketRepository {
-
-    private val stompClient: StompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, TemporaryKeyStore.BASE_WS)
+    private val BASE_URL = "wss://linksy-mes.ru:9614/ws/websocket"
+    private val stompClient: StompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, BASE_URL)
     private val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     private val jsonAdapterMessage = moshi.adapter(MessageResponse::class.java)
     private val jsonAdapterChats = moshi.adapter(ChatResponse::class.java)

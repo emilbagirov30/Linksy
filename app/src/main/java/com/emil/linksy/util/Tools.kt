@@ -51,6 +51,7 @@ class Linksy {
         const val CODE_MIN_LENGTH = 5
         const val MOMENT_LONG_DURATION = 45
         const val MOMENT_SHORT_DURATION = 20
+        const val REFRESH_DELAY = 5L
         val CUSTOM_SHIMMER: Shimmer? = Shimmer.ColorHighlightBuilder()
             .setBaseColor(Color.GRAY)
             .setHighlightColor(Color.WHITE)

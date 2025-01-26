@@ -2,11 +2,9 @@ package com.emil.data.repository
 
 import com.emil.data.model.MessageBody
 import com.emil.data.model.MessageLocalDb
-import com.emil.data.model.MomentBody
 import com.emil.data.model.toDomainModel
 import com.emil.data.model.toDomainModelList
-import com.emil.data.network.RetrofitCloudInstance
-import com.emil.data.network.RetrofitUserInstance
+import com.emil.data.network.RetrofitInstance
 import com.emil.domain.model.MessageData
 import com.emil.domain.model.MessageLocal
 import com.emil.domain.model.MessageResponse
@@ -17,7 +15,7 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
     private val messageBody = MessageBody ()
     private val messageLocalDb = MessageLocalDb()
     override suspend fun sendMessage(token: String, message: MessageData): Response<Unit> {
-        return RetrofitCloudInstance.apiService.sendMessage("Bearer $token",
+        return RetrofitInstance.apiService.sendMessage("Bearer $token",
             messageBody.toDomainModel(message).recipientId,
             messageBody.toDomainModel(message).chatId,
             messageBody.toDomainModel(message).text,
@@ -29,7 +27,7 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
     }
 
     override suspend fun getUserMessages(token: String): Response<MutableList<MessageResponse>> {
-        val response = RetrofitUserInstance.apiService.getUserMessages("Bearer $token")
+        val response = RetrofitInstance.apiService.getUserMessages("Bearer $token")
         return if (response.isSuccessful) {
             Response.success(response.body()?.toDomainModelList())
         } else {
@@ -46,7 +44,7 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
     }
 
     override suspend fun getMessagesByChat(token: String, chatId: Long): Response<MutableList<MessageResponse>> {
-        val response = RetrofitUserInstance.apiService.getUserMessagesByChat("Bearer $token",chatId)
+        val response = RetrofitInstance.apiService.getUserMessagesByChat("Bearer $token",chatId)
         return if (response.isSuccessful) {
             Response.success(response.body()?.toDomainModelList())
         } else {
@@ -55,12 +53,12 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
     }
 
     override suspend fun viewed(token: String, chatId: Long): Response<Unit> {
-        return RetrofitUserInstance.apiService.viewed("Bearer $token",chatId)
+        return RetrofitInstance.apiService.viewed("Bearer $token",chatId)
 
     }
 
     override suspend fun deleteMessage(token: String, messageId: Long): Response<Unit> {
-        return RetrofitUserInstance.apiService.deleteMessage("Bearer $token",messageId)
+        return RetrofitInstance.apiService.deleteMessage("Bearer $token",messageId)
     }
 
     override suspend fun deleteMessageFromLocalDb(messageId: Long) {
@@ -72,7 +70,7 @@ class MessageRepositoryImpl(private val messageDao: MessageDao):MessageRepositor
     }
 
     override suspend fun editMessage(token: String, messageId: Long, text: String): Response<Unit> {
-        return RetrofitUserInstance.apiService.editMessage("Bearer $token",messageId,text)
+        return RetrofitInstance.apiService.editMessage("Bearer $token",messageId,text)
     }
 
 
