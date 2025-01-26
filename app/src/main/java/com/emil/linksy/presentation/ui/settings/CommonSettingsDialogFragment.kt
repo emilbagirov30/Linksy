@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.SettingsAdapter
 import com.emil.linksy.adapters.model.SettingItem
 import com.emil.linksy.presentation.ui.auth.AuthActivity
+import com.emil.linksy.presentation.ui.auth.PrivacyPolicyActivity
 import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment.AddPostDialogListener
 import com.emil.linksy.presentation.ui.navigation.profile.BlackListDialogFragment
 import com.emil.linksy.util.TokenManager
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textview.MaterialTextView
 import org.koin.android.ext.android.inject
 
 class CommonSettingsDialogFragment: DialogFragment() {
@@ -32,16 +34,22 @@ private lateinit var settingsRecyclerView: RecyclerView
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.common_settings_dialog, container, false)
+        return  inflater.inflate(R.layout.common_settings_dialog, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         toolBar = view.findViewById(R.id.tb_edit_data)
         settingsRecyclerView = view.findViewById(R.id.rv_settings)
+        val privacyTextView = view.findViewById<MaterialTextView>(R.id.tv_privacy_link)
         val exitButton = view.findViewById<MaterialButton>(R.id.bt_exit)
         val settingsList = listOf(
             SettingItem(getString(R.string.app_settings)),
             SettingItem(getString(R.string.profile_settings)),
             SettingItem(getString(R.string.confidentiality)),
             SettingItem(getString(R.string.blacklist)),
-           )
+        )
 
         settingsRecyclerView.layoutManager = LinearLayoutManager(context)
         settingsRecyclerView.adapter = SettingsAdapter(settingsList) { settingItem ->
@@ -54,7 +62,10 @@ private lateinit var settingsRecyclerView: RecyclerView
         exitButton.setOnClickListener {
             logoutUser()
         }
-        return view
+
+        privacyTextView.setOnClickListener {
+            startActivity(Intent(requireActivity(), PrivacyPolicyActivity::class.java))
+        }
     }
 
     override fun getTheme() = R.style.FullScreenDialog

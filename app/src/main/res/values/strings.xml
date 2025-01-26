@@ -166,4 +166,7 @@
     <string name="evalutions">Evalutions</string>
     <string name="online">online</string>
     <string name="was_online">was online</string>
+    <string name="accept_privacy_policy">I have read and accept the</string>
+    <string name="privacy_policy">privacy policy</string>
+    <string name="privacyPolicy">Privacy policy</string>
 </resources>

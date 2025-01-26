@@ -161,4 +161,7 @@
     <string name="evalutions">Оценки</string>
     <string name="online">онлайн</string>
     <string name="was_online">был в сети</string>
+    <string name="accept_privacy_policy">Я ознакомился и принимаю</string>
+    <string name="privacy_policy">политику конфиденциальности</string>
+    <string name="privacyPolicy"><u/>Политика конфиденциальности<u/></string>
 </resources>

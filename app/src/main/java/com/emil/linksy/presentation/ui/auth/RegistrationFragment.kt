@@ -1,6 +1,7 @@
 package com.emil.linksy.presentation.ui.auth
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,8 +10,10 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.media3.common.C
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
@@ -53,7 +56,8 @@ class RegistrationFragment : Fragment() {
     private lateinit var email:String
     private lateinit var password:String
     private lateinit var confirmPassword:String
-
+    private lateinit var acceptPrivacyCheckBox:CheckBox
+    private lateinit var privacyTextView:MaterialTextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -78,6 +82,23 @@ class RegistrationFragment : Fragment() {
         emailInvalidFormatTextView = view.findViewById(R.id.tv_error_isNotMail)
         passwordMismatchTextView = view.findViewById(R.id.tv_error_password_mismatch)
         passwordShortTextView = view.findViewById(R.id.tv_error_password_short)
+        acceptPrivacyCheckBox = view.findViewById(R.id.cb_accept_privacy)
+        privacyTextView = view.findViewById(R.id.tv_privacy_link)
+
+
+
+
+       privacyTextView.setOnClickListener {
+           startActivity(Intent(requireActivity(),PrivacyPolicyActivity::class.java))
+       }
+
+
+     acceptPrivacyCheckBox.setOnClickListener {
+         checkFieldsForEmptyValues()
+     }
+
+
+
         registrationViewModel.username.observe(viewLifecycleOwner) { text ->
             if (usernameEditText.text.toString() != text)
                 usernameEditText.setText(text)
@@ -195,7 +216,7 @@ class RegistrationFragment : Fragment() {
         password = passwordEditText.string()
         confirmPassword = passwordConfirmEditText.string()
         signUpButton.isEnabled =
-            username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
+            username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && acceptPrivacyCheckBox.isChecked
     }
 
     private fun isEmailValid(email: String) {

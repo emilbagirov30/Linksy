@@ -29,7 +29,8 @@
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
       android:paddingHorizontal="20dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
 
 
@@ -48,8 +49,16 @@
     </com.google.android.material.button.MaterialButton>
 
 
-
-
-
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_privacy_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/klukva"
+        android:textSize="20sp"
+        android:textColor="@color/link"
+        android:layout_marginTop="20sp"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_gravity="center"
+        android:text="@string/privacyPolicy" />
 
 </LinearLayout>

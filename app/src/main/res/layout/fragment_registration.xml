@@ -109,12 +109,52 @@
         />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <CheckBox
+            android:id="@+id/cb_accept_privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+         />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/klukva"
+            android:textSize="20sp"
+            android:layout_marginEnd="4dp"
+        android:text="@string/accept_privacy_policy" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_privacy_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/klukva"
+            android:textSize="20sp"
+            android:textColor="@color/link"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/privacy_policy" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:text="@string/sign_up_button">
 
     </com.google.android.material.button.MaterialButton>
