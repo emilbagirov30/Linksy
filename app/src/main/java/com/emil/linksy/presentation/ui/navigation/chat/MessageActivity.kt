@@ -148,23 +148,25 @@ class MessageActivity : AppCompatActivity() {
         val recipientId: Long? = if (intent.hasExtra("USER_ID")) {
             intent.getLongExtra("USER_ID", -1L)
         } else null
-
         val avatarUrl = intent.getStringExtra("AVATAR_URL")
         val title = intent.getStringExtra("NAME")
          chatId = if (intent.hasExtra("CHAT_ID")) {
             intent.getLongExtra("CHAT_ID", -1L)
         } else -100
+
         val isGroup = intent.getBooleanExtra("ISGROUP",false)
+
         if(isGroup) {
             if (avatarUrl == "null" && isGroup) avatarImageView.setImageResource(R.drawable.default_group_avatar)
             memberCountTextView.show()
-            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId!!, onError = {
+            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId, onError = {
                 showToast(this,R.string.error_loading_data)
             })
             chatViewModel.memberList.observe(this) { ml ->
                 memberCountTextView.text = "${ml.size} ${getString(R.string.members)}"
                 messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {
-                    subscribeToUpdates(chatId) })
+                    subscribeToUpdates(chatId)
+                })
 
                 messageViewModel.messageList.observe(this) { messageList ->
                     messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId,ml,messageViewModel,tokenManager)
@@ -175,27 +177,22 @@ class MessageActivity : AppCompatActivity() {
             }
         }   else  {
 
-
-
-            if(chatId == -100L) chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId!!)
+            if(chatId == -100L) {
+                chatViewModel.getChatId(tokenManager.getAccessToken(),recipientId!!)
+                chatViewModel.chatId.observe(this){id ->
+                    chatId=id
+                    messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),id, onSuccess = {
+                        subscribeToUpdates(id)}, onError = {
+                        getMessagesFromLocalDatabase(id)
+                    })
+                }
+            }
             else {
                 messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {
                     subscribeToUpdates(chatId) }, onError = {
                    getMessagesFromLocalDatabase(chatId)
                 })
             }
-
-            chatViewModel.chatId.observe(this){id ->
-                chatId=id
-                    messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),id, onSuccess = {
-                       subscribeToUpdates(id)}, onError = {
-                        getMessagesFromLocalDatabase(id)
-                    })
-
-
-            }
-
-
                 messageViewModel.messageList.observe(this){messageList ->
                 messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, messageViewModel = messageViewModel, tokenManager = tokenManager)
                     messageRecyclerView.scrollToPosition(messageList.size - 1)
@@ -213,6 +210,7 @@ class MessageActivity : AppCompatActivity() {
                         MessageStatus.NOTHING -> statusTextView.text = ""
 
                 }}
+
         if (avatarUrl!="null"){
             Glide.with(this)
                 .load(avatarUrl)
@@ -276,7 +274,6 @@ class MessageActivity : AppCompatActivity() {
 
             }
 
-
          deleteVoice.setOnClickListener { stopRecording() }
 
 
@@ -300,6 +297,7 @@ class MessageActivity : AppCompatActivity() {
               recordButton.hide()
 
         }
+
         attachImageButton.setOnClickListener { showPopup(it)}
 
 

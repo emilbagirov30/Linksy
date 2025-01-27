@@ -103,11 +103,11 @@ class CameraXActivity : AppCompatActivity() {
                                         startActivity(switchingToUserPageActivity)
                                         finish()
                                     }
-                            }else if (target == "GROUP"){
+                            }else if (target == "CHANNEL"){
                                     isActivityStarted = true
                                     val switchingToChannelPageActivity =
                                         Intent(this, ChannelPageActivity()::class.java)
-                                    switchingToChannelPageActivity.putExtra("GROUP_ID", id)
+                                    switchingToChannelPageActivity.putExtra("CHANNEL_ID", id)
                                     startActivity(switchingToChannelPageActivity)
                                     finish()
                                 }

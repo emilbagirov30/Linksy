@@ -6,13 +6,19 @@ import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.text.Editable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.media3.common.C
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.util.BackgroundState
@@ -83,17 +89,41 @@ class RegistrationFragment : Fragment() {
         passwordMismatchTextView = view.findViewById(R.id.tv_error_password_mismatch)
         passwordShortTextView = view.findViewById(R.id.tv_error_password_short)
         acceptPrivacyCheckBox = view.findViewById(R.id.cb_accept_privacy)
-        privacyTextView = view.findViewById(R.id.tv_privacy_link)
+        privacyTextView = view.findViewById(R.id.tv_privacy_text)
 
 
 
 
-       privacyTextView.setOnClickListener {
-           startActivity(Intent(requireActivity(),PrivacyPolicyActivity::class.java))
-       }
+        val text = getString(R.string.accept_privacy_text)
+        val clickablePart = getString(R.string.privacy_policy)
 
 
-     acceptPrivacyCheckBox.setOnClickListener {
+        val spannableString = SpannableString(text)
+        val startIndex = text.indexOf(clickablePart)
+        val endIndex = startIndex + clickablePart.length
+
+
+        if (startIndex != -1) {
+            val clickableSpan = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    startActivity(Intent(requireActivity(), PrivacyPolicyActivity::class.java))
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.isUnderlineText = true
+                    ds.color = ContextCompat.getColor(requireContext(), R.color.link)
+                }
+            }
+
+            spannableString.setSpan(clickableSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        privacyTextView.text = spannableString
+        privacyTextView.movementMethod = LinkMovementMethod.getInstance()
+
+
+        acceptPrivacyCheckBox.setOnClickListener {
          checkFieldsForEmptyValues()
      }
 

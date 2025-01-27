@@ -71,15 +71,6 @@ class ChatFragment : Fragment() {
                 chatViewModel.insertChat(c)
             }
         }
-
-
-        chatViewModel.getUserChats(tokenManager.getAccessToken(), onSuccess = {
-            chatViewModel.subscribeToChat(tokenManager.getWsToken())
-        }, onError = {
-            chatViewModel.getUserChatsFromLocalDb()
-            showToast(requireActivity(),R.string.loaded_from_cache)
-        })
-        getUserChats()
         swipeRefreshLayout.setOnRefreshListener {
             getUserChats()
         }
@@ -96,11 +87,11 @@ class ChatFragment : Fragment() {
          fun getUserChats(){
             chatViewModel.getUserChats(tokenManager.getAccessToken(), onSuccess = {
                 chatViewModel.subscribeToChat(tokenManager.getWsToken())
-                swipeRefreshLayout.isRefreshing=false
             }, onError = {
                 chatViewModel.getUserChatsFromLocalDb()
                 showToast(requireActivity(),R.string.loaded_from_cache)
             })
+             swipeRefreshLayout.isRefreshing=false
         }
 
 }

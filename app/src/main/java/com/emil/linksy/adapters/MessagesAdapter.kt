@@ -239,6 +239,9 @@ if (chatMemberList.isNotEmpty()){
             context.startActivity(switchingToUserPageActivity)
         }
     }
+}else{
+    senderAvatarImageView.hide()
+    senderUsernameTextView.hide()
 }
         }
 

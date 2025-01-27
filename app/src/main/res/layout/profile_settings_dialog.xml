@@ -230,6 +230,7 @@
             <EditText
                 style="@style/EditTextChangeStyle"
                 android:id="@+id/et_username"
+                android:maxLength="20"
                 android:inputType="text">
             </EditText>
         <com.google.android.material.textview.MaterialTextView
@@ -291,6 +292,7 @@
             android:id="@+id/et_link"
             style="@style/EditTextChangeStyle"
             android:layout_marginTop="3dp"
+            android:maxLength="18"
             android:layout_marginStart="3dp">
         </EditText>
         </LinearLayout>

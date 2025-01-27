@@ -139,7 +139,6 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
                            if (pageData.type ==ChannelType.PRIVATE && !pageData.isSubscriber  && pageData.ownerId!=userId&& !pageData.isSubmitted){
                                binding.btSubmit.show()
                                binding.btSub.hide()
-                               binding.tvPosts.hide()
                                binding.rvPosts.hide()
                                binding.btSubmit.setOnClickListener {
                                 setSubmitAction()
@@ -156,7 +155,6 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
                  if(pageData.type == ChannelType.PRIVATE && pageData.isSubmitted){
                      binding.btSubmit.show()
                      binding.btSub.hide()
-                     binding.tvPosts.hide()
                      binding.rvPosts.hide()
                      binding.btSubmit.text = getString(R.string.delete_request)
                      binding.btSubmit.setOnClickListener {

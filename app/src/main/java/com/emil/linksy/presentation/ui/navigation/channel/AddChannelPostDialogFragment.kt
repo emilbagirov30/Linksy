@@ -158,6 +158,7 @@ class AddChannelPostDialogFragment: DialogFragment() {
             updatePublishButtonState()
         }
         binding.btAddPoll.setOnClickListener {
+            it.anim()
             AddPollDialogFragment(this).show(parentFragmentManager,"AddPollDialogFragment")
         }
 

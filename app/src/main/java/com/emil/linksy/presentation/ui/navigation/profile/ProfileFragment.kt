@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.linksy.adapters.ProfilePagerAdapter
+import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
 import com.emil.linksy.presentation.ui.settings.CommonSettingsDialogFragment
 import com.emil.linksy.presentation.viewmodel.UserViewModel
@@ -29,6 +30,7 @@ import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -81,6 +83,7 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
         val editor: SharedPreferences.Editor = sharedPref.edit()
 
         viewPager.adapter = pagerAdapter
+        viewPager.setOffscreenPageLimit(1)
         fetchData()
         swipeRefreshLayout.setOnRefreshListener {
             fetchData()
@@ -99,14 +102,21 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
             qrImageButton.show()
             usernameTextView.text = data.username
             if (data.avatarUrl != "null") {
+                avatarImageView.setOnClickListener {
+                    avatarImageView.setOnClickListener { BigPictureDialog.newInstance(data.avatarUrl).show(parentFragmentManager,  "BigPictureDialog") }
+                }
+
+
                 Glide.with(requireContext())
                     .load(data.avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImageView)
             }
             showContent()
-            if (!data.link.isNullOrEmpty()) linkTextView.text = "@${data.link}"
-            else linkTextView.hide()
+            if (!data.link.isNullOrEmpty()){
+                linkTextView.text = "@${data.link}"
+                linkTextView.show()
+            } else linkTextView.hide()
         }
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {

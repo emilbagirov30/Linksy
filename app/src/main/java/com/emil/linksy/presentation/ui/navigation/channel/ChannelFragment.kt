@@ -104,7 +104,7 @@ class ChannelFragment : Fragment() {
         binding.ibScan.setOnClickListener {
             it.anim()
             val switchingToCameraXActivity= Intent(requireContext(), CameraXActivity::class.java)
-            switchingToCameraXActivity.putExtra("TARGET","GROUP")
+            switchingToCameraXActivity.putExtra("TARGET","CHANNEL")
             startActivity(switchingToCameraXActivity)
         }
 
