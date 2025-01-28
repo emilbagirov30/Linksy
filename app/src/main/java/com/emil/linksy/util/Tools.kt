@@ -49,8 +49,8 @@ class Linksy {
     companion object {
         const val PASSWORD_MIN_LENGTH = 6
         const val CODE_MIN_LENGTH = 5
-        const val MOMENT_LONG_DURATION = 45
-        const val MOMENT_SHORT_DURATION = 20
+        const val MOMENT_LONG_DURATION = 25
+        const val MOMENT_SHORT_DURATION = 10
         const val REFRESH_DELAY = 5L
         val CUSTOM_SHIMMER: Shimmer? = Shimmer.ColorHighlightBuilder()
             .setBaseColor(Color.GRAY)

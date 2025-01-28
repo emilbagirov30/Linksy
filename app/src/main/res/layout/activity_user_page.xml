@@ -30,7 +30,7 @@
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:text="username"/>
+            android:text=""/>
 
         <ImageView
             android:id="@+id/iv_confirmed"
@@ -51,7 +51,7 @@
             android:id="@+id/ll_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:visibility="gone"
             android:orientation="vertical"
             tools:context="com.emil.linksy.presentation.ui.page.UserPageActivity">
 

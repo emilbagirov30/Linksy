@@ -62,11 +62,13 @@
         android:text="">
 
     </com.google.android.material.textview.MaterialTextView>
-
-
-
 </LinearLayout>
-
+        <ImageView
+            android:id="@+id/iv_confirmed"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:visibility="gone"
+            android:background="@drawable/ic_confirmed"/>
     </com.google.android.material.appbar.MaterialToolbar>
 
     <com.google.android.material.textview.MaterialTextView

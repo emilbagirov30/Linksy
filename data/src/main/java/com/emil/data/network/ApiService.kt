@@ -59,7 +59,7 @@ interface ApiService {
     @GET ("user/api/users/all_data")
     suspend fun getAllUserData (@Header("Authorization") token:String): Response<AllUserDataDto>
 
-    @POST ("user/api/upload/avatar")
+    @POST ("cloud/api/upload/avatar")
     @Multipart
     suspend fun uploadAvatar (@Header("Authorization") token:String,@Part image: MultipartBody.Part): Response<Unit>
 

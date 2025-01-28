@@ -136,6 +136,7 @@ class MessageActivity : AppCompatActivity() {
         voiceLinearLayout = findViewById(R.id.ll_voice)
         stopWatchTextView = findViewById(R.id.tv_stopwatch)
         deleteVoice = findViewById(R.id.ib_delete_voice)
+        val confirmedImageView = findViewById<ImageView>(R.id.iv_confirmed)
         val statusTextView = findViewById<MaterialTextView>(R.id.tv_status)
         val downButton = findViewById<ImageButton>(R.id.ib_down)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
@@ -153,9 +154,12 @@ class MessageActivity : AppCompatActivity() {
          chatId = if (intent.hasExtra("CHAT_ID")) {
             intent.getLongExtra("CHAT_ID", -1L)
         } else -100
-
+        val confirmed = intent.getBooleanExtra("CONFIRMED",false)
         val isGroup = intent.getBooleanExtra("ISGROUP",false)
 
+
+
+        if(confirmed) confirmedImageView.show() else confirmedImageView.hide()
         if(isGroup) {
             if (avatarUrl == "null" && isGroup) avatarImageView.setImageResource(R.drawable.default_group_avatar)
             memberCountTextView.show()

@@ -47,7 +47,7 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
                     context.startActivity(switchingToUserPageActivity)
                 }
             }else binding.tvReply.hide()
-
+            if (comment.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.hide()
             binding.tvName.text = comment.authorName
             binding.tvComment.text = comment.commentText
             binding.tvDate.text = comment.date

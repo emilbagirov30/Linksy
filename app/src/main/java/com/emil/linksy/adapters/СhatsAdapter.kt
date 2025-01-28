@@ -40,7 +40,7 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
         private val nameTextView = itemView.findViewById<MaterialTextView>(R.id.tv_name)
         private val dateTextView = itemView.findViewById<TextView>(R.id.tv_date)
         private val lastMessageTextView = itemView.findViewById<MaterialTextView>(R.id.tv_last_message)
-
+        private val confirmedImageView = itemView.findViewById<ImageView>(R.id.iv_confirmed)
       fun bind(chat:ChatResponse){
           val id = chat.chatId
           val userId = chat.companionId
@@ -49,6 +49,7 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
           val name = chat.displayName
           val lastMessage = chat.lastMessage
           val date = chat.dateLast
+          if (chat.confirmed) confirmedImageView.show() else confirmedImageView.hide()
           if (avatarUrl !="null"){
               Glide.with(context)
                   .load(avatarUrl)
@@ -74,6 +75,7 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
               startMessageActivity.putExtra("USER_ID",userId)
               startMessageActivity.putExtra("CHAT_ID",id)
               startMessageActivity.putExtra("ISGROUP",isGroup)
+              startMessageActivity.putExtra("CONFIRMED",chat.confirmed)
               startMessageActivity.putExtra("AVATAR_URL",avatarUrl)
               startMessageActivity.putExtra("NAME",name)
               context.startActivity(startMessageActivity)

@@ -32,7 +32,6 @@ import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.channel.AppreciatedDialogFragment
 import com.emil.linksy.presentation.ui.navigation.feed.ChannelPostsFeedFragment
-import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
 import com.emil.linksy.presentation.ui.page.ChannelPageActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
@@ -47,7 +46,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent.inject
 
 class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,private val context: Context,private val tokenManager: TokenManager,private val channelViewModel: ChannelViewModel,
     val userId:Long,private val channelId:Long = -100,private val channelPageActivity: ChannelPageActivity?=null,private val channelPostsFeedFragment:ChannelPostsFeedFragment? = null
@@ -75,6 +73,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
         private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
         private val optionRecyclerView = itemView.findViewById<RecyclerView>(R.id.rv_options)
         private val editedTextView = itemView.findViewById<MaterialTextView>(R.id.tv_edited)
+        private val confirmedImageView = itemView.findViewById<ImageView>(R.id.iv_confirmed)
         private val scoreLayout = itemView.findViewById<LinearLayout>(R.id.ll_score)
         private val scoreTextView = itemView.findViewById<MaterialTextView>(R.id.tv_score)
         private val deleteScoreButton = itemView.findViewById<ImageButton>(R.id.ib_delete_score)
@@ -88,7 +87,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                     .apply(RequestOptions.circleCropTransform())
                     .into(channelAvatarImageView)
             }
-
+            if (post.confirmed) confirmedImageView.show() else confirmedImageView.hide()
 
           channelAvatarImageView.setOnClickListener {
               it.anim()
@@ -243,7 +242,7 @@ if (userId == post.authorId) {
 
                 }
             }else {
-                   scoreLayout.hide()
+                scoreLayout.hide()
                 ratingImageView.setOnClickListener {
                     it.anim()
                     showPopup(it, post.postId)
@@ -282,18 +281,23 @@ if (userId == post.authorId) {
 
         score1.setOnClickListener {
             addScore(postId,1)
+            popupWindow.dismiss()
         }
         score2.setOnClickListener {
             addScore(postId,2)
+            popupWindow.dismiss()
         }
         score3.setOnClickListener {
             addScore(postId,3)
+            popupWindow.dismiss()
         }
         score4.setOnClickListener {
             addScore(postId,4)
+            popupWindow.dismiss()
         }
         score5.setOnClickListener {
             addScore(postId,5)
+            popupWindow.dismiss()
         }
 
 

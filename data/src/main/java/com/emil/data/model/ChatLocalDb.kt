@@ -13,18 +13,17 @@ data class ChatLocalDb(
     val isGroup: Boolean=false,
     val avatarUrl: String="",
     val displayName: String="",
+    val confirmed:Boolean = false,
     val lastMessage: String?="",
     val dateLast: String="",
     val unreadMessagesCount:Long? = null
 )
 
-
-
 fun ChatLocalDb.toDomainModel (): ChatLocal {
-    return ChatLocal(id,companionId, senderId,isGroup, avatarUrl, displayName, lastMessage, dateLast,unreadMessagesCount)
+    return ChatLocal(id,companionId, senderId,isGroup, avatarUrl, displayName, confirmed,lastMessage, dateLast,unreadMessagesCount)
 }
 fun ChatLocalDb.toDomainModel (domainModel: ChatLocal): ChatLocalDb {
-    return ChatLocalDb(domainModel.id,domainModel.companionId, domainModel.senderId,domainModel.isGroup, domainModel.avatarUrl, domainModel.displayName, domainModel.lastMessage, domainModel.dateLast)
+    return ChatLocalDb(domainModel.id,domainModel.companionId, domainModel.senderId,domainModel.isGroup, domainModel.avatarUrl, domainModel.displayName, domainModel.confirmed,domainModel.lastMessage, domainModel.dateLast)
 }
 
 fun List<ChatLocalDb>.toDomainModelList(): List<ChatLocal> {

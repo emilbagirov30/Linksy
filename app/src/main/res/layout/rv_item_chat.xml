@@ -22,7 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:orientation="vertical">
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
@@ -32,7 +35,14 @@
             android:textColor="@color/black"
             android:text="">
         </com.google.android.material.textview.MaterialTextView>
-
+        <ImageView
+            android:id="@+id/iv_confirmed"
+            android:layout_width="15dp"
+            android:layout_gravity="center"
+            android:layout_height="15dp"
+            android:visibility="gone"
+            android:background="@drawable/ic_confirmed"/>
+</LinearLayout>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_last_message"
             android:layout_width="wrap_content"

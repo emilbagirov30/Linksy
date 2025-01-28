@@ -77,7 +77,7 @@
     <string name="new_moment">Новый момент</string>
     <string name="write_something">Напишите что-нибудь..</string>
     <string name="or">или</string>
-    <string name="moment_hint">Обратите внимание: видео будет обрезано до 45 секунд, а звук ограничен 20 секундами, если добавлено только изображение.</string>
+    <string name="moment_hint">Обратите внимание: видео будет обрезано до 25 секунд, а звук ограничен 10 секундами, если добавлено только изображение.</string>
     <string name="user_search_hint">Начните вводить "@", если вы хотите найти пользователя по ссылке.</string>
     <string name="channel_search_hint">Начните вводить "@", если вы хотите найти канал по ссылке.</string>
     <string name="search">Поиск</string>
@@ -164,4 +164,5 @@
     <string name="accept_privacy_text">Я принимаю условия политики конфиденциальности</string>
     <string name="privacy_policy">политики конфиденциальности</string>
     <string name="privacyPolicy"><u/>Политика конфиденциальности<u/></string>
+    <string name="recommendations">Рекомендации</string>
 </resources>

@@ -76,6 +76,7 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
         editUserDataImageView = view.findViewById(R.id.iv_edit_user_data)
         tabLayout = view.findViewById(R.id.tl_profile_navigation)
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
+        val confirmed = view.findViewById<ImageView>(R.id.iv_confirmed)
         val qrImageButton = view.findViewById<ImageButton>(R.id.ib_qr)
         val viewPager = view.findViewById<ViewPager2>(R.id.vp_profile_pager)
         val pagerAdapter = ProfilePagerAdapter(this)
@@ -101,16 +102,19 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
             editor.apply()
             qrImageButton.show()
             usernameTextView.text = data.username
+            if(data.confirmed) confirmed.show() else confirmed.hide()
             if (data.avatarUrl != "null") {
                 avatarImageView.setOnClickListener {
                     avatarImageView.setOnClickListener { BigPictureDialog.newInstance(data.avatarUrl).show(parentFragmentManager,  "BigPictureDialog") }
                 }
 
 
-                Glide.with(requireContext())
-                    .load(data.avatarUrl)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImageView)
+                context?.let {
+                    Glide.with(it)
+                        .load(data.avatarUrl)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(avatarImageView)
+                }
             }
             showContent()
             if (!data.link.isNullOrEmpty()){

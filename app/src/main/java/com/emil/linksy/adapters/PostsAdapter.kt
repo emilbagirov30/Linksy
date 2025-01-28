@@ -72,6 +72,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val playVideoImageButton = itemView.findViewById<ImageButton>(R.id.ib_play)
         private val audioLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_audio)
         private val voiceLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_voice)
+        private val confirmedImageView = itemView.findViewById<ImageView>(R.id.iv_confirmed)
         private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
         private val playVoiceButton = itemView.findViewById<ImageView>(R.id.iv_play_voice)
         private val audioProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_audio)
@@ -87,7 +88,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                       .apply(RequestOptions.circleCropTransform())
                       .into(authorAvatarImageView)
               }
-
+                   if (post.confirmed) confirmedImageView.show() else confirmedImageView.hide()
             authorAvatarImageView.setOnClickListener {
                 it.anim()
                 if (post.authorId!=userId) {

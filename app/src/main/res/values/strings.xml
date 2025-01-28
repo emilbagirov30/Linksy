@@ -86,7 +86,7 @@
     <string name="new_moment">New moment</string>
     <string name="write_something">Write something..</string>
     <string name="or">or</string>
-    <string name="moment_hint">Please note: Videos will be trimmed to 45 seconds, and audio will be limited to 20 seconds if only an image is added.</string>
+    <string name="moment_hint">Please note: Videos will be trimmed to 25 seconds, and audio will be limited to 10 seconds if only an image is added.</string>
     <string name="user_search_hint">Start typing "@" if you want to find the user by following the link.</string>
     <string name="channel_search_hint">Start typing "@" if you want to find the channel by following the link.</string>
     <string name="search">Search</string>
@@ -169,4 +169,6 @@
     <string name="privacyPolicy">Privacy policy</string>
     <string name="accept_privacy_text">I accept the terms of the privacy policy</string>
     <string name="privacy_policy">privacy policy</string>
+    <string name="recommendations">Recommendations</string>
+
 </resources>
