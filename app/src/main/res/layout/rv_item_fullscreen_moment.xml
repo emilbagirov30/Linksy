@@ -9,12 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
+
     <ImageView
         android:id="@+id/iv_moment_full"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:visibility="gone">
+        android:visibility="gone"
+      >
 
     </ImageView>
 
@@ -72,6 +75,51 @@
             android:layout_gravity="center_horizontal|bottom"
             >
         </TextView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_moment_background"
+            android:paddingHorizontal="5dp"
+            android:foreground="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/default_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+            <ImageView
+                android:id="@+id/iv_confirmed"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/ic_confirmed"
+                app:layout_constraintStart_toEndOf="@id/tv_name"
+                app:layout_constraintTop_toTopOf="@id/tv_name"
+                >
+
+            </ImageView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:fontFamily="@font/klukva"
+                android:textColor="@color/soft_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_avatar"
+                android:text="username" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
 

@@ -9,4 +9,6 @@ interface MomentRepository {
     suspend fun getUserMoments(token:String):Response<List<MomentResponse>>
     suspend fun getOutsiderUserMoments(id:Long):Response<List<MomentResponse>>
     suspend fun deleteMoment (token: String,momentId:Long):Response<Unit>
+    suspend fun viewMoment (token: String,momentId:Long):Response<Unit>
+    suspend fun getUserUnseenMoments(token:String,userId:Long):Response<List<MomentResponse>>
 }

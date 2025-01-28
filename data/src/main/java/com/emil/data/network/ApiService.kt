@@ -18,11 +18,13 @@ import com.emil.data.model.PostResponseDto
 import com.emil.data.model.RecommendationResponseDto
 import com.emil.data.model.RegistrationBody
 import com.emil.data.model.TokenDto
+import com.emil.data.model.UnseenSubscriptionMomentResponseDto
 import com.emil.data.model.UserLoginBody
 import com.emil.data.model.UserPageDataResponseDto
 import com.emil.data.model.UserProfileDataDto
 import com.emil.data.model.UserResponseDto
 import com.emil.domain.model.MessageMode
+import com.emil.domain.model.UnseenSubscriptionMomentResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -344,4 +346,16 @@ interface ApiService {
 
     @GET ("user/api/feed/recommendation")
     suspend fun  getRecommendation (@Header("Authorization") token:String): Response<List<RecommendationResponseDto>>
+
+
+    @POST ("user/api/moments/view")
+    suspend fun viewMoment (@Header("Authorization") token:String,@Query("momentId")momentId:Long): Response<Unit>
+
+
+    @GET ("user/api/feed/moments")
+    suspend fun  getAllUnseenMoments (@Header("Authorization") token:String): Response<List<UnseenSubscriptionMomentResponseDto>>
+
+
+    @GET ("user/api/moments/unseen_moments")
+    suspend fun  getUserUnseenMoments (@Header("Authorization") token:String,@Query("userId")userId:Long): Response<List<MomentResponseDto>>
 }

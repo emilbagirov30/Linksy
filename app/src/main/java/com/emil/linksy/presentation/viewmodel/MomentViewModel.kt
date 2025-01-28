@@ -11,12 +11,14 @@ import com.emil.domain.usecase.CreateMomentUseCase
 import com.emil.domain.usecase.DeleteMomentUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetUserMomentsUseCase
+import com.emil.domain.usecase.GetUserUnseenMomentsUseCase
+import com.emil.domain.usecase.ViewMomentUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
 class MomentViewModel(private val createMomentUseCase: CreateMomentUseCase,
     private val getUserMomentsUseCase: GetUserMomentsUseCase, private val getOutsiderUserMomentsUseCase: GetOutsiderUserMomentsUseCase,
-    private val deleteMomentUseCase: DeleteMomentUseCase
+    private val deleteMomentUseCase: DeleteMomentUseCase,private val viewMomentUseCase: ViewMomentUseCase,private val getUserUnseenMomentsUseCase: GetUserUnseenMomentsUseCase
     ):ViewModel (){
     private val _momentList = MutableLiveData<List<MomentResponse>> ()
     val momentList: LiveData<List<MomentResponse>> = _momentList
@@ -77,5 +79,35 @@ class MomentViewModel(private val createMomentUseCase: CreateMomentUseCase,
                 onError ()
             }
         }
+    }
+
+    fun viewMoment(token:String,momentId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+        viewModelScope.launch {
+            try {
+                val response= viewMomentUseCase.execute(token, momentId)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+    }
+
+
+
+    fun getUnseenUserMoments(token:String,id:Long,onSuccess: ()->Unit = {},onError: ()->Unit = {}) {
+        viewModelScope.launch {
+            try {
+                val response = getUserUnseenMomentsUseCase.execute(token,id)
+                if (response.isSuccessful){
+                    _momentList.value = response.body()
+                    onSuccess ()
+                }
+            }catch (e:Exception){
+                onError ()
+            }
+        }
+
     }
 }

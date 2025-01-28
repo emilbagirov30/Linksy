@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="5dp"
-  android:paddingVertical="10dp"
+   android:paddingVertical="10dp"
     android:paddingHorizontal="5dp"
     android:foreground="?attr/selectableItemBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -22,8 +22,9 @@
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:background="@drawable/ic_confirmed"
-        app:layout_constraintStart_toEndOf="@id/tv_name"
-        app:layout_constraintTop_toTopOf="@id/tv_name"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintEnd_toStartOf="@id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@id/iv_avatar"
         >
 
     </ImageView>
@@ -36,16 +37,18 @@
         android:textSize="15sp"
         android:fontFamily="@font/klukva"
         android:textColor="@color/dark_gray"
+        android:maxEms="5"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_avatar"
-        android:text="username" />
+        app:layout_constraintTop_toBottomOf="@id/iv_confirmed"
+        android:text="" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ffffffff"
+        android:text=""
         android:textColor="@color/green"
         android:fontFamily="@font/klukva"
         android:textSize="15sp"

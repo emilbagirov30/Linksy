@@ -49,7 +49,7 @@ val appModule = module {
     }
 
     viewModel <MomentViewModel> {
-        MomentViewModel(createMomentUseCase = get(), getUserMomentsUseCase = get(), getOutsiderUserMomentsUseCase = get(), deleteMomentUseCase = get())
+        MomentViewModel(createMomentUseCase = get(), getUserMomentsUseCase = get(), getOutsiderUserMomentsUseCase = get(), deleteMomentUseCase = get(), viewMomentUseCase = get(), getUserUnseenMomentsUseCase = get())
     }
     viewModel <ProfileManagementViewModel> {
        ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),
@@ -100,7 +100,7 @@ val appModule = module {
 
 
     viewModel <FeedViewModel> {
-       FeedViewModel(getAllSubscriptionsPostsUseCase = get(), getAllChannelsPostsUseCase = get(), getRecommendationsUseCase = get())
+       FeedViewModel(getAllSubscriptionsPostsUseCase = get(), getAllChannelsPostsUseCase = get(), getRecommendationsUseCase = get(), getAllUnseenMomentsUseCase = get())
     }
 
 

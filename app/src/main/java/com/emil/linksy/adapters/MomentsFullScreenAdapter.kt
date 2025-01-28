@@ -1,6 +1,8 @@
 package com.emil.linksy.adapters
 
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.LayoutInflater
@@ -15,10 +17,16 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.MomentResponse
+import com.emil.linksy.presentation.ui.page.UserPageActivity
+import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.Linksy
+import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
+import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,7 +36,9 @@ import kotlinx.coroutines.launch
 class MomentsFullScreenAdapter(
     private val momentsList: List<MomentResponse>,
     private val context: Context,
-    private val parentFragment: DialogFragment
+    private val parentFragment: DialogFragment,
+    private val momentViewModel: MomentViewModel,
+    private val tokenManager: TokenManager
 ) : RecyclerView.Adapter<MomentsFullScreenAdapter.FullScreenViewHolder>() {
 
     private var activeViewHolder: FullScreenViewHolder? = null
@@ -39,11 +49,17 @@ class MomentsFullScreenAdapter(
         private val momentTextView: TextView = itemView.findViewById(R.id.tv_moment)
         private val dateTextView: TextView = itemView.findViewById(R.id.tv_date)
         private val momentProgressBar: ProgressBar = itemView.findViewById(R.id.pb_moment)
+        private val authorAvatarImageView:ImageView = itemView.findViewById(R.id.iv_avatar)
+        private val confirmedImageView:ImageView = itemView.findViewById(R.id.iv_confirmed)
+        private val authorNameTextView:MaterialTextView = itemView.findViewById(R.id.tv_name)
         private var mediaPlayerAudio: MediaPlayer? = null
         private var progressJob: Job? = null
         private var totalDuration = 0
         private val updateInterval = 1L
         private var exoPlayer: ExoPlayer? = null
+        val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong("ID",-1)
+
         fun bind(moment: MomentResponse) {
             releaseResources()
             momentProgressBar.progress = 0
@@ -51,6 +67,26 @@ class MomentsFullScreenAdapter(
             val imageUrl = moment.imageUrl
             val audioUrl = moment.audioUrl
             val text = moment.text
+
+            if(moment.confirmed) confirmedImageView.show() else confirmedImageView.hide()
+            authorNameTextView.text = moment.authorUsername
+
+            if (moment.authorAvatarUrl!="null") {
+                Glide.with(context)
+                    .load(moment.authorAvatarUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(authorAvatarImageView)
+            }
+
+            momentViewModel.viewMoment(tokenManager.getAccessToken(),moment.momentId, onSuccess = {}, onError = {})
+
+           authorAvatarImageView.setOnClickListener {
+               if(userId!=moment.authorId){
+                   val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
+                   switchingToUserPageActivity.putExtra("USER_ID", moment.authorId)
+                   context.startActivity(switchingToUserPageActivity)
+               }
+           }
 
             if (imageUrl != null) {
                 totalDuration = Linksy.MOMENT_SHORT_DURATION * 1000

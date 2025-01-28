@@ -1,0 +1,52 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="5dp"
+    android:foreground="?attr/selectableItemBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_back_avatar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/ic_moment_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/default_avatar"
+        app:layout_constraintStart_toStartOf="@id/iv_back_avatar"
+        app:layout_constraintEnd_toEndOf="@id/iv_back_avatar"
+        app:layout_constraintTop_toTopOf="@id/iv_back_avatar"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back_avatar"
+        />
+    <ImageView
+        android:id="@+id/iv_confirmed"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/ic_confirmed"
+        app:layout_constraintStart_toStartOf="@id/iv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@id/iv_avatar"
+        >
+
+    </ImageView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:fontFamily="@font/klukva"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toEndOf="@id/iv_back_avatar"
+        app:layout_constraintStart_toStartOf="@id/iv_back_avatar"
+        app:layout_constraintTop_toBottomOf="@id/iv_confirmed"
+        android:text="username" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

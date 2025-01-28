@@ -5,6 +5,7 @@ import com.emil.data.network.RetrofitInstance
 import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.PostResponse
 import com.emil.domain.model.RecommendationResponse
+import com.emil.domain.model.UnseenSubscriptionMomentResponse
 import com.emil.domain.repository.FeedRepository
 import retrofit2.Response
 
@@ -27,6 +28,15 @@ class FeedRepositoryImpl: FeedRepository {
 
     override suspend fun getRecommendation(token:String): Response<List<RecommendationResponse>> {
         val response = RetrofitInstance.apiService.getRecommendation("Bearer $token")
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModelList())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
+    }
+
+    override suspend fun getAllUnseenMoments(token: String): Response<List<UnseenSubscriptionMomentResponse>> {
+        val response = RetrofitInstance.apiService.getAllUnseenMoments("Bearer $token")
         return if (response.isSuccessful) {
             Response.success(response.body()?.toDomainModelList())
         } else {

@@ -42,6 +42,7 @@ import com.emil.domain.usecase.FindUsersByLinkUseCase
 import com.emil.domain.usecase.FindUsersByUsernameUseCase
 import com.emil.domain.usecase.GetAllChannelsPostsUseCase
 import com.emil.domain.usecase.GetAllSubscriptionsPostsUseCase
+import com.emil.domain.usecase.GetAllUnseenMomentsUseCase
 import com.emil.domain.usecase.GetChannelManagementDataUseCase
 import com.emil.domain.usecase.GetChannelMembersUseCase
 import com.emil.domain.usecase.GetChannelPageDataUseCase
@@ -70,6 +71,7 @@ import com.emil.domain.usecase.GetUserMessagesUseCase
 import com.emil.domain.usecase.GetUserPageDataUseCase
 import com.emil.domain.usecase.GetUserSubscribersUseCase
 import com.emil.domain.usecase.GetUserSubscriptionsUseCase
+import com.emil.domain.usecase.GetUserUnseenMomentsUseCase
 import com.emil.domain.usecase.InsertChatInLocalDbUseCase
 import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
 import com.emil.domain.usecase.LeaveTheGroupUseCase
@@ -101,6 +103,7 @@ import com.emil.domain.usecase.UpdateLinkUseCase
 import com.emil.domain.usecase.UpdateUsernameUseCase
 import com.emil.domain.usecase.UploadAvatarUseCase
 import com.emil.domain.usecase.UserProfileDataUseCase
+import com.emil.domain.usecase.ViewMomentUseCase
 import com.emil.domain.usecase.ViewedUseCase
 import com.emil.domain.usecase.VoteUseCase
 import org.koin.dsl.module
@@ -462,6 +465,16 @@ val domainModule = module {
 
     factory<GetRecommendationsUseCase>{
        GetRecommendationsUseCase(feedRepository = get())
+    }
+
+    factory<ViewMomentUseCase>{
+       ViewMomentUseCase(momentRepository = get())
+    }
+    factory<GetUserUnseenMomentsUseCase>{
+        GetUserUnseenMomentsUseCase(momentRepository = get())
+    }
+    factory<GetAllUnseenMomentsUseCase>{
+       GetAllUnseenMomentsUseCase(feedRepository = get())
     }
 
 }

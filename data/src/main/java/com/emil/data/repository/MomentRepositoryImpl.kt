@@ -41,4 +41,17 @@ class MomentRepositoryImpl:MomentRepository {
     override suspend fun deleteMoment(token: String, momentId: Long): Response<Unit> {
         return RetrofitInstance.apiService.deleteMoment("Bearer $token",momentId)
     }
+
+    override suspend fun viewMoment(token: String, momentId: Long): Response<Unit> {
+        return RetrofitInstance.apiService.viewMoment("Bearer $token", momentId)
+    }
+
+    override suspend fun getUserUnseenMoments(token: String, userId: Long, ): Response<List<MomentResponse>> {
+        val response = RetrofitInstance.apiService.getUserUnseenMoments("Bearer $token",userId)
+        return if (response.isSuccessful) {
+            Response.success(response.body()?.toDomainModelList())
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
+    }
 }

@@ -15,13 +15,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emil.domain.model.MomentResponse
 import com.emil.linksy.adapters.MomentsAdapter
 import com.emil.linksy.adapters.MomentsFullScreenAdapter
+import com.emil.linksy.presentation.viewmodel.MomentViewModel
+import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.presentation.R
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FullScreenMomentDialogFragment(private val momentsList: List<MomentResponse>,private val position:Int): DialogFragment()  {
     private lateinit var closeDialog: ImageButton
     private lateinit var fullscreenMomentsRecyclerView: RecyclerView
     private lateinit var adapter: MomentsFullScreenAdapter
+    private val momentViewModel:MomentViewModel by viewModel<MomentViewModel>()
+    private val tokenManager:TokenManager by inject<TokenManager> ()
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +40,7 @@ class FullScreenMomentDialogFragment(private val momentsList: List<MomentRespons
 
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         fullscreenMomentsRecyclerView.layoutManager = layoutManager
-        adapter = MomentsFullScreenAdapter(momentsList, requireContext(), this)
+        adapter = MomentsFullScreenAdapter(momentsList, requireContext(), this,momentViewModel, tokenManager )
         fullscreenMomentsRecyclerView.adapter = adapter
         fullscreenMomentsRecyclerView.scrollToPosition(position)
         val snapHelper = PagerSnapHelper()
