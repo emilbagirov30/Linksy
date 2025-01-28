@@ -86,7 +86,7 @@
     <string name="new_moment">New moment</string>
     <string name="write_something">Write something..</string>
     <string name="or">or</string>
-    <string name="moment_hint">Please note: Videos will be trimmed to 25 seconds, and audio will be limited to 10 seconds if only an image is added.</string>
+    <string name="moment_hint">Please note: Videos will be trimmed to 15 seconds, and audio will be limited to 5 seconds if only an image is added.</string>
     <string name="user_search_hint">Start typing "@" if you want to find the user by following the link.</string>
     <string name="channel_search_hint">Start typing "@" if you want to find the channel by following the link.</string>
     <string name="search">Search</string>

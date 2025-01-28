@@ -39,14 +39,15 @@ class UnseenMomentsAdapter (private val list: List<UnseenSubscriptionMomentRespo
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.ivAvatar)
             }
+
             binding.ivAvatar.setOnClickListener {
-                momentViewModel.getUnseenUserMoments(tokenManager.getAccessToken(),unseenMoment.id)
-                momentViewModel.momentList.observe(subscriptionsPostsFeedFragment){momentsList->
-                    FullScreenMomentDialogFragment(momentsList,0).show(subscriptionsPostsFeedFragment.parentFragmentManager," FullScreenMomentDialogFragment")
-                }
-            }
+                FullScreenMomentDialogFragment(userId = unseenMoment.id, unseen = true, position = 0, subscriptionsPostsFeedFragment = subscriptionsPostsFeedFragment).show(
+                            subscriptionsPostsFeedFragment.parentFragmentManager,
+                            " FullScreenMomentDialogFragment"
+                        )
+
         }
-    }
+    }}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnseenMomentViewHolder {
         val binding =  RvItemUnseenMomentBinding.inflate(LayoutInflater.from(parent.context), parent, false)

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.emil.linksy.adapters.RecommendationsAdapter
 import com.emil.linksy.presentation.viewmodel.FeedViewModel
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.replaceFragment
 
 import com.emil.presentation.databinding.FragmentFeedBinding
@@ -48,10 +49,11 @@ class FeedFragment : Fragment() {
             binding.chipChannel.setOnClickListener {
                 replaceFragment(containerId, ChannelPostsFeedFragment())
             }
-
+            binding.rvRecommendations.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
            feedViewModel.getRecommendation(tokenManager.getAccessToken())
            feedViewModel.recommendationList.observe(requireActivity()){list->
-               binding.rvRecommendations.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+               if(list.isEmpty()) binding.tvRecommendationsTitle.hide()
+               else
                binding.rvRecommendations.adapter = RecommendationsAdapter(list,requireActivity())
            }
 

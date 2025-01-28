@@ -46,7 +46,7 @@ class MomentsAdapter(private val momentsList: List<MomentResponse>, private val 
                      .into(momentImageView)
              }
             momentImageView.setOnClickListener {
-                FullScreenMomentDialogFragment(momentsList, bindingAdapterPosition).show((context as AppCompatActivity).supportFragmentManager," FullScreenMomentDialogFragment")
+                FullScreenMomentDialogFragment(momentsList = momentsList, position = bindingAdapterPosition).show((context as AppCompatActivity).supportFragmentManager," FullScreenMomentDialogFragment")
             }
             momentImageView.setOnLongClickListener {
                 if(tokenManager!=null) {

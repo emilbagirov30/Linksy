@@ -1,5 +1,6 @@
 package com.emil.linksy.presentation.ui.navigation.feed
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -41,23 +42,25 @@ class SubscriptionsPostsFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPosts.layoutManager = LinearLayoutManager(requireActivity())
-     getPosts()
+
         feedViewModel.subscriptionPostList.observe(requireActivity()){postList ->
             binding.rvPosts.adapter =
                 context?.let { PostsAdapter(postList,postViewModel, it,tokenManager)}
         }
-
         binding.rvMoments.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        feedViewModel.getAllUnseenMoments(tokenManager.getAccessToken())
+
         feedViewModel.unseenMomentList.observe(requireActivity()){list->
             binding.rvMoments.adapter = UnseenMomentsAdapter (list,requireActivity(),momentViewModel,tokenManager,this)
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            getPosts()
+            getData()
         }
+        getData()
     }
 
-    private fun getPosts(){
-        feedViewModel.getAllSubscriptionsPosts(tokenManager.getAccessToken(), onSuccess = {binding.swipeRefreshLayout.isRefreshing=false})
+    fun getData(){
+        feedViewModel.getAllSubscriptionsPosts(tokenManager.getAccessToken(), onSuccess = {})
+        feedViewModel.getAllUnseenMoments(tokenManager.getAccessToken())
+        binding.swipeRefreshLayout.isRefreshing=false
     }
 }

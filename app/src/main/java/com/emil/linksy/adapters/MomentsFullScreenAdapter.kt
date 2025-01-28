@@ -13,6 +13,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.recyclerview.widget.RecyclerView
@@ -103,6 +104,17 @@ class MomentsFullScreenAdapter(
                 momentPlayerView.player = exoPlayer
                 val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
                 exoPlayer?.setMediaItem(mediaItem)
+                exoPlayer?.addListener(object : Player.Listener {
+                    override fun onPlaybackStateChanged(playbackState: Int) {
+                        if (playbackState == Player.STATE_READY) {
+                            val videoDuration = (exoPlayer?.duration?: 0L).toInt()
+                           if (videoDuration<totalDuration)
+                               totalDuration = videoDuration
+                              startProgressBarUpdate()
+                        }
+                    }
+                })
+
                 exoPlayer?.prepare()
                 exoPlayer?.play()
             }
@@ -121,7 +133,7 @@ class MomentsFullScreenAdapter(
                 }
             }
 
-            startProgressBarUpdate()
+
         }
 
         fun releaseResources() {

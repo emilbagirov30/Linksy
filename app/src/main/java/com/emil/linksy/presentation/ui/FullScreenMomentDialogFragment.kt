@@ -1,20 +1,18 @@
 package com.emil.linksy.presentation.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.domain.model.MomentResponse
-import com.emil.linksy.adapters.MomentsAdapter
 import com.emil.linksy.adapters.MomentsFullScreenAdapter
+import com.emil.linksy.presentation.ui.navigation.feed.SubscriptionsPostsFeedFragment
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -22,7 +20,10 @@ import com.emil.presentation.R
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FullScreenMomentDialogFragment(private val momentsList: List<MomentResponse>,private val position:Int): DialogFragment()  {
+class FullScreenMomentDialogFragment(private val userId:Long = -1,private val unseen:Boolean = false,
+                                     private val momentsList: List<MomentResponse> = emptyList(),
+                                     private val position:Int,
+                                     private val subscriptionsPostsFeedFragment: SubscriptionsPostsFeedFragment? = null): DialogFragment()  {
     private lateinit var closeDialog: ImageButton
     private lateinit var fullscreenMomentsRecyclerView: RecyclerView
     private lateinit var adapter: MomentsFullScreenAdapter
@@ -37,12 +38,23 @@ class FullScreenMomentDialogFragment(private val momentsList: List<MomentRespons
         val view = inflater.inflate(R.layout.dialog_fullscreen_moment, container, false)
         closeDialog = view.findViewById(R.id.ib_close)
         fullscreenMomentsRecyclerView = view.findViewById(R.id.rv_fullscreen_moments)
-
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         fullscreenMomentsRecyclerView.layoutManager = layoutManager
-        adapter = MomentsFullScreenAdapter(momentsList, requireContext(), this,momentViewModel, tokenManager )
-        fullscreenMomentsRecyclerView.adapter = adapter
-        fullscreenMomentsRecyclerView.scrollToPosition(position)
+        if(unseen ){
+            momentViewModel.getUnseenUserMoments(tokenManager.getAccessToken(),userId)
+            momentViewModel.momentList.observe(requireActivity()){momentsList ->
+                adapter = MomentsFullScreenAdapter(momentsList, requireActivity(), this,momentViewModel, tokenManager )
+                fullscreenMomentsRecyclerView.adapter = adapter
+                fullscreenMomentsRecyclerView.scrollToPosition(position)
+            }
+        }else{
+
+            adapter = MomentsFullScreenAdapter(momentsList, requireActivity(), this,momentViewModel, tokenManager )
+            fullscreenMomentsRecyclerView.adapter = adapter
+            fullscreenMomentsRecyclerView.scrollToPosition(position)
+        }
+
+
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(fullscreenMomentsRecyclerView)
         closeDialog.setOnClickListener {
@@ -73,5 +85,6 @@ class FullScreenMomentDialogFragment(private val momentsList: List<MomentRespons
     override fun onDismiss(dialog: android.content.DialogInterface) {
         super.onDismiss(dialog)
         adapter.releaseAllResources()
+        subscriptionsPostsFeedFragment?.getData()
     }
 }
