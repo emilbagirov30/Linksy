@@ -129,8 +129,18 @@ enum class ContentType(val mimeType: String) {
 private fun createFilePart(uri: Uri, context: Context, fieldName: String, mimeType: String): MultipartBody.Part? {
     val contentResolver = context.contentResolver
     val inputStream: InputStream
+    val fileSize: Long
     try {
+        val fileDescriptor = contentResolver.openAssetFileDescriptor(uri, "r") ?: return null
+        fileSize = fileDescriptor.length
+        fileDescriptor.close()
+
+        if (fileSize > 100 * 1024 * 1024) {
+            showToast(context,R.string.big_file)
+            return null
+        }
         inputStream = contentResolver.openInputStream(uri) ?: return null
+
     } catch (e: Exception) {
         e.printStackTrace()
         return null

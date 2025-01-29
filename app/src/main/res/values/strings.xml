@@ -173,5 +173,6 @@
     <string name="report">Report</string>
     <string name="complain">Report</string>
     <string name="attachment">Attachment</string>
+    <string name="big_file">The file is too big</string>
 
 </resources>
