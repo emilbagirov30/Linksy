@@ -45,7 +45,7 @@ class SubscriptionsPostsFeedFragment : Fragment() {
 
         feedViewModel.subscriptionPostList.observe(requireActivity()){postList ->
             binding.rvPosts.adapter =
-                context?.let { PostsAdapter(postList,postViewModel, it,tokenManager)}
+                context?.let { PostsAdapter(postList,postViewModel, it,tokenManager, subscriptionsPostsFeedFragment = this)}
         }
         binding.rvMoments.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 

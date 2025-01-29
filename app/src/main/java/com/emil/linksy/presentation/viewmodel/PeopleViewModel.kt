@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.emil.domain.model.ReportRequest
 import com.emil.domain.model.UserPageDataResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.usecase.AddToBlackListUseCase
@@ -16,6 +17,7 @@ import com.emil.domain.usecase.GetUserPageDataUseCase
 import com.emil.domain.usecase.GetUserSubscribersUseCase
 import com.emil.domain.usecase.GetUserSubscriptionsUseCase
 import com.emil.domain.usecase.RemoveFromBlackListUseCase
+import com.emil.domain.usecase.SendReportUseCase
 import com.emil.domain.usecase.SubscribeUseCase
 import com.emil.domain.usecase.UnsubscribeUseCase
 import kotlinx.coroutines.launch
@@ -30,7 +32,8 @@ class PeopleViewModel(private val findUsersByUsernameUseCase: FindUsersByUsernam
                       private val getOutsiderUserSubscriptionsUseCase: GetOutsiderUserSubscriptionsUseCase,
                       private val getOutsiderUserSubscribersUseCase: GetOutsiderUserSubscribersUseCase,
                       private val addToBlackListUseCase: AddToBlackListUseCase,
-                      private val removeFromBlackListUseCase: RemoveFromBlackListUseCase
+                      private val removeFromBlackListUseCase: RemoveFromBlackListUseCase,
+                      private val sendReportUseCase: SendReportUseCase
     ):ViewModel() {
 
     private val _userList = MutableLiveData<List<UserResponse>> ()
@@ -198,6 +201,19 @@ class PeopleViewModel(private val findUsersByUsernameUseCase: FindUsersByUsernam
             }
         }
 
+    }
+
+    fun sendReport(token:String,reportRequest: ReportRequest,onSuccess: ()->Unit = {},onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try {
+                val response = sendReportUseCase.execute(token,reportRequest)
+                if (response.isSuccessful){
+                    onSuccess()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
     }
 
 }

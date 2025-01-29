@@ -59,7 +59,7 @@ val appModule = module {
         PeopleViewModel(findUsersByUsernameUseCase = get(), findUsersByLinkUseCase = get(), getUserPageDataUseCase = get(),
             subscribeUseCase = get(), unsubscribeUseCase = get(),
             getUserSubscribersUseCase = get(), getUserSubscriptionsUseCase = get(),
-            getOutsiderUserSubscribersUseCase = get(), getOutsiderUserSubscriptionsUseCase = get(), addToBlackListUseCase = get(), removeFromBlackListUseCase = get())
+            getOutsiderUserSubscribersUseCase = get(), getOutsiderUserSubscriptionsUseCase = get(), addToBlackListUseCase = get(), removeFromBlackListUseCase = get(), sendReportUseCase = get())
     }
 
 

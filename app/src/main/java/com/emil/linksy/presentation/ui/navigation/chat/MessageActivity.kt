@@ -173,7 +173,7 @@ class MessageActivity : AppCompatActivity() {
                 })
 
                 messageViewModel.messageList.observe(this) { messageList ->
-                    messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId,ml,messageViewModel,tokenManager)
+                    messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, chatMemberList = ml,messageViewModel,tokenManager)
                     messageRecyclerView.scrollToPosition(messageList.size - 1)
                     viewMessage(chatId)
                 }

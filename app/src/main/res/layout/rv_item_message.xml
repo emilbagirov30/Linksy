@@ -58,7 +58,7 @@
                     android:fontFamily="@font/klukva"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:text=""
+                    android:text="username"
                     >
                 </TextView>
         </LinearLayout>

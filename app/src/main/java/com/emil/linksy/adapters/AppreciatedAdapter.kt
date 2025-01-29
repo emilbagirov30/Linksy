@@ -29,7 +29,9 @@ class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>,
         @SuppressLint("SetTextI18n")
         fun bind(user:PostAppreciatedResponse){
             if (user.online) binding.ivOnline.show() else  binding.ivOnline.hide()
+
             if (user.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.hide()
+
                binding.tvUsername.text = user.username
 
             if (user.link != null) {

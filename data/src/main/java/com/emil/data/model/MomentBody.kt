@@ -12,8 +12,8 @@ data class MomentBody(val image: MultipartBody.Part?=null, val video: MultipartB
 fun MomentBody.toDomainModel (domainModel: MomentData):MomentBody{
     return MomentBody (
         image = domainModel.image,
-        video=domainModel.video,
-        audio=domainModel.audio,
+        video= domainModel.video,
+        audio= domainModel.audio,
         text = domainModel.text
     )
 }

@@ -84,6 +84,7 @@ import com.emil.domain.usecase.RemoveFromBlackListUseCase
 import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
 import com.emil.domain.usecase.ResendCodeUseCase
 import com.emil.domain.usecase.SendMessageUseCase
+import com.emil.domain.usecase.SendReportUseCase
 import com.emil.domain.usecase.SendStatusUseCase
 import com.emil.domain.usecase.SetMessageModeUseCase
 import com.emil.domain.usecase.SubmitRequestUseCase
@@ -475,6 +476,9 @@ val domainModule = module {
     }
     factory<GetAllUnseenMomentsUseCase>{
        GetAllUnseenMomentsUseCase(feedRepository = get())
+    }
+    factory<SendReportUseCase>{
+        SendReportUseCase(peopleRepository = get())
     }
 
 }

@@ -31,6 +31,7 @@ import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.VideoPlayerDialog
 import com.emil.linksy.presentation.ui.auth.ConfirmCodeBottomSheet
+import com.emil.linksy.presentation.ui.navigation.feed.SubscriptionsPostsFeedFragment
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.CommentsBottomSheet
@@ -52,7 +53,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
-                   private val context:Context, private val tokenManager: TokenManager, private val postFragment: PostFragment?=null,private val outsiderPostFragment: OutsiderPostFragment?=null
+                   private val context:Context, private val tokenManager: TokenManager, private val postFragment: PostFragment?=null,
+                   private val outsiderPostFragment: OutsiderPostFragment?=null,private val subscriptionsPostsFeedFragment: SubscriptionsPostsFeedFragment? = null
     ): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
     inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -261,16 +263,22 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
 
 
             likeImageView.setOnLongClickListener {
-                postFragment?.parentFragmentManager?.let { it1 ->
+                postFragment?.parentFragmentManager?.let { fr ->
                     RelationsDialogFragment(RelationType.LIKES, postId = post.postId).show(
-                        it1, "RelationsDialogFragment"
+                        fr, "RelationsDialogFragment"
                     )
                 }
-                    outsiderPostFragment?.parentFragmentManager?.let { it2 ->
+                    outsiderPostFragment?.parentFragmentManager?.let { fr ->
                         RelationsDialogFragment(RelationType.LIKES, postId = post.postId).show(
-                            it2, "RelationsDialogFragment"
+                            fr, "RelationsDialogFragment"
                         )
                     }
+
+                subscriptionsPostsFeedFragment?.parentFragmentManager?.let { fr ->
+                    RelationsDialogFragment(RelationType.LIKES, postId = post.postId).show(
+                        fr, "RelationsDialogFragment"
+                    )
+                }
 
                     true
                 }

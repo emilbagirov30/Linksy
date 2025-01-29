@@ -6,11 +6,16 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.MotionEvent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.Lifecycle
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -21,10 +26,12 @@ import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
+import com.emil.linksy.presentation.ui.ReportDialog
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.channel.EditChannelActivity
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
+import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -39,6 +46,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.AddChannelPostDialogListener {
     private lateinit var binding :ActivityChannelPageBinding
     private val channelViewModel: ChannelViewModel by viewModel<ChannelViewModel>()
+    private val peopleViewModel: PeopleViewModel by viewModel<PeopleViewModel>()
     private val tokenManager: TokenManager by inject()
     val userId:Long = -1
     private var channelId = -1L
@@ -193,6 +201,25 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
         binding.tb.setNavigationOnClickListener {
             finish()
         }
+
+
+
+
+        binding.tb.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.channel_page_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_report ->{
+                        ReportDialog.newInstance(context = this@ChannelPageActivity,userId = null, channelId = channelId,tokenManager, peopleViewModel)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, this, Lifecycle.State.CREATED)
     }
 
     override fun onResume() {

@@ -23,7 +23,7 @@ import com.emil.linksy.presentation.ui.BigPictureDialog
 import com.emil.linksy.presentation.ui.ErrorDialog
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.ui.QrBottomSheet
-import com.emil.linksy.presentation.ui.navigation.chat.CreateGroupActivity
+import com.emil.linksy.presentation.ui.ReportDialog
 import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
@@ -51,7 +51,7 @@ class UserPageActivity (): AppCompatActivity() {
     private var userId by Delegates.notNull<Long>()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("MissingInflatedId", "SetTextI18n")
+    @SuppressLint("MissingInflatedId", "SetTextI18n", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_page)
@@ -106,7 +106,7 @@ class UserPageActivity (): AppCompatActivity() {
 
             toolBar.addMenuProvider(object : MenuProvider {
                 override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.blacklist_menu, menu)
+                    menuInflater.inflate(R.menu.user_page_menu, menu)
                     val actionBlacklist = menu.findItem(R.id.action_blacklist)
                     actionBlacklist.title = if (pageData.isPageOwnerBlockedByViewer) {
                         getString(R.string.remove_blacklist)
@@ -137,6 +137,10 @@ class UserPageActivity (): AppCompatActivity() {
                                     }
                                 )
                             }
+                            true
+                        }
+                        R.id.action_report ->{
+                             ReportDialog.newInstance(context = this@UserPageActivity,userId = userId, channelId = null,tokenManager, peopleViewModel)
                             true
                         }
                         else -> false

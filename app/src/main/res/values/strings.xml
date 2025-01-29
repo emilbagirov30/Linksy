@@ -170,5 +170,7 @@
     <string name="accept_privacy_text">I accept the terms of the privacy policy</string>
     <string name="privacy_policy">privacy policy</string>
     <string name="recommendations">Recommendations</string>
+    <string name="report">Report</string>
+    <string name="complain">Report</string>
 
 </resources>

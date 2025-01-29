@@ -223,7 +223,7 @@ if (chatMemberList.isNotEmpty()){
     senderUsernameTextView.show()
     val senderId = message.senderId
     val sender = chatMemberList.find { it.id == senderId }
-    val senderAvatarUrl =sender?.avatarUrl
+    val senderAvatarUrl = sender?.avatarUrl
     val senderUsername = sender?.username
     senderUsernameTextView.text = senderUsername
     if (senderAvatarUrl!="null"){
@@ -231,7 +231,7 @@ if (chatMemberList.isNotEmpty()){
             .load(senderAvatarUrl)
             .apply(RequestOptions.circleCropTransform())
             .into(senderAvatarImageView)
-    }
+    }else senderAvatarImageView.setBackgroundResource(R.drawable.default_avatar)
     senderAvatarImageView.setOnClickListener {
         if (senderId != userId) {
             val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
@@ -244,8 +244,6 @@ if (chatMemberList.isNotEmpty()){
     senderUsernameTextView.hide()
 }
         }
-
-
 
 
 

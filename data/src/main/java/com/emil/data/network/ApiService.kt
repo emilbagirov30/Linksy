@@ -17,6 +17,7 @@ import com.emil.data.model.PostAppreciatedResponseDto
 import com.emil.data.model.PostResponseDto
 import com.emil.data.model.RecommendationResponseDto
 import com.emil.data.model.RegistrationBody
+import com.emil.data.model.ReportBody
 import com.emil.data.model.TokenDto
 import com.emil.data.model.UnseenSubscriptionMomentResponseDto
 import com.emil.data.model.UserLoginBody
@@ -358,4 +359,7 @@ interface ApiService {
 
     @GET ("user/api/moments/unseen_moments")
     suspend fun  getUserUnseenMoments (@Header("Authorization") token:String,@Query("userId")userId:Long): Response<List<MomentResponseDto>>
+
+    @POST ("user/api/people/add/report")
+    suspend fun sendReport (@Header("Authorization") token:String,@Body reportBody: ReportBody): Response<Unit>
 }

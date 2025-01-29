@@ -1,5 +1,6 @@
 package com.emil.domain.repository
 
+import com.emil.domain.model.ReportRequest
 import com.emil.domain.model.UserPageDataResponse
 import com.emil.domain.model.UserResponse
 import retrofit2.Response
@@ -16,5 +17,6 @@ interface PeopleRepository {
     suspend fun getOutsiderSubscriptions (id:Long):Response<List<UserResponse>>
     suspend fun addToBlackList (token:String,userId:Long):Response<Unit>
     suspend fun removeFromBlackList (token:String,userId:Long):Response<Unit>
+    suspend fun sendReport (token: String,report:ReportRequest):Response<Unit>
 
 }

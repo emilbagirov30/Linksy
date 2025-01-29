@@ -1,15 +1,17 @@
 package com.emil.data.repository
 
+import com.emil.data.model.ReportBody
 import com.emil.data.model.toDomainModel
 import com.emil.data.model.toDomainModelList
 import com.emil.data.network.RetrofitInstance
+import com.emil.domain.model.ReportRequest
 import com.emil.domain.model.UserPageDataResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.repository.PeopleRepository
 import retrofit2.Response
 
 class PeopleRepositoryImpl:PeopleRepository {
-
+          private val reportBody = ReportBody()
     override suspend fun findByUsername(token: String, startsWith: String): Response<List<UserResponse>> {
         val response = RetrofitInstance.apiService.findUserByUsername("Bearer $token",startsWith)
         return if (response.isSuccessful) {
@@ -87,6 +89,10 @@ class PeopleRepositoryImpl:PeopleRepository {
 
     override suspend fun removeFromBlackList(token: String, userId: Long): Response<Unit> {
         return RetrofitInstance.apiService.removeBlackList("Bearer $token",userId)
+    }
+
+    override suspend fun sendReport(token: String, report: ReportRequest): Response<Unit> {
+        return RetrofitInstance.apiService.sendReport("Bearer $token",reportBody.toDomainModel(report))
     }
 
 

@@ -165,4 +165,6 @@
     <string name="privacy_policy">политики конфиденциальности</string>
     <string name="privacyPolicy"><u/>Политика конфиденциальности<u/></string>
     <string name="recommendations">Рекомендации</string>
+    <string name="report">Пожаловаться</string>
+    <string name="complain">Жалоба</string>
 </resources>

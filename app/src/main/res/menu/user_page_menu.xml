@@ -5,4 +5,7 @@
         android:id="@+id/action_blacklist"
         android:title="@string/add_to_blacklist"
         tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/action_report"
+        android:title="@string/report" />
 </menu>
