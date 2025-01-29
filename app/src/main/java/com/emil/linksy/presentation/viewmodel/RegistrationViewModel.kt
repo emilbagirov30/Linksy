@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.UserRegistrationData
-import com.emil.domain.usecase.RegisterUseCase
+import com.emil.domain.usecase.auth.RegisterUseCase
 import com.emil.linksy.util.BackgroundState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

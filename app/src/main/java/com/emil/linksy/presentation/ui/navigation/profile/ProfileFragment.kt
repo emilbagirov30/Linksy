@@ -45,8 +45,8 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
     private lateinit var avatarImageView:ImageView
     private lateinit var editUserDataImageView:ImageView
     private lateinit var tabLayout:TabLayout
-   private lateinit var shimmerUsername: ShimmerFrameLayout
-   private lateinit var shimmerAvatar: ShimmerFrameLayout
+    private lateinit var shimmerUsername: ShimmerFrameLayout
+    private lateinit var shimmerAvatar: ShimmerFrameLayout
     private lateinit var shimmerLink: ShimmerFrameLayout
     private val userViewModel: UserViewModel by viewModel<UserViewModel>()
     private val tokenManager: TokenManager by inject()
@@ -66,7 +66,12 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        return inflater.inflate(R.layout.fragment_profile, container, false)
+  }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         usernameTextView = view.findViewById(R.id.tv_username)
         linkTextView = view.findViewById(R.id.tv_link)
         shimmerUsername = view.findViewById(R.id.shimmer_username)
@@ -135,13 +140,11 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
         }
 
         qrImageButton.setOnClickListener {
-             it.anim()
-             val bsDialog = QrBottomSheet.newInstance(id)
-             bsDialog.show(parentFragmentManager,bsDialog.tag)
+            it.anim()
+            val bsDialog = QrBottomSheet.newInstance(id)
+            bsDialog.show(parentFragmentManager,bsDialog.tag)
         }
-      return view
-  }
-
+    }
 
     private fun startShimmer(){
         shimmerUsername.setShimmer(Linksy.CUSTOM_SHIMMER)

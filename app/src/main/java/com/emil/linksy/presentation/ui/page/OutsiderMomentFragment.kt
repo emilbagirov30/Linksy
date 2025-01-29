@@ -9,7 +9,6 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.MomentsAdapter
-import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
@@ -67,9 +66,7 @@ class OutsiderMomentFragment() : Fragment() {
 
 
     private fun updateMoments (){
-        momentViewModel.getOutsiderUserMoments(userId, onSuccess = {loading.hide()
-
-        })
+        momentViewModel.getOutsiderUserMoments(userId, onSuccess = {loading.hide() })
         momentViewModel.momentList.observe(requireActivity()){ momentlist ->
             if (momentlist.isEmpty()) emptyTextView.show()
             else {

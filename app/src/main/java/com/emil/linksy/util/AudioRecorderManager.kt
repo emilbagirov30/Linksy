@@ -9,7 +9,6 @@ import kotlinx.coroutines.*
 import java.io.*
 
 class AudioRecorderManager(private val context: Context) {
-
     private val sampleRate = 44100
     private val bufferSize = AudioRecord.getMinBufferSize(
         sampleRate,
@@ -31,6 +30,7 @@ class AudioRecorderManager(private val context: Context) {
                 AudioFormat.ENCODING_PCM_16BIT,
                 bufferSize
             )
+
             if (audioRecord?.state != AudioRecord.STATE_INITIALIZED) {
                 throw IllegalStateException("AudioRecord failed to initialize")
             }
@@ -43,7 +43,6 @@ class AudioRecorderManager(private val context: Context) {
 
         CoroutineScope(Dispatchers.IO).launch {
             val buffer = ShortArray(bufferSize / 2)
-
             while (isRecording) {
                 val readSize = audioRecord?.read(buffer, 0, buffer.size) ?: 0
                 if (readSize > 0) {
@@ -134,7 +133,6 @@ class AudioRecorderManager(private val context: Context) {
         header[41] = ((totalAudioLen shr 8) and 0xff).toByte()
         header[42] = ((totalAudioLen shr 16) and 0xff).toByte()
         header[43] = ((totalAudioLen shr 24) and 0xff).toByte()
-
         val randomAccessFile = RandomAccessFile(file, "rw")
         randomAccessFile.seek(0)
         randomAccessFile.write(header, 0, 44)

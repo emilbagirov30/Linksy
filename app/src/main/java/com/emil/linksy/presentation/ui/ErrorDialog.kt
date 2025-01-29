@@ -19,7 +19,6 @@ import com.google.android.material.textview.MaterialTextView
         setCancelable(false)
         show()
     }
-
     fun close(action:()->Unit={}){
         closeImageButton.setOnClickListener {
             dismiss()

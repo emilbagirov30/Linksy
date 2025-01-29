@@ -1,7 +1,7 @@
 package com.emil.data.model
 
 import com.emil.domain.model.MomentResponse
-import com.emil.domain.model.PostResponse
+
 
 data class MomentResponseDto(val momentId:Long=0,val authorId:Long = 0,val authorUsername:String="",val authorAvatarUrl:String="",
                              val imageUrl:String?=null,val videoUrl:String?=null,val audioUrl:String?=null,

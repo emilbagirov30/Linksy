@@ -29,13 +29,15 @@ class FullScreenMomentDialogFragment(private val userId:Long = -1,private val un
     private lateinit var adapter: MomentsFullScreenAdapter
     private val momentViewModel:MomentViewModel by viewModel<MomentViewModel>()
     private val tokenManager:TokenManager by inject<TokenManager> ()
+
     @SuppressLint("MissingInflatedId")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.dialog_fullscreen_moment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+       return inflater.inflate(R.layout.dialog_fullscreen_moment, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         closeDialog = view.findViewById(R.id.ib_close)
         fullscreenMomentsRecyclerView = view.findViewById(R.id.rv_fullscreen_moments)
         val layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
@@ -48,7 +50,6 @@ class FullScreenMomentDialogFragment(private val userId:Long = -1,private val un
                 fullscreenMomentsRecyclerView.scrollToPosition(position)
             }
         }else{
-
             adapter = MomentsFullScreenAdapter(momentsList, requireActivity(), this,momentViewModel, tokenManager )
             fullscreenMomentsRecyclerView.adapter = adapter
             fullscreenMomentsRecyclerView.scrollToPosition(position)
@@ -63,16 +64,12 @@ class FullScreenMomentDialogFragment(private val userId:Long = -1,private val un
             adapter.releaseAllResources()
 
         }
-        return view
     }
-
-
 
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setCancelable(false)
-
     }
 
     override fun onStart() {

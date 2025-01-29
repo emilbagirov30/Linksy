@@ -3,13 +3,13 @@ package com.emil.linksy.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.ConfirmCodeParam
-import com.emil.domain.usecase.ConfirmCodeUseCase
-import com.emil.domain.usecase.ResendCodeUseCase
+import com.emil.domain.usecase.auth.ConfirmCodeUseCase
+import com.emil.domain.usecase.auth.ResendCodeUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ConfirmCodeViewModel(private val confirmUseCase: ConfirmCodeUseCase,private val resendCodeUseCase: ResendCodeUseCase) : ViewModel () {
+class ConfirmCodeViewModel(private val confirmUseCase: ConfirmCodeUseCase, private val resendCodeUseCase: ResendCodeUseCase) : ViewModel () {
     fun confirm (email:String,code:String,onSuccess: () -> Unit, onIncorrect: () -> Unit, onError: (Throwable) -> Unit){
         viewModelScope.launch {
             try{

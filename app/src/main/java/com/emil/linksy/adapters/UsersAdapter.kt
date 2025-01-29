@@ -55,9 +55,7 @@ class UsersAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(user: UserResponse) {
             if (user.online) onlineImageView.show() else onlineImageView.hide()
-
             if (user.confirmed) confirmedImageView.show() else confirmedImageView.hide()
-
             if (isNeedChoice) {
                 selectorCheckBox.show()
                 selectorCheckBox.isChecked = selectedUserIds.contains(user.id)
@@ -80,7 +78,6 @@ class UsersAdapter(
             if (isChannelAdmin){
                 rejectImageButton.show()
                 acceptImageButton.show()
-
                 rejectImageButton.setOnClickListener {
                     it.anim()
                     channelViewModel?.rejectSubscriptionRequest(tokenManager!!.getAccessToken(), channelId = channelId!!, candidateId = user.id, onConflict = {}, onSuccess = {

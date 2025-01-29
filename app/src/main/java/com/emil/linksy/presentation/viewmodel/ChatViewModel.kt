@@ -12,22 +12,22 @@ import com.emil.domain.model.GroupResponse
 import com.emil.domain.model.UserResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
-import com.emil.domain.usecase.AddMembersUseCase
-import com.emil.domain.usecase.ClearChatsUseCase
-import com.emil.domain.usecase.ConnectToWebSocketUseCase
-import com.emil.domain.usecase.CreateGroupUseCase
-import com.emil.domain.usecase.DeleteChatUseCase
-import com.emil.domain.usecase.EditGroupUseCase
-import com.emil.domain.usecase.GetChatIdUseCase
-import com.emil.domain.usecase.GetGroupDataUseCase
-import com.emil.domain.usecase.GetGroupMembersUseCase
-import com.emil.domain.usecase.GetGroupSendersUseCase
-import com.emil.domain.usecase.GetUserChatsFromLocalDb
-import com.emil.domain.usecase.GetUserChatsUseCase
+import com.emil.domain.usecase.chat.AddMembersUseCase
+import com.emil.domain.usecase.room.ClearChatsUseCase
+import com.emil.domain.usecase.websocket.ConnectToWebSocketUseCase
+import com.emil.domain.usecase.chat.CreateGroupUseCase
+import com.emil.domain.usecase.chat.DeleteChatUseCase
+import com.emil.domain.usecase.chat.EditGroupUseCase
+import com.emil.domain.usecase.chat.GetChatIdUseCase
+import com.emil.domain.usecase.chat.GetGroupDataUseCase
+import com.emil.domain.usecase.chat.GetGroupMembersUseCase
+import com.emil.domain.usecase.chat.GetGroupSendersUseCase
+import com.emil.domain.usecase.room.GetUserChatsFromLocalDb
+import com.emil.domain.usecase.user.GetUserChatsUseCase
 
-import com.emil.domain.usecase.InsertChatInLocalDbUseCase
-import com.emil.domain.usecase.LeaveTheGroupUseCase
-import com.emil.domain.usecase.SubscribeToUserChatsUseCase
+import com.emil.domain.usecase.room.InsertChatInLocalDbUseCase
+import com.emil.domain.usecase.chat.LeaveTheGroupUseCase
+import com.emil.domain.usecase.websocket.SubscribeToUserChatsUseCase
 
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -37,15 +37,15 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
                     private val getUserChatsFromLocalDb: GetUserChatsFromLocalDb,
                     private val subscribeToUserChatsUseCase: SubscribeToUserChatsUseCase,
                     private val connectToWebSocketUseCase: ConnectToWebSocketUseCase,
-    private val getChatIdUseCase: GetChatIdUseCase, private val createGroupUseCase: CreateGroupUseCase,
-    private val getGroupMembersUseCase: GetGroupMembersUseCase,
-    private val getGroupDataUseCase: GetGroupDataUseCase,
-    private val editGroupUseCase: EditGroupUseCase,
-   private val deleteChatUseCase: DeleteChatUseCase,
-    private val clearChatsUseCase: ClearChatsUseCase,
-    private val addMembersUseCase: AddMembersUseCase,
-    private val leaveTheGroupUseCase: LeaveTheGroupUseCase,
-    private val getGroupSendersUseCase: GetGroupSendersUseCase
+                    private val getChatIdUseCase: GetChatIdUseCase, private val createGroupUseCase: CreateGroupUseCase,
+                    private val getGroupMembersUseCase: GetGroupMembersUseCase,
+                    private val getGroupDataUseCase: GetGroupDataUseCase,
+                    private val editGroupUseCase: EditGroupUseCase,
+                    private val deleteChatUseCase: DeleteChatUseCase,
+                    private val clearChatsUseCase: ClearChatsUseCase,
+                    private val addMembersUseCase: AddMembersUseCase,
+                    private val leaveTheGroupUseCase: LeaveTheGroupUseCase,
+                    private val getGroupSendersUseCase: GetGroupSendersUseCase
 ) : ViewModel(){
 
     private val _chatList = MutableLiveData<MutableList<ChatResponse>> ()

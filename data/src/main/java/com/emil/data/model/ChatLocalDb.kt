@@ -3,7 +3,7 @@ package com.emil.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.emil.domain.model.ChatLocal
-import com.emil.domain.model.MessageLocal
+
 
 @Entity(tableName = "chats")
 data class ChatLocalDb(
@@ -20,10 +20,13 @@ data class ChatLocalDb(
 )
 
 fun ChatLocalDb.toDomainModel (): ChatLocal {
-    return ChatLocal(id,companionId, senderId,isGroup, avatarUrl, displayName, confirmed,lastMessage, dateLast,unreadMessagesCount)
+    return ChatLocal(id,companionId, senderId,isGroup, avatarUrl,
+        displayName, confirmed,lastMessage, dateLast,unreadMessagesCount)
 }
 fun ChatLocalDb.toDomainModel (domainModel: ChatLocal): ChatLocalDb {
-    return ChatLocalDb(domainModel.id,domainModel.companionId, domainModel.senderId,domainModel.isGroup, domainModel.avatarUrl, domainModel.displayName, domainModel.confirmed,domainModel.lastMessage, domainModel.dateLast)
+    return ChatLocalDb(domainModel.id,domainModel.companionId, domainModel.senderId,
+        domainModel.isGroup, domainModel.avatarUrl, domainModel.displayName,
+        domainModel.confirmed,domainModel.lastMessage, domainModel.dateLast)
 }
 
 fun List<ChatLocalDb>.toDomainModelList(): List<ChatLocal> {

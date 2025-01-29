@@ -7,16 +7,17 @@ import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.MessageMode
 import com.emil.domain.model.UserProfileData
 import com.emil.domain.model.UserResponse
-import com.emil.domain.usecase.GetEveryoneOffTheBlacklistUseCase
-import com.emil.domain.usecase.GetMessageModeUseCase
-import com.emil.domain.usecase.SetMessageModeUseCase
-import com.emil.domain.usecase.UserProfileDataUseCase
+import com.emil.domain.usecase.settings.GetEveryoneOffTheBlacklistUseCase
+import com.emil.domain.usecase.settings.GetMessageModeUseCase
+import com.emil.domain.usecase.settings.SetMessageModeUseCase
+import com.emil.domain.usecase.people.UserProfileDataUseCase
 import kotlinx.coroutines.launch
 
 class UserViewModel (private val userProfileDataUseCase: UserProfileDataUseCase,
                      private val getEveryoneOffTheBlacklistUseCase: GetEveryoneOffTheBlacklistUseCase,
                      private val getMessageModeUseCase: GetMessageModeUseCase,
-                     private val setMessageModeUseCase: SetMessageModeUseCase): ViewModel () {
+                     private val setMessageModeUseCase: SetMessageModeUseCase
+): ViewModel () {
 
     private val _userData = MutableLiveData<UserProfileData> ()
     val userData:LiveData<UserProfileData>  = _userData
@@ -36,12 +37,9 @@ class UserViewModel (private val userProfileDataUseCase: UserProfileDataUseCase,
         viewModelScope.launch {
             try {
               val response = userProfileDataUseCase.execute(token)
-            if (response.isSuccessful){
-                _userData.value = response.body()
-            }else {
-                onIncorrect ()
-            }
-            }catch (e:Exception){
+            if (response.isSuccessful) _userData.value = response.body()
+            else onIncorrect ()
+            } catch (e:Exception){
                 onError ()
             }
         }

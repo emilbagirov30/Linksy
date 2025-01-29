@@ -1,7 +1,5 @@
 package com.emil.domain.repository
 
-
-
 import com.emil.domain.model.AllUserData
 import com.emil.domain.model.MessageMode
 import com.emil.domain.model.PasswordChangeData

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.emil.linksy.presentation.ui.auth.ConfirmCodeBottomSheet
 import com.emil.linksy.util.generateQRCode
 import com.emil.presentation.R
 import com.google.android.material.bottomsheet.BottomSheetDialog

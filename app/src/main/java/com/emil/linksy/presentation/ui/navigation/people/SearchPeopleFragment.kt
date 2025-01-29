@@ -43,7 +43,11 @@ class SearchPeopleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       val view = inflater.inflate(R.layout.fragment_search_people, container, false)
+       return inflater.inflate(R.layout.fragment_search_people, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         hintImageButton = view.findViewById(R.id.ib_hint)
         scanImageButton = view.findViewById(R.id.ib_scan)
         searchEditText = view.findViewById(R.id.et_search)
@@ -61,9 +65,9 @@ class SearchPeopleFragment : Fragment() {
                     loading.show()
                     userRecyclerView.hide()
                     if (currentText.startsWith("@")) {
-                       peopleViewModel.findByLink(tokenManager.getAccessToken(),currentText, onSuccess = {
-                           userRecyclerView.show()
-                           loading.hide()})
+                        peopleViewModel.findByLink(tokenManager.getAccessToken(),currentText, onSuccess = {
+                            userRecyclerView.show()
+                            loading.hide()})
                     }else{
                         peopleViewModel.findByUsername(tokenManager.getAccessToken(),currentText, onSuccess = {
                             userRecyclerView.show()
@@ -86,7 +90,6 @@ class SearchPeopleFragment : Fragment() {
             switchingToCameraXActivity.putExtra("TARGET","USER")
             startActivity(switchingToCameraXActivity)
         }
-        return view
     }
 
 }

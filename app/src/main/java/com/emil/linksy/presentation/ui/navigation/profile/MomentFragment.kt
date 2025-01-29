@@ -36,11 +36,12 @@ class MomentFragment : Fragment(),CreateMomentDialogFragment.AddMomentDialogList
     }
 
     @SuppressLint("MissingInflatedId")
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_moment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+       return inflater.inflate(R.layout.fragment_moment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val addMoment = view.findViewById<FrameLayout>(R.id.fl_add)
         emptyMessage = view.findViewById(R.id.ll_empty_message)
         contentFlexboxLayout = view.findViewById(R.id.fl_moments)
@@ -54,11 +55,12 @@ class MomentFragment : Fragment(),CreateMomentDialogFragment.AddMomentDialogList
         updateMoments()
         addMoment.setOnClickListener {
             val dialog =   CreateMomentDialogFragment()
-                dialog.setAddMomentDialogListener(this)
-                dialog.show(parentFragmentManager, "CreateMomentDialogFragment")
+            dialog.setAddMomentDialogListener(this)
+            dialog.show(parentFragmentManager, "CreateMomentDialogFragment")
         }
-        return view
     }
+
+
     private fun showEmptyMessage (){
        contentFlexboxLayout.hide()
         emptyMessage.show()

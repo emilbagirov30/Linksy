@@ -6,9 +6,6 @@ import okhttp3.MultipartBody
 
 class GroupEditBody (val groupId:Long = 0,val name:String="", val oldAvatarUrl:String?=null,val avatar: MultipartBody.Part?=null)
 
-
-
-
 fun GroupEditBody.toDomainModel (domainModel: GroupEditData):GroupEditBody{
     return GroupEditBody (
         groupId = domainModel.groupId,

@@ -5,18 +5,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Handler
 import androidx.lifecycle.LifecycleService
-import com.emil.domain.usecase.RefreshTokenUseCase
-import com.emil.linksy.presentation.ui.ErrorDialog
+import com.emil.domain.usecase.user.RefreshTokenUseCase
 import com.emil.linksy.presentation.ui.auth.AuthActivity
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
-import com.emil.presentation.R
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
 class TokenService: LifecycleService() {
-
     private val refreshTokenUseCase: RefreshTokenUseCase by inject()
     private val tokenManager: TokenManager by inject()
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
@@ -87,9 +84,7 @@ class TokenService: LifecycleService() {
         refreshJob = null
     }
     private fun logoutUser() {
-        println("вызван")
-        val sharedPref: SharedPreferences =
-            getSharedPreferences("appData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.putBoolean("remember", false)
         editor.apply()

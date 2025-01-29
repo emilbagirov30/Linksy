@@ -6,11 +6,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.lifecycle.LifecycleService
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.emil.domain.model.MessageResponse
-
-import com.emil.domain.usecase.ConnectToWebSocketUseCase
-import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
-import com.emil.domain.usecase.SubscribeToUserChatsCountUseCase
+import com.emil.domain.usecase.websocket.ConnectToWebSocketUseCase
+import com.emil.domain.usecase.websocket.DisconnectFromWebSocketUseCase
+import com.emil.domain.usecase.websocket.SubscribeToUserChatsCountUseCase
 import com.emil.linksy.util.TokenManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +16,6 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class WebSocketService : LifecycleService() {
-
     private val connectToWebSocketUseCase: ConnectToWebSocketUseCase by inject()
     private  val disconnectFromWebSocketUseCase: DisconnectFromWebSocketUseCase by inject()
     private val subscribeToUserChatsCountUseCase: SubscribeToUserChatsCountUseCase by inject()
@@ -46,6 +43,6 @@ class WebSocketService : LifecycleService() {
 
     override fun onDestroy() {
         super.onDestroy()
-          //disconnectFromWebSocketUseCase.invoke()
+          disconnectFromWebSocketUseCase.invoke()
     }
 }

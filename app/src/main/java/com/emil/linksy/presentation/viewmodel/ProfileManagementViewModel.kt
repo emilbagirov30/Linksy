@@ -6,21 +6,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.AllUserData
-import com.emil.domain.usecase.AllUserDataUseCase
-import com.emil.domain.usecase.DeleteAvatarUseCase
-import com.emil.domain.usecase.UpdateBirthdayUseCase
-import com.emil.domain.usecase.UpdateLinkUseCase
-import com.emil.domain.usecase.UpdateUsernameUseCase
-import com.emil.domain.usecase.UploadAvatarUseCase
+import com.emil.domain.usecase.settings.GetAllUserDataUseCase
+import com.emil.domain.usecase.settings.DeleteAvatarUseCase
+import com.emil.domain.usecase.settings.UpdateBirthdayUseCase
+import com.emil.domain.usecase.settings.UpdateLinkUseCase
+import com.emil.domain.usecase.settings.UpdateUsernameUseCase
+import com.emil.domain.usecase.settings.UploadAvatarUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
-class ProfileManagementViewModel (private val allUserDataUseCase: AllUserDataUseCase,
+class ProfileManagementViewModel (private val getAllUserDataUseCase: GetAllUserDataUseCase,
                                   private val uploadAvatarUseCase: UploadAvatarUseCase,
                                   private val updateBirthdayUseCase: UpdateBirthdayUseCase,
                                   private val updateUsernameUseCase: UpdateUsernameUseCase,
                                   private val updateLinkUseCase: UpdateLinkUseCase,
-                                  private val deleteAvatarUseCase: DeleteAvatarUseCase): ViewModel() {
+                                  private val deleteAvatarUseCase: DeleteAvatarUseCase
+): ViewModel() {
 
     private val _userData = MutableLiveData<AllUserData>()
     val userData: LiveData<AllUserData> = _userData
@@ -30,7 +31,7 @@ class ProfileManagementViewModel (private val allUserDataUseCase: AllUserDataUse
         onError: () -> Unit
     ) { viewModelScope.launch {
             try {
-                val response = allUserDataUseCase.execute(token)
+                val response = getAllUserDataUseCase.execute(token)
                 if (response.isSuccessful) {
                     _userData.value = response.body()
                 } else {

@@ -39,6 +39,5 @@ interface ChannelRepository {
     suspend fun addComment (token:String, commentData: CommentData):Response<Unit>
     suspend fun getComments (postId: Long):Response<List<CommentResponse>>
     suspend fun deleteComment (token: String,commentId: Long):Response<Unit>
-
     suspend fun getPostAppreciated (token: String,postId: Long):Response<List<PostAppreciatedResponse>>
 }

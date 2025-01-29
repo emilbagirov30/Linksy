@@ -21,11 +21,7 @@ private lateinit var binding:BlacklistDialogBinding
     private val userViewModel: UserViewModel by viewModel<UserViewModel>()
     private val peopleViewModel: PeopleViewModel by viewModel<PeopleViewModel>()
     private val tokenManager: TokenManager by inject()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = BlacklistDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,21 +35,10 @@ private lateinit var binding:BlacklistDialogBinding
                 peopleViewModel = peopleViewModel, tokenManager = tokenManager)
         }
 
-
         binding.tb.setNavigationOnClickListener {
             dismiss()
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 
     override fun getTheme() = R.style.FullScreenDialog

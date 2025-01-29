@@ -13,24 +13,24 @@ import com.emil.domain.model.Status
 import com.emil.domain.model.StatusResponse
 import com.emil.domain.model.toLocalModel
 import com.emil.domain.model.toResponseModelList
-import com.emil.domain.usecase.ClearAllMessagesUseCase
-import com.emil.domain.usecase.ConnectToWebSocketUseCase
-import com.emil.domain.usecase.DeleteMessageFromLocalDbUseCase
-import com.emil.domain.usecase.DeleteMessageUseCase
-import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
-import com.emil.domain.usecase.EditMessageUseCase
-import com.emil.domain.usecase.GetUserMessagesByChat
-import com.emil.domain.usecase.GetUserMessagesByChatFromLocalDb
-import com.emil.domain.usecase.GetUserMessagesUseCase
-import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
-import com.emil.domain.usecase.SendMessageUseCase
-import com.emil.domain.usecase.SendStatusUseCase
-import com.emil.domain.usecase.SubscribeToChatStatusUseCase
-import com.emil.domain.usecase.SubscribeToEditMessagesUseCase
-import com.emil.domain.usecase.SubscribeToMessagesDeleteUseCase
-import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
-import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
-import com.emil.domain.usecase.ViewedUseCase
+import com.emil.domain.usecase.room.ClearAllMessagesUseCase
+import com.emil.domain.usecase.websocket.ConnectToWebSocketUseCase
+import com.emil.domain.usecase.room.DeleteMessageFromLocalDbUseCase
+import com.emil.domain.usecase.message.DeleteMessageUseCase
+import com.emil.domain.usecase.websocket.DisconnectFromWebSocketUseCase
+import com.emil.domain.usecase.message.EditMessageUseCase
+import com.emil.domain.usecase.message.GetUserMessagesByChat
+import com.emil.domain.usecase.room.GetUserMessagesByChatFromLocalDb
+import com.emil.domain.usecase.message.GetUserMessagesUseCase
+import com.emil.domain.usecase.room.InsertMessageInLocalDbUseCase
+import com.emil.domain.usecase.message.SendMessageUseCase
+import com.emil.domain.usecase.message.SendStatusUseCase
+import com.emil.domain.usecase.websocket.SubscribeToChatStatusUseCase
+import com.emil.domain.usecase.websocket.SubscribeToEditMessagesUseCase
+import com.emil.domain.usecase.websocket.SubscribeToMessagesDeleteUseCase
+import com.emil.domain.usecase.websocket.SubscribeToUserChatViewedUseCase
+import com.emil.domain.usecase.websocket.SubscribeToUserMessagesUseCase
+import com.emil.domain.usecase.message.ViewedUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
@@ -44,14 +44,14 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
                        private val getUserMessagesByChat: GetUserMessagesByChat,
                        private val viewedUseCase: ViewedUseCase,
                        private val subscribeToUserChatViewedUseCase: SubscribeToUserChatViewedUseCase,
-                        private val subscribeToDeleteMessageUseCase: SubscribeToMessagesDeleteUseCase,
-                         private val deleteMessageUseCase: DeleteMessageUseCase,
-                         private val editMessageUseCase: EditMessageUseCase,
-                          private val subscribeToEditMessagesUseCase: SubscribeToEditMessagesUseCase,
-    private val sendStatusUseCase: SendStatusUseCase,
-    private val subscribeToChatStatusUseCase: SubscribeToChatStatusUseCase,
-    private val deleteMessageFromLocalDbUseCase: DeleteMessageFromLocalDbUseCase,
-    private val clearAllMessagesUseCase: ClearAllMessagesUseCase
+                       private val subscribeToDeleteMessageUseCase: SubscribeToMessagesDeleteUseCase,
+                       private val deleteMessageUseCase: DeleteMessageUseCase,
+                       private val editMessageUseCase: EditMessageUseCase,
+                       private val subscribeToEditMessagesUseCase: SubscribeToEditMessagesUseCase,
+                       private val sendStatusUseCase: SendStatusUseCase,
+                       private val subscribeToChatStatusUseCase: SubscribeToChatStatusUseCase,
+                       private val deleteMessageFromLocalDbUseCase: DeleteMessageFromLocalDbUseCase,
+                       private val clearAllMessagesUseCase: ClearAllMessagesUseCase
 ) :ViewModel(){
 
     private val _messageList = MutableLiveData<MutableList<MessageResponse>> ()

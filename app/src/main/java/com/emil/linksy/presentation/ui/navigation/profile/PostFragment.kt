@@ -73,7 +73,6 @@ class PostFragment : Fragment(), AddPostDialogFragment.AddPostDialogListener {
     }
 
 
-
     private fun showContent (){
         shimmerPosts.hide()
         postsRecyclerView.show()

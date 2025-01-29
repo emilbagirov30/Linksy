@@ -7,7 +7,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.widget.addTextChangedListener
 import com.emil.domain.model.ReportRequest
-import com.emil.linksy.presentation.viewmodel.MessageViewModel
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -17,8 +16,11 @@ import com.emil.linksy.util.string
 import com.emil.presentation.R
 
 @SuppressLint("WrongViewCast")
-class ReportDialog private constructor(private val context: Context,private val userId: Long?= null, private val channelId: Long? = null,
-                                            private val tokenManager: TokenManager, private val peopleViewModel: PeopleViewModel
+class ReportDialog private constructor(private val context: Context,
+                                       private val userId: Long?= null,
+                                       private val channelId: Long? = null,
+                                       private val tokenManager: TokenManager,
+                                       private val peopleViewModel: PeopleViewModel
 ) : Dialog(context, R.style.RoundedDialog) {
 
     private val sendButton: ImageButton

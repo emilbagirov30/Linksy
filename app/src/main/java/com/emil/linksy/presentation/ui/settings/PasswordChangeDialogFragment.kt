@@ -43,12 +43,14 @@ class PasswordChangeDialogFragment: DialogFragment() {
     private lateinit var loading: LoadingDialog
     private val tokenManager: TokenManager by inject()
     private val passwordChangeViewModel: PasswordChangeViewModel by viewModel<PasswordChangeViewModel>()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.password_change_dialog, container, false)
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+       return inflater.inflate(R.layout.password_change_dialog, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         oldPasswordEditText = view.findViewById(R.id.et_old_password)
         newPasswordEditText = view.findViewById(R.id.et_new_password)
         confirmNewPasswordEditText = view.findViewById(R.id.et_confirm_new_password)
@@ -98,15 +100,14 @@ class PasswordChangeDialogFragment: DialogFragment() {
                 loading = LoadingDialog(requireContext())
                 loading.show()
                 val token = tokenManager.getAccessToken()
-               passwordChangeViewModel.changePassword(token = token,oldPassword =oldPassword,newPassword = newPassword, onSuccess = {
-                   showToast(requireContext(), R.string.password_update)
-                   oldPasswordEditText.setText("")
-                   newPasswordEditText.setText("")
-                   confirmNewPasswordEditText.setText("")
-               }, onIncorrect = {wrongPasswordTextView.show()}, onError = {showToast(requireContext(), R.string.failed_connection)}, onEnd = {loading.dismiss()})
+                passwordChangeViewModel.changePassword(token = token,oldPassword =oldPassword,newPassword = newPassword, onSuccess = {
+                    showToast(requireContext(), R.string.password_update)
+                    oldPasswordEditText.setText("")
+                    newPasswordEditText.setText("")
+                    confirmNewPasswordEditText.setText("")
+                }, onIncorrect = {wrongPasswordTextView.show()}, onError = {showToast(requireContext(), R.string.failed_connection)}, onEnd = {loading.dismiss()})
             }
         }
-        return view
     }
 
     override fun getTheme() = R.style.FullScreenDialog

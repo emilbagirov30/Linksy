@@ -30,7 +30,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditChannelActivity : AppCompatActivity() {
-         private lateinit var binding: ActivityEditChannelBinding
+    private lateinit var binding: ActivityEditChannelBinding
     private var imageUri: Uri? = null
     private var oldAvatarUrl:String? = ""
     private var oldName:String=""

@@ -59,10 +59,15 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
 
     }
 
-    @SuppressLint("SetTextI18n")
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = BottomSheetCommentsBinding.inflate(inflater, container, false)
-        val view = binding.root
+        return binding.root
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         dialog?.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet =
@@ -78,7 +83,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
             dismiss()
         }
         if (postId!=-100L) {
-          getUserPostComments()
+            getUserPostComments()
             binding.swipeRefreshLayout.setOnRefreshListener {
                 getUserPostComments()
             }
@@ -125,7 +130,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
             }
         }
         if (channelPostId!=-100L) {
-             getChannelsPostComments()
+            getChannelsPostComments()
 
             binding.swipeRefreshLayout.setOnRefreshListener {
                 getChannelsPostComments()
@@ -162,7 +167,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
 
             binding.ibSend.setOnClickListener {
                 val text = binding.etComment.string()
-               channelViewModel.addComment(tokenManager.getAccessToken(), CommentData(channelPostId, text, parentCommentId),
+                channelViewModel.addComment(tokenManager.getAccessToken(), CommentData(channelPostId, text, parentCommentId),
                     onSuccess = {
                         binding.etComment.setText("")
                         binding.llReplyInfo.hide()
@@ -172,7 +177,6 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
                     onError = {})
             }
         }
-        return view
     }
 
     override fun onDestroyView() {
@@ -189,7 +193,6 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
             parentCommentId = null
         }
     }
-
 
   fun getChannelsPostComments(){
         channelViewModel.getComments(channelPostId, onSuccess = {binding.swipeRefreshLayout.isRefreshing=false}, onError = {})

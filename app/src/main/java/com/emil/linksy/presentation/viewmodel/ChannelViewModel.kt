@@ -17,55 +17,55 @@ import com.emil.domain.model.CommentData
 import com.emil.domain.model.CommentResponse
 import com.emil.domain.model.PostAppreciatedResponse
 import com.emil.domain.model.UserResponse
-import com.emil.domain.usecase.AcceptUserToChannelUseCase
-import com.emil.domain.usecase.AddChannelPostCommentUseCase
-import com.emil.domain.usecase.AddScoreUseCase
-import com.emil.domain.usecase.CreateChannelPostUseCase
-import com.emil.domain.usecase.CreateChannelUseCase
-import com.emil.domain.usecase.DeleteChannelCommentUseCase
-import com.emil.domain.usecase.DeleteChannelPostUseCase
-import com.emil.domain.usecase.DeleteRequestUseCase
-import com.emil.domain.usecase.DeleteScoreUseCase
-import com.emil.domain.usecase.FindChannelByLinkUseCase
-import com.emil.domain.usecase.FindChannelByNameUseCase
-import com.emil.domain.usecase.GetChannelManagementDataUseCase
-import com.emil.domain.usecase.GetChannelMembersUseCase
-import com.emil.domain.usecase.GetChannelPageDataUseCase
-import com.emil.domain.usecase.GetChannelPostCommentsUseCase
-import com.emil.domain.usecase.GetChannelPostsUseCase
-import com.emil.domain.usecase.GetChannelSubscriptionsRequestUseCse
-import com.emil.domain.usecase.GetChannelsUseCase
-import com.emil.domain.usecase.GetPostAppreciatedUseCase
-import com.emil.domain.usecase.RejectSubscriptionRequestUseCase
-import com.emil.domain.usecase.SubmitRequestUseCase
-import com.emil.domain.usecase.SubscribeChannelUseCase
-import com.emil.domain.usecase.UnsubscribeChannelUseCase
-import com.emil.domain.usecase.VoteUseCase
+import com.emil.domain.usecase.channel.AcceptUserToChannelUseCase
+import com.emil.domain.usecase.channel.AddChannelPostCommentUseCase
+import com.emil.domain.usecase.channel.AddScoreUseCase
+import com.emil.domain.usecase.channel.CreateChannelPostUseCase
+import com.emil.domain.usecase.channel.CreateChannelUseCase
+import com.emil.domain.usecase.channel.DeleteChannelCommentUseCase
+import com.emil.domain.usecase.channel.DeleteChannelPostUseCase
+import com.emil.domain.usecase.channel.DeleteRequestUseCase
+import com.emil.domain.usecase.channel.DeleteScoreUseCase
+import com.emil.domain.usecase.channel.FindChannelByLinkUseCase
+import com.emil.domain.usecase.channel.FindChannelByNameUseCase
+import com.emil.domain.usecase.channel.GetChannelManagementDataUseCase
+import com.emil.domain.usecase.channel.GetChannelMembersUseCase
+import com.emil.domain.usecase.channel.GetChannelPageDataUseCase
+import com.emil.domain.usecase.channel.GetChannelPostCommentsUseCase
+import com.emil.domain.usecase.channel.GetChannelPostsUseCase
+import com.emil.domain.usecase.channel.GetChannelSubscriptionsRequestUseCse
+import com.emil.domain.usecase.channel.GetChannelsUseCase
+import com.emil.domain.usecase.channel.GetPostAppreciatedUseCase
+import com.emil.domain.usecase.channel.RejectSubscriptionRequestUseCase
+import com.emil.domain.usecase.channel.SubmitRequestUseCase
+import com.emil.domain.usecase.channel.SubscribeChannelUseCase
+import com.emil.domain.usecase.channel.UnsubscribeChannelUseCase
+import com.emil.domain.usecase.channel.VoteUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
 class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
-    private val getChannelsUseCase: GetChannelsUseCase,
-    private val getChannelPageDataUseCase: GetChannelPageDataUseCase,
-    private val createChannelPostUseCase: CreateChannelPostUseCase,
-    private val acceptUserToChannelUseCase: AcceptUserToChannelUseCase,
-    private val deleteChannelPostUseCase: DeleteChannelPostUseCase,
-    private val deleteRequestUseCase: DeleteRequestUseCase,
-    private val getChannelMembersUseCase: GetChannelMembersUseCase,
-    private val getChannelPostsUseCase: GetChannelPostsUseCase,
-    private val getChannelSubscriptionsRequestUseCse: GetChannelSubscriptionsRequestUseCse,
-    private val rejectSubscriptionRequestUseCase: RejectSubscriptionRequestUseCase,
-    private val submitRequestUseCase: SubmitRequestUseCase,
-    private val subscribeChannelUseCase: SubscribeChannelUseCase,
-    private val unsubscribeChannelUseCase: UnsubscribeChannelUseCase,
-    private val voteUseCase: VoteUseCase,
-    private val findChannelByNameUseCase: FindChannelByNameUseCase,
-    private val findChannelByLinkUseCase: FindChannelByLinkUseCase, private val getChannelManagementDataUseCase: GetChannelManagementDataUseCase,
-    private val addScoreUseCase: AddScoreUseCase,private val deleteScoreUseCase: DeleteScoreUseCase,
+                       private val getChannelsUseCase: GetChannelsUseCase,
+                       private val getChannelPageDataUseCase: GetChannelPageDataUseCase,
+                       private val createChannelPostUseCase: CreateChannelPostUseCase,
+                       private val acceptUserToChannelUseCase: AcceptUserToChannelUseCase,
+                       private val deleteChannelPostUseCase: DeleteChannelPostUseCase,
+                       private val deleteRequestUseCase: DeleteRequestUseCase,
+                       private val getChannelMembersUseCase: GetChannelMembersUseCase,
+                       private val getChannelPostsUseCase: GetChannelPostsUseCase,
+                       private val getChannelSubscriptionsRequestUseCse: GetChannelSubscriptionsRequestUseCse,
+                       private val rejectSubscriptionRequestUseCase: RejectSubscriptionRequestUseCase,
+                       private val submitRequestUseCase: SubmitRequestUseCase,
+                       private val subscribeChannelUseCase: SubscribeChannelUseCase,
+                       private val unsubscribeChannelUseCase: UnsubscribeChannelUseCase,
+                       private val voteUseCase: VoteUseCase,
+                       private val findChannelByNameUseCase: FindChannelByNameUseCase,
+                       private val findChannelByLinkUseCase: FindChannelByLinkUseCase, private val getChannelManagementDataUseCase: GetChannelManagementDataUseCase,
+                       private val addScoreUseCase: AddScoreUseCase, private val deleteScoreUseCase: DeleteScoreUseCase,
                        private val addChannelPostCommentUseCase: AddChannelPostCommentUseCase,
-    private val getChannelPostCommentsUseCase: GetChannelPostCommentsUseCase,
-    private val deleteChannelCommentUseCase: DeleteChannelCommentUseCase,
-    private val getPostAppreciatedUseCase: GetPostAppreciatedUseCase
+                       private val getChannelPostCommentsUseCase: GetChannelPostCommentsUseCase,
+                       private val deleteChannelCommentUseCase: DeleteChannelCommentUseCase,
+                       private val getPostAppreciatedUseCase: GetPostAppreciatedUseCase
     ):ViewModel() {
 
     private val _channelList = MutableLiveData<List<ChannelResponse>> ()

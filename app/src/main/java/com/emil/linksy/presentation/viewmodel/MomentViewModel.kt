@@ -7,18 +7,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.MomentData
 import com.emil.domain.model.MomentResponse
-import com.emil.domain.usecase.CreateMomentUseCase
-import com.emil.domain.usecase.DeleteMomentUseCase
-import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
-import com.emil.domain.usecase.GetUserMomentsUseCase
-import com.emil.domain.usecase.GetUserUnseenMomentsUseCase
-import com.emil.domain.usecase.ViewMomentUseCase
+import com.emil.domain.usecase.user.CreateMomentUseCase
+import com.emil.domain.usecase.user.DeleteMomentUseCase
+import com.emil.domain.usecase.people.GetOutsiderUserMomentsUseCase
+import com.emil.domain.usecase.user.GetUserMomentsUseCase
+import com.emil.domain.usecase.feed.GetUserUnseenMomentsUseCase
+import com.emil.domain.usecase.people.ViewMomentUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
 class MomentViewModel(private val createMomentUseCase: CreateMomentUseCase,
-    private val getUserMomentsUseCase: GetUserMomentsUseCase, private val getOutsiderUserMomentsUseCase: GetOutsiderUserMomentsUseCase,
-    private val deleteMomentUseCase: DeleteMomentUseCase,private val viewMomentUseCase: ViewMomentUseCase,private val getUserUnseenMomentsUseCase: GetUserUnseenMomentsUseCase
+                      private val getUserMomentsUseCase: GetUserMomentsUseCase, private val getOutsiderUserMomentsUseCase: GetOutsiderUserMomentsUseCase,
+                      private val deleteMomentUseCase: DeleteMomentUseCase, private val viewMomentUseCase: ViewMomentUseCase, private val getUserUnseenMomentsUseCase: GetUserUnseenMomentsUseCase
     ):ViewModel (){
     private val _momentList = MutableLiveData<List<MomentResponse>> ()
     val momentList: LiveData<List<MomentResponse>> = _momentList

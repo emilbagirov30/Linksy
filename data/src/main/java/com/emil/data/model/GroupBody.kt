@@ -1,15 +1,10 @@
 package com.emil.data.model
 
 import com.emil.domain.model.GroupData
-import com.emil.domain.model.MessageData
 import okhttp3.MultipartBody
 
 class GroupBody(val participantIds:String="",
                 val name:String="", val avatar: MultipartBody.Part?=null)
-
-
-
-
 
 fun GroupBody.toDomainModel (domainModel:GroupData):GroupBody{
     return GroupBody (

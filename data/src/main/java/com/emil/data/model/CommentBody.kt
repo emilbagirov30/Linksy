@@ -1,9 +1,8 @@
 package com.emil.data.model
 
 import com.emil.domain.model.CommentData
-import com.emil.domain.model.MomentData
 
-class CommentBody (val postId:Long = 0,val text:String = "", val parentCommentId:Long?=null)
+data class CommentBody (val postId:Long = 0,val text:String = "", val parentCommentId:Long?=null)
 
 
 

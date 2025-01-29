@@ -14,31 +14,27 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.PostAppreciatedResponse
 import com.emil.linksy.presentation.ui.page.UserPageActivity
+import com.emil.linksy.util.colorByRating
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.emil.presentation.databinding.RvItemAppreciatedBinding
 
-class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>,
-                          private val context: Context
-): RecyclerView.Adapter<AppreciatedAdapter.AppreciatedViewHolder>() {
+class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>, private val context: Context): RecyclerView.Adapter<AppreciatedAdapter.AppreciatedViewHolder>() {
 
     inner class  AppreciatedViewHolder(private val binding: RvItemAppreciatedBinding) : RecyclerView.ViewHolder(binding.root) {
         private val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val id = sharedPref.getLong("ID", -1)
         @SuppressLint("SetTextI18n")
         fun bind(user:PostAppreciatedResponse){
+
             if (user.online) binding.ivOnline.show() else  binding.ivOnline.hide()
-
             if (user.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.hide()
-
-               binding.tvUsername.text = user.username
-
+            binding.tvUsername.text = user.username
             if (user.link != null) {
-               binding.tvLink.show()
+                binding.tvLink.show()
                 binding.tvLink.text = "@${user.link}"
-            }else   binding.tvLink.hide()
-
+            }else binding.tvLink.hide()
 
             binding.root.setOnClickListener {
                 if (id != user.id) {
@@ -54,18 +50,9 @@ class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>,
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.ivUserAvatar)
             }
-
-
-               val score = user.score
-               binding.tvScore.text = score.toString()
-
-            if (score<2.99 &&score>0)
-                ViewCompat.setBackgroundTintList(binding.ivScore, ColorStateList.valueOf(
-                    ContextCompat.getColor(context, R.color.red)))
-            if(score >= 3.0 &&score < 4.0)  ViewCompat.setBackgroundTintList(binding.ivScore, ColorStateList.valueOf(
-                ContextCompat.getColor(context, R.color.yellow)))
-            if(score >=4)  ViewCompat.setBackgroundTintList(binding.ivScore, ColorStateList.valueOf(
-                ContextCompat.getColor(context, R.color.green)))
+            val score = user.score
+            binding.tvScore.text = score.toString()
+            binding.ivScore.colorByRating(score.toDouble())
         }
     }
 

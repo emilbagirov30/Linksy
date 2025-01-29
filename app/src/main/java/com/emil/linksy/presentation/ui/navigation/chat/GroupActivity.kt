@@ -71,8 +71,6 @@ class GroupActivity : AppCompatActivity() {
             imageUri = uri
 
         }
-
-
         addMembersButton.setOnClickListener {
             RelationsDialogFragment(RelationType.ADD_MEMBERS,groupId = groupId, memberIdList = membersIdList).show(
                 supportFragmentManager, "RelationsDialogFragment"
@@ -97,8 +95,7 @@ class GroupActivity : AppCompatActivity() {
 
         }
         nameEditText.addTextChangedListener(textWatcher)
-
-             chatViewModel.getGroupData(tokenManager.getAccessToken(),groupId)
+        chatViewModel.getGroupData(tokenManager.getAccessToken(),groupId)
         chatViewModel.groupData.observe(this){data ->
             oldName = data.name
             oldAvatarUrl = data.avatarUrl

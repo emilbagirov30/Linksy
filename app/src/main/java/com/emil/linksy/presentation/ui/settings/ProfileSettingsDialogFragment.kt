@@ -69,12 +69,15 @@ class ProfileSettingsDialogFragment: DialogFragment() {
     private var avatarExist:Boolean = false
     private var currentToast: Toast? = null
     private val tokenManager: TokenManager by inject()
-    @SuppressLint("MissingInflatedId", "ClickableViewAccessibility", "DefaultLocale")
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.profile_settings_dialog, container, false)
+        return inflater.inflate(R.layout.profile_settings_dialog, container, false)
+    }
+
+    @SuppressLint("ClickableViewAccessibility", "DefaultLocale")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         changeAvatarImageView = view.findViewById(R.id.iv_change_avatar)
         toolBar = view.findViewById(R.id.tb_edit_data)
         changePasswordButton = view.findViewById(R.id.bt_change_password)
@@ -92,9 +95,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         saveButton = view.findViewById(R.id.bt_save)
         fetchData()
         val usernameTextWatcher = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                saveButton.isEnabled = s.toString()!=currentUsername
-            }
+            override fun afterTextChanged(s: Editable?) { saveButton.isEnabled = s.toString()!=currentUsername }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
@@ -119,7 +120,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
             val username = usernameEditText.string()
 
             selectedUri?.let {
-               val avatar = createImageFilePart(requireContext(), it)
+                val avatar = createImageFilePart(requireContext(), it)
                 profileManagementViewModel.uploadAvatar(token = token, avatar!!, onSuccess = { selectedUri=null}, onError = {displayError()})
 
             }
@@ -168,9 +169,8 @@ class ProfileSettingsDialogFragment: DialogFragment() {
 
                 alertDialog.show()
                 true
-            } else {
-                false
-            }
+            } else false
+
         }
 
         profileManagementViewModel.userData.observe(requireActivity()){ data ->
@@ -196,7 +196,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
             selectedUri = uri
         }
         changePasswordButton.setOnClickListener {
-           PasswordChangeDialogFragment().show(parentFragmentManager, "ChangePasswordDialogFragment")
+            PasswordChangeDialogFragment().show(parentFragmentManager, "ChangePasswordDialogFragment")
         }
         changeAvatarImageView.setOnClickListener {
             val popupMenu = PopupMenu(requireContext(), changeAvatarImageView)
@@ -234,8 +234,15 @@ class ProfileSettingsDialogFragment: DialogFragment() {
 
         }
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
-        return view
     }
+
+
+
+
+
+
+
+
     @SuppressLint("Recycle", "NewApi")
     private fun handleSelectedImage(uri: Uri) {
         Glide.with(requireContext())

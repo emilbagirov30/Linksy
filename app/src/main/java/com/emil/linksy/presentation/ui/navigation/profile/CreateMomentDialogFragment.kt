@@ -74,7 +74,12 @@ class CreateMomentDialogFragment: DialogFragment()  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.create_moment_dialog, container, false)
+        return inflater.inflate(R.layout.create_moment_dialog, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         toolBar = view.findViewById(R.id.tb_moment)
         toolBar.setNavigationOnClickListener {
             dialog?.dismiss()
@@ -104,7 +109,7 @@ class CreateMomentDialogFragment: DialogFragment()  {
             updatePublishButtonState()
         }
 
-      hintImageButton.setOnClickListener {
+        hintImageButton.setOnClickListener {
             it.anim()
             it.showHint(requireContext(),R.string.moment_hint)
         }
@@ -124,9 +129,6 @@ class CreateMomentDialogFragment: DialogFragment()  {
             audioUri = uri
             updatePublishButtonState()
         }
-
-
-
 
         addImage.setOnClickListener {
             it.anim()
@@ -159,7 +161,7 @@ class CreateMomentDialogFragment: DialogFragment()  {
             val audioPart = trimmedAudioUri?.let { createAudioFilePart(requireContext(), it) }
 
 
-           momentViewModel.createMoment(token,
+            momentViewModel.createMoment(token,
                 image = imagePart, video = videoPart,
                 audio = audioPart,text =text,
                 onSuccess = {
@@ -168,7 +170,6 @@ class CreateMomentDialogFragment: DialogFragment()  {
                 })
         }
 
-        return view
     }
 
     private fun handleSelectedAudio(uri: Uri) {

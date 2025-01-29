@@ -10,7 +10,5 @@ class TokenDto (@Json(name = "accessToken")val accessToken: String,
 
 
 fun TokenDto.toDomainModel(): Token {
-    return Token(
-       accessToken = accessToken, refreshToken = refreshToken,wsToken = wsToken
-    )
+    return Token(accessToken = accessToken, refreshToken = refreshToken,wsToken = wsToken)
 }

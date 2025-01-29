@@ -36,8 +36,12 @@ class SubscribersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.fragment_subscribers, container, false)
 
-        val view = inflater.inflate(R.layout.fragment_subscribers, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val loading = view.findViewById<ProgressBar>(R.id.pb_loading)
         loading.show()
         userRecyclerView = view.findViewById(R.id.rv_users)
@@ -58,8 +62,9 @@ class SubscribersFragment : Fragment() {
         swipeRefreshLayout.setOnRefreshListener {
             getUserSubscribers()
         }
-        return view
     }
+
+
        private fun getUserSubscribers(){
            peopleViewModel.getUserSubscribers(tokenManager.getAccessToken(), onSuccess = {})
        }

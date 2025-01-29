@@ -130,11 +130,6 @@ class AddPostDialogFragment: DialogFragment() {
 
     }
 
-
-
-
-
-
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -171,30 +166,21 @@ class AddPostDialogFragment: DialogFragment() {
         videoFrameLayout =  view.findViewById(R.id.fl_video)
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
 
-
-
        isEdit?.let {
            titleTextView.text = getString(R.string.edit)
-
            text?.let {   postEditText.setText(text)}
-
            imageUrl?.let {
               handleSelectedImage(Uri.parse(imageUrl))
            }
-
            videoUrl?.let {
                handleSelectedVideo(Uri.parse(videoUrl))
            }
-
            audioUrl?.let {
                handleSelectedAudio(Uri.parse(audioUrl))
            }
-
            voiceUrl?.let {
                setupVoicePlayback(voice = Uri.parse(voiceUrl))
            }
-
-
        }
 
 
@@ -203,6 +189,7 @@ class AddPostDialogFragment: DialogFragment() {
             it.anim()
            VoiceRecordDialog(this)
         }
+
         val pickImageLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedImage(uri)
             imageUri = uri
@@ -234,7 +221,6 @@ class AddPostDialogFragment: DialogFragment() {
         }
 
         postEditText.addTextChangedListener { updatePublishButtonState() }
-
 
         publishButton.setOnClickListener {
             it.anim()
@@ -270,7 +256,6 @@ class AddPostDialogFragment: DialogFragment() {
 
         deletePictureButton.setOnClickListener {
             it.anim()
-
            pictureFrameLayout.hide()
             if (!videoFrameLayout.isVisible) mediaLinearLayout.hide()
             imageUrl=null
@@ -300,8 +285,8 @@ class AddPostDialogFragment: DialogFragment() {
             updatePublishButtonState()
         }
     }
-    private fun handleSelectedAudio(uri: Uri) {
 
+    private fun handleSelectedAudio(uri: Uri) {
         audioLinearLayout.show()
         playAudio.setImageResource(R.drawable.ic_play)
         mediaPlayerAudio = MediaPlayer().apply {
@@ -351,7 +336,6 @@ class AddPostDialogFragment: DialogFragment() {
     }
 
     private fun startProgressAudioUpdate() {
-
         CoroutineScope(Dispatchers.Main).launch {
             while (mediaPlayerAudio?.isPlaying!!) {
                 val currentPosition = mediaPlayerAudio?.currentPosition

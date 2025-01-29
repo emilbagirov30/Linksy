@@ -1,10 +1,9 @@
 package com.emil.linksy.presentation.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.UserLoginData
-import com.emil.domain.usecase.LoginUseCase
+import com.emil.domain.usecase.auth.LoginUseCase
 import com.emil.linksy.util.TokenManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -10,7 +10,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.MotionEvent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
@@ -35,6 +34,7 @@ import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
+import com.emil.linksy.util.colorByRating
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
@@ -87,16 +87,8 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
             }
 
             val rating = pageData.rating
-            if (rating<0) binding.tvRating.text = "-"
-            else binding.tvRating.text = rating.toString()
-
-            if (rating<2.99 && rating>0)
-                ViewCompat.setBackgroundTintList(binding.ivRating, ColorStateList.valueOf(
-                    ContextCompat.getColor(this, R.color.red)))
-            if(rating >= 3.0 && rating < 4.0)  ViewCompat.setBackgroundTintList(binding.ivRating, ColorStateList.valueOf(
-                ContextCompat.getColor(this, R.color.yellow)))
-            if(rating >=4)  ViewCompat.setBackgroundTintList(binding.ivRating, ColorStateList.valueOf(
-                ContextCompat.getColor(this, R.color.green)))
+            binding.tvRating.text = rating.toString()
+            binding.ivRating.colorByRating(rating)
             binding.tvSubscribers.text = pageData.subscribersCount.toString()
             binding.tvDescription.text = pageData.description
             val isSubscriber = pageData.isSubscriber
@@ -152,14 +144,13 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
                                 setSubmitAction()
                                    }
                                }
-            if (pageData.type == ChannelType.PRIVATE && pageData.isSubscriber && pageData.ownerId!=userId){
+                if (pageData.type == ChannelType.PRIVATE && pageData.isSubscriber && pageData.ownerId!=userId){
                 binding.btSubmit.hide()
                 binding.btSub.show()
                 binding.btSub.setOnClickListener {
                    setUnSubscribeAction()
-                }
-            }
-
+                    }
+                 }
                  if(pageData.type == ChannelType.PRIVATE && pageData.isSubmitted){
                      binding.btSubmit.show()
                      binding.btSub.hide()
@@ -178,11 +169,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
                     }
                 }
 
-
-
-
         }
-
            getData()
         binding.swipeRefreshLayout.setOnRefreshListener {
             getData()

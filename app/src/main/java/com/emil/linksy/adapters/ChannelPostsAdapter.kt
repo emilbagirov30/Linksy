@@ -37,6 +37,7 @@ import com.emil.linksy.presentation.ui.page.ChannelPageActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
+import com.emil.linksy.util.colorByRating
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showMenu
@@ -47,8 +48,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,private val context: Context,private val tokenManager: TokenManager,private val channelViewModel: ChannelViewModel,
-    val userId:Long,private val channelId:Long = -100,private val channelPageActivity: ChannelPageActivity?=null,private val channelPostsFeedFragment:ChannelPostsFeedFragment? = null
+class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,
+                          private val context: Context,
+                          private val tokenManager: TokenManager,
+                          private val channelViewModel: ChannelViewModel,
+                          val userId:Long,
+                          private val channelId:Long = -100,
+                          private val channelPageActivity: ChannelPageActivity?=null,
+                          private val channelPostsFeedFragment:ChannelPostsFeedFragment? = null
 ): RecyclerView.Adapter<ChannelPostsAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -79,8 +86,8 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
         private val deleteScoreButton = itemView.findViewById<ImageButton>(R.id.ib_delete_score)
         val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
-        @SuppressLint("SuspiciousIndentation", "SetTextI18n")
         fun bind(post:ChannelPostResponse){
+
             if (post.channelAvatarUrl !="null"){
                 Glide.with(context)
                     .load(post.channelAvatarUrl)
@@ -171,17 +178,14 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                     }
 
                 }
-            } else   audioLinearLayout.hide()
+            } else audioLinearLayout.hide()
 
-                   var rating = post.averageRating
+
+
+                val rating = post.averageRating
                 ratingTextView.text = rating.toString()
-            if (rating<2.99 && rating>0)
-                ViewCompat.setBackgroundTintList(ratingImageView, ColorStateList.valueOf(
-                    ContextCompat.getColor(context, R.color.red)))
-            if(rating >= 3.0 && rating < 4.0)  ViewCompat.setBackgroundTintList(ratingImageView, ColorStateList.valueOf(
-                ContextCompat.getColor(context, R.color.yellow)))
-            if(rating >=4)  ViewCompat.setBackgroundTintList(ratingImageView, ColorStateList.valueOf(
-                ContextCompat.getColor(context, R.color.green)))
+                ratingImageView.colorByRating(rating)
+
                   if (post.options!=null){
                       pollLinearLayout.show()
                       pollTitleTextView.text = post.pollTitle
@@ -189,7 +193,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,privat
                       optionRecyclerView.adapter = OptionsAdapter(post.isVoted,post.options!!,channelViewModel,tokenManager)
                   } else  pollLinearLayout.hide()
 
-if (userId == post.authorId) {
+    if (userId == post.authorId) {
     editPostButton.show()
     editPostButton.setOnClickListener {
         it.showMenu(context, editAction = {
@@ -219,7 +223,7 @@ if (userId == post.authorId) {
         })
 
     }
-} else editPostButton.hide()
+}   else editPostButton.hide()
             commentTextView.text = post.commentsCount.toString()
             commentImageView.setOnClickListener {
                 it.anim()
@@ -306,9 +310,10 @@ if (userId == post.authorId) {
 
 
     private fun addScore (postId: Long,score:Int){
-        channelViewModel.addScore(tokenManager.getAccessToken(),postId, score, onSuccess = {  channelPageActivity?.getData()
-        channelPostsFeedFragment?.getPosts()
-
+        channelViewModel.addScore(tokenManager.getAccessToken(),postId, score,
+            onSuccess = {
+            channelPageActivity?.getData()
+            channelPostsFeedFragment?.getPosts()
         })
     }
 
@@ -316,9 +321,7 @@ if (userId == post.authorId) {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_channel_posts, parent, false)
         return ChatViewHolder(view)
     }
-
     override fun getItemCount(): Int = postlist.size
-
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         holder.bind (postlist[position])

@@ -23,7 +23,11 @@ class PeopleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_people, container, false)
+       return inflater.inflate(R.layout.fragment_people, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         tabLayout = view.findViewById(R.id.tl_people_navigation)
         val viewPager = view.findViewById<ViewPager2>(R.id.vp_people_pager)
         val pagerAdapter = PeoplePagerAdapter(this)
@@ -38,8 +42,6 @@ class PeopleFragment : Fragment() {
             }
         }.attach()
 
-
-        return view
     }
 
 }

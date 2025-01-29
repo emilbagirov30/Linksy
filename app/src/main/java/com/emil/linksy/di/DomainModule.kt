@@ -1,113 +1,113 @@
 package com.emil.linksy.di
 
-import com.emil.domain.usecase.AcceptUserToChannelUseCase
-import com.emil.domain.usecase.AddChannelPostCommentUseCase
-import com.emil.domain.usecase.AddCommentUseCase
-import com.emil.domain.usecase.AddLikeUseCase
-import com.emil.domain.usecase.AddMembersUseCase
-import com.emil.domain.usecase.AddScoreUseCase
-import com.emil.domain.usecase.AddToBlackListUseCase
-import com.emil.domain.usecase.AllUserDataUseCase
-import com.emil.domain.usecase.ChangePasswordUseCase
-import com.emil.domain.usecase.CheckIsGroupUseCase
-import com.emil.domain.usecase.ClearAllMessagesUseCase
-import com.emil.domain.usecase.ClearChatsUseCase
-import com.emil.domain.usecase.ConfirmCodeUseCase
-import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
-import com.emil.domain.usecase.ConnectToWebSocketUseCase
-import com.emil.domain.usecase.CreateChannelPostUseCase
-import com.emil.domain.usecase.CreateChannelUseCase
-import com.emil.domain.usecase.CreateGroupUseCase
-import com.emil.domain.usecase.CreateMomentUseCase
-import com.emil.domain.usecase.DeleteAvatarUseCase
-import com.emil.domain.usecase.DeleteChannelCommentUseCase
-import com.emil.domain.usecase.DeleteChannelPostUseCase
-import com.emil.domain.usecase.DeleteChatUseCase
-import com.emil.domain.usecase.DeleteCommentUseCase
-import com.emil.domain.usecase.DeleteLikeUseCase
-import com.emil.domain.usecase.DeleteMessageFromLocalDbUseCase
-import com.emil.domain.usecase.DeleteMessageUseCase
-import com.emil.domain.usecase.DeleteMomentUseCase
-import com.emil.domain.usecase.DeletePostUseCase
-import com.emil.domain.usecase.DeleteRequestUseCase
-import com.emil.domain.usecase.DeleteScoreUseCase
-import com.emil.domain.usecase.DisconnectFromWebSocketUseCase
-import com.emil.domain.usecase.EditGroupUseCase
-import com.emil.domain.usecase.EditMessageUseCase
-import com.emil.domain.usecase.FindChannelByLinkUseCase
-import com.emil.domain.usecase.FindChannelByNameUseCase
-import com.emil.domain.usecase.GetUserMomentsUseCase
-import com.emil.domain.usecase.GetUserPostsUseCase
-import com.emil.domain.usecase.FindUsersByLinkUseCase
-import com.emil.domain.usecase.FindUsersByUsernameUseCase
-import com.emil.domain.usecase.GetAllChannelsPostsUseCase
-import com.emil.domain.usecase.GetAllSubscriptionsPostsUseCase
-import com.emil.domain.usecase.GetAllUnseenMomentsUseCase
-import com.emil.domain.usecase.GetChannelManagementDataUseCase
-import com.emil.domain.usecase.GetChannelMembersUseCase
-import com.emil.domain.usecase.GetChannelPageDataUseCase
-import com.emil.domain.usecase.GetChannelPostCommentsUseCase
-import com.emil.domain.usecase.GetChannelPostsUseCase
-import com.emil.domain.usecase.GetChannelSubscriptionsRequestUseCse
-import com.emil.domain.usecase.GetChannelsUseCase
-import com.emil.domain.usecase.GetChatIdUseCase
-import com.emil.domain.usecase.GetCommentsUseCase
-import com.emil.domain.usecase.GetEveryoneOffTheBlacklistUseCase
-import com.emil.domain.usecase.GetGroupDataUseCase
-import com.emil.domain.usecase.GetGroupMembersUseCase
-import com.emil.domain.usecase.GetGroupSendersUseCase
-import com.emil.domain.usecase.GetMessageModeUseCase
-import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
-import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
-import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
-import com.emil.domain.usecase.GetOutsiderUserSubscriptionsUseCase
-import com.emil.domain.usecase.GetPostAppreciatedUseCase
-import com.emil.domain.usecase.GetPostLikesUseCase
-import com.emil.domain.usecase.GetRecommendationsUseCase
-import com.emil.domain.usecase.GetUserChatsFromLocalDb
-import com.emil.domain.usecase.GetUserChatsUseCase
-import com.emil.domain.usecase.GetUserMessagesByChat
-import com.emil.domain.usecase.GetUserMessagesByChatFromLocalDb
-import com.emil.domain.usecase.GetUserMessagesUseCase
-import com.emil.domain.usecase.GetUserPageDataUseCase
-import com.emil.domain.usecase.GetUserSubscribersUseCase
-import com.emil.domain.usecase.GetUserSubscriptionsUseCase
-import com.emil.domain.usecase.GetUserUnseenMomentsUseCase
-import com.emil.domain.usecase.InsertChatInLocalDbUseCase
-import com.emil.domain.usecase.InsertMessageInLocalDbUseCase
-import com.emil.domain.usecase.LeaveTheGroupUseCase
-import com.emil.domain.usecase.LoginUseCase
-import com.emil.domain.usecase.PublishPostUseCase
-import com.emil.domain.usecase.RefreshTokenUseCase
-import com.emil.domain.usecase.RegisterUseCase
-import com.emil.domain.usecase.RejectSubscriptionRequestUseCase
-import com.emil.domain.usecase.RemoveFromBlackListUseCase
-import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
-import com.emil.domain.usecase.ResendCodeUseCase
-import com.emil.domain.usecase.SendMessageUseCase
-import com.emil.domain.usecase.SendReportUseCase
-import com.emil.domain.usecase.SendStatusUseCase
-import com.emil.domain.usecase.SetMessageModeUseCase
-import com.emil.domain.usecase.SubmitRequestUseCase
-import com.emil.domain.usecase.SubscribeChannelUseCase
-import com.emil.domain.usecase.SubscribeToChatStatusUseCase
-import com.emil.domain.usecase.SubscribeToEditMessagesUseCase
-import com.emil.domain.usecase.SubscribeToMessagesDeleteUseCase
-import com.emil.domain.usecase.SubscribeToUserChatViewedUseCase
-import com.emil.domain.usecase.SubscribeToUserChatsCountUseCase
-import com.emil.domain.usecase.SubscribeToUserChatsUseCase
-import com.emil.domain.usecase.SubscribeToUserMessagesUseCase
-import com.emil.domain.usecase.SubscribeUseCase
-import com.emil.domain.usecase.UnsubscribeChannelUseCase
-import com.emil.domain.usecase.UnsubscribeUseCase
-import com.emil.domain.usecase.UpdateBirthdayUseCase
-import com.emil.domain.usecase.UpdateLinkUseCase
-import com.emil.domain.usecase.UpdateUsernameUseCase
-import com.emil.domain.usecase.UploadAvatarUseCase
-import com.emil.domain.usecase.UserProfileDataUseCase
-import com.emil.domain.usecase.ViewMomentUseCase
-import com.emil.domain.usecase.ViewedUseCase
-import com.emil.domain.usecase.VoteUseCase
+import com.emil.domain.usecase.channel.AcceptUserToChannelUseCase
+import com.emil.domain.usecase.channel.AddChannelPostCommentUseCase
+import com.emil.domain.usecase.people.AddCommentUseCase
+import com.emil.domain.usecase.people.AddLikeUseCase
+import com.emil.domain.usecase.chat.AddMembersUseCase
+import com.emil.domain.usecase.channel.AddScoreUseCase
+import com.emil.domain.usecase.user.AddToBlackListUseCase
+import com.emil.domain.usecase.settings.GetAllUserDataUseCase
+import com.emil.domain.usecase.settings.ChangePasswordUseCase
+import com.emil.domain.usecase.chat.CheckIsGroupUseCase
+import com.emil.domain.usecase.room.ClearAllMessagesUseCase
+import com.emil.domain.usecase.room.ClearChatsUseCase
+import com.emil.domain.usecase.auth.ConfirmCodeUseCase
+import com.emil.domain.usecase.auth.ConfirmPasswordRecoveryUseCase
+import com.emil.domain.usecase.websocket.ConnectToWebSocketUseCase
+import com.emil.domain.usecase.channel.CreateChannelPostUseCase
+import com.emil.domain.usecase.channel.CreateChannelUseCase
+import com.emil.domain.usecase.chat.CreateGroupUseCase
+import com.emil.domain.usecase.user.CreateMomentUseCase
+import com.emil.domain.usecase.settings.DeleteAvatarUseCase
+import com.emil.domain.usecase.channel.DeleteChannelCommentUseCase
+import com.emil.domain.usecase.channel.DeleteChannelPostUseCase
+import com.emil.domain.usecase.chat.DeleteChatUseCase
+import com.emil.domain.usecase.people.DeleteCommentUseCase
+import com.emil.domain.usecase.people.DeleteLikeUseCase
+import com.emil.domain.usecase.room.DeleteMessageFromLocalDbUseCase
+import com.emil.domain.usecase.message.DeleteMessageUseCase
+import com.emil.domain.usecase.user.DeleteMomentUseCase
+import com.emil.domain.usecase.user.DeletePostUseCase
+import com.emil.domain.usecase.channel.DeleteRequestUseCase
+import com.emil.domain.usecase.channel.DeleteScoreUseCase
+import com.emil.domain.usecase.websocket.DisconnectFromWebSocketUseCase
+import com.emil.domain.usecase.chat.EditGroupUseCase
+import com.emil.domain.usecase.message.EditMessageUseCase
+import com.emil.domain.usecase.channel.FindChannelByLinkUseCase
+import com.emil.domain.usecase.channel.FindChannelByNameUseCase
+import com.emil.domain.usecase.user.GetUserMomentsUseCase
+import com.emil.domain.usecase.user.GetUserPostsUseCase
+import com.emil.domain.usecase.people.FindUsersByLinkUseCase
+import com.emil.domain.usecase.people.FindUsersByUsernameUseCase
+import com.emil.domain.usecase.feed.GetAllChannelsPostsUseCase
+import com.emil.domain.usecase.feed.GetAllSubscriptionsPostsUseCase
+import com.emil.domain.usecase.feed.GetAllUnseenMomentsUseCase
+import com.emil.domain.usecase.channel.GetChannelManagementDataUseCase
+import com.emil.domain.usecase.channel.GetChannelMembersUseCase
+import com.emil.domain.usecase.channel.GetChannelPageDataUseCase
+import com.emil.domain.usecase.channel.GetChannelPostCommentsUseCase
+import com.emil.domain.usecase.channel.GetChannelPostsUseCase
+import com.emil.domain.usecase.channel.GetChannelSubscriptionsRequestUseCse
+import com.emil.domain.usecase.channel.GetChannelsUseCase
+import com.emil.domain.usecase.chat.GetChatIdUseCase
+import com.emil.domain.usecase.people.GetCommentsUseCase
+import com.emil.domain.usecase.settings.GetEveryoneOffTheBlacklistUseCase
+import com.emil.domain.usecase.chat.GetGroupDataUseCase
+import com.emil.domain.usecase.chat.GetGroupMembersUseCase
+import com.emil.domain.usecase.chat.GetGroupSendersUseCase
+import com.emil.domain.usecase.settings.GetMessageModeUseCase
+import com.emil.domain.usecase.people.GetOutsiderUserMomentsUseCase
+import com.emil.domain.usecase.people.GetOutsiderUserPostsUseCase
+import com.emil.domain.usecase.people.GetOutsiderUserSubscribersUseCase
+import com.emil.domain.usecase.people.GetOutsiderUserSubscriptionsUseCase
+import com.emil.domain.usecase.channel.GetPostAppreciatedUseCase
+import com.emil.domain.usecase.people.GetPostLikesUseCase
+import com.emil.domain.usecase.feed.GetRecommendationsUseCase
+import com.emil.domain.usecase.room.GetUserChatsFromLocalDb
+import com.emil.domain.usecase.user.GetUserChatsUseCase
+import com.emil.domain.usecase.message.GetUserMessagesByChat
+import com.emil.domain.usecase.room.GetUserMessagesByChatFromLocalDb
+import com.emil.domain.usecase.message.GetUserMessagesUseCase
+import com.emil.domain.usecase.people.GetUserPageDataUseCase
+import com.emil.domain.usecase.people.GetUserSubscribersUseCase
+import com.emil.domain.usecase.chat.GetUserSubscriptionsUseCase
+import com.emil.domain.usecase.feed.GetUserUnseenMomentsUseCase
+import com.emil.domain.usecase.room.InsertChatInLocalDbUseCase
+import com.emil.domain.usecase.room.InsertMessageInLocalDbUseCase
+import com.emil.domain.usecase.chat.LeaveTheGroupUseCase
+import com.emil.domain.usecase.auth.LoginUseCase
+import com.emil.domain.usecase.user.PublishPostUseCase
+import com.emil.domain.usecase.user.RefreshTokenUseCase
+import com.emil.domain.usecase.auth.RegisterUseCase
+import com.emil.domain.usecase.channel.RejectSubscriptionRequestUseCase
+import com.emil.domain.usecase.user.RemoveFromBlackListUseCase
+import com.emil.domain.usecase.auth.RequestPasswordRecoveryUseCase
+import com.emil.domain.usecase.auth.ResendCodeUseCase
+import com.emil.domain.usecase.message.SendMessageUseCase
+import com.emil.domain.usecase.user.SendReportUseCase
+import com.emil.domain.usecase.message.SendStatusUseCase
+import com.emil.domain.usecase.settings.SetMessageModeUseCase
+import com.emil.domain.usecase.channel.SubmitRequestUseCase
+import com.emil.domain.usecase.channel.SubscribeChannelUseCase
+import com.emil.domain.usecase.websocket.SubscribeToChatStatusUseCase
+import com.emil.domain.usecase.websocket.SubscribeToEditMessagesUseCase
+import com.emil.domain.usecase.websocket.SubscribeToMessagesDeleteUseCase
+import com.emil.domain.usecase.websocket.SubscribeToUserChatViewedUseCase
+import com.emil.domain.usecase.websocket.SubscribeToUserChatsCountUseCase
+import com.emil.domain.usecase.websocket.SubscribeToUserChatsUseCase
+import com.emil.domain.usecase.websocket.SubscribeToUserMessagesUseCase
+import com.emil.domain.usecase.people.SubscribeUseCase
+import com.emil.domain.usecase.channel.UnsubscribeChannelUseCase
+import com.emil.domain.usecase.people.UnsubscribeUseCase
+import com.emil.domain.usecase.settings.UpdateBirthdayUseCase
+import com.emil.domain.usecase.settings.UpdateLinkUseCase
+import com.emil.domain.usecase.settings.UpdateUsernameUseCase
+import com.emil.domain.usecase.settings.UploadAvatarUseCase
+import com.emil.domain.usecase.people.UserProfileDataUseCase
+import com.emil.domain.usecase.people.ViewMomentUseCase
+import com.emil.domain.usecase.message.ViewedUseCase
+import com.emil.domain.usecase.channel.VoteUseCase
 import org.koin.dsl.module
 
 
@@ -134,8 +134,8 @@ val domainModule = module {
     factory<UserProfileDataUseCase>{
        UserProfileDataUseCase(userRepository = get())
     }
-    factory<AllUserDataUseCase>{
-       AllUserDataUseCase(userRepository = get())
+    factory<GetAllUserDataUseCase>{
+       GetAllUserDataUseCase(userRepository = get())
     }
     factory<RefreshTokenUseCase>{
        RefreshTokenUseCase(tokenRepository = get())
@@ -272,10 +272,12 @@ val domainModule = module {
     }
 
     factory<GetChannelMembersUseCase>{
-        GetChannelMembersUseCase(channelRepository = get())}
+        GetChannelMembersUseCase(channelRepository = get())
+    }
 
     factory<GetChannelPostsUseCase>{
-       GetChannelPostsUseCase(channelRepository = get())}
+       GetChannelPostsUseCase(channelRepository = get())
+    }
 
 
     factory<GetChannelSubscriptionsRequestUseCse>{
@@ -296,9 +298,11 @@ val domainModule = module {
         SubscribeChannelUseCase(channelRepository = get())
     }
     factory<UnsubscribeChannelUseCase>{
-        UnsubscribeChannelUseCase(channelRepository = get())}
+        UnsubscribeChannelUseCase(channelRepository = get())
+    }
     factory<VoteUseCase>{
-      VoteUseCase(channelRepository = get())}
+      VoteUseCase(channelRepository = get())
+    }
 
         factory<FindChannelByLinkUseCase>{
        FindChannelByLinkUseCase(channelRepository = get())
@@ -484,7 +488,6 @@ val domainModule = module {
     factory<GetGroupSendersUseCase>{
         GetGroupSendersUseCase(chatRepository = get())
     }
-
 }
 
 

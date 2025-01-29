@@ -1,7 +1,6 @@
 package com.emil.domain.model
 
 import okhttp3.MultipartBody
-import retrofit2.http.Part
 
 class ChannelPostData(
     val channelId:Long,

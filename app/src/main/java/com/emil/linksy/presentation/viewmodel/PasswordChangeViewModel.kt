@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.PasswordChangeData
-import com.emil.domain.usecase.ChangePasswordUseCase
+import com.emil.domain.usecase.settings.ChangePasswordUseCase
 import com.emil.linksy.util.TokenManager
 import kotlinx.coroutines.launch
 

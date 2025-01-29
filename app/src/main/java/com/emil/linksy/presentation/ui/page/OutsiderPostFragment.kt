@@ -51,22 +51,19 @@ class OutsiderPostFragment: Fragment() {
     }
 
     @SuppressLint("MissingInflatedId")
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        val view = inflater.inflate(R.layout.fragment_outsider_post, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+       return inflater.inflate(R.layout.fragment_outsider_post, container, false)
+    }
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         postsRecyclerView = view.findViewById(R.id.rv_posts)
         emptyTextView = view.findViewById(R.id.tv_empty_content)
         loading = view.findViewById(R.id.pb_loading)
         postsRecyclerView.layoutManager = LinearLayoutManager(context)
         updatePosts()
-
-
-
-        return view
     }
+
     private fun updatePosts (){
         postViewModel.getOutsiderUserPosts(tokenManager.getAccessToken(),userId, onSuccess = {
             loading.hide()

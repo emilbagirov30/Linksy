@@ -35,9 +35,9 @@ class CreateChannelActivity : AppCompatActivity() {
         binding = ActivityCreateChannelBinding.inflate(layoutInflater)
         val view = binding.root
 
-binding.tb.setNavigationOnClickListener {
-    finish()
-}
+        binding.tb.setNavigationOnClickListener {
+           finish()
+        }
         val pickImageLauncher = createContentPickerForActivity(this) { uri ->
             handleSelectedImage(uri)
             imageUri = uri

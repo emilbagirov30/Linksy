@@ -32,7 +32,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.MessageStatus
-import com.emil.domain.usecase.CheckIsGroupUseCase
 import com.emil.linksy.adapters.MessagesAdapter
 import com.emil.linksy.presentation.custom_view.CustomAudioWave
 import com.emil.linksy.presentation.ui.page.UserPageActivity
@@ -86,7 +85,6 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var pickImageLauncher:ActivityResultLauncher<String>
     private lateinit var pickVideoLauncher:ActivityResultLauncher<String>
     private lateinit var pickAudioLauncher:ActivityResultLauncher<String>
-    private val checkIsGroupUseCase: CheckIsGroupUseCase by inject()
     private var isPlayingAudio = false
     private var isRecording = false
     private var imageUri: Uri? = null
@@ -106,9 +104,6 @@ class MessageActivity : AppCompatActivity() {
     private val tokenManager: TokenManager by inject()
     private var userId:Long = -1
     private var chatId:Long = -100
-    @SuppressLint("MissingInflatedId", "SuspiciousIndentation", "SetTextI18n",
-        "NotifyDataSetChanged"
-    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
@@ -156,15 +151,11 @@ class MessageActivity : AppCompatActivity() {
         } else -100
         val confirmed = intent.getBooleanExtra("CONFIRMED",false)
         val isGroup = intent.getBooleanExtra("ISGROUP",false)
-
-
-
         if(confirmed) confirmedImageView.show() else confirmedImageView.hide()
         if(isGroup) {
-            if (avatarUrl == "null" && isGroup) avatarImageView.setImageResource(R.drawable.default_group_avatar)
+            if (avatarUrl == "null") avatarImageView.setImageResource(R.drawable.default_group_avatar)
             memberCountTextView.show()
             chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId)
-
             chatViewModel.getGroupSenders(tokenManager.getAccessToken(), chatId, onError = {
                 showToast(this,R.string.error_loading_data)
             })
@@ -176,7 +167,6 @@ class MessageActivity : AppCompatActivity() {
                     viewMessage(chatId)
                 }
             }
-
             chatViewModel.memberList.observe(this) { ml ->
                 memberCountTextView.text = "${ml.size} ${getString(R.string.members)}"
                 messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(), chatId,
@@ -184,7 +174,6 @@ class MessageActivity : AppCompatActivity() {
                         subscribeToUpdates(chatId)
                     })
             }
-
 
         }   else  {
 
@@ -212,8 +201,7 @@ class MessageActivity : AppCompatActivity() {
             }
 
         }
-
-                messageViewModel.status.observe(this){status ->
+                    messageViewModel.status.observe(this){status ->
                     when(status.status){
                         MessageStatus.TEXT -> statusTextView.text = "${status.name} ${getString(R.string.writes)}.."
                         MessageStatus.VOICE -> statusTextView.text = "${status.name} ${getString(R.string.recording_voice)}.."
@@ -261,8 +249,8 @@ class MessageActivity : AppCompatActivity() {
             override fun afterTextChanged(p0: Editable?) {} }
             messageEditText.addTextChangedListener(textWatcher)
 
-            sendButton.setOnClickListener {
-                 it.anim()
+            sendButton.setOnClickListener { view->
+                 view.anim()
                  if (isRecording){
                      stopRecording()
                      val recordFile = audioRecorderManager.getRecordedFile()
@@ -275,7 +263,6 @@ class MessageActivity : AppCompatActivity() {
                 val voicePart = voiceUri?.let { createVoiceFilePart(this, it) }
                 messageViewModel.sendMessage(tokenManager.getAccessToken(),recipientId,chatId,text,imagePart,videoPart,audioPart,voicePart,
                     onSuccess = {clear()})
-
             }
 
             recordButton.setOnClickListener {
@@ -286,7 +273,6 @@ class MessageActivity : AppCompatActivity() {
             }
 
          deleteVoice.setOnClickListener { stopRecording() }
-
 
           pickImageLauncher = createContentPickerForActivity(this) { uri ->
               handleSelectedImage(uri)
@@ -310,8 +296,6 @@ class MessageActivity : AppCompatActivity() {
         }
 
         attachImageButton.setOnClickListener { showPopup(it)}
-
-
         messageRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled( chatList: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled( chatList, dx, dy)
@@ -366,6 +350,7 @@ class MessageActivity : AppCompatActivity() {
                 sendButton.hide()
                 recordButton.show()
             }
+            pictureFrameLayout.hide()
             imageUri = null
         }
 
@@ -449,7 +434,6 @@ class MessageActivity : AppCompatActivity() {
     }
 
     private fun startProgressAudioUpdate() {
-
         CoroutineScope(Dispatchers.Main).launch {
             while (mediaPlayerAudio.isPlaying) {
                 val currentPosition = mediaPlayerAudio.currentPosition
@@ -463,7 +447,6 @@ class MessageActivity : AppCompatActivity() {
 
 
 
-
     @SuppressLint("InflateParams")
     private fun showPopup(anchor: View) {
         val inflater = LayoutInflater.from(this)
@@ -473,7 +456,6 @@ class MessageActivity : AppCompatActivity() {
 
         popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         val popupHeight = popupView.measuredHeight
-
 
         val xOffset = 0
         val yOffset = -popupHeight - anchor.height - 10
@@ -570,6 +552,8 @@ class MessageActivity : AppCompatActivity() {
         recordButton.show()
         voiceLinearLayout.hide()
         mediaLinearLayout.hide()
+        videoFrameLayout.hide()
+        pictureFrameLayout.hide()
         secondsElapsed=0
         messageEditText.setText("")
         audioWaveView.hide()
@@ -583,9 +567,9 @@ class MessageActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //mediaPlayerAudio.stop()
-       // mediaPlayerAudio.reset()
-      messageViewModel.disconnectFromWebSocket()
+        mediaPlayerAudio.stop()
+        mediaPlayerAudio.reset()
+        messageViewModel.disconnectFromWebSocket()
 
     }
 

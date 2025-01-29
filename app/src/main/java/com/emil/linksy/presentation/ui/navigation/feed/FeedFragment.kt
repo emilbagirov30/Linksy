@@ -56,17 +56,6 @@ class FeedFragment : Fragment() {
                else
                binding.rvRecommendations.adapter = RecommendationsAdapter(list,requireActivity())
            }
-
-
-
-
-
-
-
-
-
-
-
         }
     }
 }

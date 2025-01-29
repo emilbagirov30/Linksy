@@ -2,8 +2,7 @@ package com.emil.linksy.presentation.ui.settings
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.content.res.Configuration
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,15 +12,11 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.DialogFragment
-
-import com.emil.linksy.util.LocaleManager
-
-
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
+
 
 
 class AppSettingsDialogFragment (): DialogFragment() {
@@ -39,7 +34,6 @@ class AppSettingsDialogFragment (): DialogFragment() {
         val languages = resources.getStringArray(R.array.languages_array)
         val spinner = view.findViewById<Spinner>(R.id.language_spinner)
         var selectedLanguage = language
-        val chipGroup = view.findViewById<ChipGroup>(R.id.chip_group)
         val chipLight = view.findViewById<Chip>(R.id.chip_light)
         val chipDark = view.findViewById<Chip>(R.id.chip_dark)
         var currentTheme = sharedPref.getString("theme", "light")

@@ -9,9 +9,9 @@ data class ChatLocal(
     val displayName: String,
     val confirmed:Boolean,
     val lastMessage: String,
-    val dateLast: String,    val unreadMessagesCount:Long?
+    val dateLast: String,
+    val unreadMessagesCount:Long?
 )
-
 
 fun ChatLocal.toResponseModel():ChatResponse{
    return ChatResponse(id,companionId,senderId,isGroup, avatarUrl, displayName,confirmed, lastMessage, dateLast,unreadMessagesCount)

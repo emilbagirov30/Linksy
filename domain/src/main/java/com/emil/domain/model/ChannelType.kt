@@ -1,6 +1,3 @@
 package com.emil.domain.model
 
-enum class ChannelType (){
-    PRIVATE,
-    PUBLIC
-}
+enum class ChannelType{ PRIVATE, PUBLIC }

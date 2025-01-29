@@ -17,7 +17,6 @@ import com.emil.linksy.presentation.ui.FullScreenMomentDialogFragment
 import com.emil.linksy.presentation.ui.navigation.feed.SubscriptionsPostsFeedFragment
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.TokenManager
-import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 
 import com.emil.presentation.databinding.RvItemUnseenMomentBinding

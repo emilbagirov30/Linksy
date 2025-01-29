@@ -42,7 +42,7 @@ class ChannelPostsFeedFragment : Fragment() {
        binding.rvPosts.layoutManager = LinearLayoutManager(requireActivity())
         val sharedPref: SharedPreferences = requireActivity().getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
-          getPosts()
+        getPosts()
         binding.swipeRefreshLayout.setOnRefreshListener {
             getPosts()
         }

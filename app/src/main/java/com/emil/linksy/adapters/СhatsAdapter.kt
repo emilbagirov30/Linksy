@@ -2,12 +2,10 @@ package com.emil.linksy.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -52,24 +50,25 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
           val lastMessage = chat.lastMessage
           val date = chat.dateLast
           if (chat.confirmed) confirmedImageView.show() else confirmedImageView.hide()
+
           if (avatarUrl !="null"){
               Glide.with(context)
                   .load(avatarUrl)
                   .apply(RequestOptions.circleCropTransform())
                   .into(avatarImageView)
-          }else{
-              if (isGroup)
-                  avatarImageView.setBackgroundResource(R.drawable.default_group_avatar)
-
+          } else {
+              if (isGroup) avatarImageView.setBackgroundResource(R.drawable.default_group_avatar)
+                   else avatarImageView.setBackgroundResource(R.drawable.default_avatar)
           }
 
           if (chat.unreadMessagesCount!=null && chat.unreadMessagesCount!!>0){
               countLayout.show()
               countTextView.text = chat.unreadMessagesCount.toString()
-          }else    countLayout.hide()
+          }else countLayout.hide()
 
           nameTextView.text = name
           dateTextView.text = date.ifEmpty { context.getString(R.string.new_) }
+
           if (lastMessage.isNotEmpty()) lastMessageTextView.text = lastMessage else {
               lastMessageTextView.setTextColor(ContextCompat.getColor(context,R.color.green))
               lastMessageTextView.text = context.getString(R.string.attachment)
@@ -100,7 +99,6 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
                       }
                   }
               )
-
 
               true
           }

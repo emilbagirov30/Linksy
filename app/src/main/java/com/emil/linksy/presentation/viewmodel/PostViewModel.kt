@@ -9,18 +9,17 @@ import com.emil.domain.model.CommentData
 import com.emil.domain.model.CommentResponse
 import com.emil.domain.model.PostData
 import com.emil.domain.model.PostResponse
-import com.emil.domain.model.UserProfileData
 import com.emil.domain.model.UserResponse
-import com.emil.domain.usecase.AddCommentUseCase
-import com.emil.domain.usecase.AddLikeUseCase
-import com.emil.domain.usecase.DeleteCommentUseCase
-import com.emil.domain.usecase.DeleteLikeUseCase
-import com.emil.domain.usecase.DeletePostUseCase
-import com.emil.domain.usecase.GetCommentsUseCase
-import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
-import com.emil.domain.usecase.GetPostLikesUseCase
-import com.emil.domain.usecase.GetUserPostsUseCase
-import com.emil.domain.usecase.PublishPostUseCase
+import com.emil.domain.usecase.people.AddCommentUseCase
+import com.emil.domain.usecase.people.AddLikeUseCase
+import com.emil.domain.usecase.people.DeleteCommentUseCase
+import com.emil.domain.usecase.people.DeleteLikeUseCase
+import com.emil.domain.usecase.user.DeletePostUseCase
+import com.emil.domain.usecase.people.GetCommentsUseCase
+import com.emil.domain.usecase.people.GetOutsiderUserPostsUseCase
+import com.emil.domain.usecase.people.GetPostLikesUseCase
+import com.emil.domain.usecase.user.GetUserPostsUseCase
+import com.emil.domain.usecase.user.PublishPostUseCase
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
@@ -30,11 +29,11 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
                      private val getOutsiderUserPostsUseCase: GetOutsiderUserPostsUseCase,
                      private val deletePostUseCase: DeletePostUseCase,
                      private val addLikeUseCase: AddLikeUseCase,
-    private  val addCommentUseCase: AddCommentUseCase,
-    private val deleteLikeUseCase: DeleteLikeUseCase,
-    private val getCommentsUseCase: GetCommentsUseCase,
-    private val deleteCommentUseCase: DeleteCommentUseCase,
-    private val getPostLikesUseCase: GetPostLikesUseCase
+                     private  val addCommentUseCase: AddCommentUseCase,
+                     private val deleteLikeUseCase: DeleteLikeUseCase,
+                     private val getCommentsUseCase: GetCommentsUseCase,
+                     private val deleteCommentUseCase: DeleteCommentUseCase,
+                     private val getPostLikesUseCase: GetPostLikesUseCase
 ):ViewModel() {
 
     private val _postList = MutableLiveData<List<PostResponse>> ()
@@ -46,11 +45,6 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
 
     private val _likesList = MutableLiveData<List<UserResponse>> ()
     val likesList: LiveData<List<UserResponse>> = _likesList
-
-
-
-
-
 
     fun publishPost (token:String, postId: Long?,postText:String,
                      oldImageUrl:String?,

@@ -26,7 +26,6 @@ import com.emil.domain.repository.PostRepository
 import com.emil.domain.repository.TokenRepository
 import com.emil.domain.repository.UserRepository
 import com.emil.domain.repository.WebSocketRepository
-import com.emil.linksy.app.service.TokenService
 import org.koin.dsl.module
 
 val dataModule = module {

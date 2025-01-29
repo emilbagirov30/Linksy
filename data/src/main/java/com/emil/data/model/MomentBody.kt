@@ -1,11 +1,12 @@
 package com.emil.data.model
 
 import com.emil.domain.model.MomentData
-import com.emil.domain.model.PostData
 import okhttp3.MultipartBody
 
-data class MomentBody(val image: MultipartBody.Part?=null, val video: MultipartBody.Part?=null,
-                 val audio: MultipartBody.Part?=null, val text:String?=null)
+data class MomentBody(val image: MultipartBody.Part?=null,
+                      val video: MultipartBody.Part?=null,
+                      val audio: MultipartBody.Part?=null,
+                      val text:String?=null)
 
 
 

@@ -36,8 +36,8 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setCancelable(false)
-
     }
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {
@@ -46,48 +46,57 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
         }
     }
     @SuppressLint("MissingInflatedId", "SetTextI18n", "SuspiciousIndentation")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.relations_dialog, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+       return inflater.inflate(R.layout.relations_dialog, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val toolBar = view.findViewById<MaterialToolbar>(R.id.tb)
         val titleTextView = view.findViewById<MaterialTextView>(R.id.tv_title)
         userRecyclerView = view.findViewById(R.id.rv_users)
         val inviteButton = view.findViewById<MaterialButton>(R.id.bt_invite)
         userRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        if (type == RelationType.SUBSCRIBERS) {
-            titleTextView.text = "$username\n${getString(R.string.subscribers)}"
-            peopleViewModel.getOutsiderUserSubscribers(userId)
-        } else if (type == RelationType.SUBSCRIPTIONS) {
-            titleTextView.text = "$username\n${getString(R.string.subscriptions)}"
-            peopleViewModel.getOutsiderUserSubscriptions(userId)
-        } else if (type == RelationType.REQUESTS) {
-            titleTextView.text = getString(R.string.subscription_request)
-            channelViewModel.getChannelSubscriptionRequest(
-                tokenManager.getAccessToken(),
-                channelId = channelId,
-                onConflict = {})
-        } else if (type == RelationType.CHANNEL_MEMBERS) {
-            titleTextView.text = getString(R.string.subscribers)
-            channelViewModel.getChannelMembers(
-                tokenManager.getAccessToken(),
-                channelId,
-                onConflict = {})
-        } else if (type == RelationType.LIKES) {
-            titleTextView.text = getString(R.string.likes)
-            postViewModel.getLikes(
-                tokenManager.getAccessToken(),
-                postId = postId,
-                onSuccess = {},
-                onError = {})
-        } else if (type == RelationType.ADD_MEMBERS) {
-            inviteButton.show()
-            titleTextView.text = getString(R.string.addMembers)
-            peopleViewModel.getUserSubscribers(tokenManager.getAccessToken())
-
+        when (type) {
+            RelationType.SUBSCRIBERS -> {
+                titleTextView.text = "$username${getString(R.string.subscribers)}"
+                peopleViewModel.getOutsiderUserSubscribers(userId)
+            }
+            RelationType.SUBSCRIPTIONS -> {
+                titleTextView.text = "$username${getString(R.string.subscriptions)}"
+                peopleViewModel.getOutsiderUserSubscriptions(userId)
+            }
+            RelationType.REQUESTS -> {
+                titleTextView.text = getString(R.string.subscription_request)
+                channelViewModel.getChannelSubscriptionRequest(
+                    tokenManager.getAccessToken(),
+                    channelId = channelId,
+                    onConflict = {}
+                )
+            }
+            RelationType.CHANNEL_MEMBERS -> {
+                titleTextView.text = getString(R.string.subscribers)
+                channelViewModel.getChannelMembers(
+                    tokenManager.getAccessToken(),
+                    channelId,
+                    onConflict = {}
+                )
+            }
+            RelationType.LIKES -> {
+                titleTextView.text = getString(R.string.likes)
+                postViewModel.getLikes(
+                    tokenManager.getAccessToken(),
+                    postId = postId,
+                    onSuccess = {},
+                    onError = {}
+                )
+            }
+            RelationType.ADD_MEMBERS -> {
+                inviteButton.show()
+                titleTextView.text = getString(R.string.addMembers)
+                peopleViewModel.getUserSubscribers(tokenManager.getAccessToken())
+            }
         }
 
 
@@ -115,7 +124,7 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
                 userRecyclerView.adapter = adapter
                 inviteButton.setOnClickListener {
                     if (adapter.getSelectedUserIds().isNotEmpty())
-                    chatViewModel.addMembers(tokenManager.getAccessToken(),groupId, adapter.getSelectedUserIds(), onSuccess = {dismiss()})
+                        chatViewModel.addMembers(tokenManager.getAccessToken(),groupId, adapter.getSelectedUserIds(), onSuccess = {dismiss()})
                 }
 
             }else {
@@ -126,13 +135,9 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
 
 
         toolBar.setNavigationOnClickListener {
-           dismiss()
+            dismiss()
         }
-
-        return view
     }
-
-
 
 
 

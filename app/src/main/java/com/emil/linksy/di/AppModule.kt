@@ -1,6 +1,6 @@
 package com.emil.linksy.di
 
-import com.emil.domain.usecase.RefreshTokenUseCase
+import com.emil.domain.usecase.user.RefreshTokenUseCase
 import com.emil.linksy.app.service.TokenService
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
@@ -22,6 +22,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
+
     single { TokenManager(androidContext()) }
     single { RefreshTokenUseCase(get()) }
 
@@ -29,7 +30,9 @@ val appModule = module {
         RegistrationViewModel(registerUseCase = get())
     }
     viewModel <ConfirmCodeViewModel> {
-        ConfirmCodeViewModel(confirmUseCase = get(), resendCodeUseCase = get())
+        ConfirmCodeViewModel(
+            confirmUseCase = get(),
+            resendCodeUseCase = get())
     }
     viewModel <LoginViewModel> {
       LoginViewModel(loginUseCase = get(), tokenManager = get())
@@ -38,22 +41,31 @@ val appModule = module {
        RecoveryPasswordViewModel(requestPasswordRecoveryUseCase = get(), confirmPasswordRecoveryUseCase = get ())
     }
     viewModel <UserViewModel> {
-      UserViewModel(userProfileDataUseCase = get (), getEveryoneOffTheBlacklistUseCase = get(), getMessageModeUseCase = get(), setMessageModeUseCase = get())
+      UserViewModel(userProfileDataUseCase = get (),
+          getEveryoneOffTheBlacklistUseCase = get(),
+          getMessageModeUseCase = get(),
+          setMessageModeUseCase = get())
     }
     viewModel <PasswordChangeViewModel> {
-        PasswordChangeViewModel(changePasswordUseCase = get (), tokenManager = get())
+        PasswordChangeViewModel(
+            changePasswordUseCase = get (),
+            tokenManager = get())
     }
     viewModel <PostViewModel> {
-        PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get(), getOutsiderUserPostsUseCase = get(), deletePostUseCase = get(),
-            getCommentsUseCase = get(), addLikeUseCase = get(), addCommentUseCase = get(), deleteLikeUseCase = get(), deleteCommentUseCase = get(), getPostLikesUseCase = get())
+        PostViewModel(publishPostUseCase = get (), getUserPostsUseCase = get(), getOutsiderUserPostsUseCase = get(),
+            deletePostUseCase = get(), getCommentsUseCase = get(), addLikeUseCase = get(), addCommentUseCase = get(), deleteLikeUseCase = get(),
+            deleteCommentUseCase = get(), getPostLikesUseCase = get())
     }
 
     viewModel <MomentViewModel> {
-        MomentViewModel(createMomentUseCase = get(), getUserMomentsUseCase = get(), getOutsiderUserMomentsUseCase = get(), deleteMomentUseCase = get(), viewMomentUseCase = get(), getUserUnseenMomentsUseCase = get())
+        MomentViewModel(createMomentUseCase = get(), getUserMomentsUseCase = get(),
+            getOutsiderUserMomentsUseCase = get(), deleteMomentUseCase = get(),
+            viewMomentUseCase = get(), getUserUnseenMomentsUseCase = get())
     }
     viewModel <ProfileManagementViewModel> {
-       ProfileManagementViewModel(allUserDataUseCase = get (), uploadAvatarUseCase = get(),
-           updateBirthdayUseCase = get(), updateUsernameUseCase = get (), updateLinkUseCase = get (), deleteAvatarUseCase = get())
+       ProfileManagementViewModel(getAllUserDataUseCase = get (),
+           uploadAvatarUseCase = get(), updateBirthdayUseCase = get(), updateUsernameUseCase = get (), updateLinkUseCase = get (),
+           deleteAvatarUseCase = get())
     }
     viewModel <PeopleViewModel> {
         PeopleViewModel(findUsersByUsernameUseCase = get(), findUsersByLinkUseCase = get(), getUserPageDataUseCase = get(),
@@ -87,26 +99,46 @@ val appModule = module {
        }
 
     viewModel <ChatViewModel> {
-      ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get(),
-          subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get(), getGroupDataUseCase = get(), editGroupUseCase = get(), deleteChatUseCase = get(), clearChatsUseCase = get(),
-          addMembersUseCase = get(), leaveTheGroupUseCase = get(), getGroupSendersUseCase = get())
+      ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(),
+          insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get(),
+          subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get(), getGroupDataUseCase = get(), editGroupUseCase = get(),
+          deleteChatUseCase = get(), clearChatsUseCase = get(), addMembersUseCase = get(), leaveTheGroupUseCase = get(), getGroupSendersUseCase = get())
     }
 
     viewModel <ChannelViewModel>{
-       ChannelViewModel(createChannelUseCase = get(), getChannelsUseCase = get(), getChannelPageDataUseCase = get(),
-           get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get(),get())
+       ChannelViewModel(createChannelUseCase = get(),
+           getChannelsUseCase = get(),
+           getChannelPageDataUseCase = get(),
+           getChannelManagementDataUseCase = get(),
+           getChannelPostsUseCase = get(),
+           getChannelMembersUseCase = get(),
+           getPostAppreciatedUseCase = get(),
+           getChannelPostCommentsUseCase = get(),
+           getChannelSubscriptionsRequestUseCse = get(),
+           addScoreUseCase = get(),
+           acceptUserToChannelUseCase = get(),
+           addChannelPostCommentUseCase = get(),
+           deleteRequestUseCase = get(),
+           submitRequestUseCase = get(),
+           deleteScoreUseCase = get(),
+           voteUseCase = get(),
+           createChannelPostUseCase = get(),
+           deleteChannelPostUseCase = get(),
+           findChannelByLinkUseCase = get(),
+           findChannelByNameUseCase = get(),
+           subscribeChannelUseCase = get(),
+           unsubscribeChannelUseCase = get(),
+           deleteChannelCommentUseCase = get(),
+           rejectSubscriptionRequestUseCase = get()
+         )
     }
 
 
 
     viewModel <FeedViewModel> {
-       FeedViewModel(getAllSubscriptionsPostsUseCase = get(), getAllChannelsPostsUseCase = get(), getRecommendationsUseCase = get(), getAllUnseenMomentsUseCase = get())
+       FeedViewModel(getAllSubscriptionsPostsUseCase = get(), getAllChannelsPostsUseCase = get(),
+           getRecommendationsUseCase = get(), getAllUnseenMomentsUseCase = get())
     }
-
-
-
-
-
 
     single { TokenService() }
 }

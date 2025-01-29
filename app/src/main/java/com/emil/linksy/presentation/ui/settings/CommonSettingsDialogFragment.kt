@@ -16,14 +16,11 @@ import com.emil.linksy.adapters.SettingsAdapter
 import com.emil.linksy.adapters.model.SettingItem
 import com.emil.linksy.presentation.ui.auth.AuthActivity
 import com.emil.linksy.presentation.ui.auth.PrivacyPolicyActivity
-import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment.AddPostDialogListener
 import com.emil.linksy.presentation.ui.navigation.profile.BlackListDialogFragment
-import com.emil.linksy.util.TokenManager
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
-import org.koin.android.ext.android.inject
 
 class CommonSettingsDialogFragment: DialogFragment() {
 private lateinit var toolBar: MaterialToolbar

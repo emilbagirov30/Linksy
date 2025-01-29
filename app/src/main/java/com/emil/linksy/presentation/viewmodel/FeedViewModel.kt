@@ -8,16 +8,17 @@ import com.emil.domain.model.ChannelPostResponse
 import com.emil.domain.model.PostResponse
 import com.emil.domain.model.RecommendationResponse
 import com.emil.domain.model.UnseenSubscriptionMomentResponse
-import com.emil.domain.usecase.GetAllChannelsPostsUseCase
-import com.emil.domain.usecase.GetAllSubscriptionsPostsUseCase
-import com.emil.domain.usecase.GetRecommendationsUseCase
-import com.emil.domain.usecase.GetAllUnseenMomentsUseCase
+import com.emil.domain.usecase.feed.GetAllChannelsPostsUseCase
+import com.emil.domain.usecase.feed.GetAllSubscriptionsPostsUseCase
+import com.emil.domain.usecase.feed.GetRecommendationsUseCase
+import com.emil.domain.usecase.feed.GetAllUnseenMomentsUseCase
 import kotlinx.coroutines.launch
 
 class FeedViewModel(private val getAllChannelsPostsUseCase: GetAllChannelsPostsUseCase,
                     private val getAllSubscriptionsPostsUseCase: GetAllSubscriptionsPostsUseCase,
                     private val getRecommendationsUseCase: GetRecommendationsUseCase,
-                    private val getAllUnseenMomentsUseCase: GetAllUnseenMomentsUseCase):ViewModel() {
+                    private val getAllUnseenMomentsUseCase: GetAllUnseenMomentsUseCase
+):ViewModel() {
 
     private val _subscriptionPostList = MutableLiveData<List<PostResponse>> ()
     val subscriptionPostList: LiveData<List<PostResponse>> = _subscriptionPostList

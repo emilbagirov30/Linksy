@@ -2,8 +2,11 @@ package com.emil.linksy.util
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.res.ColorStateList
 import android.view.View
 import android.widget.EditText
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
@@ -24,12 +27,24 @@ fun FragmentActivity.replaceFragment(containerId:Int,fragment: Fragment,tag:Stri
         replace(containerId, fragment, tag)
     }
 }
+
+
+
+fun View.colorByRating(rating:Double){
+    if (rating<2.99 && rating>0)
+        ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(
+            ContextCompat.getColor(context, R.color.red)))
+    if(rating >= 3.0 && rating < 4.0)  ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(
+        ContextCompat.getColor(context, R.color.yellow)))
+    if(rating >=4)  ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(
+        ContextCompat.getColor(context, R.color.green)))
+}
+
 fun View.anim() {
     val scaleXDown = ObjectAnimator.ofFloat(this, View.SCALE_X, 1f, 0.5f)
     val scaleYDown = ObjectAnimator.ofFloat(this, View.SCALE_Y, 1f, 0.5f)
     val scaleXUp = ObjectAnimator.ofFloat(this, View.SCALE_X, 0.5f, 1f)
     val scaleYUp = ObjectAnimator.ofFloat(this, View.SCALE_Y, 0.5f, 1f)
-
     scaleXDown.duration = 200
     scaleYDown.duration = 200
     scaleXUp.duration = 200
@@ -52,4 +67,7 @@ fun View.hide (){
 }
 fun View.show (){
     this.visibility = View.VISIBLE
+}
+fun View.invisible (){
+    this.visibility = View.INVISIBLE
 }

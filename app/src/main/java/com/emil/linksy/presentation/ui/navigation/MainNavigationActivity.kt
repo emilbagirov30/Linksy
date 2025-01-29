@@ -111,10 +111,6 @@ messageViewModel.messageList.observe(this) { messagelist ->
         messageViewModel.insertMessage(m)
     }
 }
-
-
-
-
         chatViewModel.getUserChats(tokenManager.getAccessToken())
 
         chatViewModel.chatList.observe(this){chatList ->
@@ -130,8 +126,6 @@ messageViewModel.messageList.observe(this) { messagelist ->
                 }
             }
         }
-
-
         messageViewModel.getAllUserMessages(tokenManager.getAccessToken())
     }
     override fun onDestroy() {

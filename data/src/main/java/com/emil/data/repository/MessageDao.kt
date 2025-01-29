@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.emil.data.model.MessageLocalDb
-import com.emil.domain.model.MessageData
+
 
 @Dao
 interface MessageDao {

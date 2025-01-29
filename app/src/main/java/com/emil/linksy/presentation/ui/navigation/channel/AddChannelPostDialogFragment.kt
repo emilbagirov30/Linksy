@@ -67,8 +67,7 @@ class AddChannelPostDialogFragment: DialogFragment() {
             args.putString(URL_VIDEO,videoUrl)
             args.putString(URL_AUDIO,audioUrl)
             args.putString(POLL_TITLE, title)
-            if (options!=null)
-            args.putStringArrayList(OPTIONS,  ArrayList(options))
+            if (options!=null) args.putStringArrayList(OPTIONS,  ArrayList(options))
             fragment.arguments = args
             return fragment
         }

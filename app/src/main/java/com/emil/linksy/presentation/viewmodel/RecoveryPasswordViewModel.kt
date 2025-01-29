@@ -3,14 +3,15 @@ package com.emil.linksy.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.PasswordRecoveryData
-import com.emil.domain.usecase.ConfirmPasswordRecoveryUseCase
-import com.emil.domain.usecase.RequestPasswordRecoveryUseCase
+import com.emil.domain.usecase.auth.ConfirmPasswordRecoveryUseCase
+import com.emil.domain.usecase.auth.RequestPasswordRecoveryUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RecoveryPasswordViewModel (private val requestPasswordRecoveryUseCase: RequestPasswordRecoveryUseCase
-, private val confirmPasswordRecoveryUseCase: ConfirmPasswordRecoveryUseCase):ViewModel () {
+, private val confirmPasswordRecoveryUseCase: ConfirmPasswordRecoveryUseCase
+):ViewModel () {
 
     fun requestPasswordChange (email:String,onSuccess: () -> Unit,onIncorrect: () -> Unit,onError: () -> Unit,onEnd: () -> Unit){
         viewModelScope.launch {

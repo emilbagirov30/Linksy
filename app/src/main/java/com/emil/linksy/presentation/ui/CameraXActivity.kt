@@ -39,7 +39,7 @@ class CameraXActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_x)
         previewView = findViewById(R.id.previewView)
-         target = intent.getStringExtra("TARGET").toString()
+        target = intent.getStringExtra("TARGET").toString()
         if (hasCameraPermission()) {
             startCamera()
         } else {
@@ -145,8 +145,7 @@ class CameraXActivity : AppCompatActivity() {
                                 onQRCodeDetected(barcode.displayValue ?: "")
                             }
                         }
-                    }
-                    .addOnFailureListener {
+                    }.addOnFailureListener {
                         Log.e("QRCodeAnalyzer", "QR code scan failed", it)
                     }
                     .addOnCompleteListener {

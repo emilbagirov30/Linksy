@@ -1,7 +1,6 @@
 package com.emil.data.model
 
 import com.emil.domain.model.ChannelPostData
-import com.emil.domain.model.PostData
 import okhttp3.MultipartBody
 
 class ChannelPostBody (val channelId:Long=0,

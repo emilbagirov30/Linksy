@@ -8,18 +8,18 @@ import androidx.lifecycle.viewModelScope
 import com.emil.domain.model.ReportRequest
 import com.emil.domain.model.UserPageDataResponse
 import com.emil.domain.model.UserResponse
-import com.emil.domain.usecase.AddToBlackListUseCase
-import com.emil.domain.usecase.FindUsersByLinkUseCase
-import com.emil.domain.usecase.FindUsersByUsernameUseCase
-import com.emil.domain.usecase.GetOutsiderUserSubscriptionsUseCase
-import com.emil.domain.usecase.GetOutsiderUserSubscribersUseCase
-import com.emil.domain.usecase.GetUserPageDataUseCase
-import com.emil.domain.usecase.GetUserSubscribersUseCase
-import com.emil.domain.usecase.GetUserSubscriptionsUseCase
-import com.emil.domain.usecase.RemoveFromBlackListUseCase
-import com.emil.domain.usecase.SendReportUseCase
-import com.emil.domain.usecase.SubscribeUseCase
-import com.emil.domain.usecase.UnsubscribeUseCase
+import com.emil.domain.usecase.user.AddToBlackListUseCase
+import com.emil.domain.usecase.people.FindUsersByLinkUseCase
+import com.emil.domain.usecase.people.FindUsersByUsernameUseCase
+import com.emil.domain.usecase.people.GetOutsiderUserSubscriptionsUseCase
+import com.emil.domain.usecase.people.GetOutsiderUserSubscribersUseCase
+import com.emil.domain.usecase.people.GetUserPageDataUseCase
+import com.emil.domain.usecase.people.GetUserSubscribersUseCase
+import com.emil.domain.usecase.chat.GetUserSubscriptionsUseCase
+import com.emil.domain.usecase.user.RemoveFromBlackListUseCase
+import com.emil.domain.usecase.user.SendReportUseCase
+import com.emil.domain.usecase.people.SubscribeUseCase
+import com.emil.domain.usecase.people.UnsubscribeUseCase
 import kotlinx.coroutines.launch
 
 class PeopleViewModel(private val findUsersByUsernameUseCase: FindUsersByUsernameUseCase,

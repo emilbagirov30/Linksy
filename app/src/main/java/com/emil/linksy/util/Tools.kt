@@ -52,6 +52,7 @@ class Linksy {
         const val MOMENT_LONG_DURATION = 15
         const val MOMENT_SHORT_DURATION = 5
         const val REFRESH_DELAY = 5L
+        const val MAX_FILE_SIZE = 50 * 1024 * 1024
         val CUSTOM_SHIMMER: Shimmer? = Shimmer.ColorHighlightBuilder()
             .setBaseColor(Color.GRAY)
             .setHighlightColor(Color.WHITE)
@@ -75,6 +76,7 @@ fun togglePasswordVisibility(passwordEditText: EditText, toggleButton: ImageView
     passwordEditText.setSelection(passwordEditText.text.length)
 
 }
+
 enum class BackgroundState { ERROR, DEFAULT }
 
 fun changeEditTextBackgroundColor(context: Context, state: BackgroundState, vararg editTexts: EditText) {
@@ -114,10 +116,6 @@ enum class RelationType() {
     ADD_MEMBERS
 }
 
-
-
-
-
 enum class ContentType(val mimeType: String) {
     IMAGE("image/*"),
     VIDEO("video/*"),
@@ -135,7 +133,7 @@ private fun createFilePart(uri: Uri, context: Context, fieldName: String, mimeTy
         fileSize = fileDescriptor.length
         fileDescriptor.close()
 
-        if (fileSize > 100 * 1024 * 1024) {
+        if (fileSize > Linksy.MAX_FILE_SIZE) {
             showToast(context,R.string.big_file)
             return null
         }

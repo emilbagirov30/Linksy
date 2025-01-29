@@ -1,7 +1,6 @@
 package com.emil.data.model
 
 import com.emil.domain.model.MessageData
-import com.emil.domain.model.MomentData
 import okhttp3.MultipartBody
 
 data class MessageBody   (val recipientId:Long?=null,

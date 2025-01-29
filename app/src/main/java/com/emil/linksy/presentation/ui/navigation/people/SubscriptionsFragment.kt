@@ -31,11 +31,12 @@ class SubscriptionsFragment : Fragment() {
     }
 
     @SuppressLint("MissingInflatedId")
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-       val view = inflater.inflate(R.layout.fragment_subscriptions, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+       return inflater.inflate(R.layout.fragment_subscriptions, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         userRecyclerView = view.findViewById(R.id.rv_users)
         userRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -52,9 +53,7 @@ class SubscriptionsFragment : Fragment() {
         swipeRefreshLayout.setOnRefreshListener {
             getUserSubscriptions()
         }
-        return view
     }
-
 
     private fun getUserSubscriptions(){
         peopleViewModel.getUserSubscriptions(tokenManager.getAccessToken(), onSuccess = {

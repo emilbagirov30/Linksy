@@ -3,7 +3,6 @@ package com.emil.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.emil.domain.model.MessageLocal
-import com.emil.domain.model.MomentResponse
 
 @Entity(tableName = "messages")
 data class MessageLocalDb(

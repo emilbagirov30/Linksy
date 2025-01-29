@@ -2,7 +2,7 @@ package com.emil.data.model
 
 import com.emil.domain.model.ChatResponse
 
-class ChatResponseDto  (val chatId: Long=0, val companionId:Long?=null,val senderId:Long? = null, val isGroup:Boolean=false,val avatarUrl: String="",
+data class ChatResponseDto  (val chatId: Long=0, val companionId:Long?=null,val senderId:Long? = null, val isGroup:Boolean=false,val avatarUrl: String="",
                         val displayName: String="",val confirmed:Boolean = false, val lastMessage: String="",val dateLast:String="",
                         val unreadMessagesCount:Long?=null)
 

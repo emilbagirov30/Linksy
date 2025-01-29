@@ -1,5 +1,3 @@
 package com.emil.domain.model
 
-enum class MessageStatus {
-    TEXT,VOICE,IMAGE,NOTHING
-}
+enum class MessageStatus { TEXT,VOICE,IMAGE,NOTHING }

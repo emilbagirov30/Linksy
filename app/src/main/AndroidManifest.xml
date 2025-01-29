@@ -24,6 +24,7 @@
         tools:ignore="Instantiatable">
         <activity
             android:name="com.emil.linksy.presentation.ui.auth.PrivacyPolicyActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name="com.emil.linksy.presentation.ui.navigation.channel.EditChannelActivity"
@@ -91,7 +92,6 @@
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
