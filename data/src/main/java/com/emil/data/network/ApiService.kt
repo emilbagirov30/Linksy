@@ -362,4 +362,8 @@ interface ApiService {
 
     @POST ("user/api/people/add/report")
     suspend fun sendReport (@Header("Authorization") token:String,@Body reportBody: ReportBody): Response<Unit>
+
+
+    @GET("user/api/chats/group/senders/{id}")
+    suspend fun getGroupSenders(@Header("Authorization") token:String,@Path("id")groupId:Long): Response<List<UserResponseDto>>
 }

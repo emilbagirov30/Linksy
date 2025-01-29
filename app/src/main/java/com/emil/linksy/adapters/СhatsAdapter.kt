@@ -2,6 +2,7 @@ package com.emil.linksy.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -68,7 +70,10 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
 
           nameTextView.text = name
           dateTextView.text = date.ifEmpty { context.getString(R.string.new_) }
-          lastMessageTextView.text = lastMessage
+          if (lastMessage.isNotEmpty()) lastMessageTextView.text = lastMessage else {
+              lastMessageTextView.setTextColor(ContextCompat.getColor(context,R.color.green))
+              lastMessageTextView.text = context.getString(R.string.attachment)
+          }
 
           chatLayout.setOnClickListener {
               val startMessageActivity = Intent(context, MessageActivity::class.java)

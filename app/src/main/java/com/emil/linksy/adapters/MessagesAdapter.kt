@@ -43,9 +43,9 @@ import kotlinx.coroutines.launch
 class MessagesAdapter(private val messageList: List<MessageResponse>,
                       private val context: Context,
                       private val userId: Long,
-                      private val chatMemberList:List<UserResponse> = emptyList(),
+                      private val chatSensersList:List<UserResponse> = emptyList(),
                       private val messageViewModel: MessageViewModel,
-                       private val tokenManager: TokenManager
+                      private val tokenManager: TokenManager
 ):RecyclerView.Adapter<MessagesAdapter.MessageViewHolder>(){
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -218,11 +218,11 @@ mainHorizontalLayout.setOnClickListener {
 }
 
 
-if (chatMemberList.isNotEmpty()){
+if (chatSensersList.isNotEmpty()){
     senderAvatarImageView.show()
     senderUsernameTextView.show()
     val senderId = message.senderId
-    val sender = chatMemberList.find { it.id == senderId }
+    val sender = chatSensersList.find { it.id == senderId }
     val senderAvatarUrl = sender?.avatarUrl
     val senderUsername = sender?.username
     senderUsernameTextView.text = senderUsername

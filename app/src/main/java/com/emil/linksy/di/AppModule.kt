@@ -89,7 +89,7 @@ val appModule = module {
     viewModel <ChatViewModel> {
       ChatViewModel(getUserChatsUseCase = get(), getUserChatsFromLocalDb = get(), insertChatInLocalDbUseCase = get(), getChatIdUseCase = get(), createGroupUseCase = get(), getGroupMembersUseCase = get(),
           subscribeToUserChatsUseCase = get(), connectToWebSocketUseCase = get(), getGroupDataUseCase = get(), editGroupUseCase = get(), deleteChatUseCase = get(), clearChatsUseCase = get(),
-          addMembersUseCase = get(), leaveTheGroupUseCase = get())
+          addMembersUseCase = get(), leaveTheGroupUseCase = get(), getGroupSendersUseCase = get())
     }
 
     viewModel <ChannelViewModel>{

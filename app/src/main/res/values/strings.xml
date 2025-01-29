@@ -172,5 +172,6 @@
     <string name="recommendations">Recommendations</string>
     <string name="report">Report</string>
     <string name="complain">Report</string>
+    <string name="attachment">Attachment</string>
 
 </resources>

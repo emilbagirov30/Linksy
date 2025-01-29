@@ -14,7 +14,7 @@ data class ChatLocalDb(
     val avatarUrl: String="",
     val displayName: String="",
     val confirmed:Boolean = false,
-    val lastMessage: String?="",
+    val lastMessage: String="",
     val dateLast: String="",
     val unreadMessagesCount:Long? = null
 )

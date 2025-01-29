@@ -55,6 +55,7 @@ import com.emil.domain.usecase.GetCommentsUseCase
 import com.emil.domain.usecase.GetEveryoneOffTheBlacklistUseCase
 import com.emil.domain.usecase.GetGroupDataUseCase
 import com.emil.domain.usecase.GetGroupMembersUseCase
+import com.emil.domain.usecase.GetGroupSendersUseCase
 import com.emil.domain.usecase.GetMessageModeUseCase
 import com.emil.domain.usecase.GetOutsiderUserMomentsUseCase
 import com.emil.domain.usecase.GetOutsiderUserPostsUseCase
@@ -479,6 +480,9 @@ val domainModule = module {
     }
     factory<SendReportUseCase>{
         SendReportUseCase(peopleRepository = get())
+    }
+    factory<GetGroupSendersUseCase>{
+        GetGroupSendersUseCase(chatRepository = get())
     }
 
 }

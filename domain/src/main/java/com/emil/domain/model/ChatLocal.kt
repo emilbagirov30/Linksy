@@ -8,7 +8,7 @@ data class ChatLocal(
     val avatarUrl: String,
     val displayName: String,
     val confirmed:Boolean,
-    val lastMessage: String?,
+    val lastMessage: String,
     val dateLast: String,    val unreadMessagesCount:Long?
 )
 

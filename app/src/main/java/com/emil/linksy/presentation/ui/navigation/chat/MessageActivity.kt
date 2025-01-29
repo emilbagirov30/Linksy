@@ -163,22 +163,29 @@ class MessageActivity : AppCompatActivity() {
         if(isGroup) {
             if (avatarUrl == "null" && isGroup) avatarImageView.setImageResource(R.drawable.default_group_avatar)
             memberCountTextView.show()
-            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId, onError = {
+            chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId)
+
+            chatViewModel.getGroupSenders(tokenManager.getAccessToken(), chatId, onError = {
                 showToast(this,R.string.error_loading_data)
             })
-            chatViewModel.memberList.observe(this) { ml ->
-                memberCountTextView.text = "${ml.size} ${getString(R.string.members)}"
-                messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(),chatId, onSuccess = {
-                    subscribeToUpdates(chatId)
-                })
 
+            chatViewModel.sendersList.observe(this){sl->
                 messageViewModel.messageList.observe(this) { messageList ->
-                    messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, chatMemberList = ml,messageViewModel,tokenManager)
+                    messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, chatSensersList = sl,messageViewModel,tokenManager)
                     messageRecyclerView.scrollToPosition(messageList.size - 1)
                     viewMessage(chatId)
                 }
-
             }
+
+            chatViewModel.memberList.observe(this) { ml ->
+                memberCountTextView.text = "${ml.size} ${getString(R.string.members)}"
+                messageViewModel.getUserMessagesByChat(tokenManager.getAccessToken(), chatId,
+                    onSuccess = {
+                        subscribeToUpdates(chatId)
+                    })
+            }
+
+
         }   else  {
 
             if(chatId == -100L) {

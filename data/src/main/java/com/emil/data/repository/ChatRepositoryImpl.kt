@@ -60,6 +60,13 @@ class ChatRepositoryImpl(private val chatDao: ChatDao):ChatRepository {
 
     }
 
+    override suspend fun getGroupSenders(token: String, groupId: Long, ): Response<List<UserResponse>> {
+        val response = RetrofitInstance.apiService.getGroupSenders("Bearer $token",groupId)
+        return if (response.isSuccessful)
+            Response.success(response.body()?.toDomainModelList())
+        else Response.error(response.code(), response.errorBody()!!)
+    }
+
     override suspend fun getGroupData(token: String, groupId: Long): Response<GroupResponse> {
         val response = RetrofitInstance.apiService.getGroupData("Bearer $token",groupId)
         return if(response.isSuccessful)

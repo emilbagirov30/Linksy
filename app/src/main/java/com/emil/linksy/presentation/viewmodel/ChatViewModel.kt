@@ -21,6 +21,7 @@ import com.emil.domain.usecase.EditGroupUseCase
 import com.emil.domain.usecase.GetChatIdUseCase
 import com.emil.domain.usecase.GetGroupDataUseCase
 import com.emil.domain.usecase.GetGroupMembersUseCase
+import com.emil.domain.usecase.GetGroupSendersUseCase
 import com.emil.domain.usecase.GetUserChatsFromLocalDb
 import com.emil.domain.usecase.GetUserChatsUseCase
 
@@ -43,7 +44,8 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
    private val deleteChatUseCase: DeleteChatUseCase,
     private val clearChatsUseCase: ClearChatsUseCase,
     private val addMembersUseCase: AddMembersUseCase,
-    private val leaveTheGroupUseCase: LeaveTheGroupUseCase
+    private val leaveTheGroupUseCase: LeaveTheGroupUseCase,
+    private val getGroupSendersUseCase: GetGroupSendersUseCase
 ) : ViewModel(){
 
     private val _chatList = MutableLiveData<MutableList<ChatResponse>> ()
@@ -56,6 +58,12 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
 
     private val _memberList = MutableLiveData<List<UserResponse>> ()
     val memberList: LiveData<List<UserResponse>> = _memberList
+
+
+
+
+    private val _sendersList = MutableLiveData<List<UserResponse>> ()
+    val sendersList: LiveData<List<UserResponse>> = _sendersList
 
 
     fun getUserChats(token: String,onSuccess: ()->Unit = {},onError: ()->Unit = {}) {
@@ -125,7 +133,18 @@ class ChatViewModel(private val getUserChatsUseCase: GetUserChatsUseCase,
         }
     }
 
-
+    fun getGroupSenders(token:String, groupId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}){
+        viewModelScope.launch {
+            try {
+                val response = getGroupSendersUseCase.execute(token,groupId)
+                if(response.isSuccessful){
+                    _sendersList.value = response.body()
+                }
+            }catch (e:Exception){
+                onError()
+            }
+        }
+    }
 
 
     @SuppressLint("SuspiciousIndentation")

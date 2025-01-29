@@ -95,7 +95,7 @@
     <string name="add_participants">Добавьте участников</string>
     <string name="empty_field">Поле не может быть пустым</string>
     <string name="group_members">Участники группы</string>
-    <string name="members">участника</string>
+    <string name="members">участн.</string>
     <string name="create_channel">Создать канал</string>
     <string name="description">Описание</string>
     <string name="type">Тип</string>
@@ -167,4 +167,5 @@
     <string name="recommendations">Рекомендации</string>
     <string name="report">Пожаловаться</string>
     <string name="complain">Жалоба</string>
+    <string name="attachment">Вложение</string>
 </resources>

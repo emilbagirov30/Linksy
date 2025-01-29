@@ -16,6 +16,7 @@ interface ChatRepository {
     suspend fun isGroup(chatId: Long):Boolean
     suspend fun createGroup(token:String,groupData: GroupData):Response<Unit>
     suspend fun getGroupMembers(token:String,groupId: Long):Response<List<UserResponse>>
+    suspend fun getGroupSenders(token:String,groupId: Long):Response<List<UserResponse>>
     suspend fun getGroupData(token:String,groupId: Long):Response<GroupResponse>
     suspend fun editGroup(token:String, editData: GroupEditData):Response<Unit>
     suspend fun deleteChat(token:String, chatId:Long):Response<Unit>
