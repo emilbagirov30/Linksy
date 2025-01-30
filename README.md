@@ -26,6 +26,7 @@ Linksy предоставляет удобный и интуитивно пон�
 - Room
 - Shimmer,PhotoView,ExoPlayer
 - ViewBinding
+- Glide
 
 ---
 
@@ -56,4 +57,5 @@ Linksy provides a user-friendly and intuitive interface, making the app convenie
 - Moshi  
 - Room  
 - Shimmer, PhotoView, ExoPlayer  
-- ViewBinding  
+- ViewBinding
+-  Glide
