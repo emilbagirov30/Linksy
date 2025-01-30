@@ -12,6 +12,21 @@ Linksy - это современное приложение для общени�
 
 Linksy предоставляет удобный и интуитивно понятный интерфейс, который делает использование приложения комфортным и эффективным.
 
+## Технологический стек  
+- Kotlin
+- Многомодульная Чистая архитектура
+- MVVM
+- Koin
+- Coroutines, RxJava
+- Flow, LiveData
+- RecyclerView
+- EncryptedSharedPreferences
+- Retrofit
+- Moshi
+- Room
+- Shimmer,PhotoView,ExoPlayer
+- ViewBinding
+
 ---
 
 ## Linksy - Social Network for Android
@@ -27,3 +42,18 @@ Linksy is a modern application for communication and interaction. It allows user
 - **Multitasking** — easily switch between app sections.
 
 Linksy provides a user-friendly and intuitive interface, making the app convenient and efficient to use.
+
+## Tech Stack  
+- Kotlin  
+- Multi-module Clean Architecture  
+- MVVM  
+- Koin  
+- Coroutines, RxJava  
+- Flow, LiveData  
+- RecyclerView  
+- EncryptedSharedPreferences  
+- Retrofit  
+- Moshi  
+- Room  
+- Shimmer, PhotoView, ExoPlayer  
+- ViewBinding  
