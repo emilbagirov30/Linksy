@@ -56,12 +56,8 @@
     <color name="chip_background_default">#E7E7E7</color>
     <color name="chip_text_pressed">#FFFFFF</color>
     <color name="chip_text_default">#4D161616</color>
-    <color name="score_1">#40EB1717</color>
-    <color name="score_2">#40BF3232</color>
-    <color name="score_3">#40FFC107</color>
-    <color name="score_4">#407FDED5</color>
-    <color name="score_5">#400A6F66</color>
-
-
-
+    <color name="toolbar_back">#EFEEEE</color>
+    <color name="message_back">#FFFFFFFF</color>
+    <color name="message_et">#353535</color>
+    <color name="stranger_message">#E8E8E8</color>
 </resources>

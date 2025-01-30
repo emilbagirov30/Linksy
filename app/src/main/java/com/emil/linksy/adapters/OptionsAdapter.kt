@@ -1,13 +1,9 @@
 package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -18,8 +14,9 @@ import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.show
 import com.emil.presentation.R
 
-class OptionsAdapter(var isVoted:Boolean, val options:List<OptionResponse>, val channelViewModel: ChannelViewModel, val tokenManager: TokenManager): RecyclerView.Adapter<OptionsAdapter.OptionViewHolder>() {
-
+class OptionsAdapter(var isVoted:Boolean, val options:List<OptionResponse>,
+                     val channelViewModel: ChannelViewModel,
+                     val tokenManager: TokenManager): RecyclerView.Adapter<OptionsAdapter.OptionViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {

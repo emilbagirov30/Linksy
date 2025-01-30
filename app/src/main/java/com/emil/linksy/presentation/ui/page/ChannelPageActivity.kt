@@ -4,16 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,16 +56,14 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
         setContentView(view)
         val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
-         channelId = intent.getLongExtra("CHANNEL_ID",-1)
+        channelId = intent.getLongExtra("CHANNEL_ID",-1)
         loading = LoadingDialog(this)
         loading.show()
 
 
         channelViewModel.pageData.observe(this){pageData ->
-            println(pageData.confirmed)
             if (pageData.confirmed)
                 binding.ivConfirmed.show()
-
 
             binding.tvName.text = pageData.name
             val avatarUrl = pageData.avatarUrl

@@ -567,9 +567,7 @@ class MessageActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayerAudio.stop()
-        mediaPlayerAudio.reset()
-        messageViewModel.disconnectFromWebSocket()
+
 
     }
 

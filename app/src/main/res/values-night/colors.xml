@@ -11,7 +11,7 @@
     <color name="code_edit_text">#9E9D9D</color>
     <color name="textView_error_message">#E06D6D</color>
     <color name="red">#832020</color>
-    <color name="neutral">#926627</color>
+    <color name="neutral">#3AA7D9</color>
     <color name="gray">#777676</color>
     <color name="dark_gray">#BCBABA</color>
     <color name="soft_gray">#E8E8E8</color>
@@ -49,11 +49,15 @@
     <color name="blue">#3F51B5</color>
     <color name="purple">#B551C7</color>
     <color name="moment_progress">#C5471F</color>
-    <color name="user_message">#03A9F4</color>
+    <color name="user_message">#6D2178</color>
     <color name="yellow">#FFC107</color>
     <color name="option_background">#4D96D7D1</color>
     <color name="chip_background_pressed">#FF5722</color>
     <color name="chip_background_default">#E7E7E7</color>
     <color name="chip_text_pressed">#FFFFFF</color>
     <color name="chip_text_default">#4D000000</color>
+    <color name="toolbar_back">#2F2F2F</color>
+    <color name="message_back">#121212</color>
+    <color name="message_et">#353535</color>
+    <color name="stranger_message">#353535</color>
 </resources>

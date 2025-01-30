@@ -13,8 +13,7 @@ import com.emil.presentation.databinding.AddPollDialogBinding
 class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChannelPostDialogFragment): DialogFragment() {
     private lateinit var binding: AddPollDialogBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = AddPollDialogBinding.inflate(inflater, container, false)
         return binding.root
     }

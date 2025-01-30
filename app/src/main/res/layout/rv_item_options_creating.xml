@@ -13,6 +13,7 @@
         android:layout_weight="1"
         android:padding="8dp"
         android:maxLength="100"
+        android:fontFamily="@font/klukva"
         android:background="@drawable/rounded_edit_text"
         android:inputType="text"
         android:imeOptions="actionDone"

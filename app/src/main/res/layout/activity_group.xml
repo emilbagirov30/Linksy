@@ -98,7 +98,7 @@
         android:id="@+id/bt_apply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/neutral"
+        app:backgroundTint="@color/colorPrimary"
         android:enabled="false"
         android:layout_gravity="center"
         android:text="@string/apply" >
@@ -108,7 +108,7 @@
         android:id="@+id/bt_add_members"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/green"
+        app:backgroundTint="@color/neutral"
         android:layout_gravity="center"
         android:text="@string/addMembers" >
     </com.google.android.material.button.MaterialButton>

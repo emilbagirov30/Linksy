@@ -29,9 +29,6 @@
 
         </ImageView>
 
-
-
-
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -267,6 +264,8 @@
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/klukva"
         android:textSize="20sp"
+        android:textColorHint="@color/message_et"
+        android:textColor="@color/message_et"
         android:maxLines="6"
         android:layout_gravity="center"
         android:padding="8dp"
