@@ -60,7 +60,9 @@ class VoiceRecordDialog(private val dialog: Fragment) : Dialog(dialog.requireCon
                 ),
                 RECORD_AUDIO_PERMISSION_CODE
             )
+            dismiss()
         }
+
     }
 
     private fun hasAllPermissions(): Boolean {

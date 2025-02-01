@@ -31,6 +31,7 @@ import com.emil.domain.usecase.websocket.SubscribeToMessagesDeleteUseCase
 import com.emil.domain.usecase.websocket.SubscribeToUserChatViewedUseCase
 import com.emil.domain.usecase.websocket.SubscribeToUserMessagesUseCase
 import com.emil.domain.usecase.message.ViewedUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
@@ -289,7 +290,7 @@ class MessageViewModel(private val sendMessageUseCase: SendMessageUseCase,
     fun sendStatus( chatId: Long, userId:Long,status: MessageStatus, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
-                connectToWebSocketUseCase.invoke()
+               connectToWebSocketUseCase.invoke()
                sendStatusUseCase.invoke(Status(chatId,userId,status))
             }catch (e:Exception){
                 onError ()

@@ -35,6 +35,7 @@ import com.emil.linksy.util.createVideoFilePart
 import com.emil.linksy.util.createVoiceFilePart
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
+import com.emil.linksy.util.showToast
 import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
@@ -241,6 +242,9 @@ class AddPostDialogFragment: DialogFragment() {
                 onSuccess = {
                     dialog?.dismiss()
                     loading.dismiss()
+                }, onError = {
+                    loading.dismiss()
+                    context?.let { c -> showToast(c, R.string.failed_connection) }
                 })
         }
 

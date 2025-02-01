@@ -105,7 +105,9 @@ class PasswordChangeDialogFragment: DialogFragment() {
                     oldPasswordEditText.setText("")
                     newPasswordEditText.setText("")
                     confirmNewPasswordEditText.setText("")
-                }, onIncorrect = {wrongPasswordTextView.show()}, onError = {showToast(requireContext(), R.string.failed_connection)}, onEnd = {loading.dismiss()})
+                }, onIncorrect = { wrongPasswordTextView.show() },
+                    onError = {  context?.let { c -> showToast(c, R.string.failed_connection) }},
+                    onEnd = { loading.dismiss() })
             }
         }
     }

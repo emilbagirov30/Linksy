@@ -67,13 +67,11 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
           }else countLayout.hide()
 
           nameTextView.text = name
-          dateTextView.text = date.ifEmpty { context.getString(R.string.new_) }
-
-          if (lastMessage.isNotEmpty()) lastMessageTextView.text = lastMessage else {
+          if (lastMessage.isNotEmpty() || date.isEmpty()) lastMessageTextView.text = lastMessage else {
               lastMessageTextView.setTextColor(ContextCompat.getColor(context,R.color.green))
               lastMessageTextView.text = context.getString(R.string.attachment)
           }
-
+          dateTextView.text = date.ifEmpty { context.getString(R.string.new_) }
           chatLayout.setOnClickListener {
               val startMessageActivity = Intent(context, MessageActivity::class.java)
               startMessageActivity.putExtra("USER_ID",userId)

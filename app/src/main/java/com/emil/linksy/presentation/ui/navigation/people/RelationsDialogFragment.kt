@@ -60,11 +60,11 @@ class RelationsDialogFragment(val type: RelationType, val userId:Long=-1, val us
 
         when (type) {
             RelationType.SUBSCRIBERS -> {
-                titleTextView.text = "$username${getString(R.string.subscribers)}"
+                titleTextView.text = "$username\n${getString(R.string.subscribers)}"
                 peopleViewModel.getOutsiderUserSubscribers(userId)
             }
             RelationType.SUBSCRIPTIONS -> {
-                titleTextView.text = "$username${getString(R.string.subscriptions)}"
+                titleTextView.text = "$username\n${getString(R.string.subscriptions)}"
                 peopleViewModel.getOutsiderUserSubscriptions(userId)
             }
             RelationType.REQUESTS -> {

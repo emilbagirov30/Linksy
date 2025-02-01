@@ -54,7 +54,7 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
                      image: MultipartBody.Part?,
                      video: MultipartBody.Part?,
                      audio: MultipartBody.Part?,
-                     voice: MultipartBody.Part?,onSuccess: ()->Unit ){
+                     voice: MultipartBody.Part?,onSuccess: ()->Unit,onError: ()->Unit ){
         viewModelScope.launch {
             try{
                val response =publishPostUseCase.execute(token, PostData(postId,postText,oldImageUrl, oldVideoUrl, oldAudioUrl, oldVoiceIrl, image, video, audio, voice))
@@ -62,7 +62,7 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
                     onSuccess ()
                 }
             }catch (e:Exception){
-                Log.e("PostVM",e.toString())
+                    onError()
             }
         }
     }

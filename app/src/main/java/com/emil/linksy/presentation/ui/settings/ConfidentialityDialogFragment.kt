@@ -86,8 +86,8 @@ class ConfidentialityDialogFragment: DialogFragment() {
 
         applyButton.setOnClickListener {
             userViewModel.setMessageMode(tokenManager.getAccessToken(),mode, onSuccess = {
-                showToast(requireContext(),R.string.the_changes_have_been_applied)
-            }, onError = {})
+                context?.let { c -> showToast(c, R.string.the_changes_have_been_applied) }
+            }, onError = { context?.let { c -> showToast(c, R.string.failed_connection) }})
         }
     }
 }

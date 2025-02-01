@@ -12,20 +12,30 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.emil.domain.usecase.room.ClearAllMessagesUseCase
+import com.emil.domain.usecase.room.ClearChatsUseCase
 import com.emil.linksy.adapters.SettingsAdapter
 import com.emil.linksy.adapters.model.SettingItem
 import com.emil.linksy.presentation.ui.auth.AuthActivity
 import com.emil.linksy.presentation.ui.auth.PrivacyPolicyActivity
 import com.emil.linksy.presentation.ui.navigation.profile.BlackListDialogFragment
+import com.emil.linksy.util.TokenManager
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class CommonSettingsDialogFragment: DialogFragment() {
 private lateinit var toolBar: MaterialToolbar
 private lateinit var settingsRecyclerView: RecyclerView
     private var listener: UpdateDataListener? = null
+    private val tokenManager: TokenManager by inject()
+    private val clearChatsUseCase: ClearChatsUseCase by inject<ClearChatsUseCase> ()
+    private val clearAllMessagesUseCase: ClearAllMessagesUseCase by inject<ClearAllMessagesUseCase>()
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,7 +103,11 @@ private lateinit var settingsRecyclerView: RecyclerView
         val editor = sharedPref.edit()
         editor.putBoolean("remember", false)
         editor.apply()
-
+        tokenManager.clearTokens()
+        CoroutineScope(Dispatchers.IO).launch {
+            clearChatsUseCase.execute()
+            clearAllMessagesUseCase.execute()
+        }
         val authIntent = Intent(requireContext(), AuthActivity::class.java)
         authIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(authIntent)

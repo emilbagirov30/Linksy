@@ -9,6 +9,8 @@ import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -231,7 +233,8 @@ class MessageActivity : AppCompatActivity() {
     }
 }
 
-
+        val typingHandler = Handler(Looper.getMainLooper())
+        val typingDelay = 1500L
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -240,13 +243,19 @@ class MessageActivity : AppCompatActivity() {
                     sendButton.show()
                     recordButton.hide()
                     messageViewModel.sendStatus(chatId,userId,MessageStatus.TEXT)
+                    typingHandler.removeCallbacksAndMessages(null)
                 } else {
                     sendButton.hide()
                     recordButton.show()
-                    messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
+
                 }
             }
-            override fun afterTextChanged(p0: Editable?) {} }
+            override fun afterTextChanged(p0: Editable?) {
+                typingHandler.postDelayed({
+                    messageViewModel.sendStatus(chatId, userId, MessageStatus.NOTHING)
+                }, typingDelay)
+            }
+        }
             messageEditText.addTextChangedListener(textWatcher)
 
             sendButton.setOnClickListener { view->
@@ -267,7 +276,6 @@ class MessageActivity : AppCompatActivity() {
 
             recordButton.setOnClickListener {
                 it.anim()
-                audioWaveView.show()
                 if (checkAudioPermission()) startRecording()
 
             }
@@ -340,9 +348,8 @@ class MessageActivity : AppCompatActivity() {
         Glide.with(this)
             .load(uri)
             .into(pickedPictureImageView)
-
+        messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
         deletePictureButton.setOnClickListener {
-            messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
             it.anim()
             pictureFrameLayout.hide()
             if (!videoFrameLayout.isVisible) {
@@ -518,10 +525,13 @@ class MessageActivity : AppCompatActivity() {
             ),
             RECORD_AUDIO_PERMISSION_CODE
         )
-
         return false
     }
+
+
+
     private fun startRecording() {
+        audioWaveView.show()
         isRecording = true
         sendButton.show()
         recordButton.hide()

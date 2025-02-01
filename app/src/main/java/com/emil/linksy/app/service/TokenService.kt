@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Handler
 import androidx.lifecycle.LifecycleService
+import com.emil.domain.usecase.room.ClearAllMessagesUseCase
+import com.emil.domain.usecase.room.ClearChatsUseCase
 import com.emil.domain.usecase.user.RefreshTokenUseCase
 import com.emil.linksy.presentation.ui.auth.AuthActivity
 import com.emil.linksy.util.Linksy
@@ -16,6 +18,8 @@ import java.util.concurrent.TimeUnit
 class TokenService: LifecycleService() {
     private val refreshTokenUseCase: RefreshTokenUseCase by inject()
     private val tokenManager: TokenManager by inject()
+    private val clearChatsUseCase:ClearChatsUseCase by inject<ClearChatsUseCase> ()
+    private val clearAllMessagesUseCase:ClearAllMessagesUseCase by inject<ClearAllMessagesUseCase> ()
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var refreshJob: Job? = null
     private lateinit var handler: Handler
@@ -89,6 +93,10 @@ class TokenService: LifecycleService() {
         editor.putBoolean("remember", false)
         editor.apply()
         tokenManager.clearTokens()
+        CoroutineScope(Dispatchers.IO).launch {
+            clearChatsUseCase.execute()
+            clearAllMessagesUseCase.execute()
+        }
         val authIntent = Intent(this, AuthActivity::class.java)
         authIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(authIntent)

@@ -223,7 +223,11 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
                 binding.root.hide()
                 val errorDialog =  ErrorDialog(this,R.string.channel_blocked)
                 errorDialog.close(action = {finish()})
-            })
+            }, onError = {
+                binding.root.hide()
+                val errorDialog =  ErrorDialog(this,R.string.failed_connection)
+                errorDialog.close(action = {finish()})}
+            )
 
         channelViewModel.getChannelPosts(tokenManager.getAccessToken(), channelId = channelId, onConflict = {})
     }

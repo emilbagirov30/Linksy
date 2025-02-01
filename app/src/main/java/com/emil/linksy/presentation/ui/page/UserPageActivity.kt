@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -30,6 +31,7 @@ import com.emil.linksy.presentation.viewmodel.PeopleViewModel
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showToast
 import com.emil.presentation.R
@@ -49,19 +51,22 @@ class UserPageActivity (): AppCompatActivity() {
     private lateinit var sub_unsubButton:MaterialButton
     private lateinit var subscriberTextView:MaterialTextView
     private var userId by Delegates.notNull<Long>()
-
+    private lateinit var mainLinearLayout:LinearLayout
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var tabLayout: TabLayout
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId", "SetTextI18n", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_page)
-        val mainLinearLayout = findViewById<LinearLayout>(R.id.ll_main)
+        mainLinearLayout = findViewById(R.id.ll_main)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
         val linkTextView = findViewById<MaterialTextView>(R.id.tv_link)
         val usernameTextView = findViewById<MaterialTextView>(R.id.tv_username)
         val birthdayTextView = findViewById<MaterialTextView>(R.id.tv_birthday)
         val subscriptionsTextView = findViewById<MaterialTextView>(R.id.tv_subscriptions)
         val onlineTextView = findViewById<MaterialTextView>(R.id.tv_status)
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         subscriberTextView = findViewById(R.id.tv_subscriber)
         val avatarImageView = findViewById<ImageView>(R.id.iv_user_avatar)
         val confirmedImageView = findViewById<ImageView>(R.id.iv_confirmed)
@@ -70,12 +75,13 @@ class UserPageActivity (): AppCompatActivity() {
         val messageButton = findViewById<MaterialButton>(R.id.bt_message)
         val qrImageButton = findViewById<ImageButton>(R.id.ib_qr)
         sub_unsubButton = findViewById(R.id.bt_sub_unsub)
-        val tabLayout = findViewById<TabLayout>(R.id.tl_profile_navigation)
+        tabLayout = findViewById(R.id.tl_profile_navigation)
         toolBar.setNavigationOnClickListener {
             finish()
         }
-
-
+        swipeRefreshLayout.setOnRefreshListener {
+            getData()
+        }
         userId = intent.getLongExtra("USER_ID", -1)
         qrImageButton.setOnClickListener {
             it.anim()
@@ -93,8 +99,7 @@ class UserPageActivity (): AppCompatActivity() {
                 else -> null
             }
         }.attach()
-        val loading = LoadingDialog(this)
-        loading.show()
+
 
         peopleViewModel.pageData.observe(this){ pageData ->
                if(pageData.confirmed) confirmedImageView.show()
@@ -205,9 +210,30 @@ class UserPageActivity (): AppCompatActivity() {
             subscriptionsTextView.text = pageData.subscriptionsCount.toString()
             subscriberTextView.text = pageData.subscribersCount.toString()
         }
-         val token = tokenManager.getAccessToken()
-        peopleViewModel.getUserPageData(token,userId, onSuccess = { loading.dismiss()
-            mainLinearLayout.show()}, onConflict = {
+        getData()
+    }
+
+
+    private fun getData(){
+        val viewPager = findViewById<ViewPager2>(R.id.vp_profile_pager)
+        val pagerAdapter = OutsiderProfilePagerAdapter(userId,this)
+        viewPager.adapter = pagerAdapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> getString(R.string.posts)
+                1 -> getString(R.string.moments)
+                else -> null
+            }
+        }.attach()
+        val loading = LoadingDialog(this)
+        loading.show()
+        val token = tokenManager.getAccessToken()
+        peopleViewModel.getUserPageData(token,userId,
+            onSuccess = {
+            loading.dismiss()
+            mainLinearLayout.show()
+            swipeRefreshLayout.isRefreshing=false }, onConflict = {
             val errorDialog =  ErrorDialog(this,R.string.user_not_found)
             errorDialog.close(action = {finish()})
         }, noAccess = {
@@ -216,9 +242,12 @@ class UserPageActivity (): AppCompatActivity() {
         }, onBlocked = {
             val errorDialog =  ErrorDialog(this,R.string.outsider_blocked_info)
             errorDialog.close(action = {finish()})
-        })
-
+        }, onError = {
+            val errorDialog =  ErrorDialog(this,R.string.failed_connection)
+            errorDialog.close(action = {finish()})})
     }
+
+
     @SuppressLint("SetTextI18n")
     private fun setSubscribeAction(){
         sub_unsubButton.text = getString(R.string.subscribe)

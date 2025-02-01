@@ -17,6 +17,7 @@ import com.emil.linksy.presentation.ui.FullScreenMomentDialogFragment
 import com.emil.linksy.presentation.ui.navigation.feed.SubscriptionsPostsFeedFragment
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.invisible
 import com.emil.linksy.util.show
 
 import com.emil.presentation.databinding.RvItemUnseenMomentBinding
@@ -31,7 +32,7 @@ class UnseenMomentsAdapter (private val list: List<UnseenSubscriptionMomentRespo
         fun bind(unseenMoment: UnseenSubscriptionMomentResponse) {
 
             binding.tvName.text = unseenMoment.username
-            if(unseenMoment.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.visibility = View.INVISIBLE
+            if(unseenMoment.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.invisible()
             if (unseenMoment.avatarUrl!="null") {
                 Glide.with(context)
                     .load(unseenMoment.avatarUrl)

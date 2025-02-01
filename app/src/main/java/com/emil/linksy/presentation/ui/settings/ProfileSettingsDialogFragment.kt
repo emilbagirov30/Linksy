@@ -194,6 +194,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         val pickImageLauncher = createContentPickerForFragment(this) { uri ->
             handleSelectedImage(uri)
             selectedUri = uri
+            avatarExist = true
         }
         changePasswordButton.setOnClickListener {
             PasswordChangeDialogFragment().show(parentFragmentManager, "ChangePasswordDialogFragment")
@@ -213,7 +214,6 @@ class ProfileSettingsDialogFragment: DialogFragment() {
                 when (menuItem.itemId) {
                     1 -> {
                         pickImageLauncher.launch(ContentType.IMAGE.mimeType)
-                        avatarExist = true
                         shouldDeletePhoto = false
                         true
                     }
@@ -235,11 +235,6 @@ class ProfileSettingsDialogFragment: DialogFragment() {
         }
         toolBar.setNavigationOnClickListener { dialog?.dismiss() }
     }
-
-
-
-
-
 
 
 

@@ -83,13 +83,8 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         val confirmed = view.findViewById<ImageView>(R.id.iv_confirmed)
         val qrImageButton = view.findViewById<ImageButton>(R.id.ib_qr)
-        val viewPager = view.findViewById<ViewPager2>(R.id.vp_profile_pager)
-        val pagerAdapter = ProfilePagerAdapter(this)
         val sharedPref: SharedPreferences = requireContext().getSharedPreferences("appData", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPref.edit()
-
-        viewPager.adapter = pagerAdapter
-        viewPager.setOffscreenPageLimit(1)
         fetchData()
         swipeRefreshLayout.setOnRefreshListener {
             fetchData()
@@ -126,17 +121,6 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
                 linkTextView.text = "@${data.link}"
                 linkTextView.show()
             } else linkTextView.hide()
-        }
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> getString(R.string.posts)
-                1 -> getString(R.string.moments)
-                else -> null
-            }
-        }.attach()
-        savedInstanceState?.let {
-            currentTabPosition = it.getInt("current_tab", 0)
-            viewPager.setCurrentItem(currentTabPosition, false)
         }
 
         qrImageButton.setOnClickListener {
@@ -190,6 +174,16 @@ private fun stopShimmer(){
                 }
             }
         })
+        val pageAdapter = ProfilePagerAdapter(this)
+        val viewPager = requireView().findViewById<ViewPager2>(R.id.vp_profile_pager)
+        viewPager.adapter = pageAdapter
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> getString(R.string.posts)
+                1 -> getString(R.string.moments)
+                else -> null
+            }
+        }.attach()
     }
 
     override fun update() {
