@@ -115,8 +115,6 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                 playVideoButton.setOnClickListener { VideoPlayerDialog(context, videoUrl) }
             } else  videoRelativeLayout.hide()
             timeTextView.text = date
-
-
             var isPlayingAudio = false
             var mediaPlayerAudio: MediaPlayer? = null
             fun startProgressAudioUpdate() {
@@ -212,10 +210,10 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
 
             if (message.edited) editedTextView.show() else editedTextView.hide()
 
-mainHorizontalLayout.setOnClickListener {
+    mainHorizontalLayout.setOnClickListener {
     if(message.senderId==userId)
     showPopup(it,message.messageId,if (message.text==null) "" else message.text!!)
-}
+    }
 
 
 if (chatSensersList.isNotEmpty()){
@@ -244,14 +242,7 @@ if (chatSensersList.isNotEmpty()){
     senderUsernameTextView.hide()
 }
         }
-
-
-
     }
-
-
-
-
 
     @SuppressLint("InflateParams")
     private fun showPopup(anchor: View,messageId:Long,text:String) {
@@ -259,13 +250,12 @@ if (chatSensersList.isNotEmpty()){
         val popupView = inflater.inflate(R.layout.popup_message, null)
 
         val popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
-
         popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         val popupHeight = popupView.measuredHeight
         val popupWidth = popupView.measuredWidth
 
-        val xOffset = 0
-        val yOffset = 0
+        val xOffset = - popupWidth - anchor.width/2
+        val yOffset = - popupHeight + anchor.height/2
         popupWindow.showAsDropDown(anchor, xOffset, yOffset)
 
 
@@ -276,8 +266,6 @@ if (chatSensersList.isNotEmpty()){
         edit.setOnClickListener {
                   EditMessageDialog.newInstance(context,messageId,text,tokenManager, messageViewModel)
         }
-
-
         delete.setOnClickListener {
             val dialog = ActionDialog(context)
             dialog.setTitle(context.getString(R.string.delete_message_title))
@@ -286,8 +274,6 @@ if (chatSensersList.isNotEmpty()){
                 messageViewModel.deleteMessage(tokenManager.getAccessToken(), messageId =messageId, onSuccess = {dialog.dismiss()} )
             }
         }
-
-
 
     }
 

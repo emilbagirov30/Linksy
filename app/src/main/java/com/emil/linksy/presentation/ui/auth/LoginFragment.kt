@@ -54,7 +54,12 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
+       return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val containerId = R.id.fl_fragment_container_auth
         forgotLink = view.findViewById(R.id.tv_forgot_passsword)
         createAccountButton =  view.findViewById(R.id.bt_create_account)
@@ -89,21 +94,20 @@ class LoginFragment : Fragment() {
                     if (isMemorized) rememberToLogin()
                     val switchingToMainNavigationActivity = Intent(activity, MainNavigationActivity::class.java)
                     startActivity(switchingToMainNavigationActivity)
-                    },
+                },
                 onIncorrect = {showToast(requireContext(), R.string.user_not_found)},
                 onError =  { showToast(requireContext(), R.string.failed_connection) },
                 onEnd = { loading.dismiss() }, onBlock = {
-                 val dialog = ErrorDialog(requireActivity(),R.string.blocked_info)
-                           dialog.close {
-                               dialog.dismiss()
-                           }
+                    val dialog = ErrorDialog(requireActivity(),R.string.blocked_info)
+                    dialog.close {
+                        dialog.dismiss()
+                    }
                 })
         }
         createAccountButton.setOnClickListener { replaceFragment(containerId,
             RegistrationFragment()
         ) }
         forgotLink.setOnClickListener { replaceFragment(containerId, PasswordRecoveryFragment()) }
-        return view
     }
     private fun checkFieldsForValidValues() {
         email = emailEditText.string()

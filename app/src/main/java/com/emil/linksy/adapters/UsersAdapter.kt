@@ -80,7 +80,8 @@ class UsersAdapter(
                 acceptImageButton.show()
                 rejectImageButton.setOnClickListener {
                     it.anim()
-                    channelViewModel?.rejectSubscriptionRequest(tokenManager!!.getAccessToken(), channelId = channelId!!, candidateId = user.id, onConflict = {}, onSuccess = {
+                    channelViewModel?.rejectSubscriptionRequest(tokenManager!!.getAccessToken(), channelId = channelId!!, candidateId = user.id, onConflict = {},
+                        onSuccess = {
                         userList.removeAt(bindingAdapterPosition)
                         notifyItemRemoved(bindingAdapterPosition)
                     })
@@ -93,26 +94,26 @@ class UsersAdapter(
                         notifyItemRemoved(bindingAdapterPosition)
                     })
                 }
-            } else{
-                rejectImageButton.hide()
-                acceptImageButton.hide()
-            }
-                                       if (isBlackList){
-                                           removeBlackListImageButton.show()
-                                           removeBlackListImageButton.setOnClickListener {
-                                               peopleViewModel?.removeBlackList(tokenManager!!.getAccessToken(),user.id, onSuccess = {
-                                                   userList.removeAt(bindingAdapterPosition)
-                                                   notifyItemRemoved(bindingAdapterPosition)
-                                               })
-                                           }
-                                       } else  removeBlackListImageButton.hide()
+                   } else {
+                      rejectImageButton.hide()
+                      acceptImageButton.hide() }
+
+                   if (isBlackList){
+                       removeBlackListImageButton.show()
+                       removeBlackListImageButton.setOnClickListener {
+                           peopleViewModel?.removeBlackList(tokenManager!!.getAccessToken(),user.id, onSuccess = {
+                               userList.removeAt(bindingAdapterPosition)
+                               notifyItemRemoved(bindingAdapterPosition)
+                           })
+                       }
+                   } else  removeBlackListImageButton.hide()
 
             if (user.avatarUrl != "null") {
                 Glide.with(context)
                     .load(user.avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImageView)
-            }
+            } else avatarImageView.setBackgroundResource(R.drawable.default_avatar)
 
             usernameTextView.text = user.username
             if (user.link != null) {

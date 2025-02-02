@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.LayoutInflater
@@ -18,8 +17,6 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -93,22 +90,22 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,
                     .load(post.channelAvatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(channelAvatarImageView)
-            }
+            }else channelAvatarImageView.setBackgroundResource(R.drawable.default_channel_avatar)
             if (post.confirmed) confirmedImageView.show() else confirmedImageView.hide()
 
-          channelAvatarImageView.setOnClickListener {
-              it.anim()
-              val switchingToChannelPageActivity =
+            channelAvatarImageView.setOnClickListener {
+                it.anim()
+                val switchingToChannelPageActivity =
                   Intent(context, ChannelPageActivity()::class.java)
-              switchingToChannelPageActivity.putExtra("CHANNEL_ID", post.channelId)
-              context.startActivity(switchingToChannelPageActivity)
-          }
-           channelName.text = post.channelName
+                  switchingToChannelPageActivity.putExtra("CHANNEL_ID", post.channelId)
+                  context.startActivity(switchingToChannelPageActivity)
+               }
+            channelName.text = post.channelName
             publicationDate.text = post.publishDate
-            if (post.text!=null) {
+               if (post.text!=null) {
                 postTextView.show()
                 postTextView.text = post.text
-            } else postTextView.hide()
+               } else postTextView.hide()
             val imageUrl = post.imageUrl
             if (imageUrl !=null){
                 mediaLinearLayout.show()
@@ -120,7 +117,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,
                 postPictureImageView.setOnClickListener {
                     BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
                 }
-            }else    postPictureImageView.hide()
+            }else  postPictureImageView.hide()
             val videoUrl = post.videoUrl
             if (videoUrl!=null){
                 mediaLinearLayout.show()
@@ -132,7 +129,6 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,
                 playVideoImageButton.setOnClickListener{
                     VideoPlayerDialog(context,videoUrl)
                 }
-
             } else  videoRelativeLayout.hide()
             var isPlayingAudio = false
             var mediaPlayerAudio: MediaPlayer? = null

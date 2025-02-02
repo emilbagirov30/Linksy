@@ -14,6 +14,7 @@ import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.FullScreenMomentDialogFragment
 import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.util.TokenManager
+import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showMenu
 import com.emil.presentation.R
@@ -36,7 +37,7 @@ class MomentsAdapter(private val momentsList: List<MomentResponse>, private val 
                 Glide.with(context)
                     .load(imageUrl)
                     .into(momentImageView)
-
+                markerImageView.hide()
             }
              if (videoUrl!=null){
                  markerImageView.show()
@@ -69,8 +70,6 @@ class MomentsAdapter(private val momentsList: List<MomentResponse>, private val 
                 true
 
             }
-
-
         }
     }
 

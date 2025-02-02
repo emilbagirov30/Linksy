@@ -532,7 +532,6 @@ class MessageActivity : AppCompatActivity() {
     }
 
 
-
     private fun startRecording() {
         audioWaveView.show()
         isRecording = true

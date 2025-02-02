@@ -19,7 +19,6 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.media3.common.C
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.util.BackgroundState
 import com.emil.linksy.util.changeEditTextBackgroundColor
@@ -75,7 +74,12 @@ class RegistrationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_registration, container, false)
+        return inflater.inflate(R.layout.fragment_registration, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         loginButton = view.findViewById(R.id.bt_login)
         usernameEditText = view.findViewById(R.id.et_username)
         emailEditText = view.findViewById(R.id.et_email)
@@ -91,12 +95,8 @@ class RegistrationFragment : Fragment() {
         acceptPrivacyCheckBox = view.findViewById(R.id.cb_accept_privacy)
         privacyTextView = view.findViewById(R.id.tv_privacy_text)
 
-
-
-
         val text = getString(R.string.accept_privacy_text)
         val clickablePart = getString(R.string.privacy_policy)
-
 
         val spannableString = SpannableString(text)
         val startIndex = text.indexOf(clickablePart)
@@ -124,8 +124,8 @@ class RegistrationFragment : Fragment() {
 
 
         acceptPrivacyCheckBox.setOnClickListener {
-         checkFieldsForEmptyValues()
-     }
+            checkFieldsForEmptyValues()
+        }
 
 
 
@@ -236,7 +236,6 @@ class RegistrationFragment : Fragment() {
 
             }
         }
-        return view
     }
 
 

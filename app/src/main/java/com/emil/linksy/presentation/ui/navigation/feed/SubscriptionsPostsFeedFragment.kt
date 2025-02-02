@@ -50,7 +50,7 @@ class SubscriptionsPostsFeedFragment : Fragment() {
         binding.rvMoments.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         feedViewModel.unseenMomentList.observe(requireActivity()){list->
-            binding.rvMoments.adapter = UnseenMomentsAdapter (list,requireActivity(),momentViewModel,tokenManager,this)
+            binding.rvMoments.adapter = UnseenMomentsAdapter (list,requireActivity(),this)
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
             getData()

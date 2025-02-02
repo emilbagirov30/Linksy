@@ -74,7 +74,7 @@
                     android:layout_gravity="center_horizontal"
                     android:textStyle="bold"
                     android:textColor="@color/gray"
-                    android:maxEms="5"
+                    android:maxEms="7"
                     android:gravity="center"
                     android:fontFamily="@font/klukva"
                     android:textSize="15sp"
@@ -113,6 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textIsSelectable="true"
             android:textColor="@color/dark_gray"
             android:visibility="gone"
             android:text="">

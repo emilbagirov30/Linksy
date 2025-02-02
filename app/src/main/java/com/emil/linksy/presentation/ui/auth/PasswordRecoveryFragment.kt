@@ -67,7 +67,11 @@ class PasswordRecoveryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_password_recovery, container, false)
+      return inflater.inflate(R.layout.fragment_password_recovery, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val containerId = R.id.fl_fragment_container_auth
         backButton = view.findViewById(R.id.bt_back)
         emailEditText = view.findViewById(R.id.et_email)
@@ -109,23 +113,23 @@ class PasswordRecoveryFragment : Fragment() {
 
         })
 
-    continueButton.setOnClickListener {
-        hideKeyboard(requireContext(),view)
-        loading = LoadingDialog(requireContext())
-        loading.show()
-    email = emailEditText.string()
-    recoveryPasswordViewModel.requestPasswordChange(email,
-        onSuccess = {
-            requestPasswordChangeLinearLayout.hide()
-            confirmPasswordChangeLinearLayout.show()
-            emailTextView.text = email
+        continueButton.setOnClickListener {
+            hideKeyboard(requireContext(),view)
+            loading = LoadingDialog(requireContext())
+            loading.show()
+            email = emailEditText.string()
+            recoveryPasswordViewModel.requestPasswordChange(email,
+                onSuccess = {
+                    requestPasswordChangeLinearLayout.hide()
+                    confirmPasswordChangeLinearLayout.show()
+                    emailTextView.text = email
 
-                    },
-        onIncorrect = { userNotFoundTextView.show()},
-        onError = {showToast(requireContext(), R.string.failed_connection)},
-        onEnd = {loading.dismiss()}
-        )
-}
+                },
+                onIncorrect = { userNotFoundTextView.show()},
+                onError = {showToast(requireContext(), R.string.failed_connection)},
+                onEnd = {loading.dismiss()}
+            )
+        }
         backButton.setOnClickListener { replaceFragment(containerId, LoginFragment()) }
 
         val textWatcher = object : TextWatcher {
@@ -156,10 +160,10 @@ class PasswordRecoveryFragment : Fragment() {
                     email,
                     password,
                     onSuccess = {requestPasswordChangeLinearLayout.show()
-                                 confirmPasswordChangeLinearLayout.hide()
-                                 showToast(requireContext(), R.string.password_update)
-                                 emailEditText.setText("")
-                                },
+                        confirmPasswordChangeLinearLayout.hide()
+                        showToast(requireContext(), R.string.password_update)
+                        emailEditText.setText("")
+                    },
                     onIncorrect = {
                         invalidCodeTextView.text = getString(R.string.invalid_confirmation_code)
                         changeEditTextBackgroundColor(requireContext(), BackgroundState.ERROR, codeEditText)
@@ -180,9 +184,9 @@ class PasswordRecoveryFragment : Fragment() {
         changeInputTypePasswordConfirmButton.setOnClickListener {
             togglePasswordVisibility(passwordConfirmEditText, changeInputTypePasswordConfirmButton)
         }
-
-        return view
     }
+
+
     private fun checkFieldsForEmptyValues() {
         code = codeEditText.string()
         password = newPasswordEditText.string()

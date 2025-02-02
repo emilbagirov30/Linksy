@@ -1,6 +1,5 @@
 package com.emil.linksy.presentation.custom_view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -23,6 +22,17 @@ class CustomAudioWave @JvmOverloads constructor(
     private val maxAmplitudes = 50
     private val cornerRadius = 10f
     private val rectF = RectF()
+    private var widthPerAmplitude = 0f
+    private var centerY = 0f
+    private var left = 0f
+    private var right = 0f
+    private var amplitude = 0f
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        widthPerAmplitude = w.toFloat() / maxAmplitudes
+        centerY = h / 2f
+    }
 
     fun addAmplitude(amplitude: Float) {
         val normalizedAmplitude = amplitude / Short.MAX_VALUE
@@ -33,19 +43,14 @@ class CustomAudioWave @JvmOverloads constructor(
         invalidate()
     }
 
-
-    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (amplitudes.isEmpty()) return
 
-        val widthPerAmplitude = width.toFloat() / maxAmplitudes
-        val centerY = height / 2f
-
         for (i in 0 until maxAmplitudes) {
-            val amplitude = amplitudes.getOrElse(i) { 0f } * height / 2
-            val left = i * widthPerAmplitude
-            val right = left + widthPerAmplitude * 0.8f
+            amplitude = amplitudes.getOrElse(i) { 0f } * height / 2
+            left = i * widthPerAmplitude
+            right = left + widthPerAmplitude * 0.8f
             rectF.set(left, centerY - amplitude, right, centerY + amplitude)
             canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, wavePaint)
         }

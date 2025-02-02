@@ -43,7 +43,7 @@ class AudioRecorderManager(private val context: Context) {
 
         CoroutineScope(Dispatchers.IO).launch {
             val buffer = ShortArray(bufferSize / 2)
-            while (isRecording) {
+              while (isRecording) {
                 val readSize = audioRecord?.read(buffer, 0, buffer.size) ?: 0
                 if (readSize > 0) {
                     val maxAmplitude = buffer.maxOrNull()?.toFloat() ?: 0f

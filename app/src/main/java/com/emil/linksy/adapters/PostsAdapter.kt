@@ -84,22 +84,22 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                       .load(post.authorAvatarUrl)
                       .apply(RequestOptions.circleCropTransform())
                       .into(authorAvatarImageView)
-              }
+              } else authorAvatarImageView.setBackgroundResource(R.drawable.default_avatar)
                    if (post.confirmed) confirmedImageView.show() else confirmedImageView.hide()
-            authorAvatarImageView.setOnClickListener {
-                it.anim()
-                if (post.authorId!=userId) {
-                    val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
-                    switchingToUserPageActivity.putExtra("USER_ID", post.authorId)
-                    context.startActivity(switchingToUserPageActivity)
-                }
+                    authorAvatarImageView.setOnClickListener {
+                     it.anim()
+                     if (post.authorId!=userId) {
+                     val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
+                     switchingToUserPageActivity.putExtra("USER_ID", post.authorId)
+                     context.startActivity(switchingToUserPageActivity)
+                     }
             }
             authorUsername.text = post.authorUsername
             publicationDate.text = post.publishDate
             if (post.text!=null) {
                 postTextView.show()
                 postTextView.text = post.text
-            } else   postTextView.hide()
+            } else  postTextView.hide()
             val imageUrl = post.imageUrl
             if (imageUrl !=null){
                 mediaLinearLayout.show()
@@ -107,7 +107,6 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                 Glide.with(context)
                     .load(imageUrl)
                     .into(postPictureImageView)
-
                 postPictureImageView.setOnClickListener {
                     BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
                 }
@@ -124,7 +123,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     VideoPlayerDialog(context,videoUrl)
                 }
 
-            } else    videoRelativeLayout.hide()
+            } else  videoRelativeLayout.hide()
             var isPlayingAudio = false
             var mediaPlayerAudio:MediaPlayer? = null
             fun startProgressAudioUpdate() {

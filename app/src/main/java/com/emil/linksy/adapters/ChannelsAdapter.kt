@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChannelResponse
 import com.emil.domain.model.ChannelType
 import com.emil.linksy.presentation.ui.page.ChannelPageActivity
+import com.emil.linksy.util.colorByRating
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
@@ -30,42 +31,33 @@ class ChannelsAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(channel: ChannelResponse) {
-
             val avatarUrl = channel.avatarUrl
             val name = channel.name
             val link = channel.link
             val type = channel.type
             val rating = channel.rating
-         if (channel.avatarUrl!="null"){
+            if (channel.avatarUrl!="null"){
              Glide.with(context)
                  .load(avatarUrl)
                  .apply(RequestOptions.circleCropTransform())
                  .into(binding.ivAvatar)
-         }
+            }
             binding.tvName.text = name
-            link?.let {
+            if(link!=null) {
                 binding.tvLink.show()
                 binding.tvLink.text = "@$link"
-            }
+            } else   binding.tvLink.hide()
 
-            if (type==ChannelType.PRIVATE) binding.ivClose.show()
+            if (type==ChannelType.PRIVATE) binding.ivClose.show() else binding.ivClose.hide()
 
-             if (rating<0) binding.tvRating.text = "-"
-             else binding.tvRating.text = rating.toString()
-
-            if (rating<2.99 && rating>0)
-                ViewCompat.setBackgroundTintList(binding.ivRating, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red)))
-            if(rating >= 3.0 && rating < 4.0)  ViewCompat.setBackgroundTintList(binding.ivRating, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.yellow)))
-            if(rating >=4)  ViewCompat.setBackgroundTintList(binding.ivRating, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green)))
-
+            binding.tvRating.text = rating.toString()
+            binding.ivRating.colorByRating(rating)
             binding.root.setOnClickListener {
                 val switchingToChannelPageActivity =
                     Intent(context, ChannelPageActivity()::class.java)
                 switchingToChannelPageActivity.putExtra("CHANNEL_ID", channel.channelId)
                 context.startActivity(switchingToChannelPageActivity)
             }
-
-
             if (channel.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.hide()
         }
     }

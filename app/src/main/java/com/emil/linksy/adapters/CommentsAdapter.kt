@@ -25,9 +25,9 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
                        private val allCommentList:List<CommentResponse> = emptyList(),
                        private val context: Context,
                        private val commentsBottomSheet: CommentsBottomSheet? = null,
-                      private val postViewModel: PostViewModel?=null,
+                       private val postViewModel: PostViewModel?=null,
                        private val channelViewModel: ChannelViewModel? = null,
-                         private val tokenManager: TokenManager):
+                       private val tokenManager: TokenManager):
     RecyclerView.Adapter<CommentsAdapter.CommentViewHolder>(){
 
 
@@ -39,7 +39,7 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
                     .load(comment.authorAvatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.ivAvatar)
-            }
+            } else binding.ivAvatar.setBackgroundResource(R.drawable.default_avatar)
             if (userId!=comment.authorId) {
                 binding.ivAvatar.setOnClickListener {
                     val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
@@ -60,7 +60,8 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
                 if (childComments.isNotEmpty()) {
                     binding.llViewResponses.show()
                     binding.tvResponses.text = "${context.getString(R.string.view_responses)}(${childComments.size})"
-                }
+                }else binding.llViewResponses.hide()
+
                 binding.llViewResponses.setOnClickListener {
                     it.anim()
                     binding.rvResponses.show()
@@ -76,7 +77,6 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
             if (comment.authorId == userId){
                 binding.tvDelete.show()
                 binding.tvDelete.setOnClickListener {
-
                     val dialog = ActionDialog(context)
                     dialog.setTitle(context.getString(R.string.delete_comment_title))
                     dialog.setConfirmText(context.getString(R.string.delete_comment_confirm_text))
@@ -87,8 +87,6 @@ class CommentsAdapter (private val userId:Long, private val independentCommentLi
                             commentsBottomSheet?.getUserPostComments()
                             dialog.dismiss()}, onError = {})
                     }
-
-
                 }
             }else  binding.tvDelete.hide()
 

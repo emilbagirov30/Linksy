@@ -49,7 +49,7 @@ class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>, priva
                     .load(user.avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.ivUserAvatar)
-            }
+            }else binding.ivUserAvatar.setBackgroundResource(R.drawable.default_avatar)
             val score = user.score
             binding.tvScore.text = score.toString()
             binding.ivScore.colorByRating(score.toDouble())

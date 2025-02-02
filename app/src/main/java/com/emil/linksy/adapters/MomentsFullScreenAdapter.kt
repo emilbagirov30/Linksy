@@ -77,11 +77,11 @@ class MomentsFullScreenAdapter(
                     .load(moment.authorAvatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(authorAvatarImageView)
-            }
+            } else authorAvatarImageView.setBackgroundResource(R.drawable.default_avatar)
 
             momentViewModel.viewMoment(tokenManager.getAccessToken(),moment.momentId, onSuccess = {}, onError = {})
 
-           authorAvatarImageView.setOnClickListener {
+            authorAvatarImageView.setOnClickListener {
                if(userId!=moment.authorId){
                    val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
                    switchingToUserPageActivity.putExtra("USER_ID", moment.authorId)
@@ -114,7 +114,6 @@ class MomentsFullScreenAdapter(
                         }
                     }
                 })
-
                 exoPlayer?.prepare()
                 exoPlayer?.play()
             }

@@ -64,7 +64,7 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
           if (chat.unreadMessagesCount!=null && chat.unreadMessagesCount!!>0){
               countLayout.show()
               countTextView.text = chat.unreadMessagesCount.toString()
-          }else countLayout.hide()
+          } else countLayout.hide()
 
           nameTextView.text = name
           if (lastMessage.isNotEmpty() || date.isEmpty()) lastMessageTextView.text = lastMessage else {
@@ -100,7 +100,6 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
 
               true
           }
-
         }
     }
 

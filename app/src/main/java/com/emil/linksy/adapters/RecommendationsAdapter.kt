@@ -48,7 +48,7 @@ class RecommendationsAdapter (private val list: List<RecommendationResponse>,
                      switchingToChannelPageActivity.putExtra("CHANNEL_ID", recommendation.channelId)
                      context.startActivity(switchingToChannelPageActivity)
                  }
-            }else{
+            }else {
                 if (recommendation.avatarUrl!="null"){
                     Glide.with(context)
                         .load(recommendation.avatarUrl)

@@ -4,26 +4,21 @@ package com.emil.linksy.adapters
 import android.content.Context
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-
 import com.emil.domain.model.UnseenSubscriptionMomentResponse
 import com.emil.linksy.presentation.ui.FullScreenMomentDialogFragment
 import com.emil.linksy.presentation.ui.navigation.feed.SubscriptionsPostsFeedFragment
-import com.emil.linksy.presentation.viewmodel.MomentViewModel
-import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.invisible
 import com.emil.linksy.util.show
+import com.emil.presentation.R
 
 import com.emil.presentation.databinding.RvItemUnseenMomentBinding
 
 class UnseenMomentsAdapter (private val list: List<UnseenSubscriptionMomentResponse>,
-                              private val context: Context,private val momentViewModel: MomentViewModel,private val tokenManager: TokenManager,
+                              private val context: Context,
                               private val subscriptionsPostsFeedFragment: SubscriptionsPostsFeedFragment
 ): RecyclerView.Adapter<UnseenMomentsAdapter.UnseenMomentViewHolder>() {
 
@@ -38,7 +33,7 @@ class UnseenMomentsAdapter (private val list: List<UnseenSubscriptionMomentRespo
                     .load(unseenMoment.avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.ivAvatar)
-            }
+            } else binding.ivAvatar.setBackgroundResource(R.drawable.default_avatar)
 
             binding.ivAvatar.setOnClickListener {
                 FullScreenMomentDialogFragment(userId = unseenMoment.id, unseen = true, position = 0, subscriptionsPostsFeedFragment = subscriptionsPostsFeedFragment).show(
