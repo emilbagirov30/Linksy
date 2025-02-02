@@ -87,9 +87,10 @@ class PostFragment : Fragment(), AddPostDialogFragment.AddPostDialogListener {
         emptyMessage.show()
     }
        private fun updatePosts (){
+       if (!isAdded || view == null) return
        val token = tokenManager.getAccessToken()
        postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
-       postViewModel.postList.observe(requireActivity()){ postlist ->
+       postViewModel.postList.observe(viewLifecycleOwner){ postlist ->
            postsRecyclerView.adapter = context?.let {
                PostsAdapter(postlist,postViewModel,
                    context = it,
@@ -104,4 +105,8 @@ class PostFragment : Fragment(), AddPostDialogFragment.AddPostDialogListener {
         updatePosts()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        postViewModel.postList.removeObservers(viewLifecycleOwner)
+    }
 }

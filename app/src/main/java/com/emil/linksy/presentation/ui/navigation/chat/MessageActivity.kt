@@ -165,7 +165,6 @@ class MessageActivity : AppCompatActivity() {
             chatViewModel.sendersList.observe(this){sl->
                 messageViewModel.messageList.observe(this) { messageList ->
                     messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, chatSensersList = sl,messageViewModel,tokenManager)
-                    messageRecyclerView.scrollToPosition(messageList.size - 1)
                     viewMessage(chatId)
                 }
             }
@@ -197,9 +196,10 @@ class MessageActivity : AppCompatActivity() {
             }
                 messageViewModel.messageList.observe(this){messageList ->
                 messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, messageViewModel = messageViewModel, tokenManager = tokenManager)
-                    messageRecyclerView.scrollToPosition(messageList.size - 1)
                     if(messageList.isNotEmpty())
                     viewMessage(messageList[0].chatId)
+
+                    messageRecyclerView.scrollToPosition(messageList.size-1)
             }
 
         }
@@ -271,7 +271,7 @@ class MessageActivity : AppCompatActivity() {
                 val audioPart = audioUri?.let { createAudioFilePart(this, it) }
                 val voicePart = voiceUri?.let { createVoiceFilePart(this, it) }
                 messageViewModel.sendMessage(tokenManager.getAccessToken(),recipientId,chatId,text,imagePart,videoPart,audioPart,voicePart,
-                    onSuccess = {clear()})
+                    onSuccess = { clear() })
             }
 
             recordButton.setOnClickListener {
@@ -310,17 +310,20 @@ class MessageActivity : AppCompatActivity() {
                 val layoutManager =  chatList.layoutManager as LinearLayoutManager
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                 val totalItemCount = layoutManager.itemCount
-                if (lastVisibleItemPosition == totalItemCount - 1) downButton.visibility = View.GONE
-                else  downButton.visibility = View.VISIBLE
+                if (lastVisibleItemPosition == totalItemCount - 1) downButton.hide()
+                else  downButton.show()
             }
         })
         downButton.setOnClickListener {
             it.anim()
-            val adapter = messageRecyclerView.adapter as MessagesAdapter
-            val layoutManager = messageRecyclerView.layoutManager as LinearLayoutManager
-            layoutManager.scrollToPositionWithOffset(adapter.itemCount - 1, 0)
+            down()
         }
 
+    }
+    private fun down(){
+        val adapter = messageRecyclerView.adapter as MessagesAdapter
+        val layoutManager = messageRecyclerView.layoutManager as LinearLayoutManager
+        layoutManager.scrollToPositionWithOffset(adapter.itemCount - 1, 0)
     }
 
 
