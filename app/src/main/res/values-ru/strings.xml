@@ -7,9 +7,9 @@
     <string name="hint_password">Пароль</string>
     <string name="hint_confirm_password">Повторите пароль</string>
     <string name="hint_birthday">Дата рождения</string>
-    <string name="sign_up_button">Зарегестрироваться</string>
+    <string name="sign_up_button">Зарегистрироваться</string>
     <string name="login_button">Войти</string>
-    <string name="question_have_an_account">Уже зарегестрированы?</string>
+    <string name="question_have_an_account">Уже зарегистрированы?</string>
     <string name="login_title">Вход</string>
     <string name="checkbox_remember_me">Запомнить</string>
     <string name="link_forgot_password">Забыли пароль?</string>

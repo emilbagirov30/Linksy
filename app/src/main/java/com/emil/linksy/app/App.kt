@@ -1,6 +1,8 @@
 package com.emil.linksy.app
 
 import android.app.Application
+import android.content.Intent
+import com.emil.linksy.app.service.TokenService
 import com.emil.linksy.di.appModule
 import com.emil.linksy.di.dataModule
 import com.emil.linksy.di.domainModule
@@ -17,5 +19,7 @@ class App: Application () {
             androidContext(this@App)
             modules(listOf(dataModule, domainModule, appModule))
         }
+        val tokenServiceIntent = Intent(this, TokenService::class.java)
+        startService(tokenServiceIntent)
     }
 }

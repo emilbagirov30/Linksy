@@ -11,7 +11,7 @@
 
     <style name="Theme.Linksy" parent="Base.Theme.Linksy" />
 
-    <style name="SplashScreenTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="SplashScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 

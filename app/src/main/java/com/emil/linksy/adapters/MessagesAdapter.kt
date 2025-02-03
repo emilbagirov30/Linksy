@@ -245,36 +245,53 @@ if (chatSensersList.isNotEmpty()){
     }
 
     @SuppressLint("InflateParams")
-    private fun showPopup(anchor: View,messageId:Long,text:String) {
+    private fun showPopup(anchor: View, messageId: Long, text: String) {
         val inflater = LayoutInflater.from(context)
         val popupView = inflater.inflate(R.layout.popup_message, null)
 
-        val popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
         popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        val popupHeight = popupView.measuredHeight
         val popupWidth = popupView.measuredWidth
+        val popupHeight = popupView.measuredHeight
 
-        val xOffset = - popupWidth - anchor.width/2
-        val yOffset = - popupHeight + anchor.height/2
-        popupWindow.showAsDropDown(anchor, xOffset, yOffset)
 
+        val location = IntArray(2)
+        anchor.getLocationOnScreen(location)
+        val anchorX = location[0] + anchor.width / 2
+        val anchorY = location[1] + anchor.height / 2
+
+
+        val xOffset = anchorX - popupWidth / 2
+        val yOffset = anchorY - popupHeight / 2
+
+
+        popupWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, xOffset, yOffset)
 
         val edit = popupView.findViewById<TextView>(R.id.tv_edit)
         val delete = popupView.findViewById<TextView>(R.id.tv_delete)
 
-
         edit.setOnClickListener {
-                  EditMessageDialog.newInstance(context,messageId,text,tokenManager, messageViewModel)
+            EditMessageDialog.newInstance(context, messageId, text, tokenManager, messageViewModel)
+            popupWindow.dismiss()
         }
         delete.setOnClickListener {
             val dialog = ActionDialog(context)
             dialog.setTitle(context.getString(R.string.delete_message_title))
             dialog.setConfirmText(context.getString(R.string.delete_message_confirm_text))
             dialog.setAction {
-                messageViewModel.deleteMessage(tokenManager.getAccessToken(), messageId =messageId, onSuccess = {dialog.dismiss()} )
+                messageViewModel.deleteMessage(tokenManager.getAccessToken(), messageId =messageId, onSuccess = {
+                    dialog.dismiss()
+                    popupWindow.dismiss()
+                } )
+
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {

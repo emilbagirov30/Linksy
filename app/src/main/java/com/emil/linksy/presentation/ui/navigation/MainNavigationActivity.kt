@@ -98,8 +98,7 @@ class MainNavigationActivity : AppCompatActivity() {
                 else -> false
             }
         }
-        val tokenServiceIntent = Intent(this, TokenService::class.java)
-        startService(tokenServiceIntent)
+
 
         LocalBroadcastManager.getInstance(this).registerReceiver(
             newChatReceiver,
@@ -114,7 +113,6 @@ messageViewModel.messageList.observe(this) { messagelist ->
         chatViewModel.getUserChats(tokenManager.getAccessToken())
 
         chatViewModel.chatList.observe(this){chatList ->
-
             if(chatList.isNotEmpty()) {
                 chatList.map { chat ->
                     if(chat.unreadMessagesCount!=null) {

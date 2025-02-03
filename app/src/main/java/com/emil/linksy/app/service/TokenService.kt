@@ -26,7 +26,6 @@ class TokenService: LifecycleService() {
     private val retryRunnable = Runnable {
         startRefreshing(
             onIncorrect = { logoutUser() },
-            onError = { retryAfterError() },
             onBlocked = { logoutUser() }
         )
     }
@@ -36,7 +35,6 @@ class TokenService: LifecycleService() {
         handler = Handler(mainLooper)
         startRefreshing(
             onIncorrect = { logoutUser() },
-            onError = { retryAfterError() },
             onBlocked = { logoutUser() }
         )
     }
@@ -47,7 +45,7 @@ class TokenService: LifecycleService() {
         handler.removeCallbacks(retryRunnable)
     }
 
-    private fun startRefreshing(onIncorrect: () -> Unit,onBlocked: () -> Unit, onError: () -> Unit) {
+    private fun startRefreshing(onIncorrect: () -> Unit,onBlocked: () -> Unit) {
         if (refreshJob?.isActive == true) return
         refreshJob = scope.launch {
             while (true) {
@@ -56,7 +54,6 @@ class TokenService: LifecycleService() {
                     if (currentRefreshToken!="null") {
                         val response = refreshTokenUseCase.execute(currentRefreshToken)
                         val code = response.code()
-                             println(code)
                         when(code){
                             200 ->  {
                                 response.body()?.let { body ->
@@ -73,10 +70,10 @@ class TokenService: LifecycleService() {
                                 cancel()
                             }
                         }
-                    }else retryAfterError()
+                    }
                 } catch (e: Exception) {
                     stopRefreshing()
-                    onError()
+                    retryAfterError()
                 }
                 delay(TimeUnit.MINUTES.toMillis(Linksy.REFRESH_DELAY))
             }
@@ -104,6 +101,6 @@ class TokenService: LifecycleService() {
 
     private fun retryAfterError() {
         handler.removeCallbacks(retryRunnable)
-        handler.postDelayed(retryRunnable, TimeUnit.SECONDS.toMillis(30))
+        handler.postDelayed(retryRunnable, TimeUnit.SECONDS.toMillis(15))
     }
 }
