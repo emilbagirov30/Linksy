@@ -60,7 +60,6 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
         loading = LoadingDialog(this)
         loading.show()
 
-
         channelViewModel.pageData.observe(this){pageData ->
             if (pageData.confirmed)
                 binding.ivConfirmed.show()
@@ -119,7 +118,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
                     binding.llRequest.show()
                     binding.tvRequests.text = pageData.requestsCount.toString()
                     binding.llRequest.setOnClickListener {
-                        RelationsDialogFragment(RelationType.REQUESTS, channelId = pageData.channelId).show(
+                        RelationsDialogFragment.newInstance(RelationType.REQUESTS, channelId = pageData.channelId).show(
                             supportFragmentManager, "RelationsDialogFragment"
                         )
                     }
@@ -158,7 +157,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
                  }
 
                 if (isSubscriber) {
-                    binding.llSubscribers.setOnClickListener { RelationsDialogFragment(RelationType.CHANNEL_MEMBERS, channelId = pageData.channelId).show(
+                    binding.llSubscribers.setOnClickListener { RelationsDialogFragment.newInstance(RelationType.CHANNEL_MEMBERS, channelId = pageData.channelId).show(
                             supportFragmentManager, "RelationsDialogFragment"
                         )
                     }

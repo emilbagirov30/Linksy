@@ -12,6 +12,7 @@ import android.graphics.PorterDuffColorFilter
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
+import android.os.Parcelable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.HideReturnsTransformationMethod
@@ -39,6 +40,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
+import kotlinx.parcelize.Parcelize
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -107,8 +109,9 @@ fun hideKeyboard (context: Context,view: View){
     val inputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
-
-enum class RelationType() {
+@Suppress("PARCELABLE_PRIMARY_CONSTRUCTOR_IS_EMPTY")
+@Parcelize
+enum class RelationType() : Parcelable {
     SUBSCRIBERS,
     SUBSCRIPTIONS,
     REQUESTS,

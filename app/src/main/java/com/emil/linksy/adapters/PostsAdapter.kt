@@ -258,18 +258,18 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
 
             likeImageView.setOnLongClickListener {
                 postFragment?.parentFragmentManager?.let { fr ->
-                    RelationsDialogFragment(RelationType.LIKES, postId = post.postId).show(
+                    RelationsDialogFragment.newInstance(RelationType.LIKES, postId = post.postId).show(
                         fr, "RelationsDialogFragment"
                     )
                 }
                     outsiderPostFragment?.parentFragmentManager?.let { fr ->
-                        RelationsDialogFragment(RelationType.LIKES, postId = post.postId).show(
+                        RelationsDialogFragment.newInstance(RelationType.LIKES, postId = post.postId).show(
                             fr, "RelationsDialogFragment"
                         )
                     }
 
                 subscriptionsPostsFeedFragment?.parentFragmentManager?.let { fr ->
-                    RelationsDialogFragment(RelationType.LIKES, postId = post.postId).show(
+                    RelationsDialogFragment.newInstance(RelationType.LIKES, postId = post.postId).show(
                         fr, "RelationsDialogFragment"
                     )
                 }

@@ -54,6 +54,7 @@ class UserPageActivity (): AppCompatActivity() {
     private lateinit var mainLinearLayout:LinearLayout
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var tabLayout: TabLayout
+    private var isMenuAdded:Boolean = false
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId", "SetTextI18n", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,58 +102,67 @@ class UserPageActivity (): AppCompatActivity() {
         }.attach()
 
 
-        peopleViewModel.pageData.observe(this){ pageData ->
-               if(pageData.confirmed) confirmedImageView.show()
-                  if(pageData.online) {
-                      onlineTextView.text = getString(R.string.online)
-                  }else onlineTextView.text = "${getString(R.string.was_online)}: ${pageData.lastActive}"
+        peopleViewModel.pageData.observe(this) { pageData ->
+            if (pageData.confirmed) confirmedImageView.show()
+            if (pageData.online) {
+                onlineTextView.text = getString(R.string.online)
+            } else onlineTextView.text = "${getString(R.string.was_online)}: ${pageData.lastActive}"
 
 
-
-            toolBar.addMenuProvider(object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.user_page_menu, menu)
-                    val actionBlacklist = menu.findItem(R.id.action_blacklist)
-                    actionBlacklist.title = if (pageData.isPageOwnerBlockedByViewer) {
-                        getString(R.string.remove_blacklist)
-                    } else {
-                        getString(R.string.add_to_blacklist)
+            if (!isMenuAdded){
+                toolBar.addMenuProvider(object : MenuProvider {
+                    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                        menuInflater.inflate(R.menu.user_page_menu, menu)
+                        val actionBlacklist = menu.findItem(R.id.action_blacklist)
+                        actionBlacklist.title = if (pageData.isPageOwnerBlockedByViewer) {
+                            getString(R.string.remove_blacklist)
+                        } else {
+                            getString(R.string.add_to_blacklist)
+                        }
+                        isMenuAdded = true
                     }
-                }
 
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    return when (menuItem.itemId) {
-                        R.id.action_blacklist -> {
-                            if (pageData.isPageOwnerBlockedByViewer) {
-                                peopleViewModel.removeBlackList(
-                                    tokenManager.getAccessToken(),
-                                    userId,
-                                    onSuccess = {
-                                        menuItem.title = getString(R.string.add_to_blacklist)
-                                        pageData.isPageOwnerBlockedByViewer = false
-                                    }
-                                )
-                            } else {
-                                peopleViewModel.addToBlackList(
-                                    tokenManager.getAccessToken(),
-                                    userId,
-                                    onSuccess = {
-                                        menuItem.title = getString(R.string.remove_blacklist)
-                                        pageData.isPageOwnerBlockedByViewer = true
-                                    }
-                                )
+                    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                        return when (menuItem.itemId) {
+                            R.id.action_blacklist -> {
+                                if (pageData.isPageOwnerBlockedByViewer) {
+                                    peopleViewModel.removeBlackList(
+                                        tokenManager.getAccessToken(),
+                                        userId,
+                                        onSuccess = {
+                                            menuItem.title = getString(R.string.add_to_blacklist)
+                                            pageData.isPageOwnerBlockedByViewer = false
+                                        }
+                                    )
+                                } else {
+                                    peopleViewModel.addToBlackList(
+                                        tokenManager.getAccessToken(),
+                                        userId,
+                                        onSuccess = {
+                                            menuItem.title = getString(R.string.remove_blacklist)
+                                            pageData.isPageOwnerBlockedByViewer = true
+                                        }
+                                    )
+                                }
+                                true
                             }
-                            true
-                        }
-                        R.id.action_report ->{
-                             ReportDialog.newInstance(context = this@UserPageActivity,userId = userId, channelId = null,tokenManager, peopleViewModel)
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            }, this, Lifecycle.State.CREATED)
 
+                            R.id.action_report -> {
+                                ReportDialog.newInstance(
+                                    context = this@UserPageActivity,
+                                    userId = userId,
+                                    channelId = null,
+                                    tokenManager,
+                                    peopleViewModel
+                                )
+                                true
+                            }
+
+                            else -> false
+                        }
+                    }
+                }, this, Lifecycle.State.CREATED)
+        }
             val link = pageData.link
             if (link!=null){
                 linkTextView.show()
@@ -163,13 +173,13 @@ class UserPageActivity (): AppCompatActivity() {
 
             subscriptionsLinerLayout.setOnClickListener {
                 it.anim()
-                RelationsDialogFragment(RelationType.SUBSCRIPTIONS,userId =userId,username =username).show(
+                RelationsDialogFragment.newInstance(RelationType.SUBSCRIPTIONS,userId =userId,username =username).show(
                     supportFragmentManager, "RelationsDialogFragment"
                 )
             }
             subscribersLinerLayout.setOnClickListener {
                 it.anim()
-                RelationsDialogFragment(RelationType.SUBSCRIBERS,userId = userId,username = username).show(
+                RelationsDialogFragment.newInstance(RelationType.SUBSCRIBERS,userId = userId,username = username).show(
                     supportFragmentManager, "RelationsDialogFragment"
                 )
             }

@@ -65,7 +65,6 @@ class BigPictureDialog:  DialogFragment() {
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCancelable(false)
         arguments?.let {
             imageUrl = it.getString(URL).toString()
         }

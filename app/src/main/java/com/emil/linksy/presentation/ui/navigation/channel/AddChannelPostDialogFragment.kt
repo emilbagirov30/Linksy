@@ -88,7 +88,6 @@ class AddChannelPostDialogFragment: DialogFragment() {
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCancelable(false)
         arguments?.let {
             channelId = it.getLong(CHANNEL_ID)
             isEdit = arguments?.getBoolean(EDIT)

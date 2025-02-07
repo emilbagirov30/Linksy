@@ -46,8 +46,6 @@ class AppreciatedDialogFragment:DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCancelable(false)
-
         arguments?.let {
             postId =  it.getLong(ARG_POST_ID)
         }

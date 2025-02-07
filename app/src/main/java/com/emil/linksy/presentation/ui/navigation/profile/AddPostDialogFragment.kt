@@ -120,7 +120,6 @@ class AddPostDialogFragment: DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCancelable(false)
         postId = arguments?.getLong(POST_ID)
         isEdit = arguments?.getBoolean(EDIT)
         text = arguments?.getString(TEXT)

@@ -266,8 +266,6 @@ class CreateMomentDialogFragment: DialogFragment()  {
     override fun getTheme() = R.style.FullScreenDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCancelable(false)
-
     }
     override fun onStart() {
         super.onStart()

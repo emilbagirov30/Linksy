@@ -21,9 +21,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class OutsiderPostFragment: Fragment() {
-
-
-
     private var userId:Long = -1
 
     companion object{

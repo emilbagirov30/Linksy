@@ -10,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.emil.linksy.presentation.ui.navigation.MainNavigationActivity
 import com.emil.presentation.R
 import com.google.android.material.button.MaterialButton

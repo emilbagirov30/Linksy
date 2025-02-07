@@ -86,7 +86,7 @@ class LoginFragment : Fragment() {
             loading.show()
             hideAllError()
             hideKeyboard(requireContext(), view)
-            val email = emailEditText.string()
+            val email = emailEditText.string().lowercase()
             val password = passwordEditText.string()
             val isMemorized = rememberCheckBox.isChecked
             loginViewModel.login(

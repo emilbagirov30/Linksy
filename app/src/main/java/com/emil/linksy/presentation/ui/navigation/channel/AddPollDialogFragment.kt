@@ -40,7 +40,6 @@ class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChanne
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCancelable(false)
 
     }
 

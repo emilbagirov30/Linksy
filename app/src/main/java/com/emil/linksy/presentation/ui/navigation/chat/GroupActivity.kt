@@ -72,7 +72,7 @@ class GroupActivity : AppCompatActivity() {
 
         }
         addMembersButton.setOnClickListener {
-            RelationsDialogFragment(RelationType.ADD_MEMBERS,groupId = groupId, memberIdList = membersIdList).show(
+            RelationsDialogFragment.newInstance(RelationType.ADD_MEMBERS,groupId = groupId, memberIdList = membersIdList).show(
                 supportFragmentManager, "RelationsDialogFragment"
             )
         }

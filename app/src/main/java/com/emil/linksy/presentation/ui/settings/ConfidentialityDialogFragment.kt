@@ -26,8 +26,6 @@ class ConfidentialityDialogFragment: DialogFragment() {
     private val tokenManager:TokenManager by inject<TokenManager>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCancelable(false)
-
     }
     override fun onStart() {
         super.onStart()

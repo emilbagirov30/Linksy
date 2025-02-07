@@ -160,7 +160,7 @@ private fun stopShimmer(){
     private fun fetchData() {
         startShimmer()
         val token = tokenManager.getAccessToken()
-        userViewModel.getData(token,onIncorrect = { showToast(requireContext(),R.string.error_invalid_token) } , onError = {
+        userViewModel.getData(token,onIncorrect = { fetchData() } , onError = {
             stopShimmer()
             if (isAdded && view != null) {
                 Snackbar.make(requireView(), getString(R.string.error_loading_data), Snackbar.LENGTH_INDEFINITE).apply {

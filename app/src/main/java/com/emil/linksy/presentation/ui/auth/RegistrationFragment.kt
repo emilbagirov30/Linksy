@@ -35,7 +35,7 @@ import com.emil.presentation.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
+import java.util.Locale
 
 
 class RegistrationFragment : Fragment() {
@@ -208,7 +208,7 @@ class RegistrationFragment : Fragment() {
             hideAllError()
             hideKeyboard(requireContext(), view)
             username = usernameEditText.string()
-            email = emailEditText.string()
+            email = emailEditText.string().lowercase()
             password = passwordEditText.string()
             confirmPassword = passwordConfirmEditText.string()
 

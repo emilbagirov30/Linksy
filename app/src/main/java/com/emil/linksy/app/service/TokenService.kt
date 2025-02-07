@@ -1,10 +1,11 @@
 package com.emil.linksy.app.service
 
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Handler
-import androidx.lifecycle.LifecycleService
+import android.os.IBinder
 import com.emil.domain.usecase.room.ClearAllMessagesUseCase
 import com.emil.domain.usecase.room.ClearChatsUseCase
 import com.emil.domain.usecase.user.RefreshTokenUseCase
@@ -15,7 +16,7 @@ import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
-class TokenService: LifecycleService() {
+class TokenService: Service() {
     private val refreshTokenUseCase: RefreshTokenUseCase by inject()
     private val tokenManager: TokenManager by inject()
     private val clearChatsUseCase:ClearChatsUseCase by inject<ClearChatsUseCase> ()
@@ -45,6 +46,12 @@ class TokenService: LifecycleService() {
         handler.removeCallbacks(retryRunnable)
     }
 
+    override fun onBind(p0: Intent?): IBinder? {
+       return null
+    }
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return START_STICKY
+    }
     private fun startRefreshing(onIncorrect: () -> Unit,onBlocked: () -> Unit) {
         if (refreshJob?.isActive == true) return
         refreshJob = scope.launch {

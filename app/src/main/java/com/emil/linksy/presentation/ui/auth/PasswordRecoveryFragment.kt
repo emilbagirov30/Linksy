@@ -117,7 +117,7 @@ class PasswordRecoveryFragment : Fragment() {
             hideKeyboard(requireContext(),view)
             loading = LoadingDialog(requireContext())
             loading.show()
-            email = emailEditText.string()
+            email = emailEditText.string().lowercase()
             recoveryPasswordViewModel.requestPasswordChange(email,
                 onSuccess = {
                     requestPasswordChangeLinearLayout.hide()

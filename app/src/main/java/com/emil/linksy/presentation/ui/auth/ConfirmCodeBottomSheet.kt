@@ -89,9 +89,9 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
          num5editText = view.findViewById(R.id.et_num5)
          emailTextView =view.findViewById(R.id.tv_email)
          invalidCodeTextView = view.findViewById(R.id.tv_invalid_code)
-        cancelButton = view.findViewById(R.id.bt_cancel)
-        resendButton = view.findViewById(R.id.bt_send_new_code)
-        timerTextView = view.findViewById(R.id.tv_timer)
+         cancelButton = view.findViewById(R.id.bt_cancel)
+         resendButton = view.findViewById(R.id.bt_send_new_code)
+         timerTextView = view.findViewById(R.id.tv_timer)
          numList = arrayOf(num1editText,num2editText,num3editText,num4editText,num5editText)
          emailTextView.text = email
          editTexts = numList.toList()
