@@ -577,10 +577,4 @@ class MessageActivity : AppCompatActivity() {
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-
-    }
-
 }

@@ -34,11 +34,7 @@ class SearchPeopleFragment : Fragment() {
     private lateinit var userRecyclerView: RecyclerView
     private val peopleViewModel:PeopleViewModel by viewModel<PeopleViewModel>()
     private val tokenManager: TokenManager by inject()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

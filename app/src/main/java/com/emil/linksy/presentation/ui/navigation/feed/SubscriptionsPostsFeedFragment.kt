@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.emil.linksy.adapters.PostsAdapter
 import com.emil.linksy.adapters.UnseenMomentsAdapter
 import com.emil.linksy.presentation.viewmodel.FeedViewModel
-import com.emil.linksy.presentation.viewmodel.MomentViewModel
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.TokenManager
 
@@ -22,12 +21,8 @@ class SubscriptionsPostsFeedFragment : Fragment() {
     private lateinit var binding:FragmentSubscriptionsPostsFeedBinding
     private val feedViewModel: FeedViewModel by viewModel<FeedViewModel>()
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
-    private val momentViewModel: MomentViewModel by viewModel<MomentViewModel>()
     private val tokenManager: TokenManager by inject()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

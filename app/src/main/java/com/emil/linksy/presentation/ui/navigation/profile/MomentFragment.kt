@@ -31,9 +31,7 @@ class MomentFragment : Fragment(),CreateMomentDialogFragment.AddMomentDialogList
     private  lateinit var shimmerMoments: ShimmerFrameLayout
     private val tokenManager: TokenManager by inject()
     private val momentViewModel: MomentViewModel by viewModel<MomentViewModel>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

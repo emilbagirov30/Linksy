@@ -1,6 +1,6 @@
 package com.emil.linksy.adapters
 
-import android.annotation.SuppressLint
+
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -17,21 +17,25 @@ import com.emil.linksy.util.show
 import com.emil.presentation.R
 import com.emil.presentation.databinding.RvItemAppreciatedBinding
 
-class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>, private val context: Context): RecyclerView.Adapter<AppreciatedAdapter.AppreciatedViewHolder>() {
+class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>,
+                          private val context: Context): RecyclerView.Adapter<AppreciatedAdapter.AppreciatedViewHolder>() {
 
-    inner class  AppreciatedViewHolder(private val binding: RvItemAppreciatedBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class  AppreciatedViewHolder (private val binding: RvItemAppreciatedBinding) : RecyclerView.ViewHolder(binding.root) {
         private val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val id = sharedPref.getLong("ID", -1)
 
-        @SuppressLint("SetTextI18n")
-        fun bind(user:PostAppreciatedResponse){
-            if (user.online) binding.ivOnline.show() else  binding.ivOnline.hide()
+        fun bind(user:PostAppreciatedResponse) {
+
+            if (user.online) binding.ivOnline.show() else binding.ivOnline.hide()
+
             if (user.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.hide()
+
             binding.tvUsername.text = user.username
+
             if (user.link != null) {
                 binding.tvLink.show()
                 binding.tvLink.text = "@${user.link}"
-            }else binding.tvLink.hide()
+            } else binding.tvLink.hide()
 
             binding.root.setOnClickListener {
                 if (id != user.id) {
@@ -46,7 +50,8 @@ class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>, priva
                     .load(user.avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.ivUserAvatar)
-            }else binding.ivUserAvatar.setBackgroundResource(R.drawable.default_avatar)
+            } else binding.ivUserAvatar.setBackgroundResource(R.drawable.default_avatar)
+
             val score = user.score
             binding.tvScore.text = score.toString()
             binding.ivScore.colorByRating(score.toDouble())

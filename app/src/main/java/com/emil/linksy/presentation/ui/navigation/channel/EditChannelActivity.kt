@@ -37,10 +37,10 @@ class EditChannelActivity : AppCompatActivity() {
     private val channelViewModel: ChannelViewModel by viewModel<ChannelViewModel>()
     private val tokenManager: TokenManager by inject()
     var channelType:ChannelType = ChannelType.PUBLIC
-    var oldLink:String? = null
+    private var oldLink:String? = null
     private var oldDescription:String=""
     private var oldType:ChannelType = ChannelType.PRIVATE
-    @SuppressLint("SuspiciousIndentation")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditChannelBinding.inflate(layoutInflater)

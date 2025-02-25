@@ -30,10 +30,6 @@ class ChatFragment : Fragment() {
     private val chatViewModel: ChatViewModel by viewModel<ChatViewModel>()
     private val tokenManager: TokenManager by inject()
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(

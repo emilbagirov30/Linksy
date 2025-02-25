@@ -40,7 +40,6 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
         private const val ARG_CHANNEL_POST_ID = "CHANNEL_POST_ID"
         private const val ARG_POST_ID = "POST_ID"
         private const val ARG_USER_ID = "USER_ID"
-        private const val DIALOG_HEIGHT_RATIO = 0.75
         fun newInstance(channelPostId:Long = -100,postId: Long = -100,userId:Long): CommentsBottomSheet {
             val fragment = CommentsBottomSheet()
             val args = Bundle()
@@ -82,17 +81,12 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
 
             bottomSheet?.let {
                 val layoutParams = it.layoutParams
-                layoutParams.height =
-                    (Resources.getSystem().displayMetrics.heightPixels * DIALOG_HEIGHT_RATIO).toInt()
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 it.layoutParams = layoutParams
 
                 val behavior = BottomSheetBehavior.from(it)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
-        }
-        binding.ibClose.setOnClickListener {
-            it.anim()
-            dismiss()
         }
         if (postId!=-100L) {
             getUserPostComments()

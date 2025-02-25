@@ -26,10 +26,7 @@ class SubscribersFragment : Fragment() {
     private val tokenManager: TokenManager by inject()
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(

@@ -17,6 +17,6 @@ gradle.properties
 gradlew
 gradlew.bat
 settings.gradle.kts
-test
-androidTest
+app/src/test
+app/src/androidTest
 

@@ -18,14 +18,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.emil.linksy.adapters.ChannelsAdapter
 import com.emil.linksy.presentation.ui.CameraXActivity
-import com.emil.linksy.presentation.ui.navigation.chat.CreateGroupActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showHint
 import com.emil.presentation.R
-import com.emil.presentation.databinding.ActivityCreateChannelBinding
 import com.emil.presentation.databinding.FragmentChannelBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,10 +33,6 @@ class ChannelFragment : Fragment() {
     private val channelViewModel: ChannelViewModel by viewModel<ChannelViewModel>()
     private val tokenManager: TokenManager by inject()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,7 +90,7 @@ class ChannelFragment : Fragment() {
 
 
         channelViewModel.channelList.observe(requireActivity()){channelList ->
-            binding.rvChannels.adapter = context?.let { ChannelsAdapter(channelList, it,userId) }
+            binding.rvChannels.adapter = context?.let { ChannelsAdapter(channelList, it) }
         }
 
 

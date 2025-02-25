@@ -4,13 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.emil.linksy.app.service.TokenService
-import com.emil.linksy.app.service.WebSocketService
 import com.emil.linksy.presentation.ui.navigation.channel.ChannelFragment
 import com.emil.linksy.presentation.ui.navigation.chat.ChatFragment
 import com.emil.linksy.presentation.ui.navigation.feed.FeedFragment
@@ -20,7 +17,6 @@ import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.replaceFragment
-import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.android.ext.android.inject

@@ -67,12 +67,12 @@ class RelationsDialogFragment : DialogFragment() {
         }
     }
 
-    @SuppressLint("MissingInflatedId", "SetTextI18n", "SuspiciousIndentation")
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.relations_dialog, container, false)
     }
 
-    @SuppressLint("SetTextI18n")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val toolBar = view.findViewById<MaterialToolbar>(R.id.tb)

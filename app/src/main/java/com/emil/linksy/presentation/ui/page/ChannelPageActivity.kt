@@ -12,7 +12,6 @@ import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -230,9 +229,6 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
 
         channelViewModel.getChannelPosts(tokenManager.getAccessToken(), channelId = channelId, onConflict = {})
     }
-
-
-    @SuppressLint("SetTextI18n")
     private fun setSubscribeAction(){
         binding.btSub.text = getString(R.string.subscribe)
         binding.btSub.setOnClickListener {
@@ -245,7 +241,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
             })
         }
     }
-    @SuppressLint("SetTextI18n")
+
     private fun setUnSubscribeAction(){
         binding.btSub.text = getString(R.string.unsubscribe)
         binding.btSub.setOnClickListener {

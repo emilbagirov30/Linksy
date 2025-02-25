@@ -11,8 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import androidx.annotation.OptIn
 import androidx.fragment.app.DialogFragment
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import com.emil.presentation.R
@@ -28,7 +30,6 @@ class VideoPlayerDialogFragment: DialogFragment () {
     private lateinit var binding:VideoPlayerDialogBinding
     companion object {
         private const val ARG_VIDEO_URL = "VIDEO_URL"
-        private const val ORIENTATION_RESET_DELAY = 1000L
         fun newInstance(url: String?): VideoPlayerDialogFragment {
             val fragment = VideoPlayerDialogFragment()
             val args = Bundle()
@@ -65,17 +66,20 @@ class VideoPlayerDialogFragment: DialogFragment () {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = VideoPlayerDialogBinding.inflate(inflater)
         return binding.root
     }
 
 
+    @OptIn(UnstableApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.playerView.player = exoPlayer
         val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
+        binding.playerView.setShowNextButton(false)
+        binding.playerView.setShowPreviousButton(false)
         exoPlayer.setMediaItem(mediaItem)
         exoPlayer.prepare()
         exoPlayer.play()

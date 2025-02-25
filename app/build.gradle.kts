@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id ("kotlin-kapt")
     id ("kotlin-parcelize")
-
 }
 
 android {
@@ -74,9 +73,6 @@ dependencies {
     implementation ("com.google.mlkit:barcode-scanning:17.0.2")
     implementation ("androidx.room:room-runtime:2.6.1")
     kapt ("androidx.room:room-compiler:2.6.1")
-    implementation ("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
-    implementation ("io.reactivex.rxjava2:rxjava:2.2.20")
-    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

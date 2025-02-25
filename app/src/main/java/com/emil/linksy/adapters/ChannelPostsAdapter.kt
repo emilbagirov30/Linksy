@@ -90,7 +90,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,
                     .load(post.channelAvatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(channelAvatarImageView)
-            }else channelAvatarImageView.setBackgroundResource(R.drawable.default_channel_avatar)
+            } else channelAvatarImageView.setBackgroundResource(R.drawable.default_channel_avatar)
             if (post.confirmed) confirmedImageView.show() else confirmedImageView.hide()
 
             channelAvatarImageView.setOnClickListener {
@@ -117,7 +117,7 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,
                 postPictureImageView.setOnClickListener {
                     BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
                 }
-            }else  postPictureImageView.hide()
+            } else  postPictureImageView.hide()
             val videoUrl = post.videoUrl
             if (videoUrl!=null){
                 mediaLinearLayout.show()
@@ -303,8 +303,6 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,
 
 
     }
-
-
 
     private fun addScore (postId: Long,score:Int){
         channelViewModel.addScore(tokenManager.getAccessToken(),postId, score,

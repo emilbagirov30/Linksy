@@ -46,10 +46,7 @@ class LoginFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private lateinit var email:String
     private lateinit var password:String
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

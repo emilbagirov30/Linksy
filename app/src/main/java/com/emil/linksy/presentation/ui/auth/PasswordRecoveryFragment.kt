@@ -57,11 +57,6 @@ class PasswordRecoveryFragment : Fragment() {
     var isValidEmail:Boolean = false
     private val recoveryPasswordViewModel: RecoveryPasswordViewModel by viewModel<RecoveryPasswordViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

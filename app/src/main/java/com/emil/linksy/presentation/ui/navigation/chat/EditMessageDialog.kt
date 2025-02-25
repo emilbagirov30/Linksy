@@ -1,9 +1,8 @@
 package com.emil.linksy.presentation.ui.navigation.chat
 
-import android.annotation.SuppressLint
+
 import android.app.Dialog
 import android.content.Context
-import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.widget.addTextChangedListener
@@ -14,11 +13,14 @@ import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.string
 import com.emil.presentation.R
-import com.google.android.material.button.MaterialButton
 
-@SuppressLint("WrongViewCast")
+
+
 class EditMessageDialog private constructor(private val context: Context,private val messageId: Long, private val messageText: String,
                                             private val tokenManager: TokenManager,private val messageViewModel: MessageViewModel) : Dialog(context, R.style.RoundedDialog) {
+
+
+
 
                                                 private val sendButton:ImageButton
                                                 private val messageEditText:EditText
@@ -31,8 +33,8 @@ class EditMessageDialog private constructor(private val context: Context,private
     init {
         setContentView(R.layout.edit_message_dialog)
         show()
-       messageEditText = findViewById(R.id.et_message)
-       sendButton = findViewById(R.id.ib_send)
+        messageEditText = findViewById(R.id.et_message)
+        sendButton = findViewById(R.id.ib_send)
         messageEditText?.setText(messageText)
         messageEditText.addTextChangedListener{updateButtonState()}
         sendButton?.setOnClickListener {

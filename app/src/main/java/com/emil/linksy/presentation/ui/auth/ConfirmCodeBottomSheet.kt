@@ -165,6 +165,7 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
         }.start()
         isTimerRunning = true
     }
+    @SuppressLint("DefaultLocale")
     private fun updateTimerText(millisUntilFinished: Long) {
         val seconds = (millisUntilFinished / 1000) % 60
         val minutes = (millisUntilFinished / 1000) / 60

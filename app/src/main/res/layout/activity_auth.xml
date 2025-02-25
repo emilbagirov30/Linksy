@@ -14,9 +14,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-       android:paddingHorizontal="15dp"
-      android:paddingTop="10dp"
-        tools:ignore="MissingConstraints">
+        android:paddingHorizontal="@dimen/auth_activity_padding_horizontal"
+        android:paddingTop="@dimen/auth_activity_padding_top">
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

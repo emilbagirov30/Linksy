@@ -17,19 +17,16 @@ import com.emil.linksy.presentation.ui.page.ChannelPageActivity
 import com.emil.linksy.util.colorByRating
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
-import com.emil.presentation.R
+
 
 import com.emil.presentation.databinding.RvItemChannelBinding
 
 class ChannelsAdapter(
     private val channelList: List<ChannelResponse>,
-    private val context: Context,
-    private val userId: Long
-) : RecyclerView.Adapter<ChannelsAdapter.ChannelViewHolder>() {
+    private val context: Context) : RecyclerView.Adapter<ChannelsAdapter.ChannelViewHolder>() {
 
     inner class ChannelViewHolder(private val binding: RvItemChannelBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
         fun bind(channel: ChannelResponse) {
             val avatarUrl = channel.avatarUrl
             val name = channel.name

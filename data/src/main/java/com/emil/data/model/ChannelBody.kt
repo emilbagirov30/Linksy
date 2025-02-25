@@ -11,8 +11,6 @@ data class ChannelBody (val name:String="",
                         val oldAvatarUrl:String? = null,
                         val avatar: MultipartBody.Part?=null)
 
-
-
 fun ChannelBody.toDomainModel(channelData: ChannelData):ChannelData{
    return ChannelData(
        channelData.name,

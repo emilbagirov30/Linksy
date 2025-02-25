@@ -80,16 +80,16 @@ interface ApiService {
     @POST("cloud/api/posts/cu")
     @Multipart
     suspend fun createOrUpdatePost (@Header("Authorization") token:String,
-                            @Part("id") postId: Long?,
-                            @Part("text") text: String?,
+                                    @Part("id") postId: Long?,
+                                    @Part("text") text: String?,
                                     @Part("imageUrl") imageUrl: String?,
                                     @Part("videoUrl") videoUrl: String?,
                                     @Part("audioUrl") audioUrl: String?,
                                     @Part("voiceUrl") voiceUrl: String?,
-                            @Part image: MultipartBody.Part?,
-                            @Part video: MultipartBody.Part?,
-                            @Part audio: MultipartBody.Part?,
-                            @Part voice: MultipartBody.Part?):Response<Unit>
+                                    @Part image: MultipartBody.Part?,
+                                    @Part video: MultipartBody.Part?,
+                                    @Part audio: MultipartBody.Part?,
+                                    @Part voice: MultipartBody.Part?):Response<Unit>
 
 
 
@@ -99,12 +99,6 @@ interface ApiService {
                             @Part image: MultipartBody.Part?,
                             @Part video: MultipartBody.Part?,
                             @Part audio: MultipartBody.Part?, @Part("text") text: String?):Response<Unit>
-
-
-
-
-
-
 
     @GET ("user/api/posts/user_posts")
     suspend fun getUserPosts (@Header("Authorization") token:String): Response<List<PostResponseDto>>
@@ -151,11 +145,11 @@ interface ApiService {
     suspend fun sendMessage (@Header("Authorization") token:String,
                              @Part("recipientId") recipientId:Long?,
                              @Part("chatId") chatId:Long?,
-                            @Part("text") text: String?,
-                            @Part image: MultipartBody.Part?,
-                            @Part video: MultipartBody.Part?,
-                            @Part audio: MultipartBody.Part?,
-                            @Part voice: MultipartBody.Part?):Response<Unit>
+                             @Part("text") text: String?,
+                             @Part image: MultipartBody.Part?,
+                             @Part video: MultipartBody.Part?,
+                             @Part audio: MultipartBody.Part?,
+                             @Part voice: MultipartBody.Part?):Response<Unit>
 
 
     @GET("user/api/messages/user_messages")
@@ -178,8 +172,6 @@ interface ApiService {
 
     @GET("user/api/chats/group/members/{id}")
     suspend fun getGroupMembers(@Header("Authorization") token:String,@Path("id")groupId:Long): Response<List<UserResponseDto>>
-
-
 
     @POST("cloud/api/channels/cu")
     @Multipart

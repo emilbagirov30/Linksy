@@ -14,11 +14,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class PeopleFragment : Fragment() {
     private lateinit var tabLayout: TabLayout
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

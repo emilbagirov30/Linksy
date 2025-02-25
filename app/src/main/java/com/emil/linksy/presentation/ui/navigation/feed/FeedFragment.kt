@@ -11,7 +11,6 @@ import com.emil.linksy.presentation.viewmodel.FeedViewModel
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.replaceFragment
-
 import com.emil.presentation.databinding.FragmentFeedBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,10 +20,6 @@ class FeedFragment : Fragment() {
     private lateinit var binding: FragmentFeedBinding
     private val feedViewModel: FeedViewModel by viewModel<FeedViewModel>()
     private val tokenManager: TokenManager by inject()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +40,6 @@ class FeedFragment : Fragment() {
             binding.chipUser.setOnClickListener {
                 replaceFragment(containerId, SubscriptionsPostsFeedFragment())
             }
-
             binding.chipChannel.setOnClickListener {
                 replaceFragment(containerId, ChannelPostsFeedFragment())
             }
