@@ -23,6 +23,8 @@ fun ChatLocalDb.toDomainModel (): ChatLocal {
     return ChatLocal(id,companionId, senderId,isGroup, avatarUrl,
         displayName, confirmed,lastMessage, dateLast,unreadMessagesCount)
 }
+
+
 fun ChatLocalDb.toDomainModel (domainModel: ChatLocal): ChatLocalDb {
     return ChatLocalDb(domainModel.id,domainModel.companionId, domainModel.senderId,
         domainModel.isGroup, domainModel.avatarUrl, domainModel.displayName,

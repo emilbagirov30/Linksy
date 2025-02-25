@@ -1,6 +1,8 @@
 package com.emil.linksy.presentation.ui.navigation.profile
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,6 +21,7 @@ import com.emil.linksy.util.show
 import com.emil.linksy.util.string
 import com.emil.presentation.R
 import com.emil.presentation.databinding.BottomSheetCommentsBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.inject
@@ -37,6 +40,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
         private const val ARG_CHANNEL_POST_ID = "CHANNEL_POST_ID"
         private const val ARG_POST_ID = "POST_ID"
         private const val ARG_USER_ID = "USER_ID"
+        private const val DIALOG_HEIGHT_RATIO = 0.75
         fun newInstance(channelPostId:Long = -100,postId: Long = -100,userId:Long): CommentsBottomSheet {
             val fragment = CommentsBottomSheet()
             val args = Bundle()
@@ -48,6 +52,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+
     override fun getTheme() = R.style.BottomSheetDialogTheme
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +60,6 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
         channelPostId = arguments?.getLong(ARG_CHANNEL_POST_ID)!!
         postId = arguments?.getLong(ARG_POST_ID)!!
         userId = arguments?.getLong(ARG_USER_ID)!!
-        isCancelable = false
 
     }
 
@@ -63,7 +67,10 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = BottomSheetCommentsBinding.inflate(inflater, container, false)
         return binding.root
+
     }
+
+
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,10 +79,15 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet =
                 bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+
             bottomSheet?.let {
                 val layoutParams = it.layoutParams
-                layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                layoutParams.height =
+                    (Resources.getSystem().displayMetrics.heightPixels * DIALOG_HEIGHT_RATIO).toInt()
                 it.layoutParams = layoutParams
+
+                val behavior = BottomSheetBehavior.from(it)
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
         binding.ibClose.setOnClickListener {
@@ -84,9 +96,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
         }
         if (postId!=-100L) {
             getUserPostComments()
-            binding.swipeRefreshLayout.setOnRefreshListener {
-                getUserPostComments()
-            }
+
             postViewModel.commentList.observe(requireActivity()) { commentlist ->
                 binding.tvTitle.text = "${getString(R.string.comments)}: ${commentlist.size}"
                 binding.rvComments.layoutManager = LinearLayoutManager(requireContext())
@@ -132,9 +142,7 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
         if (channelPostId!=-100L) {
             getChannelsPostComments()
 
-            binding.swipeRefreshLayout.setOnRefreshListener {
-                getChannelsPostComments()
-            }
+
             channelViewModel.commentList.observe(requireActivity()) { commentlist ->
                 binding.tvTitle.text = "${getString(R.string.comments)}: ${commentlist.size}"
                 binding.rvComments.layoutManager = LinearLayoutManager(requireContext())
@@ -195,10 +203,10 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
     }
 
   fun getChannelsPostComments(){
-        channelViewModel.getComments(channelPostId, onSuccess = {binding.swipeRefreshLayout.isRefreshing=false}, onError = {})
+        channelViewModel.getComments(channelPostId, onSuccess = {}, onError = {})
     }
 
    fun getUserPostComments(){
-        postViewModel.getComments(postId, onSuccess = {binding.swipeRefreshLayout.isRefreshing=false}, onError = {})
+        postViewModel.getComments(postId, onSuccess = {}, onError = {})
     }
 }

@@ -224,7 +224,7 @@ class AddChannelPostDialogFragment: DialogFragment() {
            binding.vvPickedVideo.stopPlayback()
             binding.flVideo.hide()
             if (!binding.flPicture.isVisible||!binding.flPoll.isVisible)  binding.llPickedContent.hide()
-            videoUri = null
+             videoUri = null
              videoUrl = null
             updatePublishButtonState()
         }

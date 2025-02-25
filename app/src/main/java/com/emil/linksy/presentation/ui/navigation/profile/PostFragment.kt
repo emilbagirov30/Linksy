@@ -13,7 +13,6 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emil.linksy.adapters.PostsAdapter
-import com.emil.linksy.presentation.ui.page.OutsiderMomentFragment
 import com.emil.linksy.presentation.viewmodel.PostViewModel
 import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
@@ -34,10 +33,6 @@ class PostFragment : Fragment(), AddPostDialogFragment.AddPostDialogListener {
     private val postViewModel: PostViewModel by viewModel<PostViewModel>()
     private val tokenManager: TokenManager by inject()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -58,7 +53,6 @@ class PostFragment : Fragment(), AddPostDialogFragment.AddPostDialogListener {
         shimmerPosts.setShimmer(Linksy.CUSTOM_SHIMMER)
         shimmerPosts.startShimmer()
         postsRecyclerView.layoutManager = LinearLayoutManager(context)
-        updatePosts()
 
         newPostEditText.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -83,9 +77,16 @@ class PostFragment : Fragment(), AddPostDialogFragment.AddPostDialogListener {
 
     }
     private fun showEmptyMessage (){
+        shimmerPosts.hide()
         postsRecyclerView.hide()
         emptyMessage.show()
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (postViewModel.postList.value.isNullOrEmpty()) updatePosts()
+    }
+
        private fun updatePosts (){
        if (!isAdded || view == null) return
        val token = tokenManager.getAccessToken()

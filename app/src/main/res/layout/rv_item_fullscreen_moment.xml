@@ -61,20 +61,19 @@
             android:layout_marginBottom="10dp"
             style="@android:style/Widget.Material.ProgressBar.Horizontal">
         </ProgressBar>
+
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_moment_background"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/klukva"
-            android:textSize="15sp"
-            android:textColor="@color/white"
-            android:layout_marginBottom="2dp"
-            android:text=""
             android:layout_gravity="center_horizontal|bottom"
-            >
-        </TextView>
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/rounded_moment_background"
+            android:fontFamily="@font/klukva"
+            android:paddingHorizontal="4dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="15sp"></TextView>
 
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"

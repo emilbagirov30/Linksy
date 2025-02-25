@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -25,9 +22,9 @@ class AppreciatedAdapter (private val list: List<PostAppreciatedResponse>, priva
     inner class  AppreciatedViewHolder(private val binding: RvItemAppreciatedBinding) : RecyclerView.ViewHolder(binding.root) {
         private val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val id = sharedPref.getLong("ID", -1)
+
         @SuppressLint("SetTextI18n")
         fun bind(user:PostAppreciatedResponse){
-
             if (user.online) binding.ivOnline.show() else  binding.ivOnline.hide()
             if (user.confirmed) binding.ivConfirmed.show() else binding.ivConfirmed.hide()
             binding.tvUsername.text = user.username

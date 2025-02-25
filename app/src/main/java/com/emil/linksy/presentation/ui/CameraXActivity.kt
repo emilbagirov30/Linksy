@@ -34,7 +34,7 @@ class CameraXActivity : AppCompatActivity() {
     }
 
     private lateinit var previewView: PreviewView
-   private lateinit var target:String
+    private lateinit var target:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_x)

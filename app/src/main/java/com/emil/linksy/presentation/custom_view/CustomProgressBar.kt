@@ -17,11 +17,6 @@ class CustomProgressBar @JvmOverloads constructor(
         startAnimation(animation)
     }
 
-    fun visible() {
-        visibility = VISIBLE
-        startAnimation(animation)
-    }
-
     fun gone() {
         clearAnimation()
         visibility = GONE

@@ -16,7 +16,9 @@ import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 
 class WebSocketRepositoryImpl() : WebSocketRepository {
-    private val BASE_URL = "wss://linksy-mes.ru:9614/ws/websocket"
+    companion object {
+        private const val BASE_URL = "wss://linksy-mes.ru:9614/ws/websocket"
+    }
     private val stompClient: StompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, BASE_URL)
     private val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     private val jsonAdapterMessage = moshi.adapter(MessageResponse::class.java)

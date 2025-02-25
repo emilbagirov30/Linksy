@@ -53,10 +53,7 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
     private var currentTabPosition: Int = 0
     private var id by Delegates.notNull<Long>()
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("current_tab", currentTabPosition)

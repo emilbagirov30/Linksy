@@ -77,7 +77,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val editedTextView = itemView.findViewById<MaterialTextView>(R.id.tv_edited)
         val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
-        @SuppressLint("SetTextI18n", "SuspiciousIndentation")
+        @SuppressLint("SetTextI18n")
         fun bind(post: PostResponse) {
               if (post.authorAvatarUrl !="null"){
                   Glide.with(context)

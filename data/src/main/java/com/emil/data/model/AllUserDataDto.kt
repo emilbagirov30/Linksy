@@ -2,7 +2,6 @@ package com.emil.data.model
 
 import com.emil.domain.model.AllUserData
 import com.squareup.moshi.Json
-import java.util.Date
 
 data class AllUserDataDto(
     @Json(name = "username") val username: String,
