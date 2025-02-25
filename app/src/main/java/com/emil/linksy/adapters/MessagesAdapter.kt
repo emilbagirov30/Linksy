@@ -26,7 +26,7 @@ import com.emil.domain.model.MessageResponse
 import com.emil.domain.model.UserResponse
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
-import com.emil.linksy.presentation.ui.VideoPlayerDialog
+import com.emil.linksy.presentation.ui.VideoPlayerDialogFragment
 import com.emil.linksy.presentation.ui.navigation.chat.EditMessageDialog
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
@@ -112,7 +112,11 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
           if (videoUrl!=null) {
                 videoRelativeLayout.show()
                 Glide.with(context).load(Uri.parse(videoUrl)).frame(0).into(frameImageView)
-                playVideoButton.setOnClickListener { VideoPlayerDialog(context, videoUrl) }
+                playVideoButton.setOnClickListener {
+                    val playerDialog = VideoPlayerDialogFragment.newInstance(url = videoUrl)
+                    playerDialog.show((context as AppCompatActivity).supportFragmentManager, "VideoPlayerDialogFragment")
+
+                }
             } else  videoRelativeLayout.hide()
             timeTextView.text = date
             var isPlayingAudio = false

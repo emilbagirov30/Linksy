@@ -25,7 +25,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.PostResponse
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
-import com.emil.linksy.presentation.ui.VideoPlayerDialog
+import com.emil.linksy.presentation.ui.VideoPlayerDialogFragment
 import com.emil.linksy.presentation.ui.navigation.feed.SubscriptionsPostsFeedFragment
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.ui.navigation.profile.AddPostDialogFragment
@@ -77,7 +77,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
         private val editedTextView = itemView.findViewById<MaterialTextView>(R.id.tv_edited)
         val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SuspiciousIndentation")
         fun bind(post: PostResponse) {
               if (post.authorAvatarUrl !="null"){
                   Glide.with(context)
@@ -120,7 +120,8 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     .frame(0)
                     .into(frameImageView)
                 playVideoImageButton.setOnClickListener{
-                    VideoPlayerDialog(context,videoUrl)
+                    val playerDialog = VideoPlayerDialogFragment.newInstance(url = videoUrl)
+                    playerDialog.show((context as AppCompatActivity).supportFragmentManager, "VideoPlayerDialogFragment")
                 }
 
             } else  videoRelativeLayout.hide()

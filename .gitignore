@@ -17,4 +17,6 @@ gradle.properties
 gradlew
 gradlew.bat
 settings.gradle.kts
-TemporaryKeyStore.kt
+test
+androidTest
+

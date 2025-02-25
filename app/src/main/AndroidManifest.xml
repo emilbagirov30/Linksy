@@ -58,11 +58,6 @@
             android:name="com.emil.linksy.presentation.ui.page.UserPageActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false" />
-        <activity
-            android:name="com.emil.linksy.presentation.ui.FullScreenVideoActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false"
-            android:theme="@style/FullScreenActivity" />
 
         <service
             android:name="com.emil.linksy.app.service.TokenService"

@@ -48,8 +48,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.service)
     val koin_android_version = "4.0.0"
     implementation("io.insert-koin:koin-android:$koin_android_version")
-    implementation ("com.google.dagger:dagger:2.51.1")
-    kapt ("com.google.dagger:dagger-compiler:2.51.1")
     implementation ("javax.inject:javax.inject:1")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
@@ -77,7 +75,6 @@ dependencies {
     implementation ("androidx.room:room-runtime:2.6.1")
     kapt ("androidx.room:room-compiler:2.6.1")
     implementation ("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
-    implementation ("com.google.code.gson:gson:2.9.0")
     implementation ("io.reactivex.rxjava2:rxjava:2.2.20")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")

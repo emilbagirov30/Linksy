@@ -25,7 +25,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.emil.domain.model.ChannelPostResponse
 import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.BigPictureDialog
-import com.emil.linksy.presentation.ui.VideoPlayerDialog
+import com.emil.linksy.presentation.ui.VideoPlayerDialogFragment
 import com.emil.linksy.presentation.ui.navigation.channel.AddChannelPostDialogFragment
 import com.emil.linksy.presentation.ui.navigation.channel.AppreciatedDialogFragment
 import com.emil.linksy.presentation.ui.navigation.feed.ChannelPostsFeedFragment
@@ -127,7 +127,8 @@ class ChannelPostsAdapter(private val postlist: List<ChannelPostResponse>,
                     .frame(0)
                     .into(frameImageView)
                 playVideoImageButton.setOnClickListener{
-                    VideoPlayerDialog(context,videoUrl)
+                    val playerDialog = VideoPlayerDialogFragment.newInstance(url = videoUrl)
+                    playerDialog.show((context as AppCompatActivity).supportFragmentManager, "VideoPlayerDialogFragment")
                 }
             } else  videoRelativeLayout.hide()
             var isPlayingAudio = false
