@@ -62,9 +62,11 @@ class MomentFragment : Fragment(),CreateMomentDialogFragment.AddMomentDialogList
     private fun showEmptyMessage (){
        contentFlexboxLayout.hide()
         emptyMessage.show()
+        shimmerMoments.hide()
     }
     private fun stopShimmer(){
         shimmerMoments.stopShimmer()
+        shimmerMoments.hide()
     }
 
     private fun showContent(){
