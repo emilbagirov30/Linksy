@@ -176,11 +176,11 @@
 
                         <ImageView
                             android:id="@+id/iv_rating"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
                             android:layout_gravity="center"
                             app:backgroundTint="@color/gray"
-                            android:background="@drawable/ic_rating"/>
+                            android:background="@drawable/ic_star"/>
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_rating"

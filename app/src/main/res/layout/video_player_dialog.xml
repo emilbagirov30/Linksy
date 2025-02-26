@@ -16,8 +16,8 @@
 
         <ImageButton
             android:id="@+id/closeButton"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="end"
             android:layout_margin="20dp"
             app:backgroundTint="@android:color/white"

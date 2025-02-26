@@ -50,7 +50,7 @@ class GroupActivity : AppCompatActivity() {
     private var oldName:String=""
     private var groupId:Long = -100L
     private var membersIdList: List<Long> = emptyList()
-    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)

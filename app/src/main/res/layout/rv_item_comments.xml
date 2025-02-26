@@ -103,6 +103,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="5dp"
+        android:layout_marginTop="@dimen/layout_margin_comment_responses"
         android:visibility="gone"
         android:background="@drawable/rounded_layout"
         android:orientation="vertical">

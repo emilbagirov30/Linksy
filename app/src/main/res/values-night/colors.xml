@@ -60,4 +60,5 @@
     <color name="message_back">#121212</color>
     <color name="message_et">#353535</color>
     <color name="stranger_message">#353535</color>
+    <color name="video_background">#B3353535</color>
 </resources>
