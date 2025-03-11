@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
-
-
-
     <androidx.media3.ui.PlayerView
         android:id="@+id/playerView"
         android:layout_width="match_parent"
@@ -16,16 +11,14 @@
 
         <ImageButton
             android:id="@+id/closeButton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/video_player_close_button_size"
+            android:layout_height="@dimen/video_player_close_button_size"
             android:layout_gravity="end"
-            android:layout_margin="20dp"
+            android:layout_margin="@dimen/video_player_close_button_margin"
             app:backgroundTint="@android:color/white"
             android:background="@drawable/ic_close_3">
-
         </ImageButton>
     </androidx.media3.ui.PlayerView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
