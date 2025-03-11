@@ -56,6 +56,6 @@ class SubscriptionsPostsFeedFragment : Fragment() {
     fun getData(){
         feedViewModel.getAllSubscriptionsPosts(tokenManager.getAccessToken(), onSuccess = {})
         feedViewModel.getAllUnseenMoments(tokenManager.getAccessToken())
-        binding.swipeRefreshLayout.isRefreshing=false
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 }

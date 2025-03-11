@@ -19,4 +19,6 @@ gradlew.bat
 settings.gradle.kts
 /app/src/test/
 /app/src/androidTest/
+/data/src/test/
+/data/src/androidTest/
 .gitignore

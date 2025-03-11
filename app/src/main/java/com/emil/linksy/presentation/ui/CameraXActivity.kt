@@ -20,6 +20,7 @@ import androidx.camera.view.PreviewView
 import androidx.camera.core.Preview
 import com.emil.linksy.presentation.ui.page.ChannelPageActivity
 import com.emil.linksy.presentation.ui.page.UserPageActivity
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 import com.google.mlkit.vision.barcode.BarcodeScanner
@@ -39,7 +40,7 @@ class CameraXActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_x)
         previewView = findViewById(R.id.previewView)
-        target = intent.getStringExtra("TARGET").toString()
+        target = intent.getStringExtra(Linksy.INTENT_TARGET_KEY).toString()
         if (hasCameraPermission()) {
             startCamera()
         } else {
@@ -77,8 +78,8 @@ class CameraXActivity : AppCompatActivity() {
     private fun startCamera() {
         var isActivityStarted = false
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("ID",-1)
+        val sharedPref: SharedPreferences = getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong(Linksy.SHAREDPREF_ID_KEY, Linksy.DEFAULT_ID)
         var id:Long?
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -93,20 +94,20 @@ class CameraXActivity : AppCompatActivity() {
                         QRCodeAnalyzer { qrCode ->
                             if (!isActivityStarted) {
                                 id = qrCode.toLongOrNull()
-                                if (target == "USER"){
+                                if (target == Linksy.INTENT_TARGET_VALUE_USER){
                                     if (id != userId && id != null) {
                                         isActivityStarted = true
                                         val switchingToUserPageActivity =
                                             Intent(this, UserPageActivity()::class.java)
-                                        switchingToUserPageActivity.putExtra("USER_ID", id)
+                                        switchingToUserPageActivity.putExtra(Linksy.INTENT_USER_ID_KEY, id)
                                         startActivity(switchingToUserPageActivity)
                                         finish()
                                     }
-                            }else if (target == "CHANNEL"){
+                            }else if (target == Linksy.INTENT_TARGET_VALUE_CHANNEL){
                                     isActivityStarted = true
                                     val switchingToChannelPageActivity =
                                         Intent(this, ChannelPageActivity()::class.java)
-                                    switchingToChannelPageActivity.putExtra("CHANNEL_ID", id)
+                                    switchingToChannelPageActivity.putExtra(Linksy.INTENT_CHANNEL_ID_KEY, id)
                                     startActivity(switchingToChannelPageActivity)
                                     finish()
                                 }

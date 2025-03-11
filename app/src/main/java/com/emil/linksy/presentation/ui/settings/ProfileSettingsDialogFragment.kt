@@ -182,7 +182,7 @@ class ProfileSettingsDialogFragment: DialogFragment() {
             currentBirthday = if (data.birthday.isNullOrEmpty()) "" else data.birthday.toString()
             birthdayEditText.setText(currentBirthday)
             currentAvatar = data.avatarUrl
-            if (currentAvatar != "null") {
+            if (currentAvatar != Linksy.EMPTY_AVATAR) {
                 avatarExist = true
                 Glide.with(requireContext())
                     .load(data.avatarUrl)

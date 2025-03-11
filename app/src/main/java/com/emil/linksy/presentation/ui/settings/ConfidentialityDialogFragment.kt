@@ -24,9 +24,7 @@ class ConfidentialityDialogFragment: DialogFragment() {
     override fun getTheme() = R.style.FullScreenDialog
     private val userViewModel:UserViewModel by viewModel<UserViewModel>()
     private val tokenManager:TokenManager by inject<TokenManager>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {

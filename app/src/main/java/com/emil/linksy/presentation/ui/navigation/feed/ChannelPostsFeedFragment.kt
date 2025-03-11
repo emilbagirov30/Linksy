@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.emil.linksy.adapters.ChannelPostsAdapter
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.FeedViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.presentation.databinding.FragmentChannelPostsFeedBinding
 import org.koin.android.ext.android.inject
@@ -36,8 +37,8 @@ class ChannelPostsFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPosts.layoutManager = LinearLayoutManager(requireActivity())
-        val sharedPref: SharedPreferences = requireActivity().getSharedPreferences("appData", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("ID",-1)
+        val sharedPref: SharedPreferences = requireActivity().getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong(Linksy.SHAREDPREF_ID_KEY, Linksy.DEFAULT_ID)
         getPosts()
         binding.swipeRefreshLayout.setOnRefreshListener {
             getPosts()

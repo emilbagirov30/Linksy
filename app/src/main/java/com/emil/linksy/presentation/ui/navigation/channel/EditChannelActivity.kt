@@ -17,6 +17,7 @@ import com.emil.domain.model.ChannelType
 import com.emil.linksy.presentation.ui.LoadingDialog
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.util.ContentType
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.createContentPickerForActivity
@@ -46,7 +47,7 @@ class EditChannelActivity : AppCompatActivity() {
         binding = ActivityEditChannelBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        val channelId = intent.getLongExtra("CHANNEL_ID",-1)
+        val channelId = intent.getLongExtra(Linksy.INTENT_CHANNEL_ID_KEY, Linksy.DEFAULT_ID)
         val pickImageLauncher = createContentPickerForActivity(this) { uri ->
             handleSelectedImage(uri)
             imageUri = uri

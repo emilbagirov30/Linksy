@@ -58,7 +58,7 @@ class TokenService: Service() {
             while (true) {
                 try {
                     val currentRefreshToken = tokenManager.getRefreshToken()
-                    if (currentRefreshToken!="null") {
+                    if (currentRefreshToken != TokenManager.DEFAULT_TOKEN) {
                         val response = refreshTokenUseCase.execute(currentRefreshToken)
                         val code = response.code()
                         when(code){
@@ -92,9 +92,9 @@ class TokenService: Service() {
         refreshJob = null
     }
     private fun logoutUser() {
-        val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.putBoolean("remember", false)
+        editor.putBoolean(Linksy.SHAREDPREF_REMEMBER_KEY, false)
         editor.apply()
         tokenManager.clearTokens()
         CoroutineScope(Dispatchers.IO).launch {

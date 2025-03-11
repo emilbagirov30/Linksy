@@ -1,6 +1,6 @@
 package com.emil.linksy.presentation.ui.auth
 
-import android.annotation.SuppressLint
+
 import android.content.Intent
 import com.emil.linksy.util.replaceFragment
 import android.os.Bundle
@@ -35,7 +35,6 @@ import com.emil.presentation.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Locale
 
 
 class RegistrationFragment : Fragment() {
@@ -54,7 +53,6 @@ class RegistrationFragment : Fragment() {
     private lateinit var passwordShortTextView: MaterialTextView
     private lateinit var loading: LoadingDialog
     private val registrationViewModel: RegistrationViewModel by viewModel<RegistrationViewModel>()
-    private val TAG = this.javaClass.simpleName
     private lateinit var bsDialog: ConfirmCodeBottomSheet
     companion object private var errorCount = 0
     private lateinit var username:String
@@ -63,13 +61,8 @@ class RegistrationFragment : Fragment() {
     private lateinit var confirmPassword:String
     private lateinit var acceptPrivacyCheckBox:CheckBox
     private lateinit var privacyTextView:MaterialTextView
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
 
-    }
-
-    @SuppressLint("MissingInflatedId", "ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

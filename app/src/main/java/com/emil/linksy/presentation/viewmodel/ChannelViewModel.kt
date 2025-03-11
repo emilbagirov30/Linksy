@@ -428,7 +428,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
             }
         }
     }
-    fun getPostAppreciated(token: String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+    fun getPostAppreciated(token: String,postId:Long,onSuccess: ()->Unit = {},onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response = getPostAppreciatedUseCase.execute(token, postId)

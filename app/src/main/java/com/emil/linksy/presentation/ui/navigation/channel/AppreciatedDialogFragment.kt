@@ -71,7 +71,7 @@ class AppreciatedDialogFragment:DialogFragment() {
         binding.rvEvalutions.layoutManager = LinearLayoutManager(requireActivity())
         val adapter = AppreciatedAdapter ()
         binding.rvEvalutions.adapter = adapter
-        channelViewModel.getPostAppreciated(tokenManager.getAccessToken(),postId, onSuccess = {}, onError = {})
+        channelViewModel.getPostAppreciated(tokenManager.getAccessToken(),postId)
         channelViewModel.appreciatedList.observe(requireActivity()){list ->
             adapter.submitList(list)
         }

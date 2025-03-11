@@ -19,6 +19,7 @@ import com.emil.linksy.adapters.model.SettingItem
 import com.emil.linksy.presentation.ui.auth.AuthActivity
 import com.emil.linksy.presentation.ui.auth.PrivacyPolicyActivity
 import com.emil.linksy.presentation.ui.navigation.profile.BlackListDialogFragment
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
@@ -98,9 +99,9 @@ private lateinit var settingsRecyclerView: RecyclerView
     }
     private fun logoutUser() {
         val sharedPref: SharedPreferences =
-            requireContext().getSharedPreferences("appData", Context.MODE_PRIVATE)
+            requireContext().getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.putBoolean("remember", false)
+        editor.putBoolean(Linksy.SHAREDPREF_REMEMBER_KEY, false)
         editor.apply()
         tokenManager.clearTokens()
         CoroutineScope(Dispatchers.IO).launch {

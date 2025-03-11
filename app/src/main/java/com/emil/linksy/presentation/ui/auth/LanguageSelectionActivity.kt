@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import com.emil.linksy.presentation.ui.navigation.MainNavigationActivity
+import com.emil.linksy.util.Linksy
 import com.emil.presentation.R
 import com.google.android.material.button.MaterialButton
 import java.util.Locale
@@ -23,9 +24,9 @@ class LanguageSelectionActivity : AppCompatActivity() {
     private var  isRemember:Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE)
-        isRemember =  sharedPref.getBoolean("remember", false)
-        sharedPref.getString("language", null)?.let { language ->
+        sharedPref = getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        isRemember =  sharedPref.getBoolean(Linksy.SHAREDPREF_REMEMBER_KEY, false)
+        sharedPref.getString(Linksy.SHAREDPREF_LANGUAGE_KEY, null)?.let { language ->
             applyLocaleAndSwitch(language)
             return
         }
@@ -46,10 +47,10 @@ class LanguageSelectionActivity : AppCompatActivity() {
         }
         val systemLanguage = Locale.getDefault().language
         selectedLanguage = systemLanguage
-        languageSelector.setSelection(if (systemLanguage == "ru") 1 else 0)
+        languageSelector.setSelection(if (systemLanguage == Linksy.SHAREDPREF_LANGUAGE_VALUE_RU) 1 else 0)
         languageSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                selectedLanguage = if (position == 0) "en" else "ru"
+                selectedLanguage = if (position == 0) Linksy.SHAREDPREF_LANGUAGE_VALUE_EN else Linksy.SHAREDPREF_LANGUAGE_VALUE_RU
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -57,7 +58,7 @@ class LanguageSelectionActivity : AppCompatActivity() {
     }
 
     private fun saveLanguage(language: String) {
-        sharedPref.edit().putString("language", language).apply()
+        sharedPref.edit().putString(Linksy.SHAREDPREF_LANGUAGE_KEY, language).apply()
     }
 
     private fun applyLocaleAndSwitch(language: String) {

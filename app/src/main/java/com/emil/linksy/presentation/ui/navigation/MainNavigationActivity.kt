@@ -15,6 +15,7 @@ import com.emil.linksy.presentation.ui.navigation.people.PeopleFragment
 import com.emil.linksy.presentation.ui.navigation.profile.ProfileFragment
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.replaceFragment
 import com.emil.presentation.R
@@ -38,13 +39,13 @@ class MainNavigationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_navigation)
-        val sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE)
-        val theme = sharedPref.getString("theme",null)
-        val userId = sharedPref.getLong("ID",-1)
+        val sharedPref = getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        val theme = sharedPref.getString(Linksy.SHAREDPREF_THEME_KEY,null)
+        val userId = sharedPref.getLong(Linksy.SHAREDPREF_ID_KEY,-1)
         if (theme==null)
-            sharedPref.edit().putString("theme","light").apply()
+            sharedPref.edit().putString(Linksy.SHAREDPREF_THEME_KEY,Linksy.SHAREDPREF_THEME_VALUE_LIGHT).apply()
         else {
-            if(theme == "light")
+            if(theme == Linksy.SHAREDPREF_THEME_VALUE_LIGHT)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
@@ -98,7 +99,7 @@ class MainNavigationActivity : AppCompatActivity() {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(
             newChatReceiver,
-            IntentFilter("NEW_CHAT_RECEIVED")
+            IntentFilter(Linksy.INTENT_ACTION_NEW_CHAT)
         )
 
 messageViewModel.messageList.observe(this) { messagelist ->

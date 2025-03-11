@@ -46,7 +46,7 @@ class FeedFragment : Fragment() {
             binding.rvRecommendations.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
            feedViewModel.getRecommendation(tokenManager.getAccessToken())
            feedViewModel.recommendationList.observe(requireActivity()){list->
-               if(list.isEmpty()) binding.tvRecommendationsTitle.hide()
+               if (list.isEmpty()) binding.tvRecommendationsTitle.hide()
                else
                binding.rvRecommendations.adapter = RecommendationsAdapter(list)
            }

@@ -132,9 +132,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun rememberToLogin (){
-        val sharedPref: SharedPreferences = requireContext().getSharedPreferences("appData", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = requireContext().getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.putBoolean("remember", true)
+        editor.putBoolean(Linksy.SHAREDPREF_REMEMBER_KEY, true)
         editor.apply()
     }
 }

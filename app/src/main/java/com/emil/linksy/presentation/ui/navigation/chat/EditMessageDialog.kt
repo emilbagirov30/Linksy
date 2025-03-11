@@ -18,10 +18,6 @@ import com.emil.presentation.R
 
 class EditMessageDialog private constructor(private val context: Context,private val messageId: Long, private val messageText: String,
                                             private val tokenManager: TokenManager,private val messageViewModel: MessageViewModel) : Dialog(context, R.style.RoundedDialog) {
-
-
-
-
                                                 private val sendButton:ImageButton
                                                 private val messageEditText:EditText
     companion object {

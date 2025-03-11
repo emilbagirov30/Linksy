@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.DialogFragment
+import com.emil.linksy.util.Linksy
 import com.emil.presentation.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
@@ -19,8 +20,12 @@ import com.google.android.material.chip.Chip
 
 
 
-class AppSettingsDialogFragment (): DialogFragment() {
+class AppSettingsDialogFragment: DialogFragment() {
 
+    companion object {
+        const val RUSSIAN = "Русский"
+        const val ENGLISH = "English"
+    }
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.app_settings_dialog, container, false)
@@ -29,38 +34,38 @@ class AppSettingsDialogFragment (): DialogFragment() {
         toolBar.setNavigationOnClickListener {
             dialog?.dismiss()
         }
-        val sharedPref =requireContext().getSharedPreferences("appData", Context.MODE_PRIVATE)
-        val language = sharedPref.getString("language", "en").toString()
+        val sharedPref =requireContext().getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        val language = sharedPref.getString(Linksy.SHAREDPREF_LANGUAGE_KEY, Linksy.SHAREDPREF_LANGUAGE_VALUE_EN).toString()
         val languages = resources.getStringArray(R.array.languages_array)
         val spinner = view.findViewById<Spinner>(R.id.language_spinner)
         var selectedLanguage = language
         val chipLight = view.findViewById<Chip>(R.id.chip_light)
         val chipDark = view.findViewById<Chip>(R.id.chip_dark)
-        var currentTheme = sharedPref.getString("theme", "light")
+        var currentTheme = sharedPref.getString(Linksy.SHAREDPREF_THEME_KEY, Linksy.SHAREDPREF_THEME_VALUE_LIGHT)
         when (currentTheme) {
-            "light" ->  chipLight.isChecked = true
-            "dark" ->  chipDark.isChecked = true
+            Linksy.SHAREDPREF_THEME_VALUE_LIGHT ->  chipLight.isChecked = true
+            Linksy.SHAREDPREF_THEME_VALUE_DARK ->  chipDark.isChecked = true
         }
 
 
 
         chipLight.setOnClickListener {
-          currentTheme = "light"
+          currentTheme = Linksy.SHAREDPREF_THEME_VALUE_LIGHT
         }
 
         chipDark.setOnClickListener {
-            currentTheme = "dark"
+            currentTheme = Linksy.SHAREDPREF_THEME_VALUE_DARK
 
         }
         applyButton.setOnClickListener {
-            sharedPref.edit().putString("theme", currentTheme).apply()
+            sharedPref.edit().putString(Linksy.SHAREDPREF_THEME_KEY, currentTheme).apply()
             when (currentTheme){
-                "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                Linksy.SHAREDPREF_THEME_VALUE_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                Linksy.SHAREDPREF_THEME_VALUE_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
             if (selectedLanguage != language) {
                 with(sharedPref.edit()) {
-                    putString("language", selectedLanguage)
+                    putString(Linksy.SHAREDPREF_LANGUAGE_KEY, selectedLanguage)
                     apply()
                 }
 
@@ -75,17 +80,17 @@ class AppSettingsDialogFragment (): DialogFragment() {
             spinner.adapter = adapter
         }
         val defaultLanguageIndex = when (language) {
-            "ru" -> languages.indexOf("Русский")
-            "en" -> languages.indexOf("English")
+            Linksy.SHAREDPREF_LANGUAGE_VALUE_RU -> languages.indexOf(RUSSIAN)
+            Linksy.SHAREDPREF_LANGUAGE_VALUE_EN -> languages.indexOf(ENGLISH)
             else -> 0
         }
         spinner.setSelection(defaultLanguageIndex)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 selectedLanguage = when (position) {
-                    1 -> "ru"
-                    0 -> "en"
-                    else -> "en"
+                    1 -> Linksy.SHAREDPREF_LANGUAGE_VALUE_RU
+                    0 -> Linksy.SHAREDPREF_LANGUAGE_VALUE_EN
+                    else -> Linksy.SHAREDPREF_LANGUAGE_VALUE_EN
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -95,9 +100,7 @@ class AppSettingsDialogFragment (): DialogFragment() {
 
     }
     override fun getTheme() = R.style.FullScreenDialog
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {

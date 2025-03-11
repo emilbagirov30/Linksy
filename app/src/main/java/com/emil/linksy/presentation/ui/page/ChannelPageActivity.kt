@@ -27,6 +27,7 @@ import com.emil.linksy.presentation.ui.navigation.channel.EditChannelActivity
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
 import com.emil.linksy.presentation.viewmodel.PeopleViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -67,7 +68,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
 
             binding.tvName.text = pageData.name
             val avatarUrl = pageData.avatarUrl
-            if (avatarUrl!="null"){
+            if (avatarUrl!= Linksy.EMPTY_AVATAR){
                 Glide.with(this)
                     .load(avatarUrl)
                     .apply(RequestOptions.circleCropTransform())

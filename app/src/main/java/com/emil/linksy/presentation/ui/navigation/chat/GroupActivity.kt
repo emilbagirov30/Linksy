@@ -20,6 +20,7 @@ import com.emil.linksy.presentation.ui.navigation.MainNavigationActivity
 import com.emil.linksy.presentation.ui.navigation.people.RelationsDialogFragment
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.util.ContentType
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -99,7 +100,7 @@ class GroupActivity : AppCompatActivity() {
         chatViewModel.groupData.observe(this){data ->
             oldName = data.name
             oldAvatarUrl = data.avatarUrl
-            if (data.avatarUrl!="null"){
+            if (data.avatarUrl!= Linksy.EMPTY_AVATAR){
                 Glide.with(this)
                     .load(data.avatarUrl)
                     .apply(RequestOptions.circleCropTransform())
@@ -163,6 +164,6 @@ class GroupActivity : AppCompatActivity() {
 
     private fun updateButtonState (){
         val name = nameEditText.string()
-        applyButton.isEnabled = oldAvatarUrl==null || name!=oldName
+        applyButton.isEnabled = oldAvatarUrl== null || name!=oldName
     }
 }

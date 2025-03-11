@@ -9,6 +9,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.emil.domain.usecase.websocket.ConnectToWebSocketUseCase
 import com.emil.domain.usecase.websocket.DisconnectFromWebSocketUseCase
 import com.emil.domain.usecase.websocket.SubscribeToUserChatsCountUseCase
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +23,8 @@ class WebSocketService : LifecycleService() {
     val tokenManager:TokenManager by inject<TokenManager> ()
     override fun onCreate() {
         super.onCreate()
-        val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("ID",-1)
+        val sharedPref: SharedPreferences = getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong(Linksy.SHAREDPREF_ID_KEY,Linksy.DEFAULT_ID)
         CoroutineScope(Dispatchers.IO).launch {
             connectToWebSocketUseCase.invoke()
             subscribeToUserChatsCountUseCase.invoke(tokenManager.getWsToken()).collect {chat ->
@@ -36,7 +37,7 @@ class WebSocketService : LifecycleService() {
         }
     }
     private fun notifyNewChat() {
-        val intent = Intent("NEW_CHAT_RECEIVED")
+        val intent = Intent(Linksy.INTENT_ACTION_NEW_CHAT)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 

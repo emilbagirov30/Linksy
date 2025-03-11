@@ -38,11 +38,6 @@ class AddPollDialogFragment (private val addChannelPostDialogFragment: AddChanne
     }
     override fun getTheme() = R.style.FullScreenDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onStart() {
         super.onStart()
         dialog?.window?.apply {

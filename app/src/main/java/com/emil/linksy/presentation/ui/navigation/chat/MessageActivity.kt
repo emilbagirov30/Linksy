@@ -41,6 +41,7 @@ import com.emil.linksy.presentation.viewmodel.ChatViewModel
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
 import com.emil.linksy.util.AudioRecorderManager
 import com.emil.linksy.util.ContentType
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.createAudioFilePart
@@ -139,24 +140,31 @@ class MessageActivity : AppCompatActivity() {
         val downButton = findViewById<ImageButton>(R.id.ib_down)
         val toolBar = findViewById<MaterialToolbar>(R.id.tb)
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
-        val sharedPref: SharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE)
-        userId = sharedPref.getLong("ID",-1)
+        val sharedPref: SharedPreferences = getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        userId = sharedPref.getLong(Linksy.SHAREDPREF_ID_KEY,Linksy.DEFAULT_ID)
         toolBar.setNavigationOnClickListener {
             finish()
         }
-        val recipientId: Long? = if (intent.hasExtra("USER_ID")) {
-            intent.getLongExtra("USER_ID", -1L)
+        val recipientId: Long? = if (intent.hasExtra(Linksy.INTENT_USER_ID_KEY)) {
+            intent.getLongExtra(Linksy.INTENT_USER_ID_KEY, Linksy.DEFAULT_ID)
         } else null
-        val avatarUrl = intent.getStringExtra("AVATAR_URL")
-        val title = intent.getStringExtra("NAME")
-         chatId = if (intent.hasExtra("CHAT_ID")) {
-            intent.getLongExtra("CHAT_ID", -1L)
+
+        val avatarUrl = intent.getStringExtra(Linksy.INTENT_AVATAR_URL_KEY)
+
+        val title = intent.getStringExtra(Linksy.INTENT_NAME_KEY)
+
+         chatId = if (intent.hasExtra(Linksy.INTENT_CHAT_ID_KEY)) {
+            intent.getLongExtra(Linksy.INTENT_CHAT_ID_KEY, Linksy.DEFAULT_ID)
         } else -100
-        val confirmed = intent.getBooleanExtra("CONFIRMED",false)
-        val isGroup = intent.getBooleanExtra("ISGROUP",false)
+
+        val confirmed = intent.getBooleanExtra(Linksy.INTENT_CONFIRMED_KEY,false)
+
+        val isGroup = intent.getBooleanExtra(Linksy.INTENT_ISGROUP_KEY,false)
+
         if(confirmed) confirmedImageView.show() else confirmedImageView.hide()
+
         if(isGroup) {
-            if (avatarUrl == "null") avatarImageView.setImageResource(R.drawable.default_group_avatar)
+            if (avatarUrl == Linksy.EMPTY_AVATAR) avatarImageView.setImageResource(R.drawable.default_group_avatar)
             memberCountTextView.show()
             chatViewModel.getGroupMembers(tokenManager.getAccessToken(), chatId)
             chatViewModel.getGroupSenders(tokenManager.getAccessToken(), chatId, onError = {
@@ -213,7 +221,7 @@ class MessageActivity : AppCompatActivity() {
 
                 }}
 
-        if (avatarUrl!="null"){
+        if (avatarUrl != Linksy.EMPTY_AVATAR){
             Glide.with(this)
                 .load(avatarUrl)
                 .apply(RequestOptions.circleCropTransform())
@@ -224,16 +232,15 @@ class MessageActivity : AppCompatActivity() {
     if(!isGroup) {
         val switchingToUserPageActivity =
             Intent(this, UserPageActivity()::class.java)
-        switchingToUserPageActivity.putExtra("USER_ID", recipientId)
+        switchingToUserPageActivity.putExtra(Linksy.INTENT_USER_ID_KEY, recipientId)
         startActivity(switchingToUserPageActivity)
     }else{
         val switchingToGroupMemberActivity =
             Intent(this, GroupActivity::class.java)
-        switchingToGroupMemberActivity.putExtra("GROUP_ID", chatId)
+        switchingToGroupMemberActivity.putExtra(Linksy.INTENT_GROUP_ID_KEY, chatId)
         startActivity(switchingToGroupMemberActivity)
     }
 }
-
         val typingHandler = Handler(Looper.getMainLooper())
         val typingDelay = 1500L
         val textWatcher = object : TextWatcher {
@@ -492,6 +499,8 @@ class MessageActivity : AppCompatActivity() {
             pickAudioLauncher.launch(ContentType.AUDIO.mimeType)
         }
     }
+
+
     @SuppressLint("DefaultLocale")
     private fun updateStopwatch () {
         secondsElapsed++
@@ -560,6 +569,7 @@ class MessageActivity : AppCompatActivity() {
         isRecording = false
         messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
     }
+
     private fun clear() {
         sendButton.hide()
         recordButton.show()
@@ -576,6 +586,5 @@ class MessageActivity : AppCompatActivity() {
         voiceUri = null
         messageViewModel.sendStatus(chatId,userId,MessageStatus.NOTHING)
     }
-
 
 }

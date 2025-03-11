@@ -97,7 +97,7 @@ class ProfileFragment : Fragment(),CommonSettingsDialogFragment.UpdateDataListen
             qrImageButton.show()
             usernameTextView.text = data.username
             if(data.confirmed) confirmed.show() else confirmed.hide()
-            if (data.avatarUrl != "null") {
+            if (data.avatarUrl != Linksy.EMPTY_AVATAR) {
                 avatarImageView.setOnClickListener {
                     avatarImageView.setOnClickListener { BigPictureDialog.newInstance(data.avatarUrl).show(parentFragmentManager,  "BigPictureDialog") }
                 }

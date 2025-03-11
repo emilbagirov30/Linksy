@@ -61,7 +61,6 @@ class ConfirmCodeBottomSheet: BottomSheetDialogFragment() {
     private lateinit var editTexts:List<EditText>
     private lateinit var numList:Array<EditText>
     private val confirmCodeViewModel: ConfirmCodeViewModel by viewModel<ConfirmCodeViewModel> ()
-    private val TAG  = this.javaClass.simpleName
 
     override fun getTheme() = R.style.BottomSheetDialogTheme
 

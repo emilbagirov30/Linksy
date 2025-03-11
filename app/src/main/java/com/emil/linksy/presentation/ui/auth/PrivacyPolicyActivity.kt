@@ -9,6 +9,9 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class PrivacyPolicyActivity : AppCompatActivity() {
     private var webView: WebView? = null
+    companion object {
+        private const val URL = "https://linksy-mes.ru/privacy"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.privacy_policy_activity)
@@ -18,7 +21,7 @@ class PrivacyPolicyActivity : AppCompatActivity() {
             finish()
         }
         webView?.webViewClient = WebViewClient()
-        webView?.loadUrl("https://linksy-mes.ru/privacy")
+        webView?.loadUrl(URL)
     }
     override fun onDestroy() {
         super.onDestroy()

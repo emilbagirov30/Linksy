@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.emil.linksy.adapters.ChannelsAdapter
 import com.emil.linksy.presentation.ui.CameraXActivity
 import com.emil.linksy.presentation.viewmodel.ChannelViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
 import com.emil.linksy.util.show
@@ -94,7 +95,7 @@ class ChannelFragment : Fragment() {
         binding.ibScan.setOnClickListener {
             it.anim()
             val switchingToCameraXActivity= Intent(requireContext(), CameraXActivity::class.java)
-            switchingToCameraXActivity.putExtra("TARGET","CHANNEL")
+            switchingToCameraXActivity.putExtra(Linksy.INTENT_TARGET_KEY, Linksy.INTENT_TARGET_VALUE_CHANNEL)
             startActivity(switchingToCameraXActivity)
         }
 
