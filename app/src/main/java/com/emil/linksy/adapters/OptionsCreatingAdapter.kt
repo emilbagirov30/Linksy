@@ -13,6 +13,9 @@ import com.emil.presentation.R
 class OptionsCreatingAdapter: RecyclerView.Adapter<OptionsCreatingAdapter.OptionViewHolder>() {
     private val options = mutableListOf("", "")
 
+    companion object {
+        const val MAX_OPTIONS = 10
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_options_creating, parent, false)
@@ -31,15 +34,9 @@ class OptionsCreatingAdapter: RecyclerView.Adapter<OptionsCreatingAdapter.Option
         fun bind(option: String) {
             editText.setText(option)
             editText.addTextChangedListener(object :TextWatcher{
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    options[bindingAdapterPosition] = p0.toString()
-                }
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun afterTextChanged(p0: Editable?) { options[bindingAdapterPosition] = p0.toString() }
 
             })
             delete.setOnClickListener {
@@ -54,7 +51,7 @@ class OptionsCreatingAdapter: RecyclerView.Adapter<OptionsCreatingAdapter.Option
 }
     fun getOptionList():MutableList<String> = options
     fun addOption() {
-        if (options.size < 10) {
+        if (options.size < MAX_OPTIONS) {
             options.add("")
             notifyItemInserted(options.size - 1)
         }

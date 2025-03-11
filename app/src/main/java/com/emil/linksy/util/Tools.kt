@@ -50,6 +50,17 @@ import java.io.InputStream
 
 class Linksy {
     companion object {
+        const val SHAREDPREF_MAIN_KEY = "appData"
+        const val SHAREDPREF_ID_KEY = "ID"
+        const val EMPTY_AVATAR = "null"
+        const val INTENT_USER_ID_KEY = "USER_ID"
+        const val INTENT_CHANNEL_ID_KEY = "CHANNEL_ID"
+        const val INTENT_ISGROUP_KEY = "ISGROUP"
+        const val INTENT_CHAT_ID_KEY = "CHAT_ID"
+        const val INTENT_CONFIRMED_KEY = "CONFIRMED"
+        const val INTENT_AVATAR_URL_KEY = "AVATAR_URL"
+        const val INTENT_NAME_KEY = "NAME"
+        const val DEFAULT_ID = -1L
         const val PASSWORD_MIN_LENGTH = 6
         const val CODE_MIN_LENGTH = 5
         const val MOMENT_LONG_DURATION = 15

@@ -44,6 +44,11 @@ class MomentsFullScreenAdapter(
 
     private var activeViewHolder: FullScreenViewHolder? = null
 
+
+    companion object {
+        const val START_PROGRESS = 0
+    }
+
     inner class FullScreenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val momentImageView: ImageView = itemView.findViewById(R.id.iv_moment_full)
         private val momentPlayerView: PlayerView = itemView.findViewById(R.id.pv_moment)
@@ -58,12 +63,12 @@ class MomentsFullScreenAdapter(
         private var totalDuration = 0
         private val updateInterval = 1L
         private var exoPlayer: ExoPlayer? = null
-        val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("ID",-1)
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong(Linksy.SHAREDPREF_ID_KEY, Linksy.DEFAULT_ID)
 
         fun bind(moment: MomentResponse) {
             releaseResources()
-            momentProgressBar.progress = 0
+            momentProgressBar.progress = START_PROGRESS
             val videoUrl = moment.videoUrl
             val imageUrl = moment.imageUrl
             val audioUrl = moment.audioUrl
@@ -72,19 +77,19 @@ class MomentsFullScreenAdapter(
             if(moment.confirmed) confirmedImageView.show() else confirmedImageView.hide()
             authorNameTextView.text = moment.authorUsername
 
-            if (moment.authorAvatarUrl!="null") {
+            if (moment.authorAvatarUrl!= Linksy.EMPTY_AVATAR) {
                 Glide.with(context)
                     .load(moment.authorAvatarUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(authorAvatarImageView)
             } else authorAvatarImageView.setBackgroundResource(R.drawable.default_avatar)
 
-            momentViewModel.viewMoment(tokenManager.getAccessToken(),moment.momentId, onSuccess = {}, onError = {})
+            momentViewModel.viewMoment(tokenManager.getAccessToken(),moment.momentId)
 
             authorAvatarImageView.setOnClickListener {
                if(userId!=moment.authorId){
                    val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
-                   switchingToUserPageActivity.putExtra("USER_ID", moment.authorId)
+                   switchingToUserPageActivity.putExtra(Linksy.INTENT_USER_ID_KEY, moment.authorId)
                    context.startActivity(switchingToUserPageActivity)
                }
            }
@@ -153,7 +158,7 @@ class MomentsFullScreenAdapter(
             progressJob?.cancel()
             progressJob = CoroutineScope(Dispatchers.Main).launch {
                 var progress = 0
-                momentProgressBar.progress = 0
+                momentProgressBar.progress = START_PROGRESS
                 momentProgressBar.max = (totalDuration / updateInterval).toInt()
                 while (progress <= momentProgressBar.max) {
                     momentProgressBar.progress = progress

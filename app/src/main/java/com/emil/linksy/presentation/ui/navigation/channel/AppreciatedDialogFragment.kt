@@ -65,13 +65,15 @@ class AppreciatedDialogFragment:DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
- binding.tb.setNavigationOnClickListener {
-     dismiss()
- }
+        binding.tb.setNavigationOnClickListener {
+           dismiss()
+        }
+        binding.rvEvalutions.layoutManager = LinearLayoutManager(requireActivity())
+        val adapter = AppreciatedAdapter ()
+        binding.rvEvalutions.adapter = adapter
         channelViewModel.getPostAppreciated(tokenManager.getAccessToken(),postId, onSuccess = {}, onError = {})
         channelViewModel.appreciatedList.observe(requireActivity()){list ->
-            binding.rvEvalutions.layoutManager = LinearLayoutManager(requireActivity())
-            binding.rvEvalutions.adapter = AppreciatedAdapter(list,requireActivity())
+            adapter.submitList(list)
         }
     }
 

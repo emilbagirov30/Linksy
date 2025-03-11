@@ -46,7 +46,7 @@ class UnseenMomentsAdapter (private val list: List<UnseenSubscriptionMomentRespo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnseenMomentViewHolder {
         val binding =  RvItemUnseenMomentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return   UnseenMomentViewHolder(binding)
+        return  UnseenMomentViewHolder(binding)
     }
 
     override fun getItemCount(): Int = list.size

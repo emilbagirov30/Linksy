@@ -22,10 +22,6 @@ class ChannelPostsFeedFragment : Fragment() {
     private val feedViewModel: FeedViewModel by viewModel<FeedViewModel>()
     private val channelViewModel: ChannelViewModel by viewModel<ChannelViewModel>()
     private val tokenManager: TokenManager by inject()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,16 +35,17 @@ class ChannelPostsFeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       binding.rvPosts.layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvPosts.layoutManager = LinearLayoutManager(requireActivity())
         val sharedPref: SharedPreferences = requireActivity().getSharedPreferences("appData", Context.MODE_PRIVATE)
         val userId = sharedPref.getLong("ID",-1)
         getPosts()
         binding.swipeRefreshLayout.setOnRefreshListener {
             getPosts()
         }
+        val adapter = ChannelPostsAdapter(tokenManager,channelViewModel,userId, channelPostsFeedFragment = this)
+        binding.rvPosts.adapter = adapter
         feedViewModel.channelPostList.observe(requireActivity()){postList ->
-            binding.rvPosts.adapter =
-                context?.let { ChannelPostsAdapter(postList, it,tokenManager,channelViewModel,userId, channelPostsFeedFragment = this) }
+           adapter.submitList(postList)
         }
     }
 

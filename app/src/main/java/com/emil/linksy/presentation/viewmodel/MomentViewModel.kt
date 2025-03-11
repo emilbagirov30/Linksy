@@ -81,7 +81,7 @@ class MomentViewModel(private val createMomentUseCase: CreateMomentUseCase,
         }
     }
 
-    fun viewMoment(token:String,momentId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+    fun viewMoment(token:String,momentId:Long,onSuccess: ()->Unit = {},onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response= viewMomentUseCase.execute(token, momentId)

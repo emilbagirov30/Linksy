@@ -1,8 +1,6 @@
 package com.emil.linksy.presentation.ui.navigation.channel
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -60,8 +58,7 @@ class ChannelFragment : Fragment() {
                 }
             }
         }, requireActivity(), Lifecycle.State.CREATED)
-        val sharedPref: SharedPreferences = requireContext().getSharedPreferences("AppData", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("ID",-1)
+
 
 
         val textWatcher = object : TextWatcher {
@@ -88,9 +85,8 @@ class ChannelFragment : Fragment() {
 
         binding.rvChannels.layoutManager = LinearLayoutManager(context)
 
-
         channelViewModel.channelList.observe(requireActivity()){channelList ->
-            binding.rvChannels.adapter = context?.let { ChannelsAdapter(channelList, it) }
+            binding.rvChannels.adapter = context?.let { ChannelsAdapter(channelList) }
         }
 
 

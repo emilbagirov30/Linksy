@@ -1,7 +1,6 @@
 package com.emil.linksy.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
@@ -10,15 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -30,10 +24,12 @@ import com.emil.linksy.presentation.ui.VideoPlayerDialogFragment
 import com.emil.linksy.presentation.ui.navigation.chat.EditMessageDialog
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.MessageViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.presentation.R
+import com.emil.presentation.databinding.RvItemMessageBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -41,37 +37,38 @@ import kotlinx.coroutines.launch
 
 
 class MessagesAdapter(private val messageList: List<MessageResponse>,
-                      private val context: Context,
                       private val userId: Long,
-                      private val chatSensersList:List<UserResponse> = emptyList(),
+                      private val chatSendersList:List<UserResponse> = emptyList(),
                       private val messageViewModel: MessageViewModel,
                       private val tokenManager: TokenManager
 ):RecyclerView.Adapter<MessagesAdapter.MessageViewHolder>(){
 
-    inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val container = itemView.findViewById<FrameLayout>(R.id.container)
-        private val mainHorizontalLayout = itemView.findViewById<FrameLayout>(R.id.fl_main)
-        private val mainLayout = itemView.findViewById<LinearLayout>(R.id.ll_main)
-        private val messageLayout = itemView.findViewById<LinearLayout>(R.id.ll_message)
-        private val cardView = itemView.findViewById<CardView>(R.id.cw_main)
-        private val pictureImageView = itemView.findViewById<ImageView>(R.id.iv_picture)
-        private val senderAvatarImageView = itemView.findViewById<ImageView>(R.id.iv_sender_avatar)
-        private val senderUsernameTextView = itemView.findViewById<TextView>(R.id.tv_sender_username)
-        private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_video)
-        private val frameImageView = itemView.findViewById<ImageView>(R.id.iv_frame)
-        private val markImageView = itemView.findViewById<ImageView>(R.id.iv_viewed_mark)
-        private val playVideoButton = itemView.findViewById<ImageButton>(R.id.ib_play)
-        private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
-        private val playVoiceButton = itemView.findViewById<ImageView>(R.id.iv_play_voice)
-        private val audioProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_audio)
-        private val voiceProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_voice)
-        private val audioLayout = itemView.findViewById<LinearLayout>(R.id.ll_audio)
-        private val voiceLayout = itemView.findViewById<LinearLayout>(R.id.ll_voice)
-        private val messageTextView = itemView.findViewById<TextView>(R.id.tv_message)
-        private val timeTextView = itemView.findViewById<TextView>(R.id.tv_time)
-        private val editedTextView = itemView.findViewById<TextView>(R.id.tv_edited)
+    inner class MessageViewHolder(private val binding:RvItemMessageBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val context = binding.root.context
+        private val container = binding.container
+        private val mainHorizontalLayout = binding.flMain
+        private val mainLayout = binding.llMain
+        private val messageLayout = binding.llMessage
+        private val cardView = binding.cwMain
+        private val pictureImageView = binding.ivPicture
+        private val senderAvatarImageView = binding.ivSenderAvatar
+        private val senderUsernameTextView = binding.tvSenderUsername
+        private val videoRelativeLayout = binding.rlVideo
+        private val frameImageView = binding.ivFrame
+        private val markImageView = binding.ivViewedMark
+        private val playVideoButton = binding.ibPlay
+        private val playAudioButton = binding.ivPlayAudio
+        private val playVoiceButton = binding.ivPlayVoice
+        private val audioProgressBar = binding.pbPickedAudio
+        private val voiceProgressBar = binding.pbVoice
+        private val audioLayout = binding.llAudio
+        private val voiceLayout = binding.llVoice
+        private val messageTextView = binding.tvMessage
+        private val timeTextView = binding.tvTime
+        private val editedTextView = binding.tvEdited
 
-        @SuppressLint("RtlHardcoded", "SuspiciousIndentation")
+
+        @SuppressLint("RtlHardcoded")
         fun bind(message: MessageResponse) {
             if (userId == message.senderId) {
                 mainLayout.layoutDirection = LinearLayout.LAYOUT_DIRECTION_RTL
@@ -96,20 +93,34 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
             val audioUrl = message.audioUrl
             val voiceUrl = message.voiceUrl
             val date = message.date
-            if (text !=null) {
+            var isPlayingAudio = false
+            var mediaPlayerAudio: MediaPlayer? = null
+            var isPlayingVoice = false
+            var mediaPlayerVoice: MediaPlayer? = null
+            messageTextView.hide()
+            pictureImageView.hide()
+            videoRelativeLayout.hide()
+            voiceLayout.hide()
+            audioLayout.hide()
+            editedTextView.hide()
+            senderAvatarImageView.hide()
+            senderUsernameTextView.hide()
+            timeTextView.text = date
+
+            if (text != null) {
                 messageTextView.show()
                 messageTextView.text = message.text
-            } else   messageTextView.hide()
+            }
 
-           if (imageUrl!=null) {
+           if (imageUrl != null) {
                 pictureImageView.show()
                 Glide.with(context).load(Uri.parse(imageUrl)).into(pictureImageView)
                pictureImageView.setOnClickListener {
                    BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager, "BigPictureDialog")
                }
-            }else  pictureImageView.hide()
+            }
 
-          if (videoUrl!=null) {
+          if (videoUrl != null) {
                 videoRelativeLayout.show()
                 Glide.with(context).load(Uri.parse(videoUrl)).frame(0).into(frameImageView)
                 playVideoButton.setOnClickListener {
@@ -117,10 +128,9 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                     playerDialog.show((context as AppCompatActivity).supportFragmentManager, "VideoPlayerDialogFragment")
 
                 }
-            } else  videoRelativeLayout.hide()
-            timeTextView.text = date
-            var isPlayingAudio = false
-            var mediaPlayerAudio: MediaPlayer? = null
+            }
+
+
             fun startProgressAudioUpdate() {
                 CoroutineScope(Dispatchers.Main).launch {
                     while (mediaPlayerAudio!!.isPlaying) {
@@ -164,10 +174,9 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                     }
 
                 }
-            } else   audioLayout.hide()
+            }
 
-            var isPlayingVoice = false
-            var mediaPlayerVoice: MediaPlayer? = null
+
             fun startProgressVoiceUpdate() {
                 CoroutineScope(Dispatchers.Main).launch {
                     while (mediaPlayerVoice!!.isPlaying) {
@@ -179,9 +188,11 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                     }
                 }
             }
+
           if (voiceUrl!=null) {
                 voiceLayout.show()
                 playVoiceButton.setImageResource(R.drawable.ic_play)
+
                 mediaPlayerVoice = MediaPlayer().apply {
                     setDataSource(context, Uri.parse(voiceUrl))
                     prepareAsync()
@@ -190,11 +201,15 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
                         voiceProgressBar.max = it.duration
                         isPlayingVoice = false
                     }
+
+
                     setOnCompletionListener {
                         voiceProgressBar.progress = 0
                         isPlayingVoice = false
                         playVoiceButton.setImageResource(R.drawable.ic_play)
                     }
+
+
                     playVoiceButton.setOnClickListener {
                         if (isPlayingVoice) {
                             mediaPlayerVoice?.pause()
@@ -210,9 +225,9 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
 
                 }
 
-            } else voiceLayout.hide()
+            }
 
-            if (message.edited) editedTextView.show() else editedTextView.hide()
+            if (message.edited) editedTextView.show()
 
     mainHorizontalLayout.setOnClickListener {
     if(message.senderId==userId)
@@ -220,36 +235,34 @@ class MessagesAdapter(private val messageList: List<MessageResponse>,
     }
 
 
-if (chatSensersList.isNotEmpty()){
+if (chatSendersList.isNotEmpty()){
     senderAvatarImageView.show()
     senderUsernameTextView.show()
     val senderId = message.senderId
-    val sender = chatSensersList.find { it.id == senderId }
+    val sender = chatSendersList.find { it.id == senderId }
     val senderAvatarUrl = sender?.avatarUrl
     val senderUsername = sender?.username
     senderUsernameTextView.text = senderUsername
-    if (senderAvatarUrl!="null"){
+    if (senderAvatarUrl!= Linksy.EMPTY_AVATAR){
         Glide.with(context)
             .load(senderAvatarUrl)
             .apply(RequestOptions.circleCropTransform())
             .into(senderAvatarImageView)
-    }else senderAvatarImageView.setBackgroundResource(R.drawable.default_avatar)
+    } else senderAvatarImageView.setBackgroundResource(R.drawable.default_avatar)
     senderAvatarImageView.setOnClickListener {
         if (senderId != userId) {
             val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
-            switchingToUserPageActivity.putExtra("USER_ID", senderId)
+            switchingToUserPageActivity.putExtra(Linksy.INTENT_USER_ID_KEY, senderId)
             context.startActivity(switchingToUserPageActivity)
         }
     }
-}else{
-    senderAvatarImageView.hide()
-    senderUsernameTextView.hide()
 }
         }
     }
 
     @SuppressLint("InflateParams")
     private fun showPopup(anchor: View, messageId: Long, text: String) {
+        val context = anchor.context
         val inflater = LayoutInflater.from(context)
         val popupView = inflater.inflate(R.layout.popup_message, null)
 
@@ -299,9 +312,8 @@ if (chatSensersList.isNotEmpty()){
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_message, parent, false)
-        return MessageViewHolder(view)
-
+        val binding = RvItemMessageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MessageViewHolder(binding)
     }
     override fun getItemCount(): Int = messageList.size
 

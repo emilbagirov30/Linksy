@@ -106,6 +106,7 @@ class MessageActivity : AppCompatActivity() {
     private val tokenManager: TokenManager by inject()
     private var userId:Long = -1
     private var chatId:Long = -100
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
@@ -164,7 +165,7 @@ class MessageActivity : AppCompatActivity() {
 
             chatViewModel.sendersList.observe(this){sl->
                 messageViewModel.messageList.observe(this) { messageList ->
-                    messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, chatSensersList = sl,messageViewModel,tokenManager)
+                    messageRecyclerView.adapter = MessagesAdapter(messageList, userId, chatSendersList = sl,messageViewModel,tokenManager)
                     viewMessage(chatId)
                 }
             }
@@ -195,7 +196,7 @@ class MessageActivity : AppCompatActivity() {
                 })
             }
                 messageViewModel.messageList.observe(this){messageList ->
-                messageRecyclerView.adapter = MessagesAdapter(messageList, this, userId, messageViewModel = messageViewModel, tokenManager = tokenManager)
+                messageRecyclerView.adapter = MessagesAdapter(messageList, userId, messageViewModel = messageViewModel, tokenManager = tokenManager)
                     if(messageList.isNotEmpty())
                     viewMessage(messageList[0].chatId)
 

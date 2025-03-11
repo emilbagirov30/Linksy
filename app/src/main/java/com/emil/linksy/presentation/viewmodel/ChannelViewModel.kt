@@ -160,7 +160,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
     }
 
 
-    fun acceptUserToChannel (token: String,channelId:Long, candidateId:Long,onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun acceptUserToChannel (token: String,channelId:Long, candidateId:Long,onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = acceptUserToChannelUseCase.execute(token, channelId, candidateId)
@@ -173,7 +173,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
         }}
 
 
-        fun rejectSubscriptionRequest (token: String,channelId:Long, candidateId:Long,onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+        fun rejectSubscriptionRequest (token: String,channelId:Long, candidateId:Long,onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
             viewModelScope.launch {
                 try {
                     val response = rejectSubscriptionRequestUseCase.execute(token, channelId, candidateId)
@@ -188,7 +188,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
 
 
-    fun deleteChannelPost (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun deleteChannelPost (token: String,channelId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = deleteChannelPostUseCase.execute(token, channelId)
@@ -203,7 +203,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
 
 
-    fun deleteRequest (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun deleteRequest (token: String,channelId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = deleteRequestUseCase.execute(token, channelId)
@@ -216,7 +216,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
         }
     }
 
-    fun submitRequest (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun submitRequest (token: String,channelId:Long, onSuccess: ()->Unit = {},  onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = submitRequestUseCase.execute(token, channelId)
@@ -231,7 +231,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
 
 
-    fun getChannelMembers (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun getChannelMembers (token: String,channelId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = getChannelMembersUseCase.execute(token, channelId)
@@ -245,7 +245,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
         }
     }
 
-    fun getChannelSubscriptionRequest (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun getChannelSubscriptionRequest (token: String,channelId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = getChannelSubscriptionsRequestUseCse.execute(token, channelId)
@@ -259,7 +259,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
         }
     }
 
-    fun getChannelPosts (token: String,channelId:Long, onSuccess: ()->Unit = {}, onConflict: ()->Unit, onError: ()->Unit = {}) {
+    fun getChannelPosts (token: String,channelId:Long, onSuccess: ()->Unit = {}, onError: ()->Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = getChannelPostsUseCase.execute(token, channelId)
@@ -416,7 +416,7 @@ class ChannelViewModel(private val createChannelUseCase: CreateChannelUseCase,
 
 
 
-    fun deleteComment(token:String,commentId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+    fun deleteComment(token:String,commentId:Long,onSuccess: ()->Unit,onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response = deleteChannelCommentUseCase.execute(token, commentId)

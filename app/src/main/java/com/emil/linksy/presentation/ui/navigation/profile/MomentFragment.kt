@@ -79,7 +79,7 @@ class MomentFragment : Fragment(),CreateMomentDialogFragment.AddMomentDialogList
         momentViewModel.getUserMoments(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
         momentViewModel.momentList.observe(requireActivity()){ momentlist ->
            momentsRecyclerView.adapter =
-               context?.let { MomentsAdapter(momentlist,momentViewModel, context = it, tokenManager = tokenManager) }
+               context?.let { MomentsAdapter(momentlist,momentViewModel, tokenManager = tokenManager) }
                 if (momentlist.isEmpty()) showEmptyMessage()
                 else showContent()
         }

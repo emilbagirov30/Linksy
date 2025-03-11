@@ -35,8 +35,9 @@ class OptionsAdapter(var isVoted:Boolean, val options:List<OptionResponse>,
         private val titleTextView = itemView.findViewById<TextView>(R.id.tv_option)
         private val optionProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_option)
         private val optionCount = itemView.findViewById<TextView>(R.id.tv_option_count)
-        @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
 
+
+        @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
         fun bind(option: OptionResponse) {
             titleTextView.text = option.optionText
             if (isVoted) {

@@ -91,11 +91,10 @@ class PostFragment : Fragment(), AddPostDialogFragment.AddPostDialogListener {
        val token = tokenManager.getAccessToken()
        postViewModel.getUserPosts(token, onSuccess = {stopShimmer()}, onError = {stopShimmer()})
        postViewModel.postList.observe(viewLifecycleOwner){ postlist ->
-           postsRecyclerView.adapter = context?.let {
+           postsRecyclerView.adapter =
                PostsAdapter(postlist,postViewModel,
-                   context = it,
                    tokenManager = tokenManager, postFragment = this)
-           }
+
            if (postlist.isEmpty()) showEmptyMessage()
            else showContent()
        }

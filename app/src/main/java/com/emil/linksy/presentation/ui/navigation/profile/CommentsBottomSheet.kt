@@ -100,7 +100,6 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
                     userId,
                     independentCommentList,
                     allCommentList = commentlist,
-                    context = requireActivity(),
                     commentsBottomSheet = this,
                     postViewModel = postViewModel,
                     tokenManager = tokenManager
@@ -146,7 +145,6 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
                     userId,
                     independentCommentList,
                     allCommentList = commentlist,
-                    context = requireActivity(),
                     commentsBottomSheet = this,
                     channelViewModel = channelViewModel,
                     tokenManager = tokenManager

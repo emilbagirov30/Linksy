@@ -72,7 +72,7 @@ class OutsiderMomentFragment() : Fragment() {
             else {
                 contentFlexboxLayout.show()
                 momentsRecyclerView.adapter =
-                    MomentsAdapter(momentlist, momentViewModel, context = requireContext())
+                    MomentsAdapter(momentlist, momentViewModel)
             }
         }
     }

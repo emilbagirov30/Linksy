@@ -19,7 +19,7 @@ class SettingsAdapter(
             titleTextView.text = settingItem.title
             itemView.setOnClickListener { onItemClick(settingItem) }
         }
-    }
+      }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_settings, parent, false)

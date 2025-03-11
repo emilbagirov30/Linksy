@@ -58,7 +58,9 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
         channelId = intent.getLongExtra("CHANNEL_ID",-1)
         loading = LoadingDialog(this)
         loading.show()
-
+        val adapter = ChannelPostsAdapter (tokenManager, channelViewModel, userId, channelId)
+        binding.rvPosts.layoutManager = LinearLayoutManager(this)
+        binding.rvPosts.adapter = adapter
         channelViewModel.pageData.observe(this){pageData ->
             if (pageData.confirmed)
                 binding.ivConfirmed.show()
@@ -169,8 +171,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
         }
 
         channelViewModel.postList.observe(this){postlist ->
-            binding.rvPosts.layoutManager = LinearLayoutManager(this)
-            binding.rvPosts.adapter = ChannelPostsAdapter(postlist,this,tokenManager,channelViewModel,userId,channelId,this)
+            adapter.submitList(postlist)
         }
         binding.ibQr.setOnClickListener {
             it.anim()
@@ -227,7 +228,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
                 errorDialog.close(action = {finish()})}
             )
 
-        channelViewModel.getChannelPosts(tokenManager.getAccessToken(), channelId = channelId, onConflict = {})
+        channelViewModel.getChannelPosts(tokenManager.getAccessToken(), channelId = channelId)
     }
     private fun setSubscribeAction(){
         binding.btSub.text = getString(R.string.subscribe)
@@ -258,7 +259,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
 
     private fun setSubmitAction(){
         binding.btSubmit.text = getString(R.string.submit_request)
-        channelViewModel.submitRequest(tokenManager.getAccessToken(), channelId = channelId, onConflict = {}, onSuccess = {
+        channelViewModel.submitRequest(tokenManager.getAccessToken(), channelId = channelId, onSuccess = {
             binding.btSubmit.text = getString(R.string.delete_request)
             binding.btSubmit.setOnClickListener {
                      setDeleteRequestAction()
@@ -266,7 +267,7 @@ class ChannelPageActivity : AppCompatActivity(),AddChannelPostDialogFragment.Add
     })}
             private fun setDeleteRequestAction(){
                 binding.btSubmit.text = getString(R.string.delete_request)
-                channelViewModel.deleteRequest(tokenManager.getAccessToken(), channelId = channelId, onConflict = {}, onSuccess = {
+                channelViewModel.deleteRequest(tokenManager.getAccessToken(), channelId = channelId, onSuccess = {
                     binding.btSubmit.text = getString(R.string.submit_request)
                     binding.btSubmit.setOnClickListener {
                        setSubmitAction()

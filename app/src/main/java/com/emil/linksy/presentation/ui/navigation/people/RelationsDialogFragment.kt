@@ -95,7 +95,6 @@ class RelationsDialogFragment : DialogFragment() {
                 channelViewModel.getChannelSubscriptionRequest(
                     tokenManager.getAccessToken(),
                     channelId = channelId,
-                    onConflict = {}
                 )
             }
             RelationType.CHANNEL_MEMBERS -> {
@@ -103,7 +102,6 @@ class RelationsDialogFragment : DialogFragment() {
                 channelViewModel.getChannelMembers(
                     tokenManager.getAccessToken(),
                     channelId,
-                    onConflict = {}
                 )
             }
             RelationType.LIKES -> {

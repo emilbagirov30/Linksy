@@ -48,7 +48,7 @@ class FeedFragment : Fragment() {
            feedViewModel.recommendationList.observe(requireActivity()){list->
                if(list.isEmpty()) binding.tvRecommendationsTitle.hide()
                else
-               binding.rvRecommendations.adapter = RecommendationsAdapter(list,requireActivity())
+               binding.rvRecommendations.adapter = RecommendationsAdapter(list)
            }
         }
     }

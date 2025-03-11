@@ -61,8 +61,7 @@ class ChatFragment : Fragment() {
         chatRecyclerView.layoutManager = LinearLayoutManager(context)
 
         chatViewModel.chatList.observe(requireActivity()) { chatlist ->
-            chatRecyclerView.adapter =
-                context?.let { ChatsAdapter(chatlist, it,chatViewModel,tokenManager,this) }
+            chatRecyclerView.adapter = ChatsAdapter(chatlist, chatViewModel,tokenManager,this)
             chatlist.map { c ->
                 chatViewModel.insertChat(c)
             }

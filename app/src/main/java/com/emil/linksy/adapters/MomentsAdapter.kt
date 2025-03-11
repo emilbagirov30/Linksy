@@ -17,14 +17,22 @@ import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showMenu
+import com.emil.linksy.util.showToast
 import com.emil.presentation.R
 
 
 class MomentsAdapter(private val momentsList: List<MomentResponse>, private val momentViewModel: MomentViewModel,
-                     private val context: Context, private val tokenManager: TokenManager? =null
+                     private val tokenManager: TokenManager? =null
 ): RecyclerView.Adapter< MomentsAdapter.MomentsViewHolder>() {
 
+
+
+    companion object {
+        const val FULLSCREEN_DIALOG_TAG = "FullScreenMomentDialogFragment"
+        private const val VIDEO_FRAME = 0L
+    }
     inner class MomentsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val context = itemView.context
         private val momentImageView = itemView.findViewById<ImageView>(R.id.iv_moment_frame)
         private val markerImageView = itemView.findViewById<ImageView>(R.id.iv_video_marker)
 
@@ -43,11 +51,12 @@ class MomentsAdapter(private val momentsList: List<MomentResponse>, private val 
                  markerImageView.show()
                  Glide.with(context)
                      .load(Uri.parse(videoUrl))
-                     .frame(0)
+                     .frame(VIDEO_FRAME)
                      .into(momentImageView)
              }
             momentImageView.setOnClickListener {
-                FullScreenMomentDialogFragment(momentsList = momentsList, position = bindingAdapterPosition).show((context as AppCompatActivity).supportFragmentManager," FullScreenMomentDialogFragment")
+                FullScreenMomentDialogFragment(momentsList = momentsList, position = bindingAdapterPosition).show(
+                    (context as AppCompatActivity).supportFragmentManager, FULLSCREEN_DIALOG_TAG)
             }
             momentImageView.setOnLongClickListener {
                 if(tokenManager!=null) {
@@ -59,10 +68,10 @@ class MomentsAdapter(private val momentsList: List<MomentResponse>, private val 
                             dialog.setAction {
                                 val token = tokenManager.getAccessToken()
                                 momentViewModel.deleteMoment(
-                                    token,
-                                    moment.momentId,
+                                    token= token,
+                                    momentId = moment.momentId,
                                     onSuccess = { dialog.dismiss() },
-                                    onError = {})
+                                    onError = { showToast(context,R.string.error_when_deleting) })
                             }
                         }
                     )

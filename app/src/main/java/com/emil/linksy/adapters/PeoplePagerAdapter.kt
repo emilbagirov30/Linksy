@@ -7,6 +7,7 @@ import com.emil.linksy.presentation.ui.navigation.people.SubscribersFragment
 import com.emil.linksy.presentation.ui.navigation.people.SubscriptionsFragment
 
 class PeoplePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+
     override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {

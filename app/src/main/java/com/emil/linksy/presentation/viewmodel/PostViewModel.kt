@@ -97,7 +97,7 @@ class PostViewModel (private val publishPostUseCase: PublishPostUseCase,
 
     }
 
-fun deletePost(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+fun deletePost(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit = {}){
     viewModelScope.launch {
         try {
            val response = deletePostUseCase.execute(token, postId)
@@ -112,7 +112,7 @@ fun deletePost(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
 }
 
 
-    fun addLike(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+    fun addLike(token:String,postId:Long,onSuccess: ()-> Unit,onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response = addLikeUseCase.execute(token, postId)
@@ -167,7 +167,7 @@ fun deletePost(token:String,postId:Long,onSuccess: ()->Unit,onError: ()->Unit){
     }
 
 
-    fun deleteComment(token:String,commentId:Long,onSuccess: ()->Unit,onError: ()->Unit){
+    fun deleteComment(token:String,commentId:Long,onSuccess: ()->Unit,onError: ()->Unit = {}){
         viewModelScope.launch {
             try {
                 val response = deleteCommentUseCase.execute(token, commentId)

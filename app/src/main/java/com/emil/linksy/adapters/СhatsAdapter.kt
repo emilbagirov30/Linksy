@@ -1,6 +1,6 @@
 package com.emil.linksy.adapters
 
-import android.content.Context
+
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +18,7 @@ import com.emil.linksy.presentation.ui.ActionDialog
 import com.emil.linksy.presentation.ui.navigation.chat.ChatFragment
 import com.emil.linksy.presentation.ui.navigation.chat.MessageActivity
 import com.emil.linksy.presentation.viewmodel.ChatViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
@@ -26,13 +27,13 @@ import com.emil.presentation.R
 import com.google.android.material.textview.MaterialTextView
 
 class ChatsAdapter(private val chatList: List<ChatResponse>,
-                   private val context: Context,
                    private val chatViewModel: ChatViewModel,
                    private val tokenManager: TokenManager,
                    private val chatFragment: ChatFragment
 ): RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val context = itemView.context
         private val chatLayout = itemView.findViewById<LinearLayout>(R.id.ll_chat)
         private val countLayout = itemView.findViewById<FrameLayout>(R.id.fl_count)
         private val countTextView = itemView.findViewById<MaterialTextView>(R.id.tv_count)
@@ -49,24 +50,32 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
           val name = chat.displayName
           val lastMessage = chat.lastMessage
           val date = chat.dateLast
-          if (chat.confirmed) confirmedImageView.show() else confirmedImageView.hide()
+          countLayout.hide()
+          confirmedImageView.hide()
+          nameTextView.text = name
+          if (isGroup)
+              avatarImageView.setBackgroundResource(R.drawable.default_group_avatar)
+          else
+              avatarImageView.setBackgroundResource(R.drawable.default_avatar)
 
-          if (avatarUrl !="null"){
+
+
+          if (chat.confirmed) confirmedImageView.show()
+
+          if (avatarUrl != Linksy.EMPTY_AVATAR){
               Glide.with(context)
                   .load(avatarUrl)
                   .apply(RequestOptions.circleCropTransform())
                   .into(avatarImageView)
-          } else {
-              if (isGroup) avatarImageView.setBackgroundResource(R.drawable.default_group_avatar)
-                   else avatarImageView.setBackgroundResource(R.drawable.default_avatar)
           }
 
           if (chat.unreadMessagesCount!=null && chat.unreadMessagesCount!!>0){
               countLayout.show()
               countTextView.text = chat.unreadMessagesCount.toString()
-          } else countLayout.hide()
+          }
 
-          nameTextView.text = name
+
+
           if (lastMessage.isNotEmpty() || date.isEmpty()) lastMessageTextView.text = lastMessage else {
               lastMessageTextView.setTextColor(ContextCompat.getColor(context,R.color.green))
               lastMessageTextView.text = context.getString(R.string.attachment)
@@ -74,12 +83,12 @@ class ChatsAdapter(private val chatList: List<ChatResponse>,
           dateTextView.text = date.ifEmpty { context.getString(R.string.new_) }
           chatLayout.setOnClickListener {
               val startMessageActivity = Intent(context, MessageActivity::class.java)
-              startMessageActivity.putExtra("USER_ID",userId)
-              startMessageActivity.putExtra("CHAT_ID",id)
-              startMessageActivity.putExtra("ISGROUP",isGroup)
-              startMessageActivity.putExtra("CONFIRMED",chat.confirmed)
-              startMessageActivity.putExtra("AVATAR_URL",avatarUrl)
-              startMessageActivity.putExtra("NAME",name)
+              startMessageActivity.putExtra(Linksy.INTENT_USER_ID_KEY,userId)
+              startMessageActivity.putExtra(Linksy.INTENT_CHAT_ID_KEY,id)
+              startMessageActivity.putExtra(Linksy.INTENT_ISGROUP_KEY,isGroup)
+              startMessageActivity.putExtra(Linksy.INTENT_CONFIRMED_KEY,chat.confirmed)
+              startMessageActivity.putExtra(Linksy.INTENT_AVATAR_URL_KEY,avatarUrl)
+              startMessageActivity.putExtra(Linksy.INTENT_NAME_KEY,name)
               context.startActivity(startMessageActivity)
           }
 

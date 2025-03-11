@@ -169,4 +169,5 @@
     <string name="complain">Жалоба</string>
     <string name="attachment">Вложение</string>
     <string name="big_file">Файл слишком большой</string>
+    <string name="error_when_deleting">Произошла ошибка при удалении</string>
 </resources>

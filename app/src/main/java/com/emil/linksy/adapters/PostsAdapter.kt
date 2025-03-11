@@ -8,13 +8,7 @@ import android.content.res.ColorStateList
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -34,6 +28,7 @@ import com.emil.linksy.presentation.ui.navigation.profile.PostFragment
 import com.emil.linksy.presentation.ui.page.OutsiderPostFragment
 import com.emil.linksy.presentation.ui.page.UserPageActivity
 import com.emil.linksy.presentation.viewmodel.PostViewModel
+import com.emil.linksy.util.Linksy
 import com.emil.linksy.util.RelationType
 import com.emil.linksy.util.TokenManager
 import com.emil.linksy.util.anim
@@ -41,66 +36,97 @@ import com.emil.linksy.util.hide
 import com.emil.linksy.util.show
 import com.emil.linksy.util.showMenu
 import com.emil.presentation.R
-import com.google.android.material.textview.MaterialTextView
+import com.emil.presentation.databinding.RvItemPostsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PostsAdapter(private val postList: List<PostResponse>, private val postViewModel: PostViewModel,
-                   private val context:Context, private val tokenManager: TokenManager, private val postFragment: PostFragment?=null,
+                   private val tokenManager: TokenManager, private val postFragment: PostFragment?=null,
                    private val outsiderPostFragment: OutsiderPostFragment?=null,private val subscriptionsPostsFeedFragment: SubscriptionsPostsFeedFragment? = null
     ): RecyclerView.Adapter<PostsAdapter.PostsViewHolder>() {
 
-    inner class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val authorAvatarImageView = itemView.findViewById<ImageView>(R.id.iv_author_avatar)
-        private val postPictureImageView = itemView.findViewById<ImageView>(R.id.iv_post_image)
-        private val authorUsername = itemView.findViewById<MaterialTextView>(R.id.tv_author_username)
-        private val publicationDate = itemView.findViewById<MaterialTextView>(R.id.tv_date)
-        private val postTextView = itemView.findViewById<MaterialTextView>(R.id.tv_text_post_content)
-        private val likeCount = itemView.findViewById<MaterialTextView>(R.id.tv_like_count)
-        private val likeImageView = itemView.findViewById<ImageView>(R.id.iv_like)
-        private val commentImageView = itemView.findViewById<ImageView>(R.id.iv_comment)
-        private val commentCount = itemView.findViewById<MaterialTextView>(R.id.tv_comment_count)
-        private val editPostButton = itemView.findViewById<ImageButton>(R.id.ib_edit_post)
-        private val videoRelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rl_post_video)
-        private val mediaLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_media)
-        private val frameImageView = itemView.findViewById<ImageView>(R.id.iv_frame)
-        private val playVideoImageButton = itemView.findViewById<ImageButton>(R.id.ib_play)
-        private val audioLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_audio)
-        private val voiceLinearLayout = itemView.findViewById<LinearLayout>(R.id.ll_voice)
-        private val confirmedImageView = itemView.findViewById<ImageView>(R.id.iv_confirmed)
-        private val playAudioButton = itemView.findViewById<ImageView>(R.id.iv_play_audio)
-        private val playVoiceButton = itemView.findViewById<ImageView>(R.id.iv_play_voice)
-        private val audioProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_audio)
-        private val voiceProgressBar = itemView.findViewById<ProgressBar>(R.id.pb_voice)
-        private val editedTextView = itemView.findViewById<MaterialTextView>(R.id.tv_edited)
-        val sharedPref: SharedPreferences = context.getSharedPreferences("appData", Context.MODE_PRIVATE)
-        val userId = sharedPref.getLong("ID",-1)
+        companion object {
+            private const val BIG_PICTURE_DIALOG_TAG = "BigPictureDialog"
+            private const val VIDEO_PLAYER_DIALOG_FRAGMENT_TAG = "VideoPlayerDialogFragment"
+            private const val ADD_POST_DIALOG_FRAGMENT_TAG = "AddPostDialogFragment"
+            private const val COMMENTS_BOTTOM_SHEET_TAG = "CommentsBottomSheet"
+            private const val RELATIONS_DIALOG_FRAGMENT_TAG = "RelationsDialogFragment"
+        }
+    inner class PostsViewHolder(binding: RvItemPostsBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val context = binding.root.context
+        private val authorAvatarImageView = binding.ivAuthorAvatar
+        private val postPictureImageView = binding.ivPostImage
+        private val authorUsername = binding.tvAuthorUsername
+        private val publicationDate = binding.tvDate
+        private val postTextView = binding.tvTextPostContent
+        private val likeCount = binding.tvLikeCount
+        private val likeImageView = binding.ivLike
+        private val commentImageView = binding.ivComment
+        private val commentCount = binding.tvCommentCount
+        private val editPostButton = binding.ibEditPost
+        private val videoRelativeLayout = binding.rlPostVideo
+        private val mediaLinearLayout = binding.llMedia
+        private val frameImageView = binding.ivFrame
+        private val playVideoImageButton = binding.ibPlay
+        private val audioLinearLayout = binding.llAudio
+        private val voiceLinearLayout = binding.llVoice
+        private val confirmedImageView = binding.ivConfirmed
+        private val playAudioButton = binding.ivPlayAudio
+        private val playVoiceButton = binding.ivPlayVoice
+        private val audioProgressBar = binding.pbAudio
+        private val voiceProgressBar = binding.pbVoice
+        private val editedTextView = binding.tvEdited
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Linksy.SHAREDPREF_MAIN_KEY, Context.MODE_PRIVATE)
+        val userId = sharedPref.getLong(Linksy.SHAREDPREF_ID_KEY,Linksy.DEFAULT_ID)
         @SuppressLint("SetTextI18n", "SuspiciousIndentation")
         fun bind(post: PostResponse) {
-              if (post.authorAvatarUrl !="null"){
+            postTextView.hide()
+            postPictureImageView.hide()
+            videoRelativeLayout.hide()
+            audioLinearLayout.hide()
+            voiceLinearLayout.hide()
+            editPostButton.hide()
+            editedTextView.hide()
+            confirmedImageView.hide()
+            authorAvatarImageView.setBackgroundResource(R.drawable.default_avatar)
+            authorUsername.text = post.authorUsername
+            publicationDate.text = post.publishDate
+            commentCount.text = post.commentsCount.toString()
+            likeCount.text = post.likesCount.toString()
+            val imageUrl = post.imageUrl
+            val videoUrl = post.videoUrl
+            var isPlayingAudio = false
+            var mediaPlayerAudio:MediaPlayer? = null
+            var isPlayingVoice = false
+            var mediaPlayerVoice:MediaPlayer? = null
+
+              if (post.authorAvatarUrl != Linksy.EMPTY_AVATAR) {
                   Glide.with(context)
                       .load(post.authorAvatarUrl)
                       .apply(RequestOptions.circleCropTransform())
                       .into(authorAvatarImageView)
-              } else authorAvatarImageView.setBackgroundResource(R.drawable.default_avatar)
-                   if (post.confirmed) confirmedImageView.show() else confirmedImageView.hide()
+              }
+                   if (post.confirmed) confirmedImageView.show()
+
                     authorAvatarImageView.setOnClickListener {
                      it.anim()
                      if (post.authorId!=userId) {
                      val switchingToUserPageActivity = Intent(context, UserPageActivity::class.java)
-                     switchingToUserPageActivity.putExtra("USER_ID", post.authorId)
+                     switchingToUserPageActivity.putExtra(Linksy.INTENT_USER_ID_KEY, post.authorId)
                      context.startActivity(switchingToUserPageActivity)
-                     }
-            }
-            authorUsername.text = post.authorUsername
-            publicationDate.text = post.publishDate
-            if (post.text!=null) {
+                     } }
+
+
+
+            if (post.text != null) {
                 postTextView.show()
                 postTextView.text = post.text
-            } else  postTextView.hide()
-            val imageUrl = post.imageUrl
+            }
+
+
+
             if (imageUrl !=null){
                 mediaLinearLayout.show()
                 postPictureImageView.show()
@@ -108,10 +134,12 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     .load(imageUrl)
                     .into(postPictureImageView)
                 postPictureImageView.setOnClickListener {
-                    BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager,  "BigPictureDialog")
+                    BigPictureDialog.newInstance(imageUrl).show((context as AppCompatActivity).supportFragmentManager,  BIG_PICTURE_DIALOG_TAG)
                 }
-            } else  postPictureImageView.hide()
-            val videoUrl = post.videoUrl
+            }
+
+
+
             if (videoUrl!=null){
                 mediaLinearLayout.show()
                 videoRelativeLayout.show()
@@ -121,12 +149,13 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     .into(frameImageView)
                 playVideoImageButton.setOnClickListener{
                     val playerDialog = VideoPlayerDialogFragment.newInstance(url = videoUrl)
-                    playerDialog.show((context as AppCompatActivity).supportFragmentManager, "VideoPlayerDialogFragment")
+                    playerDialog.show((context as AppCompatActivity).supportFragmentManager, VIDEO_PLAYER_DIALOG_FRAGMENT_TAG)
                 }
 
-            } else  videoRelativeLayout.hide()
-            var isPlayingAudio = false
-            var mediaPlayerAudio:MediaPlayer? = null
+            }
+
+
+
             fun startProgressAudioUpdate() {
                 CoroutineScope(Dispatchers.Main).launch {
                     while (mediaPlayerAudio!!.isPlaying) {
@@ -138,6 +167,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     }
                 }
             }
+
             if (post.audioUrl!=null) {
                 audioLinearLayout.show()
                 playAudioButton.setImageResource(R.drawable.ic_play)
@@ -169,12 +199,12 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     }
 
                 }
-            } else   audioLinearLayout.hide()
+            }
 
 
 
-            var isPlayingVoice = false
-            var mediaPlayerVoice:MediaPlayer? = null
+
+
             fun startProgressVoiceUpdate() {
                 CoroutineScope(Dispatchers.Main).launch {
                     while (mediaPlayerVoice!!.isPlaying) {
@@ -186,6 +216,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     }
                 }
             }
+
             if (post.voiceUrl!=null) {
                 voiceLinearLayout.show()
                 playVoiceButton.setImageResource(R.drawable.ic_play)
@@ -216,15 +247,18 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                     }
 
                 }
-            } else  voiceLinearLayout.hide()
-            likeCount.text = post.likesCount.toString()
+            }
+
+
 
               commentImageView.setOnClickListener {
                   it.anim()
                   val fragmentActivity = context as? FragmentActivity
                   val bsComment = CommentsBottomSheet.newInstance( postId = post.postId, userId = userId)
-                  fragmentActivity?.supportFragmentManager?.let { it1 -> bsComment.show(it1," CommentsBottomSheet") }
+                  fragmentActivity?.supportFragmentManager?.let { it1 -> bsComment.show(it1,
+                      COMMENTS_BOTTOM_SHEET_TAG) }
               }
+
             if (post.isLikedIt){
                 ViewCompat.setBackgroundTintList(likeImageView, ColorStateList.valueOf(
                     ContextCompat.getColor(context, R.color.red)))
@@ -239,7 +273,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                         notifyItemChanged(bindingAdapterPosition)
                     }, onError = {})
                 }
-            }else{
+            } else {
                 ViewCompat.setBackgroundTintList(likeImageView, ColorStateList.valueOf(
                     ContextCompat.getColor(context, R.color.gray)))
                 likeImageView.setOnClickListener {
@@ -250,7 +284,7 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
                             ContextCompat.getColor(context, R.color.red)))
                        likeCount.text = post.likesCount++.toString()
                         notifyItemChanged(bindingAdapterPosition)
-                    }, onError = {})
+                    })
                 }
 
             }
@@ -260,59 +294,61 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
             likeImageView.setOnLongClickListener {
                 postFragment?.parentFragmentManager?.let { fr ->
                     RelationsDialogFragment.newInstance(RelationType.LIKES, postId = post.postId).show(
-                        fr, "RelationsDialogFragment"
+                        fr, RELATIONS_DIALOG_FRAGMENT_TAG
                     )
                 }
                     outsiderPostFragment?.parentFragmentManager?.let { fr ->
                         RelationsDialogFragment.newInstance(RelationType.LIKES, postId = post.postId).show(
-                            fr, "RelationsDialogFragment"
+                            fr, RELATIONS_DIALOG_FRAGMENT_TAG
                         )
                     }
 
                 subscriptionsPostsFeedFragment?.parentFragmentManager?.let { fr ->
                     RelationsDialogFragment.newInstance(RelationType.LIKES, postId = post.postId).show(
-                        fr, "RelationsDialogFragment"
+                        fr, RELATIONS_DIALOG_FRAGMENT_TAG
                     )
                 }
 
                     true
                 }
 
-            commentCount.text = post.commentsCount.toString()
 
-            if(post.authorId ==userId){
+
+            if(post.authorId ==userId) {
                 editPostButton.show()
                 editPostButton.setOnClickListener {
                         it.showMenu(context, editAction = {
-                            val dialog =  AddPostDialogFragment.newInstance(postId = post.postId, isEdit = true,text = post.text,post.imageUrl,post.videoUrl,post.audioUrl,post.voiceUrl)
+                            val dialog =  AddPostDialogFragment.newInstance(
+                                postId = post.postId, isEdit = true,
+                                text = post.text, imageUrl = post.imageUrl,
+                                videoUrl = post.videoUrl, audioUrl = post.audioUrl,
+                                voiceUrl = post.voiceUrl)
                             if(postFragment!=null)
                                 dialog.setAddPostDialogListener(postFragment)
-                            dialog.show ((context as FragmentActivity).supportFragmentManager,"AddPostDialogFragment")
+                            dialog.show ((context as FragmentActivity).supportFragmentManager,
+                                ADD_POST_DIALOG_FRAGMENT_TAG)
                         }, deleteAction = {
                             val dialog = ActionDialog(context)
                             dialog.setTitle(context.getString(R.string.delete_post_title))
                             dialog.setConfirmText(context.getString(R.string.delete_post_confirm_text))
                             dialog.setAction {
                                 val token = tokenManager.getAccessToken()
-                                postViewModel.deletePost(token, post.postId, onSuccess = { dialog.dismiss() }, onError = {})
+                                postViewModel.deletePost(token, post.postId, onSuccess = {
+                                    dialog.dismiss()
+                                })
                             }
 
                         })
-
                 }
+            }
 
-
-            } else editPostButton.hide()
-
-
-
-            if (post.edited) editedTextView.show() else editedTextView.hide()
+            if (post.edited) editedTextView.show()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_posts, parent, false)
-        return PostsViewHolder(view)
+        val binding = RvItemPostsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PostsViewHolder(binding)
     }
 
     override fun getItemCount(): Int = postList.size
@@ -321,7 +357,5 @@ class PostsAdapter(private val postList: List<PostResponse>, private val postVie
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
         holder.bind (postList[position])
     }
-
-
 
 }

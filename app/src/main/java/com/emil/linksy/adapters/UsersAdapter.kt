@@ -80,7 +80,7 @@ class UsersAdapter(
                 acceptImageButton.show()
                 rejectImageButton.setOnClickListener {
                     it.anim()
-                    channelViewModel?.rejectSubscriptionRequest(tokenManager!!.getAccessToken(), channelId = channelId!!, candidateId = user.id, onConflict = {},
+                    channelViewModel?.rejectSubscriptionRequest(tokenManager!!.getAccessToken(), channelId = channelId!!, candidateId = user.id,
                         onSuccess = {
                         userList.removeAt(bindingAdapterPosition)
                         notifyItemRemoved(bindingAdapterPosition)
@@ -89,7 +89,7 @@ class UsersAdapter(
 
                 acceptImageButton.setOnClickListener {
                     it.anim()
-                    channelViewModel?.acceptUserToChannel(tokenManager!!.getAccessToken(),channelId!!,user.id, onConflict = {}, onSuccess = {
+                    channelViewModel?.acceptUserToChannel(tokenManager!!.getAccessToken(),channelId!!,user.id, onSuccess = {
                         userList.removeAt(bindingAdapterPosition)
                         notifyItemRemoved(bindingAdapterPosition)
                     })
